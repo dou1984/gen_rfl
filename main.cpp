@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <string.h>
+#include <cstring>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -16,7 +16,14 @@
     }
 
 using splice = std::vector<std::string>;
+using namespace gflags;
+
 std::ofstream outfile;
+DEFINE_string(header, "", "include header file");
+DEFINE_string(class, "", "parse class");
+DEFINE_string(member, "", "class member list");
+DEFINE_string(out, "", "output direction");
+DEFINE_string(namespace, "", "namespace");
 
 auto split(const std::string &s, char delim = ',')
 {
@@ -87,12 +94,16 @@ std::string reflectctl(const std::string &cls, const splice &v)
 
 void reflectcpp(const std::string &h)
 {
-    OUT("#include <string.h>\n");
+    OUT("#include <cstring>\n");
     OUT("#include <string>\n");
     OUT("#include <reflect.def.h>\n");
     OUT("#include \"%s.reflect.h\"\n", h.data());
     OUT("\n");
-    OUT("namespace reflect {\n\n");
+    OUT("namespace reflect {\n\n");    
+    if (FLAGS_namespace != "")
+    {
+        OUT("using namespace %s;\n\n", FLAGS_namespace.c_str());
+    }
 }
 void reflectbody(const std::string &cls, const splice &v)
 {
@@ -147,6 +158,10 @@ void reflecthpp(const std::string &h)
 
     OUT("\n");
     OUT("namespace reflect {\n\n");
+    if (FLAGS_namespace != "")
+    {
+        OUT("using namespace %s;\n\n", FLAGS_namespace.c_str());
+    }
 }
 void reflectdelclare(const std::string &cls)
 {
@@ -194,12 +209,6 @@ int gen_cpp(const std::string &cls, const std::string &args)
     reflectend();
     return 0;
 }
-
-using namespace gflags;
-DEFINE_string(header, "", "include header file");
-DEFINE_string(class, "", "parse class");
-DEFINE_string(member, "", "class member list");
-DEFINE_string(out, "", "output direction");
 
 int main(int argc, char **argv)
 {

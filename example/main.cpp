@@ -3,8 +3,9 @@
 #include "base.reflect.h"
 #include "node.reflect.h"
 
-
 using namespace reflect;
+using namespace ashan;
+
 int main()
 {
     node o = {
@@ -18,6 +19,8 @@ int main()
             .k = "helloworld",
         },
     };        
+
+    std::cout << "set c=" << o.h.c << std::endl;
     std::cout << "field:" << get_field(o.h, "a") << get_field(o.h, "b") << std::endl;
     std::cout << "field:" << get_info(o.h, "a").field << get_info(o.h, "b").field << std::endl;
     std::cout << get_type(o, "x") << get_type(o, "y") <<get_type(o,"z")<< get_type(o, "h") << std::endl;
@@ -37,9 +40,5 @@ int main()
         std::cout << field_member(o, i) << ":" << field_type(o, i) <<std::endl;
     }
 
-    auto f = &node::total;
-    std::cout << typeid(f).name() << std::endl;
-    std::cout << "total:"<< ((&o)->*f)() << std::endl;
-    
     return 0;
 }

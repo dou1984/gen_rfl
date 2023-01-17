@@ -4,6 +4,8 @@
 #include <map>
 #include <vector>
 
+namespace ashan
+{
 struct base
 {   
     int8_t a;
@@ -29,9 +31,6 @@ struct node
     float y;
     double z;    
     base h;
-
-    int total() 
-    {
-        return 8888;
-    }
+    
 };
+}
