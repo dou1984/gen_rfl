@@ -141,7 +141,7 @@ void reflectfield(const std::string &cls, const splice &v)
 }
 void reflectfield(const std::string &cls)
 {
-    OUT("void* field_pointer(const %s& cls, int idx)\n{\n\treturn %s_field._pointer[idx](cls);\n}\n", cls.data(), cls.data());
+    OUT("const void* field_pointer(const %s& cls, int idx)\n{\n\treturn %s_field._pointer[idx](cls);\n}\n", cls.data(), cls.data());
     OUT("const char* field_type(const %s& cls, int idx)\n{\n\treturn %s_field._type[idx](cls);\n}\n", cls.data(), cls.data());
     OUT("const char* field_member(const %s& cls, int idx)\n{\n\treturn %s_field._member[idx](cls);\n}\n", cls.data(), cls.data());
     OUT("size_t field_max(const %s& cls)\n{\n\treturn %s_field._member.size();\n}\n", cls.data(), cls.data());
@@ -166,12 +166,12 @@ void reflecthpp(const std::string &h)
 void reflectdelclare(const std::string &cls)
 {
     OUT("const char* get_type(const %s&, const char*);\n", cls.data());
-    OUT("void* get_pointer(const %s&, const char*);\n", cls.data());
+    OUT("const void* get_pointer(const %s&, const char*);\n", cls.data());
     OUT("info get_info(const %s&, const char*);\n", cls.data());
     OUT("int get_field(const %s&, const char*);\n", cls.data());
     OUT("template<class T>\nauto& get_value(const %s& cls, const char* argu)\n{\n\treturn *(T*)get_pointer(cls, argu);\n}\n", cls.data());
     OUT("const char* field_member(const %s&, int);\n", cls.data());
-    OUT("void* field_pointer(const %s&, int);\n", cls.data());
+    OUT("const void* field_pointer(const %s&, int);\n", cls.data());
     OUT("const char* field_type(const %s&, int);\n", cls.data());
     OUT("template<class T>\nauto& field_value(const %s& cls, int idx)\n{\n\treturn *(T*)field_pointer(cls, idx);\n}\n", cls.data());
     OUT("size_t field_max(const %s& cls);\n", cls.data());

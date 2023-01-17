@@ -5,9 +5,9 @@ namespace reflect
 {
     struct info
     {
-        void *pointer;
+        const void *pointer;
         const char *type;
         int field;
-        info(void *p, const char *t, int f) : pointer(p), type(t), field(f) {}
+        info(const void *p, const char *t, int f) : pointer(p), type(t), field(f) {}
     };
 }
