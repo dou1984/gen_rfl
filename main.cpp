@@ -19,11 +19,12 @@ using splice = std::vector<std::string>;
 using namespace gflags;
 
 std::ofstream outfile;
-DEFINE_string(header, "", "include header file");
+//DEFINE_string(header, "", "include header file");
 DEFINE_string(class, "", "parse class");
 DEFINE_string(member, "", "class member list");
 DEFINE_string(out, "", "output direction");
 DEFINE_string(namespace, "", "namespace");
+DEFINE_string(include, "", "include header file");
 
 auto split(const std::string &s, char delim = ',')
 {
@@ -99,7 +100,7 @@ void reflectcpp(const std::string &h)
     OUT("#include <reflect.def.h>\n");
     OUT("#include \"%s.reflect.h\"\n", h.data());
     OUT("\n");
-    OUT("namespace reflect {\n\n");    
+    OUT("namespace reflect {\n\n");
     if (FLAGS_namespace != "")
     {
         OUT("using namespace %s;\n\n", FLAGS_namespace.c_str());
@@ -141,21 +142,27 @@ void reflectfield(const std::string &cls, const splice &v)
 }
 void reflectfield(const std::string &cls)
 {
-    OUT("const void* field_pointer(const %s& cls, int idx)\n{\n\treturn %s_field._pointer[idx](cls);\n}\n", cls.data(), cls.data());
-    OUT("const char* field_type(const %s& cls, int idx)\n{\n\treturn %s_field._type[idx](cls);\n}\n", cls.data(), cls.data());
-    OUT("const char* field_member(const %s& cls, int idx)\n{\n\treturn %s_field._member[idx](cls);\n}\n", cls.data(), cls.data());
-    OUT("size_t field_max(const %s& cls)\n{\n\treturn %s_field._member.size();\n}\n", cls.data(), cls.data());
+    OUT("void* field_pointer(%s& cls, int idx)\n{\n\treturn %s_field._pointer[idx](cls);\n}\n", cls.data(), cls.data());
+    OUT("const char* field_type(%s& cls, int idx)\n{\n\treturn %s_field._type[idx](cls);\n}\n", cls.data(), cls.data());
+    OUT("const char* field_member(%s& cls, int idx)\n{\n\treturn %s_field._member[idx](cls);\n}\n", cls.data(), cls.data());
+    OUT("size_t field_max(%s& cls)\n{\n\treturn %s_field._member.size();\n}\n", cls.data(), cls.data());
 }
 void reflectend()
 {
     OUT("\n}\n");
 }
-void reflecthpp(const std::string &h)
+void reflecthpp()
 {
     OUT("#pragma once\n");
     OUT("#include <reflect.h>\n");
-    OUT("#include <%s>\n", h.data());
-
+    if (FLAGS_include != "")
+    {
+        auto v = split(FLAGS_include);
+        for (auto &i : v)
+        {
+            OUT("#include \"%s\"\n", i.data());
+        }
+    }
     OUT("\n");
     OUT("namespace reflect {\n\n");
     if (FLAGS_namespace != "")
@@ -165,20 +172,25 @@ void reflecthpp(const std::string &h)
 }
 void reflectdelclare(const std::string &cls)
 {
-    OUT("const char* get_type(const %s&, const char*);\n", cls.data());
-    OUT("const void* get_pointer(const %s&, const char*);\n", cls.data());
-    OUT("info get_info(const %s&, const char*);\n", cls.data());
-    OUT("int get_field(const %s&, const char*);\n", cls.data());
-    OUT("template<class T>\nauto& get_value(const %s& cls, const char* argu)\n{\n\treturn *(T*)get_pointer(cls, argu);\n}\n", cls.data());
-    OUT("const char* field_member(const %s&, int);\n", cls.data());
-    OUT("const void* field_pointer(const %s&, int);\n", cls.data());
-    OUT("const char* field_type(const %s&, int);\n", cls.data());
-    OUT("template<class T>\nauto& field_value(const %s& cls, int idx)\n{\n\treturn *(T*)field_pointer(cls, idx);\n}\n", cls.data());
-    OUT("size_t field_max(const %s& cls);\n", cls.data());
+    OUT("const char* get_type(%s&, const char*);\n", cls.data());
+    OUT("void* get_pointer(%s&, const char*);\n", cls.data());
+    OUT("info get_info(%s&, const char*);\n", cls.data());
+    OUT("int get_field(%s&, const char*);\n", cls.data());
+    OUT("int set_value(%s&, const char*, info*);\n", cls.data());
+    OUT("template<class T>\nauto& get_value(%s& cls, const char* argu)\n", cls.data());
+    OUT("{\n\treturn *(T*)get_pointer(cls, argu);\n}\n");
+    OUT("template<class T>\nint set_value(%s& cls, const char* argu, T& val)\n", cls.data());
+    OUT("{\n\tinfo obj(&val, typeid(val).name(), -1);\n\treturn set_value(cls, argu, &obj);\n}\n");
+    OUT("const char* field_member(%s&, int);\n", cls.data());
+    OUT("void* field_pointer(%s&, int);\n", cls.data());
+    OUT("const char* field_type(%s&, int);\n", cls.data());
+    OUT("template<class T>\nauto& field_value(%s& cls, int idx)\n", cls.data());
+    OUT("{\n\treturn *(T*)field_pointer(cls, idx);\n}\n");
+    OUT("size_t field_max(%s& cls);\n", cls.data());
 }
-int gen_hpp(const std::string &header, const std::string &cls)
+int gen_hpp(const std::string &cls)
 {
-    reflecthpp(header);
+    reflecthpp();
     reflectdelclare(cls);
     reflectend();
     return 0;
@@ -215,7 +227,7 @@ int main(int argc, char **argv)
 
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
-    if (FLAGS_header == "" || FLAGS_class == "" || FLAGS_member == "")
+    if (FLAGS_include == "" || FLAGS_class == "" || FLAGS_member == "")
     {
         return 0;
     }
@@ -231,7 +243,7 @@ int main(int argc, char **argv)
     std::ofstream hpp(FLAGS_class + ".reflect.h", std::ios::out);
     outfile = std::move(hpp);
 
-    gen_hpp(FLAGS_header, FLAGS_class);
+    gen_hpp(FLAGS_class);
     outfile.close();
 
     std::ofstream cpp(FLAGS_class + ".reflect.cpp", std::ios::out);

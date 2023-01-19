@@ -1,9 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "node.h"
-#include "base.reflect.h"
 #include "node.reflect.h"
-#include <reflectset.h>
 
 using namespace reflect;
 using namespace ashan;
@@ -29,15 +27,16 @@ int main()
     std::cout << get_type(o, "x") << get_type(o, "y") << get_type(o, "z") << get_type(o, "h") << std::endl;
     std::cout << get_type(o.h, "a") << get_type(o.h, "b") << std::endl;
     std::cout << get_info(o.h, "a").type << get_info(o.h, "b").type << std::endl;
-    std::cout << "value:" << get_value<int>(o, "x") << get_value<float>(o, "y") << get_value<double>(o, "z") << std::endl;
+    std::cout << "value:" << get_value<int>(o, "x") << "\t" << get_value<float>(o, "y") << "\t" << get_value<double>(o, "z") << std::endl;
 
     int x = 999;
     float y = 0.999999;
-    const int cx = 1000;
+    const int cx = 998;
     set_value(o, "x", x);
     set_value(o, "y", y);
-    set_value(o, "x", cx);
-    std::cout << "value:" << get_value<int>(o, "x") << get_value<float>(o, "y") << get_value<double>(o, "z") << std::endl;
+    set_value(o, "z", cx);
+
+    std::cout << "value:" << get_value<int>(o, "x") << "\t" << get_value<float>(o, "y") << "\t" << get_value<double>(o, "z") << std::endl;
     auto &h = get_value<base>(o, "h");
     std::cout << get_value<int64_t>(h, "d") << get_value<std::string>(h, "k") << std::endl;
 
