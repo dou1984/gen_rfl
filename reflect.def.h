@@ -10,7 +10,7 @@
 #define FIELD(CLS, C, X, V) (int)(CLS##_field_##X)
 #define NAME(CLS, C, X, V) (#X)
 #define INFO(CLS, C, X, V) info(ADDR(CLS, C, X, V), TYPE(CLS, C, X, V), FIELD(CLS, C, X, V))
-#define SETV(CLS, C, X, V) strcmp(TYPE(CLS, C, X, V), V->type) ? -1 : [&]() -> int {C.X = *((decltype(C.X) *)(V->pointer)); return  0; }()
+#define SETV(CLS, C, X, V) strcmp(TYPE(CLS, C, X, V), V->type) == 0 ? [&]() -> int { C.X = *((decltype(C.X) *)(V->pointer)); return 0; }() : -1
 #define R(FUN) return FUN
 #define Reflect0(CLS)                                   \
     const char *get_type_0(CLS &, const char *, info *) \

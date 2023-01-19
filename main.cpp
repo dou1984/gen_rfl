@@ -19,7 +19,6 @@ using splice = std::vector<std::string>;
 using namespace gflags;
 
 std::ofstream outfile;
-//DEFINE_string(header, "", "include header file");
 DEFINE_string(class, "", "parse class");
 DEFINE_string(member, "", "class member list");
 DEFINE_string(out, "", "output direction");
@@ -155,13 +154,10 @@ void reflecthpp()
 {
     OUT("#pragma once\n");
     OUT("#include <reflect.h>\n");
-    if (FLAGS_include != "")
+    auto v = split(FLAGS_include);
+    for (auto &i : v)
     {
-        auto v = split(FLAGS_include);
-        for (auto &i : v)
-        {
-            OUT("#include \"%s\"\n", i.data());
-        }
+        OUT("#include <%s>\n", i.data());
     }
     OUT("\n");
     OUT("namespace reflect {\n\n");
