@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <unistd.h>
+#include <climits>
 #include <gflags/gflags.h>
 
 #define OUT(...)                             \
@@ -66,7 +67,7 @@ std::string reflectctl(const std::string &cls, const splice &v)
     {
         size_t mid = v.size() - v.size() / 2 - 1;
         auto l = split(v, 0, mid);
-        auto g = split(v, mid + 1, 1000000000);
+        auto g = split(v, mid + 1, INT_MAX);
 
         auto x = reflectctl(cls, l);
         auto z = reflectctl(cls, g);
