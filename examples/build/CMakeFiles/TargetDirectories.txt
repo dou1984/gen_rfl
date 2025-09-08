@@ -1,0 +1,3 @@
+/home/dou1984/github/genreflect/examples/build/CMakeFiles/exe_node.dir
+/home/dou1984/github/genreflect/examples/build/CMakeFiles/edit_cache.dir
+/home/dou1984/github/genreflect/examples/build/CMakeFiles/rebuild_cache.dir
