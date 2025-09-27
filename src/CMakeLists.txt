@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
@@ -53,19 +53,19 @@ add_executable(unit_test
     branch_test.cpp
     branch.cpp
     format_tpl_test.cpp
-    format_tpl.cpp    
+    format_tpl.cpp
     filter.cpp
+    tpl/base_types.cpp
     tpl/header.tpl.cpp
-    tpl/func_leaf.tpl.cpp
-    tpl/func_root.tpl.cpp
     tpl/func.tpl.cpp
     tpl/meta.tpl.cpp
     tpl/makefile.tpl.cpp
-    tpl/get_meta.tpl.cpp  
-    tpl/rfl.tpl.cpp  
+    tpl/get_meta.tpl.cpp
+    tpl/rfl.tpl.cpp
     config.cpp
     sys.cpp
     sys_test.cpp
+
 )
 
 target_link_libraries(unit_test PRIVATE

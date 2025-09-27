@@ -4,8 +4,6 @@
 #include <cstring>
 #include <string_view>
 
-#define magic_value (0)
-// #define max_word_length (10000)
 class branch_string
 {
 
@@ -16,7 +14,7 @@ public:
     operator bool() const { return m_data.size(); }
     uint64_t operator()()
     {
-        uint64_t value = magic_value;
+        uint64_t value = 0;
         auto l = m_data.size();
         if (l < sizeof(uint64_t))
         {
@@ -31,22 +29,26 @@ public:
         return value;
     }
 
-    uint64_t peek(size_t pos) const
-    {
-        if (pos < (m_data.size() / sizeof(uint64_t)))
-        {
-            return *((uint64_t *)(m_data.data()) + pos);
-        }
-        else if ((pos == (m_data.size() / sizeof(uint64_t))) && ((m_data.size() % sizeof(uint64_t)) != 0))
-        {
-            uint64_t value = magic_value;
-            auto offset = pos * sizeof(uint64_t);
-            strncpy((char *)&value, m_data.data() + offset, m_data.size() - offset);
-            return value;
-        }
-        return magic_value;
-    }
-
 private:
     std::string_view m_data;
 };
+
+inline bool has_zero_byte_bitmagic(uint64_t value)
+{
+    constexpr uint64_t magic = 0x0101010101010101ULL;
+    constexpr uint64_t mask = 0x8080808080808080ULL;
+    return ((value - magic) & ~value & mask) != 0;
+}
+inline uint64_t peek(const char *data)
+{
+    uint64_t r = *(uint64_t *)data;
+    if (has_zero_byte_bitmagic(r))
+    {
+        r = 0;
+        for (auto i = 0; i < sizeof(uint64_t) && data[i] != '\0'; i++)
+        {
+            reinterpret_cast<char *>(&r)[i] = data[i];
+        }
+    }
+    return r;
+}

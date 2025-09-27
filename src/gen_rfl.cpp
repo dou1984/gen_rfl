@@ -1,6 +1,8 @@
 #include <iostream>
 #include <tuple>
 #include <regex>
+#include <list>
+#include <string>
 #include "gen_rfl.h"
 #include "analyzer.h"
 #include "format_tpl.h"
@@ -11,21 +13,39 @@
 
 // #define LLVM_OUT
 using namespace reflect;
-std::tuple<QualType, QualType> get_type_name(FieldDecl *FD)
-{
-    QualType FieldType = FD->getType();
 
-    // 获取去修饰后的类型（原始类型）
+template <class T>
+auto get_access(const T &t)
+{
+    switch (t)
+    {
+    case AS_public:
+        return flag_public;
+    case AS_protected:
+        return flag_protected;
+    case AS_private:
+        return flag_private;
+    default:
+        return flag_none;
+    }
+}
+template <class T>
+std::tuple<QualType, QualType> get_type_name(T *_t)
+{
+    QualType FieldType = _t->getType();
+
     QualType CanonicalType = FieldType.getCanonicalType();
     QualType UnqualifiedType = CanonicalType.getUnqualifiedType();
 
-    // 处理指针和引用
     while (true)
     {
-        if (UnqualifiedType->isPointerType())
+        if (false)
         {
-            UnqualifiedType = UnqualifiedType->getPointeeType();
         }
+        // else if (UnqualifiedType->isPointerType())
+        // {
+        //     UnqualifiedType = UnqualifiedType->getPointeeType();
+        // }
         else if (UnqualifiedType->isReferenceType())
         {
             UnqualifiedType = UnqualifiedType->getPointeeType();
@@ -36,6 +56,83 @@ std::tuple<QualType, QualType> get_type_name(FieldDecl *FD)
         }
     }
     return {FieldType, UnqualifiedType};
+}
+
+void insert_base_types(const std::string &type)
+{
+    if (type.find("const ") == 0)
+    {
+        ::get_config().base_types.emplace(type);
+        ::get_config().base_types.emplace(type.substr(strlen("const ")));
+    }
+    else
+    {
+        ::get_config().base_types.emplace(type);
+        ::get_config().base_types.emplace(std::string("const ") + type);
+    }
+}
+
+bool GetNamespaces(CXXRecordDecl *D, std::string &NamespaceName)
+{
+
+    DeclContext *Context = D->getDeclContext();
+    while (Context && !Context->isTranslationUnit())
+    {
+        if (auto *NS = dyn_cast<NamespaceDecl>(Context))
+        {
+            std::string Part = NS->getNameAsString();
+            if (!NamespaceName.empty())
+            {
+                NamespaceName = Part + "::" + NamespaceName;
+            }
+            else
+            {
+                NamespaceName = Part;
+            }
+            Context = Context->getParent();
+        }
+    }
+    return true;
+}
+bool GetRawClass(CXXRecordDecl *D, analyzer::config_t &conf)
+{
+    switch (D->getTagKind())
+    {
+    case TTK_Class:
+        conf.m_raw_class = "class " + conf.m_class;
+        return true;
+    case TTK_Struct:
+        conf.m_raw_class = "struct " + conf.m_class;
+        return true;
+    case TTK_Union:
+        conf.m_raw_class = "union " + conf.m_class;
+        return true;
+    default:
+        return false;
+    }
+}
+bool GetBaseTypeName(const std::string &Name, std::string &BaseTypeName, int &flag_object_type)
+{
+    if (Name.find("struct ") == 0)
+    {
+        flag_object_type = flag_struct;
+        BaseTypeName = Name.substr(strlen("struct "));
+    }
+    else if (Name.find("class ") == 0)
+    {
+        flag_object_type = flag_class;
+        BaseTypeName = Name.substr(strlen("class "));
+    }
+    else if (Name.find("union ") == 0)
+    {
+        flag_object_type = flag_union;
+        BaseTypeName = Name.substr(strlen("union "));
+    }
+    else
+    {
+        throw std::runtime_error("Unsupported base class type.");
+    }
+    return true;
 }
 GenRflASTVisitor::GenRflASTVisitor(ASTContext *Context)
 {
@@ -90,118 +187,76 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
     conf.clear();
     conf.m_file = FileName;
     conf.m_class = D->getNameAsString();
+    if (!GetNamespaces(D, conf.m_namespace))
+    {
+        return false;
+    }
 
     std::string header, source;
     if (ana.is_generated(header, source))
     {
-        std::cout << "Skip " << FileName << ": " << conf.m_class << " is generated." << std::endl;
+        std::cout << "skip " << FileName << ":" << conf.m_raw_class << " is generated." << std::endl;
         return true;
     }
 
-    switch (D->getTagKind())
+    if (!GetRawClass(D, conf))
     {
-    case TTK_Class:
-        conf.m_raw_class = "class " + conf.m_class;
-        break;
-    case TTK_Struct:
-        conf.m_raw_class = "struct " + conf.m_class;
-        break;
-    case TTK_Union:
-        conf.m_raw_class = "union " + conf.m_class;
-        break;
-    default:
-        exit(1);
+        return false;
     }
     if (D->hasDefinition())
     {
         if (D->getNumBases() > 0)
         {
-#ifdef LLVM_OUT
-            llvm::outs() << "  Base Classes:\n";
-#endif
             for (const auto &Base : D->bases())
             {
                 QualType BaseType = Base.getType();
                 auto Name = BaseType.getAsString();
                 std::string BaseTypeName;
-                auto flag = 0;
-                if (Name.find("struct ") == 0)
+                auto flag_object_type = 0;
+                if (!GetBaseTypeName(Name, BaseTypeName, flag_object_type))
                 {
-                    flag = flag_struct;
-                    BaseTypeName = Name.substr(7);
+                    continue;
                 }
-                else if (Name.find("class ") == 0)
-                {
-                    flag = flag_class;
-                    BaseTypeName = Name.substr(6);
-                }
-                else
-                {
-                    throw std::runtime_error("Unsupported base class type.");
-                }
+                auto flag_virtual_ = Base.isVirtual() ? flag_virtual : 0;
                 analyzer::info_t detail = {
                     .m_variant = BaseTypeName,
                     .m_raw_variant = BaseTypeName,
                     .m_type = BaseTypeName,
                     .m_raw_type = BaseTypeName,
-                    .m_flags = __flags(flag),
+                    .m_flags = __flags(flag_object_type, get_access(Base.getAccessSpecifier()), flag_virtual_),
                 };
                 ana.push_back(BaseTypeName, detail);
-#ifdef LLVM_OUT
-                llvm::outs() << "    - " << BaseTypeName;
-                // Print access specifier
-                switch (Base.getAccessSpecifier())
-                {
-                case AS_public:
-                    llvm::outs() << " (public)";
-                    break;
-                case AS_protected:
-                    llvm::outs() << " (protected)";
-                    break;
-                case AS_private:
-                    llvm::outs() << " (private)";
-                    break;
-                case AS_none:
-                    break;
-                }
-
-                // Print if virtual inheritance is used
-                if (Base.isVirtual())
-                {
-                    llvm::outs() << " [virtual]";
-                }
-
-                llvm::outs() << "\n";
-#endif
             }
         }
     }
-    // 获取打印策略
     PrintingPolicy PP(D->getASTContext().getLangOpts());
 
     // 遍历类的成员
     for (auto Member : D->decls())
     {
-        // 成员变量
-        if (FieldDecl *FD = llvm::dyn_cast<FieldDecl>(Member))
+        if (auto *FD = llvm::dyn_cast<FieldDecl>(Member))
         {
 
             auto [FieldType, UnqualifiedType] = get_type_name(FD);
             auto TypeName = FieldType.getAsString();
             auto Name = FD->getNameAsString();
+
+            auto flag_const_ = FD->getType().isConstQualified() ? flag_const : 0;
+            auto flag_volatile_ = FD->getType().isVolatileQualified() ? flag_volatile : 0;
+
             if (UnqualifiedType->isBuiltinType())
             {
-                const BuiltinType *BT = UnqualifiedType->getAs<BuiltinType>();
+                auto *BT = UnqualifiedType->getAs<BuiltinType>();
                 auto BaseTypeName = BT->getName(PP).str();
                 analyzer::info_t detail = {
                     .m_raw_variant = Name,
                     .m_type = TypeName,
                     .m_raw_type = BaseTypeName,
+                    .m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_),
                 };
                 ana.push_back(Name, detail);
-#ifdef LLVM_OUT
-                llvm::outs() << "    - Field: " << FD->getNameAsString() << " (Type: " << TypeName << ", Base Type: " << BaseTypeName << ")\n";
-#endif
+
+                insert_base_types(BaseTypeName);
             }
             else
             {
@@ -209,53 +264,103 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                     .m_raw_variant = Name,
                     .m_type = TypeName,
                     .m_raw_type = TypeName,
+                    .m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_),
                 };
                 ana.push_back(Name, detail);
-#ifdef LLVM_OUT
-                llvm::outs() << "    - Field: " << FD->getNameAsString() << " (Type: " << TypeName << ")\n";
-#endif
+
+                insert_base_types(TypeName);
             }
-#ifdef LLVM_OUT
         }
-        // 成员函数（保持不变）
-        else if (CXXMethodDecl *Method = llvm::dyn_cast<CXXMethodDecl>(Member))
+        else if (auto *VD = llvm::dyn_cast<VarDecl>(Member))
+        {
+            assert(VD->isStaticDataMember());
+
+            auto [FieldType, UnqualifiedType] = get_type_name(VD);
+            std::string TypeName = FieldType.getAsString();
+            std::string Name = VD->getNameAsString();
+
+            auto flag_const_ = VD->getType().isConstQualified() ? flag_const : 0;
+            auto flag_volatile_ = VD->getType().isVolatileQualified() ? flag_volatile : 0;
+
+            if (UnqualifiedType->isBuiltinType())
+            {
+                auto *BT = UnqualifiedType->getAs<BuiltinType>();
+                auto BaseTypeName = BT->getName(PP).str();
+                analyzer::info_t detail = {
+                    .m_raw_variant = Name,
+                    .m_type = TypeName,
+                    .m_raw_type = BaseTypeName,
+                    .m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static),
+                };
+                ana.push_back(Name, detail);
+
+                insert_base_types(BaseTypeName);
+            }
+            else
+            {
+                analyzer::info_t detail = {
+                    .m_raw_variant = Name,
+                    .m_type = TypeName,
+                    .m_raw_type = TypeName,
+                    .m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static),
+                };
+                ana.push_back(Name, detail);
+
+                insert_base_types(TypeName);
+            }
+        }
+        else if (auto Method = llvm::dyn_cast<CXXMethodDecl>(Member))
         {
             if (Method->isImplicit())
+            {
                 continue;
-
-            llvm::outs() << "    - Method: " << Method->getNameAsString();
-            if (Method->isConst())
-            {
-                llvm::outs() << " [const]";
             }
-            if (Method->isVirtual())
-            {
-                llvm::outs() << " [virtual]";
-            }
-            llvm::outs() << "\n";
+            auto MethodName = Method->getNameAsString();
+            auto flag_const_ = Method->isConst() ? flag_const : 0;
+            auto flag_virtual_ = Method->isVirtual() ? flag_virtual : 0;
 
-            // 打印参数列表
-            llvm::outs() << "        Parameters: ";
-            for (unsigned i = 0, e = Method->getNumParams(); i != e; ++i)
+            std::list<std::string> _input;
+            for (auto Param : Method->parameters())
             {
-                ParmVarDecl *Parm = Method->getParamDecl(i);
-                if (i != 0)
-                    llvm::outs() << ", ";
-                llvm::outs() << Parm->getType().getAsString() << " " << Parm->getNameAsString();
+                auto [FieldType, UnqualifiedType] = get_type_name(Param);
+                _input.emplace_back(FieldType.getAsString());
             }
-            llvm::outs() << "\n";
 
-            // 打印返回类型
-            llvm::outs() << "        Return type: " << Method->getReturnType().getAsString() << "\n";
+            std::string _output = Method->getReturnType().getAsString();
+
+            if (auto it = ana.get_data().find(MethodName); it != ana.get_data().end())
+            {
+                analyzer::param_t param = {
+                    .m_input = std::move(_input),
+                    .m_output = std::move(_output),
+                };
+                it->second.m_params.emplace_back(std::move(param));
+            }
+            else
+            {
+                analyzer::info_t detail = {
+                    .m_raw_variant = MethodName,
+                    .m_type = MethodName,
+                    .m_raw_type = MethodName,
+                    .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_function),
+                    .m_params = {
+                        {
+                            .m_input = std::move(_input),
+                            .m_output = std::move(_output),
+                        },
+                    },
+                };
+                ana.push_back(MethodName, detail);
+            }
         }
+
         // 嵌套类
-        else if (CXXRecordDecl *Nested = llvm::dyn_cast<CXXRecordDecl>(Member))
+        else if (auto Nested = llvm::dyn_cast<CXXRecordDecl>(Member))
         {
-            if (!Nested->isImplicit())
-            {
-                llvm::outs() << "    - Nested class: " << Nested->getNameAsString() << "\n";
-            }
-#endif
+            // if (!Nested->isImplicit())
+            // {
+            //     llvm::outs() << "    - Nested class: " << Nested->getNameAsString() << "\n";
+            // }
         }
     }
 

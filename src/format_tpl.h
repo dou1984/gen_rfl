@@ -16,11 +16,7 @@ public:
 
     int to_get_meta(branch &sel, analyzer &ana);
 
-    int to_func(uint32_t layer, uint32_t index, uint32_t position, branch &sel);
-
-    std::string to_func_leaf(uint32_t layer, uint32_t index, uint32_t position, branch_info &bra);
-
-    int to_func_root(uint32_t layer, uint32_t position, branch &bra, analyzer &ana);
+    int to_func(uint32_t layer, uint32_t index, uint32_t position, branch &sel);   
 
     int to_rfl(branch &sel, analyzer &ana);
 
@@ -29,7 +25,12 @@ public:
 public:
     int to_makefile();
 
-    int to_rfl_h();
+    int to_rfl();
+
+    int to_base_types();
+
+    int to_base_types_source();
+    
     auto &get() const { return m_output_source; }
 
     static int init();

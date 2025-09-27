@@ -16,10 +16,10 @@ DEFINE_string(libs, "libs", "output libs directory");
 DEFINE_string(include, "include", "output include directory");
 DEFINE_string(regex, ".+\\.cpp$", "regex");
 
+auto &conf = get_config();
+
 void set_config()
 {
-    auto &conf = get_config();
-
     conf.tmp_dir = FLAGS_tmp_dir;
     conf.src_dir = FLAGS_src;
     conf.libs_dir = FLAGS_libs;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     set_config();
 
     std::vector<std::string> Args = {
-        "--std=c++14",
+        "--std=c++20",
         "-I/usr/include",
         "-I/usr/include/c++/12",
         "-I/usr/include/x86_64-linux-gnu/c++/12",
@@ -58,9 +58,7 @@ int main(int argc, char *argv[])
         "-D__clang__",
     };
 
-    auto &conf = get_config();
     auto filter = reflect::get_filter();
-
     std::vector<std::string> sources;
     TraverseDir(conf.src_dir,
                 [&](const std::string &path)
@@ -81,10 +79,11 @@ int main(int argc, char *argv[])
 
     Tool.run(clang::tooling::newFrontendActionFactory<GetRflFrontendAction>().get());
 
-    {
-        format_tpl fmt;
-        // fmt.to_makefile();
-        fmt.to_rfl_h();
-    }
+    format_tpl fmt;
+    // fmt.to_makefile();
+    fmt.to_rfl();
+    fmt.to_base_types();
+    fmt.to_base_types_source();
+
     return 0;
 }

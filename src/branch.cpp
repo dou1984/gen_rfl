@@ -19,20 +19,16 @@ branch branch_builder(uint32_t layer, analyzer &ana)
         branch_vec[i].m_index = max_index[layer]++;
     }
 
-    for (auto &info : ana.get())
+    for (auto &it : ana.get_data())
     {
+        auto &info = it.second;
         auto value = info.m_value;
         auto index = value % perfect_index;
         auto &_info = branch_vec[index][value];
         _info.m_layer = layer;
         _info.m_index = branch_vec[index].m_index;
-        _info.m_variants.emplace(
-            info.m_variant,
-            branch_details{
-                .m_value = value,
-                .m_field = info.m_field,
-                .m_raw_variant = info.m_raw_variant,
-            });
+
+        _info.m_variants.emplace(info.m_variant, &info);
         if (info.m_variant.size() > sizeof(uint64_t))
         {
             auto variant = info.m_variant.substr(sizeof(uint64_t));
@@ -44,7 +40,7 @@ branch branch_builder(uint32_t layer, analyzer &ana)
     {
         for (auto &x : info)
         {
-            if (x.second.m_analyzer_child.get().size() > 0)
+            if (x.second.m_analyzer_child.get_data().size() > 0)
             {
                 x.second.m_branch_child = branch_builder(layer + 1, x.second.m_analyzer_child);
             }

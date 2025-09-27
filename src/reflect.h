@@ -8,15 +8,17 @@ namespace reflect
 #ifndef countof
 #define countof(X) (sizeof(X) / sizeof(X[0]))
 #endif
+#define offset(CLS, META) ((char *)(CLS) + (uint64_t)(META.m_offset))
+
     template <typename CLS, typename M>
-    constexpr uint64_t _offsetof(M CLS::*member)
+    constexpr uint64_t to_offset(M CLS::*member)
     {
-        return reinterpret_cast<uint64_t>(&(static_cast<CLS *>(nullptr)->*member));
+        return uint64_t(&(static_cast<CLS *>(0)->*member));
     }
     template <typename CLS, typename M>
-    constexpr uint64_t _offsetof()
+    constexpr uint64_t to_offset()
     {
-        return (uint64_t)(static_cast<M *>(reinterpret_cast<CLS *>(0)));
+        return uint64_t(static_cast<M *>(static_cast<CLS *>(0)));
     }
 
     constexpr uint64_t __flag(uint32_t flag) { return 1 << flag; }
@@ -33,6 +35,7 @@ namespace reflect
         flag_pointer,
         flag_reference,
         flag_enum,
+        flag_signed,
 
         flag_union,
         flag_array,
@@ -43,18 +46,16 @@ namespace reflect
 
         flag_const,
         flag_static,
+        flag_virtual,
+        flag_volatile,
 
-        flag_member,
+        flag_public,
+        flag_protected,
+        flag_private,
+
         flag_function,
         flag_lambda,
 
-        flag_8bit,
-        flag_16bit,
-        flag_32bit,
-        flag_64bit,
-        flag_128bit,
-
-        flag_signed,
     };
     struct meta
     {
@@ -63,7 +64,12 @@ namespace reflect
         const char *m_raw_type = "";
         uint64_t m_flags = 0;
         uint64_t m_field = 0;
-        uint64_t m_offset = 0;
+        union
+        {
+            uint64_t m_offset = 0;
+            void *m_ptr;
+            int (*m_func)(void *, uint64_t, const std::string &, ...);
+        };
     };
 
 }

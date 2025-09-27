@@ -12,5 +12,5 @@ TEST(sys, GetRelativePath)
 
     path = GetRelativePath("/home/xxxx/github/genreflect/examples/node.h", "/home/xxxx/github/genreflect/examples/gen_rfl");
 
-
+    EXPECT_EQ(path, "../gen_rfl");
 }

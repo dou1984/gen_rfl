@@ -6,10 +6,10 @@
 #include <dirent.h>
 #include <iostream>
 
-bool __mkdir(const std::string_view &path)
+bool __mkdir(const std::string &path)
 {
     struct stat file_stat;
-    if (stat(path.data(), &file_stat) != 0)
+    if (stat(path.data(), &file_stat) == 0)
     {
         if (S_ISDIR(file_stat.st_mode))
         {
@@ -27,6 +27,7 @@ bool __mkdir(const std::string_view &path)
     auto pos = path.find_last_of("/");
     if (pos == std::string::npos)
     {
+        std::cout << "create path " << path << std::endl;
         return mkdir(path.data(), 0755) == 0;
     }
     auto upper = path.substr(0, pos);
@@ -34,10 +35,11 @@ bool __mkdir(const std::string_view &path)
     {
         return false;
     }
+    std::cout << "create path " << path << std::endl;
     return mkdir(path.data(), 0755) == 0;
 };
 int MkDir(const std::string &path)
-{
+{    
     auto r = __mkdir(path);
     return r ? 0 : -1;
 }

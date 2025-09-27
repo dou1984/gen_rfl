@@ -2,14 +2,19 @@
 #include "tpl.h"
 
 const std::string meta_tpl = R"(
-#include <stdint.h>
+#include <cstdint>
+#include <cstdarg>
+#include <iostream>
 #include <gen_rfl/reflect.h>
 #include <gen_rfl/branch_string.h>
+#include "{{class}}.h"
 #include "{{header}}"
 
 using namespace reflect;
-using {{class}}_func = meta &(*)(const {{class}} *, {{string}} &, uint64_t);
-
+{{#namesp}}
+namespace {{namespace}}
+{{{/namesp}}
+using {{class}}_func = meta &(*)(const {{class}} *, uint64_t, branch_string &);
 enum {{class}}_meta_enum
 {
     {{#fields}}
@@ -24,6 +29,45 @@ static meta g_meta = {
     .m_field = UINT64_MAX,
     .m_offset = UINT64_MAX,
 };
+static meta g_{{class}} = {
+    .m_variant = "{{class}}",
+    .m_type = "{{class}}",
+    .m_raw_type = "{{class}}",
+    .m_flags = __flags(flag_none),
+    .m_field = UINT64_MAX,
+    .m_offset = UINT64_MAX,    
+};
+{{#is_invoke}}
+static int g_{{class}}_{{variant}}(void *c, uint64_t argc, const std::string &func_args, ...)
+{
+    auto cls = static_cast<{{class}} *>(c);{{#has_argv}}
+    if (argc == {{argc}})
+    {
+        constexpr std::string __func_args = Join({{#argv}}"{{input}}"{{comma}}{{/argv}})
+        if (func_args != __func_args)
+        {
+            return -1;
+        }
+
+        va_list __argu_list;
+        va_start(__argu_list, argc);{{#argv}}
+        auto _t_{{index}} = va_arg(__argu_list, const char *);
+        if (strcmp(_t_{{index}}, "{{input}}") != 0)
+        {
+            return -1;
+        }{{/argv}}{{#argv}}
+        auto _a_{{index}} = va_arg(__argu_list, {{input}});{{/argv}}  
+        va_end(__argu_list);  
+        cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}});     
+        return 0;  
+    }{{/has_argv}}{{#no_argv}}
+    if (argc == {{argc}})
+    {
+        cls->{{variant}}();
+        return 0;
+    }{{/no_argv}}
+    return -1;
+}{{/is_invoke}}
 static meta g_{{class}}_meta[] = {
 {{#fields}}
     {
@@ -31,21 +75,13 @@ static meta g_{{class}}_meta[] = {
         .m_type = "{{type}}",
         .m_raw_type = "{{raw_type}}",
         .m_flags = {{flags}},
-        .m_field = e_{{class}}_{{variant}},
-        {{#is_field}}.m_offset = _offsetof(&{{class}}::{{variant}}),{{/is_field}}{{#is_derived}}.m_offset = _offsetof<{{class}}, {{variant}}>(),{{/is_derived}}        
+        .m_field = e_{{class}}_{{variant}},{{#is_field}}
+        .m_offset = to_offset(&{{class}}::{{variant}}),{{/is_field}}{{#is_derived}}
+        .m_offset = to_offset<{{class}}, {{variant}}>(),{{/is_derived}}{{#is_static}}
+        .m_ptr = (&{{class}}::{{variant}}),{{/is_static}}{{#is_func}}
+        .m_func = g_{{class}}_{{variant}},{{/is_func}}
     },{{/fields}}
 };
-
-inline meta &__meta({{class}}_func *arr, int count, const {{class}} *cls, branch_string& b)
-{  
-    if (b)
-    {
-        auto value = b();
-        auto index = value % count;
-        return (arr[index])(cls, b, value);
-    }
-    return g_meta;
-}
 )";
 
 namespace tpl

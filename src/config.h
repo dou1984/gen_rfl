@@ -8,6 +8,7 @@ struct Data
 {
     std::map<std::string, std::chrono::system_clock::time_point> generate_header;
     std::set<std::string> generated;
+    std::set<std::string> base_types;
 };
 struct Conf : Data
 {
@@ -18,7 +19,8 @@ struct Conf : Data
     std::string real_tmp_dir_loc;
     std::string cwd;
     std::string regex;
-    // std::string base_regex;
+    std::string cmake;
+
     std::string filter;
 };
 

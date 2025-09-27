@@ -10,6 +10,7 @@ namespace reflect
         auto &conf = get_config();
         std::regex tmp_regex(conf.tmp_dir);
         std::regex base_regex(conf.regex);
+        std::regex cmake_regex("^.*/CMakeFiles/\\d+\\.\\d+.\\d+/.+/CMake.+$");
         return [=](const std::string &file) -> bool
         {
             if (std::regex_search(file, tmp_regex))
@@ -21,7 +22,11 @@ namespace reflect
             {
                 return true;
             }
-            std::cout << "get_filter " << file << std::endl;
+            if (std::regex_search(file, cmake_regex))
+            {
+                return true;
+            }
+            std::cout << "get_filter: " << file << std::endl;
             return false;
         };
     }
@@ -35,7 +40,7 @@ namespace reflect
             {
                 return true;
             }
-            std::cout << "get_rfl_filter " << file << std::endl;
+            std::cout << "get_rfl_filter: " << file << std::endl;
             return false;
         };
     }

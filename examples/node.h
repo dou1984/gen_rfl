@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <sys/types.h> // 定义 time_t
+#include <sys/types.h>
 #include <time.h>
 
 struct base
@@ -23,6 +23,7 @@ struct base
     const char *m;
     std::map<int, int> n;
     std::vector<int> o;
+    const char *ooooooooooooooooooooooooooooo0;
 };
 
 struct node : base
@@ -52,7 +53,8 @@ struct node : base
     char *oooooo21;
     char *oooooo22;
     char *oooooo23;
-    char *oooooo24;
+    const char *oooooo24;
+    static char *oooooo25;
+    int init(int, const char *);
+    int init();
 };
-
-void init();

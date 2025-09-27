@@ -28,8 +28,9 @@ void analyzer::push_back_view(const std::string &variant, const info_t &detail)
     info.m_raw_type = detail.m_raw_type;
     info.m_field = field;
     info.m_flags = detail.m_flags;
+    info.m_params = detail.m_params;
 
-    m_data.emplace_back(std::move(info));
+    m_data.emplace(variant, std::move(info));
 }
 void analyzer::copy_view(const std::string &variant, const info_t &detail)
 {
@@ -45,16 +46,37 @@ void analyzer::copy_view(const std::string &variant, const info_t &detail)
     info.m_field = detail.m_field;
     info.m_flags = detail.m_flags;
 
-    m_data.emplace_back(std::move(info));
+    m_data.emplace(variant, std::move(info));
+}
+
+bool analyzer::get_prefect_index(int index) const
+{
+    std::map<uint64_t, std::set<uint64_t>> _prefect;
+    for (auto &v : m_data)
+    {
+        auto idx = v.second.m_value % index;
+        _prefect[idx].emplace(v.second.m_value);
+        if (_prefect[idx].size() > 2)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 uint64_t analyzer::calc_perfect_index() const
 {
     std::set<uint64_t> m;
-    for (auto i = 0; i < m_data.size(); i++)
+    for (auto &v : m_data)
     {
-        m.emplace(m_data[i].m_value);
+        m.emplace(v.second.m_value);
     }
-    return m.size() | 1;
+    auto index = (m.size() / 3) | 1;
+
+    while (!get_prefect_index(index))
+    {
+        index += 2;
+    }
+    return index;
 }
 
 int analyzer::generate_file_name(std::string &header, std::string &source, std::string &_header)
@@ -70,53 +92,16 @@ int analyzer::generate_file_name(std::string &header, std::string &source, std::
     {
         fname = fname.substr(conf.cwd.size());
     }
-    std::cout << "generate_file_name from" << fname << std::endl;
+    // std::cout << "generate_file_name from " << fname << std::endl;
+    get_config().m_relative_file = fname;
 
-    // auto pos = fname.find_last_of(".");
-    // if (pos != std::string::npos)
-    // {
-    //     std::ostringstream oss;
-    //     oss << conf.tmp_dir << "/" << fname.substr(0, pos);
-    //     auto path = oss.str();
-    //     MkDir(path);
-    //     {
-    //         std::ostringstream oss;
-    //         oss << path << "/" << _class << ".h";
-    //         header = oss.str();
-    //     }
-    //     {
-    //         std::ostringstream oss;
-    //         oss << path << "/" << _class << ".cpp";
-    //         source = oss.str();
-    //     }
-    //     {
-    //         std::ostringstream oss;
-    //         oss << fname.substr(0, pos) << "/" << _class << ".h";
-    //         _header = oss.str();
-    //     }
-    // }
-    // else
-    {
-        std::ostringstream oss;
-        oss << conf.tmp_dir << "/" << fname;
-        auto path = oss.str();
-        MkDir(path);
-        {
-            std::ostringstream oss;
-            oss << path << "/" << _class << ".h";
-            header = oss.str();
-        }
-        {
-            std::ostringstream oss;
-            oss << path << "/" << _class << ".cpp";
-            source = oss.str();
-        }
-        {
-            std::ostringstream oss;
-            oss << fname << "/" << _class << ".h";
-            _header = oss.str();
-        }
-    }
+    auto path = conf.tmp_dir + "/" + fname;
+    MkDir(path);
+
+    header = path + "/" + _class + ".h";
+    source = path + "/" + _class + ".cpp";
+    _header = fname + "/" + _class + ".h";
+
     return 0;
 }
 bool analyzer::is_generated(std::string &header, std::string &source)
@@ -130,6 +115,7 @@ bool analyzer::is_generated(std::string &header, std::string &source)
     }
 
     auto &conf = ::get_config();
+    conf.generated.emplace(__header);
 
     auto key_file = m_config.m_file + ":" + header;
     auto it = conf.generate_header.find(key_file);
@@ -146,6 +132,5 @@ bool analyzer::is_generated(std::string &header, std::string &source)
         conf.generate_header.emplace(key_file, modified_time);
         return false;
     }
-    conf.generated.emplace(__header);
     return true;
 }
