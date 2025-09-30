@@ -10,6 +10,7 @@ class analyzer
 public:
     struct param_t
     {
+        // std::string m_input;
         std::list<std::string> m_input;
         std::string m_output;
     };
@@ -23,8 +24,6 @@ public:
         uint64_t m_field = 0;
         uint64_t m_flags = 0;
         std::list<param_t> m_params;
-        // std::list<std::string> m_input;
-        // std::string m_output;
     };
     struct config_t
     {

@@ -1,6 +1,8 @@
 #include "branch.h"
+#include "reflect.h"
 #include <iostream>
 
+using namespace reflect;
 branch branch_builder(uint32_t layer, analyzer &ana)
 {
     branch branch_vec;
@@ -24,15 +26,34 @@ branch branch_builder(uint32_t layer, analyzer &ana)
         auto &info = it.second;
         auto value = info.m_value;
         auto index = value % perfect_index;
-        auto &_info = branch_vec[index][value];
-        _info.m_layer = layer;
-        _info.m_index = branch_vec[index].m_index;
+        auto &__info = branch_vec[index][value];
+        __info.m_layer = layer;
+        __info.m_index = branch_vec[index].m_index;
 
-        _info.m_variants.emplace(info.m_variant, &info);
+        __info.m_variants.emplace(info.m_variant, &info);
         if (info.m_variant.size() > sizeof(uint64_t))
         {
             auto variant = info.m_variant.substr(sizeof(uint64_t));
-            _info.m_analyzer_child.copy_view(variant, info);
+            __info.m_analyzer_child.copy_view(variant, info);
+        }
+        else if (__has_flag(info.m_flags, flag_function))
+        {
+
+            for (auto l : info.m_params)
+            {
+                std::string _input = "(";
+
+                for (auto &i : l.m_input)
+                {
+                    _input += i + ",";
+                }
+                if (l.m_input.size() > 1)
+                {
+                    _input.pop_back();
+                }
+                _input += ")";
+                __info.m_analyzer_child.push_back(_input);
+            }
         }
     }
 

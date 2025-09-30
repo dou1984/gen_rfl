@@ -2,6 +2,7 @@
 #include "tpl.h"
 
 const std::string meta_tpl = R"(
+{{lincense}}
 #include <cstdint>
 #include <cstdarg>
 #include <iostream>
@@ -42,15 +43,9 @@ static int g_{{class}}_{{variant}}(void *c, uint64_t argc, const std::string &fu
 {
     auto cls = static_cast<{{class}} *>(c);{{#has_argv}}
     if (argc == {{argc}})
-    {
-        constexpr std::string __func_args = Join({{#argv}}"{{input}}"{{comma}}{{/argv}})
-        if (func_args != __func_args)
-        {
-            return -1;
-        }
-
+    {     
         va_list __argu_list;
-        va_start(__argu_list, argc);{{#argv}}
+        va_start(__argu_list, func_args);{{#argv}}
         auto _t_{{index}} = va_arg(__argu_list, const char *);
         if (strcmp(_t_{{index}}, "{{input}}") != 0)
         {

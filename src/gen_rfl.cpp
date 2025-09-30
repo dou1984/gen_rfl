@@ -320,7 +320,8 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
             auto flag_virtual_ = Method->isVirtual() ? flag_virtual : 0;
 
             std::list<std::string> _input;
-            for (auto Param : Method->parameters())
+            auto parameters = Method->parameters();
+            for (auto &Param : parameters)
             {
                 auto [FieldType, UnqualifiedType] = get_type_name(Param);
                 _input.emplace_back(FieldType.getAsString());
@@ -330,11 +331,10 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
 
             if (auto it = ana.get_data().find(MethodName); it != ana.get_data().end())
             {
-                analyzer::param_t param = {
-                    .m_input = std::move(_input),
-                    .m_output = std::move(_output),
-                };
-                it->second.m_params.emplace_back(std::move(param));
+                it->second.m_params.emplace_back(analyzer::param_t{
+                    .m_input = _input,
+                    .m_output = _output,
+                });
             }
             else
             {
@@ -343,13 +343,12 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                     .m_type = MethodName,
                     .m_raw_type = MethodName,
                     .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_function),
-                    .m_params = {
-                        {
-                            .m_input = std::move(_input),
-                            .m_output = std::move(_output),
-                        },
-                    },
+
                 };
+                detail.m_params.emplace_back(analyzer::param_t{
+                    .m_input = std::move(_input),
+                    .m_output = std::move(_output),
+                });
                 ana.push_back(MethodName, detail);
             }
         }

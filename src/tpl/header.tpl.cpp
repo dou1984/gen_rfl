@@ -1,7 +1,9 @@
 #include <string>
 #include "tpl.h"
 
-const std::string header_tpl = R"(#pragma once
+const std::string header_tpl = R"(
+{{lincense}}
+#pragma once
 #include <string>
 #include <typeinfo>
 #include <gen_rfl/reflect.h>
@@ -67,9 +69,17 @@ template <class... R>
 int invoke({{class}} *cls, const std::string &_tag, R &&...args)
 {    
     branch_string tag(_tag);
-    auto _meta = get_meta(cls, tag);    
-    constexpr std::string __func_args = Join(typeid(R).name()...);
-    return _meta.m_func(cls, sizeof...(args), __func_args, std::forward<R>(args)...);    
+    auto _meta = get_meta(cls, tag);
+    if constexpr (sizeof...(args) > 0)
+    {
+        static std::string func_args = ((std::string(get_type(&args)) + ",") + ...);
+        return _meta.m_func(cls, sizeof...(args), func_args, get_type(&args)..., std::forward<R>(args)...);
+    }
+    else
+    {
+        static std::string func_args = "";
+        return _meta.m_func(cls, sizeof...(args), func_args);
+    }
 }
 {{#namesp}}
 }{{/namesp}}

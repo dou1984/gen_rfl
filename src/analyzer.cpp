@@ -29,7 +29,6 @@ void analyzer::push_back_view(const std::string &variant, const info_t &detail)
     info.m_field = field;
     info.m_flags = detail.m_flags;
     info.m_params = detail.m_params;
-
     m_data.emplace(variant, std::move(info));
 }
 void analyzer::copy_view(const std::string &variant, const info_t &detail)

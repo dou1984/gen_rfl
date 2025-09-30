@@ -25,6 +25,10 @@ namespace reflect
     template <typename... CLS>
     constexpr uint64_t __flags(CLS... flag) { return (__flag(flag) | ...); }
 
+    constexpr bool __has_flag(uint64_t flags, uint32_t flag)
+    {
+        return (flags & __flag(flag)) != 0;
+    }
     enum
     {
         flag_none,

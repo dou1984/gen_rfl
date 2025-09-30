@@ -15,7 +15,6 @@ int to_hex(uint64_t value, char *buf, int size)
 }
 std::string remove_duplicate_const(const std::string &type)
 {
-    // return (type.find("const ") == 0) ? type.substr(6) : type;
     return (type.find("const const") == 0) ? type.substr(6) : type;
 }
 int format_tpl::init()
@@ -38,11 +37,6 @@ int format_tpl::init()
     if (!ctemplate::StringToTemplateCache("func.tpl", tpl::func(), ctemplate::DO_NOT_STRIP))
     {
         std::cerr << "template error func.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("makefile.tpl", tpl::makefile(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error makefile.tpl" << std::endl;
         return -1;
     }
     if (!ctemplate::StringToTemplateCache("rfl.tpl", tpl::rfl(), ctemplate::DO_NOT_STRIP))
@@ -106,13 +100,12 @@ int expand(const std::string &tpl_key, const ctemplate::TemplateDictionary &dict
 format_tpl::format_tpl()
 {
 }
-int format_tpl::to_header(branch &sel, analyzer &ana)
+int format_tpl::to_header(branch &bra, analyzer &ana)
 {
     auto tpl_key = "header.tpl";
     ctemplate::TemplateDictionary _header(tpl_key);
     _header.SetValue("class", analyzer::get_config().m_class);
     _header.SetValue("raw_class", analyzer::get_config().m_raw_class);
-    _header.SetValue("string", "branch_string");
     _header.SetValue("header", GetRelativePath(analyzer::get_config().m_relative_file, "") + "/base_types.h");
 
     if (!analyzer::get_config().m_namespace.empty())
@@ -123,7 +116,7 @@ int format_tpl::to_header(branch &sel, analyzer &ana)
     expand(tpl_key, _header, m_output_header);
     return 0;
 }
-int format_tpl::to_meta(branch &sel, analyzer &ana)
+int format_tpl::to_meta(branch &bra, analyzer &ana)
 {
     auto tpl_key = "meta.tpl";
 
@@ -134,7 +127,6 @@ int format_tpl::to_meta(branch &sel, analyzer &ana)
     std::cout << "real_tmp_dir: " << ::get_config().real_tmp_dir_loc << std::endl;
     std::cout << "header_name: " << header_name << std::endl;
     _meta.SetValue("header", header_name);
-    _meta.SetValue("string", "branch_string");
 
     if (!analyzer::get_config().m_namespace.empty())
     {
@@ -250,7 +242,6 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, uint32_t position, branc
             _func.SetIntValue("index", _bra.m_index);
 
             _func.SetValue("class", analyzer::get_config().m_class);
-            _func.SetValue("string", "branch_string");
         }
         else
         {
@@ -260,7 +251,6 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, uint32_t position, branc
                 _func.SetIntValue("layer", info.second.m_layer);
                 _func.SetIntValue("index", info.second.m_index);
                 _func.SetValue("class", analyzer::get_config().m_class);
-                _func.SetValue("string", "branch_string");
 
                 std::set<uint64_t> _value;
                 for (auto &details : info.second.m_variants)
@@ -316,16 +306,17 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, uint32_t position, branc
 
     return 0;
 }
-int format_tpl::to_rfl(branch &sel, analyzer &ana)
+
+int format_tpl::to_rfl(branch &bra, analyzer &ana)
 {
 
-    to_header(sel, ana);
+    to_header(bra, ana);
 
-    to_meta(sel, ana);
+    to_meta(bra, ana);
 
-    to_func(0, 0, 0, sel);
+    to_func(0, 0, 0, bra);
 
-    to_get_meta(sel, ana);
+    to_get_meta(bra, ana);
 
     return 0;
 }
@@ -339,21 +330,6 @@ int format_tpl::to_file(analyzer &ana, const std::string &header, const std::str
     return 0;
 }
 
-int format_tpl::to_makefile()
-{
-    auto &conf = get_config();
-    auto tpl_key = "makefile.tpl";
-
-    ctemplate::TemplateDictionary _dict(tpl_key);
-    _dict.SetValue("SRC", "../" + conf.src_dir);
-
-    expand(tpl_key, _dict, m_output_makefile);
-
-    std::ostringstream oss;
-    oss << conf.tmp_dir << "/" << "Makefile";
-    write_file(oss.str(), m_output_makefile);
-    return 0;
-}
 int format_tpl::to_rfl()
 {
     auto &conf = get_config();

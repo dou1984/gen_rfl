@@ -59,7 +59,6 @@ add_executable(unit_test
     tpl/header.tpl.cpp
     tpl/func.tpl.cpp
     tpl/meta.tpl.cpp
-    tpl/makefile.tpl.cpp
     tpl/get_meta.tpl.cpp
     tpl/rfl.tpl.cpp
     config.cpp

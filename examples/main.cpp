@@ -5,7 +5,7 @@
 
 int main()
 {
-    node n;
+    struct node n;
     n.a = 1;
     n.ooooooooooooooooooooooooooooo0 = "new string";
 
