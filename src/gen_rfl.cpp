@@ -55,17 +55,14 @@ std::tuple<QualType, QualType> get_type_name(T *_t)
 
     while (true)
     {
-        if (false)
+        if (UnqualifiedType->isReferenceType())
         {
+            UnqualifiedType = UnqualifiedType->getPointeeType();
         }
         // else if (UnqualifiedType->isPointerType())
         // {
         //     UnqualifiedType = UnqualifiedType->getPointeeType();
         // }
-        else if (UnqualifiedType->isReferenceType())
-        {
-            UnqualifiedType = UnqualifiedType->getPointeeType();
-        }
         else
         {
             break;

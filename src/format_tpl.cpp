@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <cstring>
 #include "reflect.h"
 #include "config.h"
 #include "tpl/tpl.h"
@@ -15,7 +16,9 @@ int to_hex(uint64_t value, char *buf, int size)
 }
 int to_comment(uint64_t value, char *buf, int size)
 {
-    return snprintf(buf, size, "%s", (char *)&value);
+    char v[sizeof(uint64_t) + 1];
+    strncpy(v, (const char *)&value, sizeof(uint64_t));
+    return snprintf(buf, size, "%s", v);
 }
 const std::string &compatible(const std::string &t)
 {
