@@ -9,7 +9,7 @@ const uint64_t get_fields_max(const {{class}} *cls)
 namespace __details
 {
     meta& get_meta(const {{class}} *cls, branch_string &tag)
-    {     
+    {{{#meta_multi}}
         constexpr void *__meta_label[] = {{{#labels}}
             &&label_{{index}},{{/labels}}
         };
@@ -18,7 +18,9 @@ namespace __details
         auto index = value % count;        
         goto *__meta_label[index];{{#labels}}
     label_{{index}}:
-        return rfl_{{layer}}_{{index}}(cls, value, tag);{{/labels}}
+        return rfl_{{layer}}_{{index}}(cls, value, tag);{{/labels}}{{/meta_multi}}{{#meta_one}}
+        auto value = tag();
+        return rfl_{{layer}}_{{index}}(cls, value, tag);{{/meta_one}}
     }
     meta& get_meta({{class}} *cls, branch_string &tag, const std::string &args_tag)
     {

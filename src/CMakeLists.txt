@@ -15,6 +15,8 @@ set(Clang_DIR /usr/lib/llvm-15/lib/cmake/clang)
 
 project(gen_rfl)
 
+set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
 find_package(GTest REQUIRED)

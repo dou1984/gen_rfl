@@ -219,12 +219,21 @@ int format_tpl::to_get_meta(branch &bra, analyzer &ana)
     _get_meta.SetValue("layer", std::to_string(0));
 
     auto _field = 0;
-    for (auto &v : bra)
+    if (bra.size() > 1)
     {
-        auto _labels = _get_meta.AddSectionDictionary("labels");
-        _labels->SetIntValue("index", v.m_index);
+        auto _meta_multi = _get_meta.AddSectionDictionary("meta_multi");
+        for (auto &v : bra)
+        {
+            auto _labels = _meta_multi->AddSectionDictionary("labels");
+            _labels->SetIntValue("index", v.m_index);
+        }
     }
-
+    else if (bra.size() == 1)
+    {
+        auto _meta_one = _get_meta.AddSectionDictionary("meta_one");
+        auto &v = bra.front();
+        _meta_one->SetIntValue("index", v.m_index);
+    }
     if (!analyzer::get_config().m_namespace.empty())
     {
         auto _namespace = _get_meta.AddSectionDictionary("namesp");

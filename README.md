@@ -1,7 +1,6 @@
-# genreflect
-generate reflect cpp source code
+# gen_rfl
 
+gen_rfl is a C++ reflection code generation tool that automatically generates reflection functions for C++ classes when executed. Users can leverage these functions to access struct member variables, read their values, and modify them.
 
-# install llvm
-# sudo apt-get purge llvm-15*
-sudo apt-get install llvm-15 llvm-15-dev llvm-15-runtime clang-15 libclang-15-dev
+Unlike other reflection libraries on GitHub, gen_rfl adopts a source-code generation approach. It produces readable and inspectable C++ code for each struct, offering excellent transparency and debuggability.
+
