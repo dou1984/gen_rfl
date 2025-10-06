@@ -1,6 +1,7 @@
 #include "branch.h"
 #include "reflect.h"
 #include <iostream>
+#include <cassert>
 
 using namespace reflect;
 branch branch_builder(uint32_t layer, analyzer &ana)
@@ -29,33 +30,29 @@ branch branch_builder(uint32_t layer, analyzer &ana)
         auto &__info = branch_vec[index][value];
         __info.m_layer = layer;
         __info.m_index = branch_vec[index].m_index;
-
+        __info.m_field = info.m_field;
         __info.m_variants.emplace(info.m_variant, &info);
-        if (info.m_variant.size() > sizeof(uint64_t))
+
+        if (it.first.size() > sizeof(uint64_t))
         {
-            auto variant = info.m_variant.substr(sizeof(uint64_t));
+            auto variant = it.first.substr(sizeof(uint64_t));
             __info.m_analyzer_child.copy_view(variant, info);
         }
-        else if (__has_flag(info.m_flags, flag_function))
+        else if (__has_flag(info.m_flags, flag_argument) && !__has_flag(info.m_flags, flag_next))
         {
-
-            for (auto l : info.m_params)
-            {
-                std::string _input = "(";
-
-                for (auto &i : l.m_input)
-                {
-                    _input += i + ",";
-                }
-                if (l.m_input.size() > 1)
-                {
-                    _input.pop_back();
-                }
-                _input += ")";
-                __info.m_analyzer_child.push_back(_input);
-            }
+            auto variant = info.m_raw_type;
+            analyzer::info_t args_info = {
+                .m_variant = info.m_variant,
+                .m_raw_variant = info.m_raw_variant,
+                .m_type = info.m_type,
+                .m_raw_type = info.m_raw_type,
+                .m_input = info.m_input,
+                .m_flags = info.m_flags | __flag(flag_next),
+                .m_field = info.m_field,
+            };
+            __info.m_analyzer_child.copy_view(variant, args_info);
         }
-    }
+        }
 
     for (auto &info : branch_vec)
     {
@@ -70,3 +67,4 @@ branch branch_builder(uint32_t layer, analyzer &ana)
 
     return branch_vec;
 }
+

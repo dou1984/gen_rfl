@@ -8,22 +8,16 @@
 class analyzer
 {
 public:
-    struct param_t
-    {
-        // std::string m_input;
-        std::list<std::string> m_input;
-        std::string m_output;
-    };
     struct info_t
     {
         std::string m_variant;
-        uint64_t m_value;
         std::string m_raw_variant;
         std::string m_type;
         std::string m_raw_type;
-        uint64_t m_field = 0;
+        std::list<std::string> m_input;
+        uint64_t m_value = 0;
         uint64_t m_flags = 0;
-        std::list<param_t> m_params;
+        uint64_t m_field = 0;
     };
     struct config_t
     {
@@ -33,6 +27,7 @@ public:
         std::string m_raw_class;
         std::string m_namespace;
         std::vector<uint32_t> m_max_index;
+        uint32_t m_max_field;
         void clear()
         {
             m_file.clear();
@@ -41,6 +36,7 @@ public:
             m_class.clear();
             m_namespace.clear();
             m_max_index.clear();
+            m_max_field = 0;
         }
     };
 
@@ -78,6 +74,5 @@ private:
     void __push_back_view(const std::string &variant, const info_t &detail);
 
     static config_t m_config;
-    // std::vector<info_t> m_data;
-    std::map<std::string, info_t> m_data;
+    std::multimap<std::string, info_t> m_data;
 };

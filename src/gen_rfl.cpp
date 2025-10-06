@@ -14,6 +14,22 @@
 // #define LLVM_OUT
 using namespace reflect;
 
+template <class S, class D>
+auto join(const S str, const D &delimiter)
+{
+    std::ostringstream oss;
+    auto it = str.begin();
+    if (it != str.end())
+    {
+        oss << *it++;
+    }
+    while (it != str.end())
+    {
+        oss << delimiter << *it++;
+    }
+    return oss.str();
+}
+
 template <class T>
 auto get_access(const T &t)
 {
@@ -182,6 +198,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
     }
 
     static int __init = format_tpl::init();
+    std::map<std::string, analyzer::info_t> _methods;
     analyzer ana;
     auto &conf = ana.get_config();
     conf.clear();
@@ -324,32 +341,32 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
             for (auto &Param : parameters)
             {
                 auto [FieldType, UnqualifiedType] = get_type_name(Param);
-                _input.emplace_back(FieldType.getAsString());
+                _input.push_back(FieldType.getAsString());
             }
 
             std::string _output = Method->getReturnType().getAsString();
 
-            if (auto it = ana.get_data().find(MethodName); it != ana.get_data().end())
-            {
-                it->second.m_params.emplace_back(analyzer::param_t{
-                    .m_input = _input,
-                    .m_output = _output,
-                });
-            }
-            else
+            auto _tmp_type = std::string("(") + join(_input, ",") + std::string(")");
+            analyzer::info_t detail = {
+                .m_variant = MethodName,
+                .m_raw_variant = MethodName,
+                .m_type = _tmp_type,
+                .m_raw_type = _tmp_type,
+                .m_input = std::move(_input),
+                .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument),
+            };
+
+            ana.push_back(MethodName, detail);
+
             {
                 analyzer::info_t detail = {
+                    .m_variant = MethodName,
                     .m_raw_variant = MethodName,
-                    .m_type = MethodName,
-                    .m_raw_type = MethodName,
+                    .m_type = "",
+                    .m_raw_type = "",
                     .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_function),
-
                 };
-                detail.m_params.emplace_back(analyzer::param_t{
-                    .m_input = std::move(_input),
-                    .m_output = std::move(_output),
-                });
-                ana.push_back(MethodName, detail);
+                _methods.emplace(MethodName, detail);
             }
         }
 
@@ -362,7 +379,10 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
             // }
         }
     }
-
+    for (auto &it : _methods)
+    {
+        ana.push_back(it.first, it.second);
+    }
     format_tpl fmt;
     auto bs = branch_builder(0, ana);
     fmt.to_rfl(bs, ana);

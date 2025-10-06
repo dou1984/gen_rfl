@@ -4,9 +4,12 @@
 const std::string func_tpl = R"(
 inline meta &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branch_string &tag)
 {{{#block}}
-    if ({{value}} == value)
+    if ({{value}} == value) // {{comment}}
     {{{#complete}}
-        return tag ? g_meta : g_{{class}}_meta[e_{{class}}_{{variant}}];{{/complete}}{{#incomplete}}        
+        if (!tag) // complete
+        {
+            return g_{{class}}_meta[e__{{class}}__{{variant}}{{__field}}];
+        }{{/complete}}{{#incomplete}} // incomplete    
         constexpr void *__meta_label[] = {{{#labels}}
             &&label_{{next_index}},{{/labels}}
         };
@@ -16,13 +19,17 @@ inline meta &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branc
         goto *__meta_label[index];{{#labels}}
     label_{{next_index}}:
         return rfl_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/labels}}{{/incomplete}}{{#incomplete_one}}
-        if (tag)
+        if (tag) // incomplete one
         {
             auto _value = tag();
             return rfl_{{next_layer}}_{{next_index}}(cls, _value, tag);
-        }{{/incomplete_one}}
+        }{{/incomplete_one}}{{#invoke}}      
+        if (!tag) // invoke
+        {
+            return g_{{class}}_meta[e__{{class}}__{{variant}}];
+        }{{/invoke}}
     }{{/block}}
-    return g_meta;
+    return g_nullptr_meta;
 }
 )";
 

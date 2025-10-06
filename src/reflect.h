@@ -25,9 +25,21 @@ namespace reflect
     template <typename... CLS>
     constexpr uint64_t __flags(CLS... flag) { return (__flag(flag) | ...); }
 
-    constexpr bool __has_flag(uint64_t flags, uint32_t flag)
+    template <typename... CLS>
+    constexpr bool __has_flag(uint64_t flags, CLS... flag)
     {
-        return (flags & __flag(flag)) != 0;
+        return (flags & __flags(flag...)) != 0;
+    }
+
+    template <typename S, typename... T>
+    std::string __join(S &&s, T &&...t)
+    {
+        std::string result = s;
+        if constexpr (sizeof...(T) > 0)
+        {
+            ((result += std::string(",") + std::string(t)), ...);
+        }
+        return result;
     }
     enum
     {
@@ -59,20 +71,23 @@ namespace reflect
 
         flag_function,
         flag_lambda,
+        flag_argument,
+
+        flag_next,
 
     };
     struct meta
     {
         const char *m_variant = "";
         const char *m_type = "";
-        const char *m_raw_type = "";
         uint64_t m_flags = 0;
         uint64_t m_field = 0;
         union
         {
             uint64_t m_offset = 0;
             void *m_ptr;
-            int (*m_func)(void *, uint64_t, const std::string &, ...);
+            int (*m_func)(void *, uint64_t, ...);
+            meta &(*m_invoke)(void *, const std::string &);
         };
     };
 

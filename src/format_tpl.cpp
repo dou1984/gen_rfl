@@ -13,6 +13,23 @@ int to_hex(uint64_t value, char *buf, int size)
 {
     return snprintf(buf, size, "0x%lx", value);
 }
+int to_comment(uint64_t value, char *buf, int size)
+{
+    return snprintf(buf, size, "%s", (char *)&value);
+}
+const std::string &compatible(const std::string &t)
+{
+    if (t == "float")
+    {
+        static std::string r = "double";
+        return r;
+    }
+    return t;
+}
+std::string __field(uint64_t field)
+{
+    return std::string("__") + std::to_string(field);
+}
 std::string remove_duplicate_const(const std::string &type)
 {
     return (type.find("const const") == 0) ? type.substr(6) : type;
@@ -37,6 +54,21 @@ int format_tpl::init()
     if (!ctemplate::StringToTemplateCache("func.tpl", tpl::func(), ctemplate::DO_NOT_STRIP))
     {
         std::cerr << "template error func.tpl" << std::endl;
+        return -1;
+    }
+    if (!ctemplate::StringToTemplateCache("invoke_field.tpl", tpl::invoke_field(), ctemplate::DO_NOT_STRIP))
+    {
+        std::cerr << "template error invoke_field.tpl" << std::endl;
+        return -1;
+    }
+    if (!ctemplate::StringToTemplateCache("invoke.tpl", tpl::invoke(), ctemplate::DO_NOT_STRIP))
+    {
+        std::cerr << "template error invoke.tpl" << std::endl;
+        return -1;
+    }
+    if (!ctemplate::StringToTemplateCache("invoke_layer.tpl", tpl::invoke_layer(), ctemplate::DO_NOT_STRIP))
+    {
+        std::cerr << "template error invoke_layer.tpl" << std::endl;
         return -1;
     }
     if (!ctemplate::StringToTemplateCache("rfl.tpl", tpl::rfl(), ctemplate::DO_NOT_STRIP))
@@ -127,74 +159,50 @@ int format_tpl::to_meta(branch &bra, analyzer &ana)
     std::cout << "real_tmp_dir: " << ::get_config().real_tmp_dir_loc << std::endl;
     std::cout << "header_name: " << header_name << std::endl;
     _meta.SetValue("header", header_name);
-
+    _meta.SetValue("class", analyzer::get_config().m_class);
     if (!analyzer::get_config().m_namespace.empty())
     {
         auto _namespace = _meta.AddSectionDictionary("namesp");
         _namespace->SetValue("namespace", analyzer::get_config().m_namespace);
-    }
+    };
 
-    auto _field = 0;
     for (auto &it : ana.get_data())
     {
         auto &field = it.second;
-        if ((field.m_flags & __flags(flag_function)) != 0)
-        {
-            auto func = _meta.AddSectionDictionary("is_invoke");
-            func->SetValue("variant", field.m_variant);
 
-            for (auto &argu_list : field.m_params)
-            {
-                if (argu_list.m_input.size() > 0)
-                {
-                    uint64_t i = 0;
-                    auto has_argv = func->AddSectionDictionary("has_argv");
-                    has_argv->SetIntValue("argc", argu_list.m_input.size());
-                    for (auto &input : argu_list.m_input)
-                    {
-                        auto argv = has_argv->AddSectionDictionary("argv");
-                        argv->SetIntValue("index", i++);
-                        argv->SetValue("input", input);
-                        if (i < argu_list.m_input.size())
-                        {
-                            argv->SetValue("comma", ", ");
-                        }
-                    }
-                }
-                else
-                {
-                    auto no_argv = func->AddSectionDictionary("no_argv");
-                    no_argv->SetIntValue("argc", argu_list.m_input.size());
-                }
-            }
-        }
         auto dict = _meta.AddSectionDictionary("fields");
         dict->SetValue("variant", field.m_variant);
+
         dict->SetValue("type", field.m_type);
-        dict->SetValue("raw_type", field.m_raw_type);
         char buf[64];
         to_hex(field.m_flags, buf, sizeof(buf));
         dict->SetValue("flags", buf);
+        dict->SetIntValue("field", field.m_field);
 
-        if ((field.m_flags & __flags(flag_struct, flag_class)) != 0)
+        if (__has_flag(field.m_flags, flag_struct, flag_class))
         {
             dict->AddSectionDictionary("is_derived");
         }
-        else if ((field.m_flags & __flags(flag_function)) != 0)
-        {
-            dict->AddSectionDictionary("is_func");
-        }
-        else if ((field.m_flags & __flags(flag_static)) != 0)
+        else if (__has_flag(field.m_flags, flag_static))
         {
             dict->AddSectionDictionary("is_static");
+        }
+        else if (__has_flag(field.m_flags, flag_function))
+        {
+            dict->AddSectionDictionary("is_invoke");
+        }
+        else if (__has_flag(field.m_flags, flag_argument))
+        {
+            dict->SetValue("__field", __field(field.m_field));
+            auto invoke_field = dict->AddSectionDictionary("invoke_field");
+            invoke_field->SetValue("variant", field.m_variant);
+            invoke_field->SetValue("__field", __field(field.m_field));
         }
         else
         {
             dict->AddSectionDictionary("is_field");
         }
-        dict->SetIntValue("field", _field);
     }
-    _meta.SetValue("class", analyzer::get_config().m_class);
 
     std::string _output;
     expand(tpl_key, _meta, _output);
@@ -227,56 +235,55 @@ int format_tpl::to_get_meta(branch &bra, analyzer &ana)
     m_output_source.emplace_back(std::move(_output));
     return 0;
 }
-int format_tpl::to_func(uint32_t layer, uint32_t index, uint32_t position, branch &bra)
+int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
 {
     auto tpl_key = "func.tpl";
 
-    for (auto i = 0; i < bra.size(); ++i)
+    for (auto &_bra : bra)
     {
-        auto &_bra = bra[i];
-        std::list<std::string> _output_leaf;
         ctemplate::TemplateDictionary _func(tpl_key);
         if (_bra.empty())
         {
             _func.SetIntValue("layer", _bra.m_layer);
             _func.SetIntValue("index", _bra.m_index);
-
             _func.SetValue("class", analyzer::get_config().m_class);
         }
         else
         {
             for (auto &info : _bra)
             {
-
                 _func.SetIntValue("layer", info.second.m_layer);
                 _func.SetIntValue("index", info.second.m_index);
                 _func.SetValue("class", analyzer::get_config().m_class);
-
                 std::set<uint64_t> _value;
                 for (auto &details : info.second.m_variants)
                 {
                     auto _detail = details.second;
+                    if (__has_flag(_detail->m_flags, flag_argument))
+                    {
+                        continue;
+                    }
                     if (_value.find(_detail->m_value) != _value.end())
                     {
                         continue;
                     }
                     _value.insert(_detail->m_value);
-                    uint32_t next_position = _value.size();
-                    to_func(layer + 1, info.second.m_index, next_position, info.second.m_branch_child);
+
+                    to_func(layer + 1, info.second.m_index, info.second.m_branch_child);
 
                     auto block = _func.AddSectionDictionary("block");
                     char buf[64];
                     to_hex(_detail->m_value, buf, sizeof(buf));
                     block->SetValue("value", buf);
-                    if (details.first.size() > sizeof(uint64_t))
+                    to_comment(_detail->m_value, buf, sizeof(buf));
+                    block->SetValue("comment", buf);
+
+                    if (_detail->m_variant.size() > sizeof(uint64_t))
                     {
                         _func.SetIntValue("next_layer", info.second.m_layer + 1);
-                        _func.SetIntValue("field", _detail->m_field);
-                        _func.SetIntValue("position", next_position);
                         if (info.second.m_branch_child.size() > 1)
                         {
                             auto incomplete = block->AddSectionDictionary("incomplete");
-                            incomplete->SetIntValue("next_count", info.second.m_branch_child.size());
                             for (auto &child : info.second.m_branch_child)
                             {
                                 auto labels = incomplete->AddSectionDictionary("labels");
@@ -288,17 +295,31 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, uint32_t position, branc
                             auto incomplete_one = block->AddSectionDictionary("incomplete_one");
                             incomplete_one->SetIntValue("next_index", info.second.m_branch_child[0].m_index);
                         }
+                        else
+                        {
+                            assert(false);
+                        }
                     }
                     else
                     {
+                        if (__has_flag(_detail->m_flags, flag_function))
+                        {
+                            to_invoke(layer + 1, info.second.m_index, details.second->m_variant, info.second);
+                        }
+                        if (__has_flag(_detail->m_flags, flag_argument))
+                        {
+                            continue;
+                        }
                         auto complete = block->AddSectionDictionary("complete");
                         complete->SetValue("variant", _detail->m_raw_variant);
-                        complete->SetIntValue("field", _detail->m_field);
+                        if (__has_flag(_detail->m_flags, flag_argument))
+                        {
+                            complete->SetValue("__field", __field(_detail->m_field));
+                        }
                     }
                 }
             }
         }
-        m_output_source.splice(m_output_source.end(), _output_leaf);
         std::string _output;
         expand(tpl_key, _func, _output);
         m_output_source.emplace_back(std::move(_output));
@@ -307,6 +328,156 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, uint32_t position, branc
     return 0;
 }
 
+int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch_info &bra)
+{
+    for (auto &_bra : bra.m_branch_child)
+    {
+        to_invoke_layer(_bra.m_layer, _bra.m_index, variant, _bra);
+    }
+
+    auto tpl_key = "invoke.tpl";
+
+    ctemplate::TemplateDictionary _invoke(tpl_key);
+    _invoke.SetValue("class", analyzer::get_config().m_class);
+    _invoke.SetValue("variant", variant);
+    _invoke.SetIntValue("layer", layer);
+    _invoke.SetIntValue("index", index);
+
+    if (bra.m_branch_child.size() > 1)
+    {
+        auto _invoke_multi = _invoke.AddSectionDictionary("invoke_multi");
+        for (auto &_bra : bra.m_branch_child)
+        {
+            auto labels = _invoke_multi->AddSectionDictionary("labels");
+            labels->SetIntValue("next_layer", _bra.m_layer);
+            labels->SetIntValue("next_index", _bra.m_index);
+        }
+    }
+    else if (bra.m_branch_child.size() == 1)
+    {
+        auto _invoke_one = _invoke.AddSectionDictionary("invoke_one");
+        auto &_bra = bra.m_branch_child.front();
+        _invoke_one->SetIntValue("next_layer", _bra.m_layer);
+        _invoke_one->SetIntValue("next_index", _bra.m_index);
+    }
+    std::string _output;
+    expand(tpl_key, _invoke, _output);
+    m_output_source.emplace_back(std::move(_output));
+
+    return 0;
+}
+
+int format_tpl::to_invoke_field(uint32_t layer, uint32_t index, const std::string &variant, const branch_info &bra)
+{
+
+    auto tpl_key = "invoke_field.tpl";
+
+    for (auto &_bra : bra.m_variants)
+    {
+
+        ctemplate::TemplateDictionary _invoke_field(tpl_key);
+        _invoke_field.SetValue("class", analyzer::get_config().m_class);
+        _invoke_field.SetValue("variant", variant);
+        _invoke_field.SetValue("__field", __field(_bra.second->m_field));
+
+        if (_bra.second->m_input.empty())
+        {
+            auto no_argv = _invoke_field.AddSectionDictionary("no_argv");
+            no_argv->SetIntValue("argc", 0);
+            no_argv->SetValue("variant", _bra.second->m_raw_variant);
+        }
+        else
+        {
+            auto has_argv = _invoke_field.AddSectionDictionary("has_argv");
+
+            auto _size = _bra.second->m_input.size();
+            has_argv->SetIntValue("argc", _size);
+            has_argv->SetValue("variant", _bra.second->m_raw_variant);
+            has_argv->SetValue("__field", __field(_bra.second->m_field));
+
+            int index = 0;
+            for (auto &_input : _bra.second->m_input)
+            {
+                auto argv = has_argv->AddSectionDictionary("argv");
+                argv->SetValue("input", _input);
+                argv->SetValue("compatible_input", compatible(_input));
+                argv->SetIntValue("index", index++);
+                if (index != _size)
+                {
+                    argv->SetValue("comma", ", ");
+                }
+            }
+        }
+
+        std::string _output;
+        expand(tpl_key, _invoke_field, _output);
+        m_output_source.emplace_back(std::move(_output));
+    }
+
+    return 0;
+}
+
+int format_tpl::to_invoke_layer(uint32_t layer, uint32_t index, const std::string &variant, const branch_map &bra)
+{
+    auto tpl_key = "invoke_layer.tpl";
+
+    ctemplate::TemplateDictionary _invoke(tpl_key);
+    _invoke.SetValue("class", analyzer::get_config().m_class);
+    _invoke.SetIntValue("layer", bra.m_layer);
+    _invoke.SetIntValue("index", bra.m_index);
+    _invoke.SetValue("variant", variant);
+
+    for (auto &_bra : bra)
+    {
+        auto block = _invoke.AddSectionDictionary("block");
+        char buf[64];
+        to_hex(_bra.first, buf, sizeof(buf));
+        block->SetValue("value", buf);
+        to_comment(_bra.first, buf, sizeof(buf));
+        block->SetValue("comment", buf);
+
+        if (_bra.second.m_branch_child.empty())
+        {
+            to_invoke_field(layer + 1, _bra.second.m_index, variant, _bra.second);
+            auto complete = block->AddSectionDictionary("complete");
+            complete->SetValue("variant", variant);
+
+            auto info = _bra.second.first();
+            if (__has_flag(info->m_flags, flag_argument))
+            {
+                complete->SetValue("__field", __field(info->m_field));
+            }
+        }
+        else
+        {
+            for (auto &child : _bra.second.m_branch_child)
+            {
+                to_invoke_layer(child.m_layer, child.m_index, variant, child);
+            }
+
+            if (_bra.second.m_branch_child.size() > 1)
+            {
+                auto incomplete = block->AddSectionDictionary("incomplete");
+                for (auto &child : _bra.second.m_branch_child)
+                {
+                    auto labels = incomplete->AddSectionDictionary("labels");
+                    labels->SetIntValue("next_layer", child.m_layer);
+                    labels->SetIntValue("next_index", child.m_index);
+                }
+            }
+            else if (_bra.second.m_branch_child.size() == 1)
+            {
+                auto incomplete_one = block->AddSectionDictionary("incomplete_one");
+                incomplete_one->SetIntValue("next_layer", _bra.second.m_branch_child[0].m_layer);
+                incomplete_one->SetIntValue("next_index", _bra.second.m_branch_child[0].m_index);
+            }
+        }
+    }
+    std::string _output;
+    expand(tpl_key, _invoke, _output);
+    m_output_source.emplace_back(std::move(_output));
+    return 0;
+}
 int format_tpl::to_rfl(branch &bra, analyzer &ana)
 {
 
@@ -314,7 +485,7 @@ int format_tpl::to_rfl(branch &bra, analyzer &ana)
 
     to_meta(bra, ana);
 
-    to_func(0, 0, 0, bra);
+    to_func(0, 0, bra);
 
     to_get_meta(bra, ana);
 

@@ -15,6 +15,8 @@ TEST(analyzer, push_back)
 
     EXPECT_EQ(t, 9);
     auto x = a.get_data();
-    EXPECT_EQ(x["hellooooooo"].m_value, 8029759184975979880u);
-    EXPECT_EQ(x["worldddddddd"].m_value, 7234017283942805367u);
+    auto it = x.find("hellooooooo");
+    EXPECT_EQ(it->second.m_value, 8029759184975979880u);
+    it = x.find("worldddddddd");
+    EXPECT_EQ(it->second.m_value, 7234017283942805367u);
 }

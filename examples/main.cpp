@@ -34,7 +34,9 @@ int main()
 
     std::string method = "init";
     const char *hello = "hello world";
+
     auto s = invoke(&n, method, 1, hello);
+    s = invoke(&n, method, 2, hello);
     s = invoke(&n, method);
 
     return 0;

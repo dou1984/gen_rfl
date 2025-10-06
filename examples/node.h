@@ -56,5 +56,13 @@ struct node : base
     const char *oooooo24;
     static char *oooooo25;
     int init(int, const char *);
+    int init(float, double, const char *);
     int init();
+    int deinit();
+};
+
+struct func
+{
+    int init();
+    int deinit();
 };

@@ -16,19 +16,17 @@ analyzer::analyzer()
 
 void analyzer::push_back_view(const std::string &variant, const info_t &detail)
 {
-
     branch_string b(variant);
     assert(b);
-    auto field = m_data.size();
     info_t info;
-    info.m_variant = variant;
     info.m_value = b();
+    info.m_variant = variant;
     info.m_raw_variant = detail.m_raw_variant;
     info.m_type = detail.m_type;
     info.m_raw_type = detail.m_raw_type;
-    info.m_field = field;
+    info.m_input = detail.m_input;
     info.m_flags = detail.m_flags;
-    info.m_params = detail.m_params;
+    info.m_field = get_config().m_max_field++;
     m_data.emplace(variant, std::move(info));
 }
 void analyzer::copy_view(const std::string &variant, const info_t &detail)
@@ -37,14 +35,14 @@ void analyzer::copy_view(const std::string &variant, const info_t &detail)
     branch_string b(variant);
     assert(b);
     info_t info;
-    info.m_variant = variant;
     info.m_value = b();
+    info.m_variant = variant;
     info.m_raw_variant = detail.m_raw_variant;
     info.m_type = detail.m_type;
     info.m_raw_type = detail.m_raw_type;
-    info.m_field = detail.m_field;
+    info.m_input = detail.m_input;
     info.m_flags = detail.m_flags;
-
+    info.m_field = detail.m_field;
     m_data.emplace(variant, std::move(info));
 }
 
