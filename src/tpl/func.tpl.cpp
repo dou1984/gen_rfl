@@ -9,7 +9,8 @@ inline meta &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branc
         if (!tag) // complete
         {
             return g_{{class}}_meta[e__{{class}}__{{variant}}{{__field}}];
-        }{{/complete}}{{#incomplete}} // incomplete    
+        }
+        return g_nullptr_meta;{{/complete}}{{#incomplete}} // incomplete    
         constexpr void *__meta_label[] = {{{#labels}}
             &&label_{{next_index}},{{/labels}}
         };
@@ -23,7 +24,8 @@ inline meta &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branc
         {
             auto _value = tag();
             return rfl_{{next_layer}}_{{next_index}}(cls, _value, tag);
-        }{{/incomplete_one}}{{#invoke}}      
+        }
+        return g_nullptr_meta;{{/incomplete_one}}{{#invoke}}      
         if (!tag) // invoke
         {
             return g_{{class}}_meta[e__{{class}}__{{variant}}];

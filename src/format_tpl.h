@@ -20,9 +20,9 @@ public:
 
     int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch_info &bra);
 
-    int to_invoke_field(uint32_t layer, uint32_t index, const std::string &variant, const branch_info &bra);
+    int to_invoke_field(const branch_info &bra);
 
-    int to_invoke_layer(uint32_t layer, uint32_t index, const std::string &variant, const branch_map &bra);
+    int to_invoke_layer(const std::string &variant, const branch_map &bra);
 
     int to_rfl(branch &sel, analyzer &ana);
 

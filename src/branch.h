@@ -27,11 +27,8 @@ struct branch_info
     analyzer m_analyzer_child;
     branch m_branch_child;
 
-    auto first() const
-    {
-        assert(m_variants.size() == 1);
-        return m_variants.begin()->second;
-    }
+    analyzer::info_t *first_variant() const;
+    int count_variant(int flag) const;
 };
 
 branch branch_builder(uint32_t, analyzer &);

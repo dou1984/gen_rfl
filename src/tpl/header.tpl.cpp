@@ -77,7 +77,7 @@ int invoke({{class}} *cls, const std::string &_tag, R &&...args)
     {
         static std::string func_args = std::string("(") + __join(get_type(std::addressof(args))...) + ")";
         auto _meta = __details::get_meta(cls, tag, func_args);
-        return (_tag == _meta.m_variant) ? _meta.m_func(cls, sizeof...(args), get_type(&args)..., std::forward<R>(args)...) : -1;
+        return (_tag == _meta.m_variant) ? _meta.m_func(cls, sizeof...(args), std::forward<R>(args)...) : -1;
     }
     else
     {

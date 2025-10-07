@@ -26,3 +26,24 @@ int func::deinit()
 {
     return 0;
 }
+
+int node::lllllllllllllllllllllllllll0(const char *, const char *)
+{
+    return 0;
+}
+int node::lllllllllllllllllllllllllll1(const char *, const char *)
+{
+    return 0;
+}
+int node::lllllllllllllllllllllllllll2(const char *, const char *)
+{
+    return 0;
+}
+int node::lllllllllllllllllllllllllll3(const char *, const char *)
+{
+    return 0;
+}
+int node::lllllllllllllllllllllllllll4(const char *, const char *)
+{
+    return 0;
+}

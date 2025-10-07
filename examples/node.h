@@ -59,6 +59,11 @@ struct node : base
     int init(float, double, const char *);
     int init();
     int deinit();
+    int lllllllllllllllllllllllllll0(const char *, const char *);
+    int lllllllllllllllllllllllllll1(const char *, const char *);
+    int lllllllllllllllllllllllllll2(const char *, const char *);
+    int lllllllllllllllllllllllllll3(const char *, const char *);
+    int lllllllllllllllllllllllllll4(const char *, const char *);
 };
 
 struct func

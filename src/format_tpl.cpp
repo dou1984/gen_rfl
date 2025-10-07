@@ -176,7 +176,7 @@ int format_tpl::to_meta(branch &bra, analyzer &ana)
         auto dict = _meta.AddSectionDictionary("fields");
         dict->SetValue("variant", field.m_variant);
 
-        dict->SetValue("type", field.m_type);
+        dict->SetValue("type", field.m_raw_type);
         char buf[64];
         to_hex(field.m_flags, buf, sizeof(buf));
         dict->SetValue("flags", buf);
@@ -344,14 +344,15 @@ int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &var
 {
     for (auto &_bra : bra.m_branch_child)
     {
-        to_invoke_layer(_bra.m_layer, _bra.m_index, variant, _bra);
+        to_invoke_layer(variant, _bra);
     }
 
     auto tpl_key = "invoke.tpl";
 
+    auto var = bra.first_variant();
     ctemplate::TemplateDictionary _invoke(tpl_key);
     _invoke.SetValue("class", analyzer::get_config().m_class);
-    _invoke.SetValue("variant", variant);
+    _invoke.SetValue("variant", var->m_raw_variant);
     _invoke.SetIntValue("layer", layer);
     _invoke.SetIntValue("index", index);
 
@@ -379,7 +380,7 @@ int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &var
     return 0;
 }
 
-int format_tpl::to_invoke_field(uint32_t layer, uint32_t index, const std::string &variant, const branch_info &bra)
+int format_tpl::to_invoke_field(const branch_info &bra)
 {
 
     auto tpl_key = "invoke_field.tpl";
@@ -389,7 +390,7 @@ int format_tpl::to_invoke_field(uint32_t layer, uint32_t index, const std::strin
 
         ctemplate::TemplateDictionary _invoke_field(tpl_key);
         _invoke_field.SetValue("class", analyzer::get_config().m_class);
-        _invoke_field.SetValue("variant", variant);
+        _invoke_field.SetValue("variant", _bra.second->m_raw_variant);
         _invoke_field.SetValue("__field", __field(_bra.second->m_field));
 
         if (_bra.second->m_input.empty())
@@ -429,7 +430,7 @@ int format_tpl::to_invoke_field(uint32_t layer, uint32_t index, const std::strin
     return 0;
 }
 
-int format_tpl::to_invoke_layer(uint32_t layer, uint32_t index, const std::string &variant, const branch_map &bra)
+int format_tpl::to_invoke_layer(const std::string &variant, const branch_map &bra)
 {
     auto tpl_key = "invoke_layer.tpl";
 
@@ -437,10 +438,17 @@ int format_tpl::to_invoke_layer(uint32_t layer, uint32_t index, const std::strin
     _invoke.SetValue("class", analyzer::get_config().m_class);
     _invoke.SetIntValue("layer", bra.m_layer);
     _invoke.SetIntValue("index", bra.m_index);
-    _invoke.SetValue("variant", variant);
 
+    if (bra.empty())
+    {
+        _invoke.SetValue("variant", variant);
+    }
     for (auto &_bra : bra)
     {
+        auto _info = _bra.second.first_variant();
+        assert(_info->m_raw_variant != "");
+        _invoke.SetValue("variant", _info->m_raw_variant);
+
         auto block = _invoke.AddSectionDictionary("block");
         char buf[64];
         to_hex(_bra.first, buf, sizeof(buf));
@@ -450,11 +458,11 @@ int format_tpl::to_invoke_layer(uint32_t layer, uint32_t index, const std::strin
 
         if (_bra.second.m_branch_child.empty())
         {
-            to_invoke_field(layer + 1, _bra.second.m_index, variant, _bra.second);
+            to_invoke_field(_bra.second);
             auto complete = block->AddSectionDictionary("complete");
-            complete->SetValue("variant", variant);
+            complete->SetValue("variant", _info->m_raw_variant);
 
-            auto info = _bra.second.first();
+            auto info = _bra.second.first_variant();
             if (__has_flag(info->m_flags, flag_argument))
             {
                 complete->SetValue("__field", __field(info->m_field));
@@ -464,7 +472,7 @@ int format_tpl::to_invoke_layer(uint32_t layer, uint32_t index, const std::strin
         {
             for (auto &child : _bra.second.m_branch_child)
             {
-                to_invoke_layer(child.m_layer, child.m_index, variant, child);
+                to_invoke_layer(variant, child);
             }
 
             if (_bra.second.m_branch_child.size() > 1)

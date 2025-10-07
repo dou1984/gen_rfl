@@ -52,7 +52,7 @@ branch branch_builder(uint32_t layer, analyzer &ana)
             };
             __info.m_analyzer_child.copy_view(variant, args_info);
         }
-        }
+    }
 
     for (auto &info : branch_vec)
     {
@@ -68,3 +68,20 @@ branch branch_builder(uint32_t layer, analyzer &ana)
     return branch_vec;
 }
 
+analyzer::info_t *branch_info::first_variant() const
+{
+    assert(count_variant(flag_function) == 1 || count_variant(flag_argument) == 1);
+    return m_variants.begin()->second;
+}
+int branch_info::count_variant(int flag) const
+{
+    int count = 0;
+    for (auto &variant : m_variants)
+    {
+        if (__has_flag(variant.second->m_flags, flag))
+        {
+            count++;
+        }
+    }
+    return count;
+}

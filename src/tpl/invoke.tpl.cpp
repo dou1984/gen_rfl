@@ -32,11 +32,6 @@ int invoke_{{class}}_{{variant}}{{__field}}(void *c, uint64_t argc, ...)
     {
         va_list __argu_list;
         va_start(__argu_list, argc);{{#argv}}
-        auto _t_{{index}} = va_arg(__argu_list, const char *);
-        if (strcmp(_t_{{index}}, "{{input}}") != 0)
-        {
-            return -1;
-        }{{/argv}}{{#argv}}
         auto _a_{{index}} = va_arg(__argu_list, {{compatible_input}});{{/argv}}
         va_end(__argu_list);
         cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}});
