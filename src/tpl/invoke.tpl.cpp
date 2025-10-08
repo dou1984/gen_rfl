@@ -41,7 +41,7 @@ meta& invoke_{{class}}_{{variant}}(void *c, const std::string &bra)
         auto _value = tag();
         return invoke_{{variant}}_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/invoke_one}}
     }
-    return g_nullptr_meta;
+    return g_default_meta;
 }
 )";
 
@@ -85,7 +85,7 @@ inline meta &invoke_{{variant}}_{{layer}}_{{index}}(const {{class}} *cls, uint64
         {
             return g_{{class}}_meta[e__{{class}}__{{variant}}{{__field}}];
         }
-        return g_nullptr_meta;{{/complete}}{{#incomplete}}     
+        return g_default_meta;{{/complete}}{{#incomplete_bg_1}}     
         constexpr void *__meta_label[] = {{{#labels}}
             &&label_{{next_index}},{{/labels}}
         };
@@ -94,14 +94,14 @@ inline meta &invoke_{{variant}}_{{layer}}_{{index}}(const {{class}} *cls, uint64
         auto index = _value % count;        
         goto *__meta_label[index];{{#labels}}
     label_{{next_index}}:
-        return invoke_{{variant}}_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/labels}}{{/incomplete}}{{#incomplete_one}}
+        return invoke_{{variant}}_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/labels}}{{/incomplete_bg_1}}{{#incomplete_eq_1}}
         if (tag)
         {
             auto _value = tag();
             return invoke_{{variant}}_{{next_layer}}_{{next_index}}(cls, _value, tag);
-        }{{/incomplete_one}}
+        }{{/incomplete_eq_1}}
     }{{/block}}
-    return g_nullptr_meta;
+    return g_default_meta;
 }
 )";
 

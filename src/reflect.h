@@ -91,7 +91,7 @@ namespace reflect
         flag_private,
 
         flag_function,
-        flag_lambda,
+        // flag_lambda,
         flag_argument,
         flag_return,
 

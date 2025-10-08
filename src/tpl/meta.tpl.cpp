@@ -41,7 +41,7 @@ enum {{class}}_meta_enum
     e__{{class}}__{{variant}}{{__field}},{{/fields}}
     e__{{class}}__end,
 };
-static meta g_nullptr_meta = {
+static meta g_default_meta = {
     .m_variant = "",
     .m_type = "",
     .m_flags = __flags(flag_none),

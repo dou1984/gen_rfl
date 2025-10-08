@@ -32,6 +32,9 @@
 
 analyzer::config_t analyzer::m_config = {};
 
+#ifndef MAX_PERFECT_INDEX
+#define MAX_PERFECT_INDEX 1
+#endif
 analyzer::analyzer()
 {
 }
@@ -75,7 +78,7 @@ bool analyzer::get_prefect_index(int index) const
     {
         auto idx = v.second.m_value % index;
         _prefect[idx].emplace(v.second.m_value);
-        if (_prefect[idx].size() > 2)
+        if (_prefect[idx].size() > MAX_PERFECT_INDEX)
         {
             return false;
         }

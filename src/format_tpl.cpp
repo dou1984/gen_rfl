@@ -253,16 +253,26 @@ int format_tpl::to_get_meta(branch &bra, analyzer &ana)
     auto _field = 0;
     if (bra.size() > 1)
     {
-        auto _meta_multi = _get_meta.AddSectionDictionary("meta_multi");
+        auto _meta_multi = _get_meta.AddSectionDictionary("meta_bg_1");
         for (auto &v : bra)
         {
             auto _labels = _meta_multi->AddSectionDictionary("labels");
             _labels->SetIntValue("index", v.m_index);
+            if (v.empty())
+            {
+                auto labels_eq_0 = _meta_multi->AddSectionDictionary("labels_eq_0");
+                labels_eq_0->SetIntValue("index", v.m_index);
+            }
+            else
+            {
+                auto labels_bg_0 = _meta_multi->AddSectionDictionary("labels_bg_0");
+                labels_bg_0->SetIntValue("index", v.m_index);
+            }
         }
     }
     else if (bra.size() == 1)
     {
-        auto _meta_one = _get_meta.AddSectionDictionary("meta_one");
+        auto _meta_one = _get_meta.AddSectionDictionary("meta_eq_1");
         auto &v = bra.front();
         _meta_one->SetIntValue("index", v.m_index);
     }
@@ -285,9 +295,10 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
         ctemplate::TemplateDictionary _func(tpl_key);
         if (_bra.empty())
         {
-            _func.SetIntValue("layer", _bra.m_layer);
-            _func.SetIntValue("index", _bra.m_index);
-            _func.SetValue("class", analyzer::get_config().m_class);
+            // _func.SetIntValue("layer", _bra.m_layer);
+            // _func.SetIntValue("index", _bra.m_index);
+            // _func.SetValue("class", analyzer::get_config().m_class);
+            continue;
         }
         else
         {
@@ -325,17 +336,27 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
                         _func.SetIntValue("next_layer", info.second.m_layer + 1);
                         if (info.second.m_branch_child.size() > 1)
                         {
-                            auto incomplete = block->AddSectionDictionary("incomplete");
+                            auto incomplete_bg_1 = block->AddSectionDictionary("incomplete_bg_1");
                             for (auto &child : info.second.m_branch_child)
                             {
-                                auto labels = incomplete->AddSectionDictionary("labels");
+                                auto labels = incomplete_bg_1->AddSectionDictionary("labels");
                                 labels->SetIntValue("next_index", child.m_index);
+                                if (child.empty())
+                                {
+                                    auto labels_eq_0 = incomplete_bg_1->AddSectionDictionary("labels_eq_0");
+                                    labels_eq_0->SetIntValue("next_index", child.m_index);
+                                }
+                                else
+                                {
+                                    auto labels_bg_0 = incomplete_bg_1->AddSectionDictionary("labels_bg_0");
+                                    labels_bg_0->SetIntValue("next_index", child.m_index);
+                                }
                             }
                         }
                         else if (info.second.m_branch_child.size() == 1)
                         {
-                            auto incomplete_one = block->AddSectionDictionary("incomplete_one");
-                            incomplete_one->SetIntValue("next_index", info.second.m_branch_child[0].m_index);
+                            auto incomplete_eq_1 = block->AddSectionDictionary("incomplete_eq_1");
+                            incomplete_eq_1->SetIntValue("next_index", info.second.m_branch_child[0].m_index);
                         }
                         else
                         {
@@ -525,19 +546,19 @@ int format_tpl::to_invoke_layer(const std::string &variant, const branch_map &br
 
             if (_bra.second.m_branch_child.size() > 1)
             {
-                auto incomplete = block->AddSectionDictionary("incomplete");
+                auto incomplete_bg_1 = block->AddSectionDictionary("incomplete_bg_1");
                 for (auto &child : _bra.second.m_branch_child)
                 {
-                    auto labels = incomplete->AddSectionDictionary("labels");
+                    auto labels = incomplete_bg_1->AddSectionDictionary("labels");
                     labels->SetIntValue("next_layer", child.m_layer);
                     labels->SetIntValue("next_index", child.m_index);
                 }
             }
             else if (_bra.second.m_branch_child.size() == 1)
             {
-                auto incomplete_one = block->AddSectionDictionary("incomplete_one");
-                incomplete_one->SetIntValue("next_layer", _bra.second.m_branch_child[0].m_layer);
-                incomplete_one->SetIntValue("next_index", _bra.second.m_branch_child[0].m_index);
+                auto incomplete_eq_1 = block->AddSectionDictionary("incomplete_eq_1");
+                incomplete_eq_1->SetIntValue("next_layer", _bra.second.m_branch_child[0].m_layer);
+                incomplete_eq_1->SetIntValue("next_index", _bra.second.m_branch_child[0].m_index);
             }
         }
     }

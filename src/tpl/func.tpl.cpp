@@ -31,28 +31,30 @@ inline meta &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branc
         {
             return g_{{class}}_meta[e__{{class}}__{{variant}}{{__field}}];
         }
-        return g_nullptr_meta;{{/complete}}{{#incomplete}} // incomplete    
+        return g_default_meta;{{/complete}}{{#incomplete_bg_1}} // incomplete_bg_1    
         constexpr void *__meta_label[] = {{{#labels}}
             &&label_{{next_index}},{{/labels}}
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
-        auto index = _value % count;        
-        goto *__meta_label[index];{{#labels}}
+        auto index = _value % count;
+        goto *__meta_label[index];{{#labels_bg_0}}
     label_{{next_index}}:
-        return rfl_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/labels}}{{/incomplete}}{{#incomplete_one}}
-        if (tag) // incomplete one
+        return rfl_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/labels_bg_0}}{{#labels_eq_0}}
+    label_{{next_index}}:{{/labels_eq_0}}
+        return g_default_meta;{{/incomplete_bg_1}}{{#incomplete_eq_1}}
+        if (tag) // incomplete_eq_1
         {
             auto _value = tag();
             return rfl_{{next_layer}}_{{next_index}}(cls, _value, tag);
         }
-        return g_nullptr_meta;{{/incomplete_one}}{{#invoke}}      
+        return g_default_meta;{{/incomplete_eq_1}}{{#invoke}}      
         if (!tag) // invoke
         {
             return g_{{class}}_meta[e__{{class}}__{{variant}}];
         }{{/invoke}}
     }{{/block}}
-    return g_nullptr_meta;
+    return g_default_meta;
 }
 )";
 
