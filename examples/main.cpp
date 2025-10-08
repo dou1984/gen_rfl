@@ -35,9 +35,15 @@ int main()
     std::string method = "init";
     const char *hello = "hello world";
 
-    auto s = invoke(&n, method, 1, hello);
-    s = invoke(&n, method, 2, hello);
-    s = invoke(&n, method);
+    int ret = 0;
+    auto s = invoke_r(&n, method, ret, 1, hello);
+    s = invoke_r(&n, method, ret, 2, hello);
 
+    func f;
+    s = invoke(&f, "done");
+
+    // std::string l0 = "l0";
+    // std::string l1 = "l1";
+    // s = invoke(&n, "lllllllllllllllllllllllllll5", l0, l1); // error
     return 0;
 }

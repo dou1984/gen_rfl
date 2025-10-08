@@ -26,7 +26,9 @@ int func::deinit()
 {
     return 0;
 }
-
+void func::done()
+{
+}
 int node::lllllllllllllllllllllllllll0(const char *, const char *)
 {
     return 0;
@@ -44,6 +46,10 @@ int node::lllllllllllllllllllllllllll3(const char *, const char *)
     return 0;
 }
 int node::lllllllllllllllllllllllllll4(const char *, const char *)
+{
+    return 0;
+}
+int node::lllllllllllllllllllllllllll5(const std::string &, const std::string &)
 {
     return 0;
 }

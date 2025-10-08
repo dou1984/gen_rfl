@@ -64,6 +64,7 @@ add_executable(unit_test
     tpl/get_meta.tpl.cpp
     tpl/rfl.tpl.cpp
     tpl/invoke.tpl.cpp
+    tpl/lincense.cpp
     config.cpp
     sys.cpp
     sys_test.cpp

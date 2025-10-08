@@ -27,8 +27,5 @@ add_executable(${PROJECT_NAME}
 
 link_directories(${GEN_RFL_DIR})
 
-# message(STATUS "Linking ${GEN_RFL_DIR}/librfl.a")
-# target_link_libraries(${PROJECT_NAME} ${GEN_RFL_DIR}/librfl.a)
-
 target_include_directories(${PROJECT_NAME} PRIVATE ${GEN_RFL_DIR})
 

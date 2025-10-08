@@ -1,3 +1,24 @@
+// Copyright (c) 2023-2025 ZhaoYunshan
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+
 #include "format_tpl.h"
 #include <sstream>
 #include <iostream>
@@ -20,11 +41,17 @@ int to_comment(uint64_t value, char *buf, int size)
     strncpy(v, (const char *)&value, sizeof(uint64_t));
     return snprintf(buf, size, "%s", v);
 }
-const std::string &compatible(const std::string &t)
+std::string compatible(const std::string &t)
 {
     if (t == "float")
     {
         static std::string r = "double";
+        return r;
+    }
+    if (t.back() == '&')
+    {
+        auto r = t;
+        r.pop_back();
         return r;
     }
     return t;
@@ -139,6 +166,7 @@ int format_tpl::to_header(branch &bra, analyzer &ana)
 {
     auto tpl_key = "header.tpl";
     ctemplate::TemplateDictionary _header(tpl_key);
+    _header.SetValue("lincense", tpl::lincense());
     _header.SetValue("class", analyzer::get_config().m_class);
     _header.SetValue("raw_class", analyzer::get_config().m_raw_class);
     _header.SetValue("header", GetRelativePath(analyzer::get_config().m_relative_file, "") + "/base_types.h");
@@ -161,6 +189,7 @@ int format_tpl::to_meta(branch &bra, analyzer &ana)
     std::cout << "file: " << analyzer::get_config().m_file << std::endl;
     std::cout << "real_tmp_dir: " << ::get_config().real_tmp_dir_loc << std::endl;
     std::cout << "header_name: " << header_name << std::endl;
+    _meta.SetValue("lincense", tpl::lincense());
     _meta.SetValue("header", header_name);
     _meta.SetValue("class", analyzer::get_config().m_class);
     if (!analyzer::get_config().m_namespace.empty())
@@ -292,6 +321,7 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
 
                     if (_detail->m_variant.size() > sizeof(uint64_t))
                     {
+                        assert(layer == info.second.m_layer);
                         _func.SetIntValue("next_layer", info.second.m_layer + 1);
                         if (info.second.m_branch_child.size() > 1)
                         {
@@ -393,23 +423,41 @@ int format_tpl::to_invoke_field(const branch_info &bra)
         _invoke_field.SetValue("variant", _bra.second->m_raw_variant);
         _invoke_field.SetValue("__field", __field(_bra.second->m_field));
 
-        if (_bra.second->m_input.empty())
+        auto has_argv = _invoke_field.AddSectionDictionary("has_argv");
+
+        auto _size = _bra.second->m_input.size();
+        has_argv->SetIntValue("argc", _size);
+        has_argv->SetValue("variant", _bra.second->m_raw_variant);
+        has_argv->SetValue("__field", __field(_bra.second->m_field));
+
+        if (__has_flag(_bra.second->m_flags, flag_return))
         {
-            auto no_argv = _invoke_field.AddSectionDictionary("no_argv");
-            no_argv->SetIntValue("argc", 0);
-            no_argv->SetValue("variant", _bra.second->m_raw_variant);
+            if (_bra.second->m_output.back() == '&')
+            {
+                auto ret_ref = has_argv->AddSectionDictionary("ret_ref");
+                ret_ref->SetValue("compatible_output", compatible(_bra.second->m_output));
+            }
+            else
+            {
+                auto ret = has_argv->AddSectionDictionary("ret");
+                ret->SetValue("compatible_output", compatible(_bra.second->m_output));
+            }
         }
-        else
+        int index = 0;
+        for (auto &_input : _bra.second->m_input)
         {
-            auto has_argv = _invoke_field.AddSectionDictionary("has_argv");
-
-            auto _size = _bra.second->m_input.size();
-            has_argv->SetIntValue("argc", _size);
-            has_argv->SetValue("variant", _bra.second->m_raw_variant);
-            has_argv->SetValue("__field", __field(_bra.second->m_field));
-
-            int index = 0;
-            for (auto &_input : _bra.second->m_input)
+            if (_input.back() == '&')
+            {
+                auto argv = has_argv->AddSectionDictionary("argv_ref");
+                argv->SetValue("input", _input);
+                argv->SetValue("compatible_input", compatible(_input));
+                argv->SetIntValue("index", index++);
+                if (index != _size)
+                {
+                    argv->SetValue("comma", ", ");
+                }
+            }
+            else
             {
                 auto argv = has_argv->AddSectionDictionary("argv");
                 argv->SetValue("input", _input);
@@ -546,11 +594,12 @@ int format_tpl::to_base_types()
     auto &conf = get_config();
 
     auto tpl_key = "base_types.tpl";
-    ctemplate::TemplateDictionary _dict(tpl_key);
+    ctemplate::TemplateDictionary _base_types(tpl_key);
 
+    _base_types.SetValue("lincense", tpl::lincense());
     for (auto &it : conf.base_types)
     {
-        auto base_types = _dict.AddSectionDictionary("base_types");
+        auto base_types = _base_types.AddSectionDictionary("base_types");
         base_types->SetValue("class", it);
         base_types->SetValue("raw_class", remove_duplicate_const(it));
     }
@@ -575,13 +624,13 @@ int format_tpl::to_base_types()
         {
             continue;
         }
-        auto base_types = _dict.AddSectionDictionary("base_stl");
+        auto base_types = _base_types.AddSectionDictionary("base_stl");
         base_types->SetValue("class", it);
         base_types->SetValue("raw_class", remove_duplicate_const(it));
     }
 
     std::string _output;
-    expand(tpl_key, _dict, _output);
+    expand(tpl_key, _base_types, _output);
 
     std::string path = conf.tmp_dir + "/base_types.h";
     write_file(path, _output);

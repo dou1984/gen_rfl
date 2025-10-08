@@ -1,3 +1,24 @@
+// Copyright (c) 2023-2025 ZhaoYunshan
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+
 #include <iostream>
 #include <tuple>
 #include <regex>
@@ -235,7 +256,6 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                 analyzer::info_t detail = {
                     .m_variant = BaseTypeName,
                     .m_raw_variant = BaseTypeName,
-                    .m_type = BaseTypeName,
                     .m_raw_type = BaseTypeName,
                     .m_flags = __flags(flag_object_type, get_access(Base.getAccessSpecifier()), flag_virtual_),
                 };
@@ -264,7 +284,6 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                 auto BaseTypeName = BT->getName(PP).str();
                 analyzer::info_t detail = {
                     .m_raw_variant = Name,
-                    .m_type = TypeName,
                     .m_raw_type = BaseTypeName,
                     .m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_),
                 };
@@ -276,7 +295,6 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
             {
                 analyzer::info_t detail = {
                     .m_raw_variant = Name,
-                    .m_type = TypeName,
                     .m_raw_type = TypeName,
                     .m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_),
                 };
@@ -302,7 +320,6 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                 auto BaseTypeName = BT->getName(PP).str();
                 analyzer::info_t detail = {
                     .m_raw_variant = Name,
-                    .m_type = TypeName,
                     .m_raw_type = BaseTypeName,
                     .m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static),
                 };
@@ -314,7 +331,6 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
             {
                 analyzer::info_t detail = {
                     .m_raw_variant = Name,
-                    .m_type = TypeName,
                     .m_raw_type = TypeName,
                     .m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static),
                 };
@@ -341,25 +357,30 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                 _input.push_back(FieldType.getAsString());
             }
 
-            std::string _output = Method->getReturnType().getAsString();
+            {
+                std::string _output = Method->getReturnType().getAsString();
 
-            auto _tmp_type = std::string("(") + join(_input, ",") + std::string(")");
-            analyzer::info_t detail = {
-                .m_variant = MethodName,
-                .m_raw_variant = MethodName,
-                .m_type = _tmp_type,
-                .m_raw_type = _tmp_type,
-                .m_input = std::move(_input),
-                .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument),
-            };
-
-            ana.push_back(MethodName, detail);
-
+                uint32_t flag_return_ = flag_return;
+                if (_output == "void")
+                {
+                    _output = "";
+                    flag_return_ = 0;
+                }
+                auto _tmp_type = _output + std::string("(") + join(_input, ",") + std::string(")");
+                analyzer::info_t detail = {
+                    .m_variant = MethodName,
+                    .m_raw_variant = MethodName,
+                    .m_raw_type = _tmp_type,
+                    .m_input = std::move(_input),
+                    .m_output = _output,
+                    .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument, flag_return_),
+                };
+                ana.push_back(MethodName, detail);
+            }
             {
                 analyzer::info_t detail = {
                     .m_variant = MethodName,
                     .m_raw_variant = MethodName,
-                    .m_type = "",
                     .m_raw_type = "",
                     .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_function),
                 };

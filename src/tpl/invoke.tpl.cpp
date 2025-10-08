@@ -1,3 +1,24 @@
+// Copyright (c) 2023-2025 ZhaoYunshan
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+
 #include <string>
 #include "tpl.h"
 
@@ -30,18 +51,27 @@ int invoke_{{class}}_{{variant}}{{__field}}(void *c, uint64_t argc, ...)
     {{class}} *cls = static_cast<{{class}} *>(c);{{#has_argv}}
     if (argc == {{argc}})
     {
-        va_list __argu_list;
-        va_start(__argu_list, argc);{{#argv}}
-        auto _a_{{index}} = va_arg(__argu_list, {{compatible_input}});{{/argv}}
-        va_end(__argu_list);
-        cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}});
+        va_list __arguments_list;
+        va_start(__arguments_list, argc);{{#argv}}
+        auto _a_{{index}} = va_arg(__arguments_list, {{compatible_input}});{{/argv}}{{#argv_ref}}
+        auto& _a_{{index}} = *(va_arg(__arguments_list, {{compatible_input}}*));{{/argv_ref}}
+        va_end(__arguments_list);
+        cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}}{{#argv_ref}}_a_{{index}}{{comma}}{{/argv_ref}});
         return 0;
-    }{{/has_argv}}{{#no_argv}}
-    if (argc == {{argc}})
+    }
+    if (argc == {{argc}} + 1)
     {
-        cls->{{variant}}();
+        va_list __arguments_list;
+        va_start(__arguments_list, argc);{{#ret}}
+        auto _r_ =  va_arg(__arguments_list, {{compatible_output}});{{/ret}}{{#ret_ref}}
+        auto& _r_ = *(va_arg(__arguments_list, {{compatible_output}}*));
+        {{/ret_ref}}{{#argv}}
+        auto _a_{{index}} = va_arg(__arguments_list, {{compatible_input}});{{/argv}}{{#argv_ref}}
+        auto& _a_{{index}} = *(va_arg(__arguments_list, {{compatible_input}}*));{{/argv_ref}}
+        va_end(__arguments_list);
+        {{#ret}}_r_ ={{/ret}}{{#ret_ref}}_r_ = {{/ret_ref}}cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}}{{#argv_ref}}_a_{{index}}{{comma}}{{/argv_ref}});
         return 0;
-    }{{/no_argv}}
+    }{{/has_argv}}
     return -1;
 }
 )";

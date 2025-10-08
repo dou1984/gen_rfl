@@ -1,4 +1,4 @@
-// Copyright (c) 2025 ZhaoYunshan
+// Copyright (c) 2023-2025 ZhaoYunshan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -33,9 +33,10 @@ namespace tpl
     const std::string &rfl();
     const std::string &base_types();
     const std::string &base_types_source();
+    const std::string &lincense();
 
-    const std::string &invoke_field();
     const std::string &invoke();
+    const std::string &invoke_field();
     const std::string &invoke_layer();
 
 }
