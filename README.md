@@ -6,9 +6,14 @@ Unlike other reflection libraries on GitHub, gen_rfl adopts a source-code genera
 
 # Environment
 
-|lib|version|
-|-|-|
-|libctemplate-dev|2.4-1|
-|libctemplate3|2.4-1|
-|llvm-15-dev|1:15.0.7|
-|llvm-15|1:15.0.7|
+| lib              | version  |
+| ---------------- | -------- |
+| libctemplate-dev | 2.4-1    |
+| libctemplate3    | 2.4-1    |
+| llvm-15-dev      | 1:15.0.7 |
+| llvm-15          | 1:15.0.7 |
+
+
+# Install
+
+execute ./build.sh
