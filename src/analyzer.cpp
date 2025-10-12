@@ -92,7 +92,7 @@ uint64_t analyzer::calc_perfect_index() const
     {
         m.emplace(v.second.m_value);
     }
-    auto index = (m.size() / 3) | 1;
+    auto index = (m.size() / 5) | 1;
 
     while (!get_prefect_index(index))
     {

@@ -37,7 +37,7 @@ int to_hex(uint64_t value, char *buf, int size)
 }
 int to_comment(uint64_t value, char *buf, int size)
 {
-    char v[sizeof(uint64_t) + 1];
+    char v[sizeof(uint64_t) + 1] = {0};
     strncpy(v, (const char *)&value, sizeof(uint64_t));
     return snprintf(buf, size, "%s", v);
 }
@@ -409,17 +409,29 @@ int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &var
 
     if (bra.m_branch_child.size() > 1)
     {
-        auto _invoke_multi = _invoke.AddSectionDictionary("invoke_multi");
+        auto _invoke_multi = _invoke.AddSectionDictionary("invoke_bg_1");
         for (auto &_bra : bra.m_branch_child)
         {
             auto labels = _invoke_multi->AddSectionDictionary("labels");
             labels->SetIntValue("next_layer", _bra.m_layer);
             labels->SetIntValue("next_index", _bra.m_index);
+            if (_bra.empty())
+            {
+                auto labels_eq_0 = _invoke_multi->AddSectionDictionary("labels_eq_0");
+                labels_eq_0->SetIntValue("next_layer", _bra.m_layer);
+                labels_eq_0->SetIntValue("next_index", _bra.m_index);
+            }
+            else
+            {
+                auto labels_bg_0 = _invoke_multi->AddSectionDictionary("labels_bg_0");
+                labels_bg_0->SetIntValue("next_layer", _bra.m_layer);
+                labels_bg_0->SetIntValue("next_index", _bra.m_index);
+            }
         }
     }
     else if (bra.m_branch_child.size() == 1)
     {
-        auto _invoke_one = _invoke.AddSectionDictionary("invoke_one");
+        auto _invoke_one = _invoke.AddSectionDictionary("invoke_eq_1");
         auto &_bra = bra.m_branch_child.front();
         _invoke_one->SetIntValue("next_layer", _bra.m_layer);
         _invoke_one->SetIntValue("next_index", _bra.m_index);
@@ -451,7 +463,8 @@ int format_tpl::to_invoke_field(const branch_info &bra)
         has_argv->SetValue("variant", _bra.second->m_raw_variant);
         has_argv->SetValue("__field", __field(_bra.second->m_field));
 
-        if (__has_flag(_bra.second->m_flags, flag_return))
+        // if (__has_flag(_bra.second->m_flags, flag_return))
+        if (_bra.second->m_output.size() > 0)
         {
             if (_bra.second->m_output.back() == '&')
             {

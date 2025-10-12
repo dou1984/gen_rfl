@@ -38,6 +38,7 @@ int main()
     int ret = 0;
     auto s = invoke_r(&n, method, ret, 1, hello);
     s = invoke_r(&n, method, ret, 2, hello);
+    s = invoke(&n, method, 3, hello);
 
     func f;
     s = invoke(&f, "done");

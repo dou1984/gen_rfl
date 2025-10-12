@@ -28,18 +28,20 @@ meta& invoke_{{class}}_{{variant}}(void *c, const std::string &bra)
     auto cls = static_cast<{{class}} *>(c);
     branch_string tag(bra);
     if (tag)
-    {{{#invoke_multi}}
+    {{{#invoke_bg_1}}
         constexpr void *__meta_label[] = {{{#labels}}
             &&label_{{next_index}},{{/labels}}
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;        
-        goto *__meta_label[index];{{#labels}}
+        goto *__meta_label[index];{{#labels_bg_0}}
     label_{{next_index}}:
-        return invoke_{{variant}}_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/labels}}{{/invoke_multi}}{{#invoke_one}}
+        return invoke_{{variant}}_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/labels_bg_0}}{{#labels_eq_0}}
+    label_{{next_index}}:
+        return g_default_meta;{{/labels_eq_0}}{{/invoke_bg_1}}{{#invoke_eq_1}}
         auto _value = tag();
-        return invoke_{{variant}}_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/invoke_one}}
+        return invoke_{{variant}}_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/invoke_eq_1}}
     }
     return g_default_meta;
 }
@@ -63,13 +65,12 @@ int invoke_{{class}}_{{variant}}{{__field}}(void *c, uint64_t argc, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);{{#ret}}
-        auto _r_ =  va_arg(__arguments_list, {{compatible_output}});{{/ret}}{{#ret_ref}}
-        auto& _r_ = *(va_arg(__arguments_list, {{compatible_output}}*));
-        {{/ret_ref}}{{#argv}}
+        auto _r = va_arg(__arguments_list, {{compatible_output}});{{/ret}}{{#ret_ref}}
+        auto& _r = *(va_arg(__arguments_list, {{compatible_output}}*));{{/ret_ref}}{{#argv}}
         auto _a_{{index}} = va_arg(__arguments_list, {{compatible_input}});{{/argv}}{{#argv_ref}}
         auto& _a_{{index}} = *(va_arg(__arguments_list, {{compatible_input}}*));{{/argv_ref}}
         va_end(__arguments_list);
-        {{#ret}}_r_ ={{/ret}}{{#ret_ref}}_r_ = {{/ret_ref}}cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}}{{#argv_ref}}_a_{{index}}{{comma}}{{/argv_ref}});
+        {{#ret}}_r = {{/ret}}{{#ret_ref}}_r = {{/ret_ref}}cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}}{{#argv_ref}}_a_{{index}}{{comma}}{{/argv_ref}});
         return 0;
     }{{/has_argv}}
     return -1;

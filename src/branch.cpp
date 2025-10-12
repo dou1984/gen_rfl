@@ -91,7 +91,7 @@ branch branch_builder(uint32_t layer, analyzer &ana)
 
 analyzer::info_t *branch_info::first_variant() const
 {
-    assert(count_variant(flag_function) == 1 || count_variant(flag_argument) == 1);
+    assert(count_variant(flag_function) == 1 || count_variant(flag_argument) == 1 || count_variant(flag_return) == 1);
     return m_variants.begin()->second;
 }
 int branch_info::count_variant(int flag) const

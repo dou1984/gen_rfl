@@ -30,7 +30,7 @@ include_directories(
 link_directories(${LLVM_LIBRARY_DIRS})
 link_directories(${CLANG_LIBRARY_DIRS})
 
-file(GLOB ALL_CPP_FILES "*.cpp" "tpl/*.cpp")
+file(GLOB ALL_CPP_FILES "*.cpp" "tpl/*.cpp" "tpl/**/*.cpp")
 list(FILTER ALL_CPP_FILES EXCLUDE REGEX "_test\\.cpp$")
 # list(FILTER ALL_CPP_FILES EXCLUDE REGEX "build\/.*.cpp$")
 

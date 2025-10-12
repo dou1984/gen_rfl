@@ -47,8 +47,7 @@ inline meta &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branc
         {
             auto _value = tag();
             return rfl_{{next_layer}}_{{next_index}}(cls, _value, tag);
-        }
-        return g_default_meta;{{/incomplete_eq_1}}{{#invoke}}      
+        }{{/incomplete_eq_1}}{{#invoke}}      
         if (!tag) // invoke
         {
             return g_{{class}}_meta[e__{{class}}__{{variant}}];

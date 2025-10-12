@@ -359,21 +359,32 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
 
             {
                 std::string _output = Method->getReturnType().getAsString();
-
-                uint32_t flag_return_ = flag_return;
                 if (_output == "void")
                 {
                     _output = "";
-                    flag_return_ = 0;
                 }
-                auto _tmp_type = _output + std::string("(") + join(_input, ",") + std::string(")");
+                else
+                {
+                    auto _tmp_type = _output + std::string("(") + join(_input, ",") + std::string(")");
+                    analyzer::info_t detail = {
+                        .m_variant = MethodName,
+                        .m_raw_variant = MethodName,
+                        .m_raw_type = _tmp_type,
+                        .m_input = _input,
+                        .m_output = _output,
+                        .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument, flag_return),
+                    };
+                    ana.push_back(MethodName, detail);
+                }
+
+                auto _tmp_type = std::string("(") + join(_input, ",") + std::string(")");
                 analyzer::info_t detail = {
                     .m_variant = MethodName,
                     .m_raw_variant = MethodName,
                     .m_raw_type = _tmp_type,
-                    .m_input = std::move(_input),
+                    .m_input = _input,
                     .m_output = _output,
-                    .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument, flag_return_),
+                    .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument),
                 };
                 ana.push_back(MethodName, detail);
             }

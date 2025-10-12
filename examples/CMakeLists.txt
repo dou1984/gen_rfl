@@ -6,10 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg")
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
-# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
-
 set(GEN_RFL_DIR ${CMAKE_SOURCE_DIR}/gen_rfl)
 
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
@@ -28,4 +24,5 @@ add_executable(${PROJECT_NAME}
 link_directories(${GEN_RFL_DIR})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${GEN_RFL_DIR})
+
 
