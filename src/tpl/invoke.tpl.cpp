@@ -37,8 +37,8 @@ meta<{{class}}>& invoke_{{class}}_{{variant}}(const {{class}} *c, const std::str
         goto *__meta_label[index];{{#labels_bg_0}}
     label_{{next_index}}:
         return invoke_{{variant}}_{{next_layer}}_{{next_index}}(c, _value, tag);{{/labels_bg_0}}{{#labels_eq_0}}
-    label_{{next_index}}:
-        return g_default_meta;{{/labels_eq_0}}{{/invoke_bg_1}}{{#invoke_eq_1}}
+    label_{{next_index}}:{{/labels_eq_0}}
+        return g_default_meta;{{/invoke_bg_1}}{{#invoke_eq_1}}
         auto _value = tag();
         return invoke_{{variant}}_{{next_layer}}_{{next_index}}(c, _value, tag);{{/invoke_eq_1}}
     }

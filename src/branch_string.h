@@ -39,7 +39,7 @@ public:
         auto l = m_data.size();
         if (l < sizeof(uint64_t))
         {
-            strncpy((char *)&value, m_data.data(), l);
+            memcpy(&value, m_data.data(), l);
             m_data = m_data.substr(l);
         }
         else

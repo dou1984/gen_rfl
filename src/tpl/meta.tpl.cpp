@@ -51,14 +51,14 @@ static meta<{{class}}> g_default_meta = {
     .m_type = "",
     .m_flags = __flags(flag_none),
     .m_field = UINT32_MAX,
-    .m_member = [](const {{class}} *c) -> const void* { return nullptr; },
+    .m_member = [](const {{class}} *c) -> void* { return nullptr; },
 };
 static meta<{{class}}> g_{{class}} = {
     .m_variant = "{{class}}",
     .m_type = "{{class}}",
     .m_flags = __flags(flag_none),
     .m_field = UINT32_MAX,
-    .m_member = [](const {{class}} *c) -> const void* { return nullptr; },
+    .m_member = [](const {{class}} *c) -> void* { return nullptr; },
 };
 {{#invoke_fields}}
 int invoke_{{class}}_{{variant}}{{__field}}(const {{class}}* c, uint64_t argc, ...);{{/invoke_fields}}
@@ -81,11 +81,10 @@ static meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
         .m_flags = {{flags}},
         .m_field = e__{{class}}__{{variant}}{{__field}}, // {{field}}{{#is_invoke}}
         .m_invoke = invoke_{{class}}_{{variant}},{{/is_invoke}}{{#is_member}}
-        .m_member = [](const {{class}} *c) -> const void * 
-        {        
-            auto cls = static_cast<const {{class}} *>(c);{{#is_field}}
-            return std::addressof(cls->{{variant}});{{/is_field}}{{#is_static}}
-            return std::addressof(cls->{{variant}});{{/is_static}}{{#is_derived}}
+        .m_member = [](const {{class}} *cls) -> void * 
+        {{{#is_field}}
+            return (void *)std::addressof(cls->{{variant}});{{/is_field}}{{#is_static}}
+            return (void *)std::addressof(cls->{{variant}});{{/is_static}}{{#is_derived}}
             return ({{variant}} *)(cls);{{/is_derived}}
         },{{/is_member}}
     },{{/fields}}

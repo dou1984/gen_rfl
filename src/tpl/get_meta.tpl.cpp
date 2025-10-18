@@ -52,7 +52,7 @@ namespace __details__
 void *get_value(const {{class}} *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
-    return (void *)__details__::get_meta(cls, tag).m_member(cls);
+    return __details__::get_meta(cls, tag).m_member(cls);
 }
 void *get_value(const {{class}} *cls, const char *tag)
 {
@@ -62,14 +62,14 @@ void *get_value(const {{class}} *cls, const std::string &_tag, const char *expec
 {
     branch_string tag(_tag);
     auto _meta = __details__::get_meta(cls, tag);
-    return (strcmp(expected_type, _meta.m_type) == 0) ? (void *)_meta.m_member(cls) : nullptr;
+    return (strcmp(expected_type, _meta.m_type) == 0) ? _meta.m_member(cls) : nullptr;
 }
 void *get_field_value(const {{class}} *cls, uint32_t field)
 {
     if (field < get_fields_max(cls))
     {
         auto& _meta = g_{{class}}_meta[field];        
-        return (void *)_meta.m_member(cls);
+        return _meta.m_member(cls);
     }
     return nullptr;
 }

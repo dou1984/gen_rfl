@@ -98,7 +98,7 @@ namespace reflect
     template <class T>
     struct meta
     {
-        using meta_member_t = const void *(*)(const T *);
+        using meta_member_t = void *(*)(const T *);
         using meta_invoke_t = meta &(*)(const T *, const std::string &);
         using meta_func_t = int (*)(const T *, uint64_t, ...);
         const char *m_variant = "";
