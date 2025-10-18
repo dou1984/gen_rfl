@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 #include "tpl.h"
 
 const std::string func_tpl = R"(
-inline meta &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branch_string &tag)
+inline meta<{{class}}> &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branch_string &tag)
 {{{#block}}
     if ({{value}} == value) // {{comment}}
     {{{#complete}}
@@ -33,15 +33,15 @@ inline meta &rfl_{{layer}}_{{index}}(const {{class}} *cls, uint64_t value, branc
         }
         return g_default_meta;{{/complete}}{{#incomplete_bg_1}} // incomplete_bg_1    
         constexpr void *__meta_label[] = {{{#labels}}
-            &&label_{{next_index}},{{/labels}}
+            &&label_{{next_layer}}_{{next_index}},{{/labels}}
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;
         goto *__meta_label[index];{{#labels_bg_0}}
-    label_{{next_index}}:
+    label_{{next_layer}}_{{next_index}}:
         return rfl_{{next_layer}}_{{next_index}}(cls, _value, tag);{{/labels_bg_0}}{{#labels_eq_0}}
-    label_{{next_index}}:{{/labels_eq_0}}
+    label_{{next_layer}}_{{next_index}}:{{/labels_eq_0}}
         return g_default_meta;{{/incomplete_bg_1}}{{#incomplete_eq_1}}
         if (tag) // incomplete_eq_1
         {

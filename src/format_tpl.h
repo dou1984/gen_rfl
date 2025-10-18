@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -33,21 +33,23 @@ public:
 
     int to_header(branch &sel, analyzer &ana);
 
-    int to_meta(branch &sel, analyzer &ana);
+    int to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func);
 
     int to_get_meta(branch &sel, analyzer &ana);
 
-    int to_func(uint32_t layer, uint32_t index, branch &sel);
+    int to_func(uint32_t layer, uint32_t index, branch &bra);
 
-    int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch_info &bra);
+    int to_invoke(const std::string &variant, const branch &bra);
+
+    int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch &bra);
 
     int to_invoke_field(const branch_info &bra);
 
     int to_invoke_layer(const std::string &variant, const branch_map &bra);
 
-    int to_rfl(branch &sel, analyzer &ana);
+    int to_rfl(analyzer &ana, std::map<std::string, analyzer> &ana_func);
 
-    int to_file(analyzer &ana, const std::string &header, const std::string &source);
+    int to_file(const std::string &header, const std::string &source);
 
 public:
     int to_rfl();
@@ -59,6 +61,10 @@ public:
     auto &get() const { return m_output_source; }
 
     static int init();
+
+protected:
+    bool is_invoked(const std::string &variant);
+    std::set<std::string> m_invoke_filter;
 
 private:
     std::string m_output_header;

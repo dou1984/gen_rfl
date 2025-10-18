@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -55,5 +55,5 @@ TEST(format, rander_branch)
 
     format_tpl tpl;
     tpl.to_header(bra, ana);
-    tpl.to_file(ana, "header.h", "source.cpp");
+    tpl.to_file("header.h", "source.cpp");
 }

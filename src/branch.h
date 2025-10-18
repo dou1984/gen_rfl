@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -49,7 +49,8 @@ struct branch_info
     branch m_branch_child;
 
     analyzer::info_t *first_variant() const;
-    int count_variant(int flag) const;
+    bool equil_variant(const std::string &variant) const;
+    analyzer::info_t *get_variant(const std::string &variant) const;
 };
 
 branch branch_builder(uint32_t, analyzer &);

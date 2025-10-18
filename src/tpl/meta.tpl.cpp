@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,43 +35,62 @@ using namespace reflect;
 {{#namesp}}
 namespace {{namespace}}
 {{{/namesp}}
-using {{class}}_func = meta &(*)(const {{class}} *, uint64_t, branch_string &);
+using {{class}}_func = meta<{{class}}> &(*)({{class}} *, uint64_t, branch_string &);
 enum {{class}}_meta_enum
 {{{#fields}}
     e__{{class}}__{{variant}}{{__field}},{{/fields}}
     e__{{class}}__end,
 };
-static meta g_default_meta = {
+enum {{class}}_func_enum
+{{{#invoke_fields}}
+    e__{{class}}__{{variant}}{{__field}},{{/invoke_fields}}
+    e__{{class}}__func__end,
+};
+static meta<{{class}}> g_default_meta = {
     .m_variant = "",
     .m_type = "",
     .m_flags = __flags(flag_none),
-    .m_field = UINT64_MAX,
-    .m_offset = UINT64_MAX,
+    .m_field = UINT32_MAX,
+    .m_member = [](const {{class}} *c) -> const void* { return nullptr; },
 };
-static meta g_{{class}} = {
+static meta<{{class}}> g_{{class}} = {
     .m_variant = "{{class}}",
     .m_type = "{{class}}",
     .m_flags = __flags(flag_none),
-    .m_field = UINT64_MAX,
-    .m_offset = UINT64_MAX,    
+    .m_field = UINT32_MAX,
+    .m_member = [](const {{class}} *c) -> const void* { return nullptr; },
 };
-{{#fields}}{{#invoke_field}}
-int invoke_{{class}}_{{variant}}{{__field}}(void *c, uint64_t argc, ...);{{/invoke_field}}{{#is_invoke}}
-meta& invoke_{{class}}_{{variant}}(void *c, const std::string &tag);{{/is_invoke}}{{/fields}}
-static meta g_{{class}}_meta[] = {
-{{#fields}}
+{{#invoke_fields}}
+int invoke_{{class}}_{{variant}}{{__field}}(const {{class}}* c, uint64_t argc, ...);{{/invoke_fields}}
+static meta<{{class}}> g_{{class}}_func[] = 
+{{{#invoke_fields}}
     {
         .m_variant = "{{variant}}",
         .m_type = "{{type}}",
         .m_flags = {{flags}},
-        .m_field = e__{{class}}__{{variant}}{{__field}}, // {{field}}{{#is_field}}       
-        .m_offset = to_offset(&{{class}}::{{variant}}),{{/is_field}}{{#is_derived}}
-        .m_offset = to_offset<{{class}}, {{variant}}>(),{{/is_derived}}{{#is_static}}
-        .m_ptr = (&{{class}}::{{variant}}),{{/is_static}}{{#is_invoke}}
-        .m_invoke = invoke_{{class}}_{{variant}},{{/is_invoke}}{{#invoke_field}}
+        .m_field = e__{{class}}__{{variant}}{{__field}}, // {{field}}{{#invoke_field}}
         .m_func = invoke_{{class}}_{{variant}}{{__field}},{{/invoke_field}}
+    },{{/invoke_fields}}
+};
+{{#invoke_func}}
+meta<{{class}}>& invoke_{{class}}_{{variant}}(const {{class}} *c, const std::string &tag);{{/invoke_func}}
+static meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
+    {
+        .m_variant = "{{variant}}",
+        .m_type = "{{type}}",
+        .m_flags = {{flags}},
+        .m_field = e__{{class}}__{{variant}}{{__field}}, // {{field}}{{#is_invoke}}
+        .m_invoke = invoke_{{class}}_{{variant}},{{/is_invoke}}{{#is_member}}
+        .m_member = [](const {{class}} *c) -> const void * 
+        {        
+            auto cls = static_cast<const {{class}} *>(c);{{#is_field}}
+            return std::addressof(cls->{{variant}});{{/is_field}}{{#is_static}}
+            return std::addressof(cls->{{variant}});{{/is_static}}{{#is_derived}}
+            return ({{variant}} *)(cls);{{/is_derived}}
+        },{{/is_member}}
     },{{/fields}}
 };
+
 )";
 
 namespace tpl

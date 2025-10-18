@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ branch branch_builder(uint32_t layer, analyzer &ana)
     uint64_t perfect_index = ana.calc_perfect_index();
     branch_vec.resize(perfect_index);
 
-    auto &max_index = analyzer::get_config().m_max_index;
+    auto &max_index = ana.get_config()->m_max_index;
     if (layer >= max_index.size())
     {
         max_index.resize(layer + 1);
@@ -49,29 +49,15 @@ branch branch_builder(uint32_t layer, analyzer &ana)
         auto value = info.m_value;
         auto index = value % perfect_index;
         auto &__info = branch_vec[index][value];
-        __info.m_layer = layer;
-        __info.m_index = branch_vec[index].m_index;
+        info.m_layer = __info.m_layer = layer;
+        info.m_index = __info.m_index = branch_vec[index].m_index;
         __info.m_field = info.m_field;
         __info.m_variants.emplace(info.m_variant, &info);
 
         if (it.first.size() > sizeof(uint64_t))
         {
             auto variant = it.first.substr(sizeof(uint64_t));
-            __info.m_analyzer_child.copy_view(variant, info);
-        }
-        else if (__has_flag(info.m_flags, flag_argument) && !__has_flag(info.m_flags, flag_next))
-        {
-            auto variant = info.m_raw_type;
-            analyzer::info_t args_info = {
-                .m_variant = info.m_variant,
-                .m_raw_variant = info.m_raw_variant,
-                .m_raw_type = info.m_raw_type,
-                .m_input = info.m_input,
-                .m_output = info.m_output,
-                .m_flags = info.m_flags | __flag(flag_next),
-                .m_field = info.m_field,
-            };
-            __info.m_analyzer_child.copy_view(variant, args_info);
+            __info.m_analyzer_child.init(ana.get_config()).copy_view(variant, info);
         }
     }
 
@@ -91,18 +77,28 @@ branch branch_builder(uint32_t layer, analyzer &ana)
 
 analyzer::info_t *branch_info::first_variant() const
 {
-    assert(count_variant(flag_function) == 1 || count_variant(flag_argument) == 1 || count_variant(flag_return) == 1);
+    assert(equil_variant(m_variants.begin()->second->m_raw_variant));
     return m_variants.begin()->second;
 }
-int branch_info::count_variant(int flag) const
+bool branch_info::equil_variant(const std::string &variant) const
 {
-    int count = 0;
-    for (auto &variant : m_variants)
+    for (auto &_variant : m_variants)
     {
-        if (__has_flag(variant.second->m_flags, flag))
+        if (_variant.second->m_raw_variant != variant)
         {
-            count++;
+            return false;
         }
     }
-    return count;
+    return true;
+}
+analyzer::info_t *branch_info::get_variant(const std::string &variant) const
+{
+    for (auto &_variant : m_variants)
+    {
+        if (_variant.second->m_raw_variant == variant)
+        {
+            return _variant.second;
+        }
+    }
+    return nullptr;
 }

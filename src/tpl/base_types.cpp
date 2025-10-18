@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 const std::string base_types_tpl = R"({{lincense}}
 #pragma once
 #include <stdint.h>
+#include <any>
 #include <list>
 #include <map>
 #include <set>
@@ -36,7 +37,7 @@ const std::string base_types_tpl = R"({{lincense}}
 #include <unordered_set>
 {{#base_types}}
 const char *get_type({{class}} *);{{/base_types}}{{#base_stl}}
-void* get_field_value({{class}} *cls, uint64_t field);{{/base_stl}}
+std::any get_field_value({{class}} *cls, uint32_t field);{{/base_stl}}
 
 )";
 const std::string base_types_source_tpl = R"({{lincense}}
@@ -47,11 +48,11 @@ const char *get_type({{class}} *)
 {
     return "{{raw_class}}";
 }{{/base_types}}{{#base_stl}}
-void* get_field_value({{class}} *cls, uint64_t field)
+std::any get_field_value({{class}} *cls, uint32_t field)
 {
     if (field < cls->size())
     {
-        return cls->at(field);
+        return &cls->at(field);
     }
     return nullptr;
 }{{/base_stl}}

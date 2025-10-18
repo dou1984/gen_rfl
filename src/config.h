@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,25 @@ struct Data
     std::set<std::string> generated;
     std::set<std::string> base_types;
 };
-struct Conf : Data
+struct Global
+{
+    std::string m_file;
+    std::string m_relative_file;
+    std::string m_class;
+    std::string m_raw_class;
+    std::string m_namespace;
+
+    void clear()
+    {
+        m_file.clear();
+        m_relative_file.clear();
+        m_raw_class.clear();
+        m_class.clear();
+        m_namespace.clear();
+    }
+};
+
+struct Conf : Data, Global
 {
     std::string include_dir;
     std::string libs_dir;

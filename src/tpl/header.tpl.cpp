@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ const std::string header_tpl = R"magic({{lincense}}
 #pragma once
 #include <string>
 #include <typeinfo>
+#include <cassert>
 #include <gen_rfl/reflect.h>
 #include <gen_rfl/branch_string.h>
 #include "{{header}}"
@@ -36,43 +37,43 @@ namespace {{namespace}}
 {{raw_class}};
 namespace __details__
 {
-    meta &get_meta(const {{class}} *cls, branch_string& tag);
-    meta &get_meta({{class}} *cls, branch_string& tag, const std::string& func_args);
+    meta<{{class}}> &get_meta(const {{class}} *cls, branch_string& tag);    
+    meta<{{class}}> &get_meta(const {{class}} *cls, branch_string& tag, const std::string& func_args);
 }
-void* get_value(const {{class}} *cls, const char *tag);
-void* get_value(const {{class}} *cls, const std::string &tag);
-void* get_value(const {{class}} *cls, const std::string &tag, const char *expected_type);
+void *get_value(const {{class}} *cls, const char *tag);
+void *get_value(const {{class}} *cls, const std::string &tag);
+void *get_value(const {{class}} *cls, const std::string &tag, const char *expected_type);
+void *get_field_value(const {{class}} *cls, uint32_t field);
 const char *get_type(const {{class}} *cls, const std::string &tag);
 const char *get_type(const {{class}} *cls, const char *tag);
 const char *get_type(const {{class}} *cls);
 uint64_t get_field(const {{class}} *cls, const std::string &tag);
 uint64_t get_field(const {{class}} *cls, const char *tag);
 const uint64_t get_fields_max(const {{class}} *cls);
-void* get_field_value(const {{class}} *cls, uint64_t field);
-const char *get_name(const {{class}} *cls, uint64_t field);
+const char *get_name(const {{class}} *cls, uint32_t field);
 
 template <class T>
-T &get_value(const {{class}} *cls, const char *tag)
+T *get_value({{class}} *cls, const char *tag)
 {
-    auto type = ::get_type((T *)(0));
-    return *(T *)(get_value(cls, tag, type));
+    static auto type = ::get_type((T *)(0));
+    return static_cast<T *>(get_value(cls, tag, type));
 }
 template <class T>
-T &get_value(const {{class}} *cls, const std::string &tag)
+T *get_value({{class}} *cls, const std::string &tag)
 {
-    auto type = ::get_type((T *)(0));
-    return *(T *)(get_value(cls, tag, type));
+    static auto type = ::get_type((T *)(0));
+    return static_cast<T *>(get_value(cls, tag, type));
 }
 template <class T>
-T &get_value(const {{class}} *cls, uint64_t field)
+T *get_value({{class}} *cls, uint32_t field)
 {
-    return *(T *)(get_field_value(cls, field));
+    return static_cast<T *>(get_field_value(cls, field));
 }   
 template <class T>
 T *set_value({{class}} *cls, const std::string &tag, const T &value)
 {
-    auto type = ::get_type(&value);
-    auto o =  (T *)(get_value(cls, tag, type));
+    static auto type = ::get_type((T *)(0));
+    auto o = static_cast<T *>(get_value(cls, tag, type));
     if (o)
     {
         *o = value;    
@@ -82,46 +83,43 @@ T *set_value({{class}} *cls, const std::string &tag, const T &value)
 template <class T>
 T *set_value({{class}} *cls, const std::string &tag, T &&value)
 {
-    auto type = ::get_type(&value);
-    auto o = (T *)(get_value(cls, tag, type));
+    static auto type = ::get_type((T *)(0));
+    auto o = static_cast<T *>(get_value(cls, tag, type));
     if (o)
     {
         *o = std::move(value);
     }
     return o;
 }
+
 template <class... R>
 int invoke({{class}} *cls, const std::string &_tag, R &&...args)
-{    
-    branch_string tag(_tag);   
+{
+    branch_string tag(_tag);
     if constexpr (sizeof...(args) > 0)
     {
         static const std::string func_args = std::string("(") + __join(get_type(std::addressof(args))...) + ")";
-        auto _meta = __details__::get_meta(cls, tag, func_args);
-        return (_tag == _meta.m_variant) ? _meta.m_func(cls, sizeof...(args), std::forward<R>(args)...) : -1;
+        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args), std::forward<R>(args)...);
     }
     else
     {
-        static const std::string func_args = "()";       
-        auto _meta = __details__::get_meta(cls, tag, func_args);
-        return (_tag == _meta.m_variant) ? _meta.m_func(cls, sizeof...(args)) : -1;
+        static const std::string func_args = "()";
+        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args));
     }
 }
 template <class Ret, class... R>
 int invoke_r({{class}} *cls, const std::string &_tag, Ret&& ret, R &&...args)
 {   
-    branch_string tag(_tag);   
+    branch_string tag(_tag);
     if constexpr (sizeof...(args) > 0)
     {
         static const std::string func_args = std::string(get_type(std::addressof(ret))) + std::string("(") + __join(get_type(std::addressof(args))...) + ")";
-        auto _meta = __details__::get_meta(cls, tag, func_args);
-        return (_tag == _meta.m_variant) ? _meta.m_func(cls, sizeof...(args) + 1, std::forward<Ret>(ret), std::forward<R>(args)...) : -1;
+        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::forward<Ret>(ret), std::forward<R>(args)...);
     }
     else
     {
-        static const std::string func_args = std::string(get_type(std::addressof(ret))) + "()";       
-        auto _meta = __details__::get_meta(cls, tag, func_args);
-        return (_tag == _meta.m_variant) ? _meta.m_func(cls, sizeof...(args) + 1, std::forward<Ret>(ret)) : -1;
+        static const std::string func_args = std::string(get_type(std::addressof(ret))) + "()";
+        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::forward<Ret>(ret));
     }
 }
 {{#namesp}}

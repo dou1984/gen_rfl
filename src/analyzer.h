@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 #include <list>
 #include <string>
 #include <tuple>
+#include <map>
 
 class analyzer
 {
@@ -37,25 +38,18 @@ public:
         std::list<std::string> m_input;
         std::string m_output;
         uint64_t m_value = 0;
-        uint64_t m_flags = 0;
-        uint64_t m_field = 0;
+        uint32_t m_flags = 0;
+        uint32_t m_field = 0;
+        uint32_t m_layer = 0;
+        uint32_t m_index = 0;
     };
+
     struct config_t
     {
-        std::string m_file;
-        std::string m_relative_file;
-        std::string m_class;
-        std::string m_raw_class;
-        std::string m_namespace;
         std::vector<uint32_t> m_max_index;
-        uint32_t m_max_field;
+        uint32_t m_max_field = 0;
         void clear()
         {
-            m_file.clear();
-            m_relative_file.clear();
-            m_raw_class.clear();
-            m_class.clear();
-            m_namespace.clear();
             m_max_index.clear();
             m_max_field = 0;
         }
@@ -63,6 +57,9 @@ public:
 
 public:
     analyzer();
+
+    analyzer &init(config_t *_config);
+
     void push_back(const std::string &variant)
     {
         info_t detail;
@@ -80,20 +77,12 @@ public:
 
     uint64_t calc_perfect_index() const;
 
-    auto &get_data()
-    {
-        return m_data;
-    }
-    static auto &get_config()
-    {
-        return m_config;
-    }
-    static int generate_file_name(std::string &header, std::string &source, std::string &_header);
-    static bool is_generated(std::string &header, std::string &source);
+    auto &get_data() { return m_data; }
+    auto get_config() { return m_config; }
 
 private:
     void __push_back_view(const std::string &variant, const info_t &detail);
 
-    static config_t m_config;
+    config_t *m_config;
     std::multimap<std::string, info_t> m_data;
 };

@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 #include <cstring>
 #include <cstdint>
 #include <cstddef>
+#include <any>
 
 namespace reflect
 {
@@ -42,12 +43,12 @@ namespace reflect
         return uint64_t(static_cast<M *>(static_cast<CLS *>(0)));
     }
 
-    constexpr uint64_t __flag(uint32_t flag) { return 1 << flag; }
+    constexpr uint32_t __flag(uint32_t flag) { return 1 << flag; }
     template <typename... CLS>
-    constexpr uint64_t __flags(CLS... flag) { return (__flag(flag) | ...); }
+    constexpr uint32_t __flags(CLS... flag) { return (__flag(flag) | ...); }
 
     template <typename... CLS>
-    constexpr bool __has_flag(uint64_t flags, CLS... flag)
+    constexpr bool __has_flag(uint32_t flags, CLS... flag)
     {
         return (flags & __flags(flag...)) != 0;
     }
@@ -91,25 +92,24 @@ namespace reflect
         flag_private,
 
         flag_function,
-        // flag_lambda,
         flag_argument,
-        flag_return,
-
-        flag_next,
 
     };
+    template <class T>
     struct meta
     {
+        using meta_member_t = const void *(*)(const T *);
+        using meta_invoke_t = meta &(*)(const T *, const std::string &);
+        using meta_func_t = int (*)(const T *, uint64_t, ...);
         const char *m_variant = "";
         const char *m_type = "";
-        uint64_t m_flags = 0;
-        uint64_t m_field = 0;
+        uint32_t m_flags = 0;
+        uint32_t m_field = 0;
         union
         {
-            uint64_t m_offset = 0;
-            void *m_ptr;
-            int (*m_func)(void *, uint64_t, ...);
-            meta &(*m_invoke)(void *, const std::string &);
+            meta_func_t m_func;
+            meta_invoke_t m_invoke;
+            meta_member_t m_member;
         };
     };
 

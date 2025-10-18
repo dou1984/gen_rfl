@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2025 ZhaoYunshan
+// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,6 @@
 #include "sys.h"
 #include "branch_string.h"
 
-analyzer::config_t analyzer::m_config = {};
-
 #ifndef MAX_PERFECT_INDEX
 #define MAX_PERFECT_INDEX 1
 #endif
@@ -39,6 +37,11 @@ analyzer::analyzer()
 {
 }
 
+analyzer &analyzer::init(config_t *_config)
+{
+    m_config = _config;
+    return *this;
+}
 void analyzer::push_back_view(const std::string &variant, const info_t &detail)
 {
     branch_string b(variant);
@@ -51,7 +54,9 @@ void analyzer::push_back_view(const std::string &variant, const info_t &detail)
     info.m_input = detail.m_input;
     info.m_output = detail.m_output;
     info.m_flags = detail.m_flags;
-    info.m_field = get_config().m_max_field++;
+    info.m_field = get_config()->m_max_field++;
+    info.m_layer = detail.m_layer;
+    info.m_index = detail.m_index;
     m_data.emplace(variant, std::move(info));
 }
 void analyzer::copy_view(const std::string &variant, const info_t &detail)
@@ -68,6 +73,8 @@ void analyzer::copy_view(const std::string &variant, const info_t &detail)
     info.m_output = detail.m_output;
     info.m_flags = detail.m_flags;
     info.m_field = detail.m_field;
+    info.m_layer = detail.m_layer;
+    info.m_index = detail.m_index;
     m_data.emplace(variant, std::move(info));
 }
 
@@ -99,63 +106,4 @@ uint64_t analyzer::calc_perfect_index() const
         index += 2;
     }
     return index;
-}
-
-int analyzer::generate_file_name(std::string &header, std::string &source, std::string &_header)
-{
-    auto &conf = ::get_config();
-
-    auto fname = get_config().m_file;
-    auto _class = get_config().m_class;
-
-    assert(fname.size() > 0);
-    assert(fname.back() != '/');
-    if (fname.find(conf.cwd) == 0)
-    {
-        fname = fname.substr(conf.cwd.size());
-    }
-    // std::cout << "generate_file_name from " << fname << std::endl;
-    get_config().m_relative_file = fname;
-
-    std::regex suffix(R"(\.(h|hpp|c|cc|cxx|c++|cpp)$)");
-    fname = std::regex_replace(fname, suffix, "_rfl");
-
-    auto path = conf.tmp_dir + "/" + fname;
-    MkDir(path);
-
-    header = path + "/" + _class + ".h";
-    source = path + "/" + _class + ".cpp";
-    _header = fname + "/" + _class + ".h";
-
-    return 0;
-}
-bool analyzer::is_generated(std::string &header, std::string &source)
-{
-    std::string __header;
-    auto r = generate_file_name(header, source, __header);
-    if (r != 0)
-    {
-        std::cerr << "generate_file_name error" << std::endl;
-        return false;
-    }
-
-    auto &conf = ::get_config();
-    conf.generated.emplace(__header);
-
-    auto key_file = m_config.m_file + ":" + header;
-    auto it = conf.generate_header.find(key_file);
-    if (it == conf.generate_header.end())
-    {
-        auto modified_time = GetFileModified(m_config.m_file);
-        conf.generate_header.emplace(key_file, modified_time);
-        return false;
-    }
-    auto modified_time = GetFileModified(m_config.m_file);
-    if (modified_time > it->second)
-    {
-        std::cerr << "file " << m_config.m_file << "header " << header << std::endl;
-        conf.generate_header.emplace(key_file, modified_time);
-        return false;
-    }
-    return true;
 }
