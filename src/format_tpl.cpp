@@ -656,12 +656,12 @@ int format_tpl::to_base_types()
     auto &conf = get_config();
 
     auto tpl_key = "base_types.tpl";
-    ctemplate::TemplateDictionary _base_types(tpl_key);
+    ctemplate::TemplateDictionary _dict(tpl_key);
 
-    _base_types.SetValue("lincense", tpl::lincense());
+    _dict.SetValue("lincense", tpl::lincense());
     for (auto &it : conf.base_types)
     {
-        auto base_types = _base_types.AddSectionDictionary("base_types");
+        auto base_types = _dict.AddSectionDictionary("base_types");
         base_types->SetValue("class", it);
         base_types->SetValue("raw_class", remove_duplicate_const(it));
     }
@@ -686,13 +686,13 @@ int format_tpl::to_base_types()
         {
             continue;
         }
-        auto base_types = _base_types.AddSectionDictionary("base_stl");
+        auto base_types = _dict.AddSectionDictionary("base_stl");
         base_types->SetValue("class", it);
         base_types->SetValue("raw_class", remove_duplicate_const(it));
     }
 
     std::string _output;
-    expand(tpl_key, _base_types, _output);
+    expand(tpl_key, _dict, _output);
 
     std::string path = conf.tmp_dir + "/base_types.h";
     write_file(path, _output);
@@ -706,6 +706,7 @@ int format_tpl::to_base_types_source()
     auto tpl_key = "base_types_source.tpl";
     ctemplate::TemplateDictionary _dict(tpl_key);
 
+    _dict.SetValue("lincense", tpl::lincense());
     for (auto &it : conf.base_types)
     {
         auto base_types = _dict.AddSectionDictionary("base_types");
