@@ -56,10 +56,9 @@ struct Conf : Data, Global
     std::string src_dir;
     std::string tmp_dir;
     std::string real_tmp_dir_loc;
-    std::string cwd;
-    std::string regex;
+    std::string cwd;    
     std::string cmake;
-
+    std::string source_pattern;
     std::string filter;
 };
 

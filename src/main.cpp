@@ -33,10 +33,12 @@
 
 using namespace gflags;
 DEFINE_string(tmp_dir, "gen_rfl", "tmp directory");
+// DEFINE_string(tmp_dir, "", "tmp directory");
 DEFINE_string(src, "./", "source directory");
 DEFINE_string(libs, "libs", "output libs directory");
 DEFINE_string(include, "include", "output include directory");
-DEFINE_string(regex, ".+\\.cpp$", "regex");
+DEFINE_string(source_pattern, ".+\\.(cpp|c|c++|cc|cxx|h|hpp|hxx)$", "regex source file");
+DEFINE_string(filter, "base_types.cpp", "regex source file");
 
 auto &conf = get_config();
 
@@ -46,7 +48,8 @@ void set_config()
     conf.src_dir = FLAGS_src;
     conf.libs_dir = FLAGS_libs;
     conf.include_dir = FLAGS_include;
-    conf.regex = FLAGS_regex;
+    conf.source_pattern = FLAGS_source_pattern;
+    conf.filter = FLAGS_filter;
 
     char cwd[PATH_MAX];
     getcwd(cwd, sizeof(cwd));
@@ -55,14 +58,28 @@ void set_config()
     {
         conf.cwd += '/';
     }
-    MkDir(conf.tmp_dir);
+    if (!IsCurDir(conf.tmp_dir))
+    {
+        MkDir(conf.tmp_dir);
 
-    char real_tmp_dir[PATH_MAX];
-    auto tmp_dir = conf.tmp_dir + (conf.tmp_dir.back() == '/' ? ".." : "/..");
-    realpath(tmp_dir.c_str(), real_tmp_dir);
-    conf.real_tmp_dir_loc = real_tmp_dir;
-    conf.real_tmp_dir_loc += "/";
-    std::cout << "real_tmp_dir:" << conf.real_tmp_dir_loc << std::endl;
+        char real_tmp_dir[PATH_MAX];
+        auto tmp_dir = conf.tmp_dir + (conf.tmp_dir.back() == '/' ? ".." : "/..");
+        realpath(tmp_dir.c_str(), real_tmp_dir);
+        conf.real_tmp_dir_loc = real_tmp_dir;
+        conf.real_tmp_dir_loc += "/";
+        std::cout << "real_tmp_dir:" << conf.real_tmp_dir_loc << std::endl;
+    }
+    else
+    {
+        char real_tmp_dir[PATH_MAX];
+        if (conf.tmp_dir == "")
+        {
+            conf.tmp_dir = ".";
+        }
+        realpath(conf.tmp_dir.c_str(), real_tmp_dir);
+        conf.real_tmp_dir_loc = real_tmp_dir;
+        std::cout << "real_tmp_dir:" << conf.real_tmp_dir_loc << std::endl;
+    }
 }
 int main(int argc, char *argv[])
 {

@@ -184,18 +184,20 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
     auto tpl_key = "meta.tpl";
 
     ctemplate::TemplateDictionary _meta(tpl_key);
+    auto &conf = ::get_config();
 
-    auto header_name = GetRelativePath(::get_config().m_file, ::get_config().real_tmp_dir_loc) + "/../" + ::get_config().m_relative_file;
-    std::cout << "file: " << ::get_config().m_file << std::endl;
-    std::cout << "real_tmp_dir: " << ::get_config().real_tmp_dir_loc << std::endl;
+    auto upper_dir = IsCurDir(conf.tmp_dir) ? "/" : "/../";
+    auto header_name = GetRelativePath(conf.m_file, conf.real_tmp_dir_loc) + upper_dir + conf.m_relative_file;
+    std::cout << "file: " << conf.m_file << std::endl;
+    std::cout << "real_tmp_dir: " << conf.real_tmp_dir_loc << std::endl;
     std::cout << "header_name: " << header_name << std::endl;
     _meta.SetValue("lincense", tpl::lincense());
     _meta.SetValue("header", header_name);
-    _meta.SetValue("class", ::get_config().m_class);
-    if (!::get_config().m_namespace.empty())
+    _meta.SetValue("class", conf.m_class);
+    if (!conf.m_namespace.empty())
     {
         auto _namespace = _meta.AddSectionDictionary("namesp");
-        _namespace->SetValue("namespace", ::get_config().m_namespace);
+        _namespace->SetValue("namespace", conf.m_namespace);
     };
 
     for (auto &it : ana.get_data())

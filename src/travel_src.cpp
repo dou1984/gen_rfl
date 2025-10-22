@@ -217,7 +217,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
     }
 
     static int __init = format_tpl::init();
-
+    ::get_config().clear();
     ::get_config().m_file = FileName;
     ::get_config().m_class = D->getNameAsString();
     if (!GetNamespaces(D, ::get_config().m_namespace))

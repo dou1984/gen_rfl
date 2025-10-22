@@ -25,7 +25,6 @@
 const std::string base_types_tpl = R"({{lincense}}
 #pragma once
 #include <stdint.h>
-#include <any>
 #include <list>
 #include <map>
 #include <set>
@@ -37,7 +36,7 @@ const std::string base_types_tpl = R"({{lincense}}
 #include <unordered_set>
 {{#base_types}}
 const char *get_type({{class}} *);{{/base_types}}{{#base_stl}}
-std::any get_field_value({{class}} *cls, uint32_t field);{{/base_stl}}
+void* get_field_value({{class}} *cls, uint32_t field);{{/base_stl}}
 
 )";
 const std::string base_types_source_tpl = R"({{lincense}}
@@ -48,7 +47,7 @@ const char *get_type({{class}} *)
 {
     return "{{raw_class}}";
 }{{/base_types}}{{#base_stl}}
-std::any get_field_value({{class}} *cls, uint32_t field)
+void* get_field_value({{class}} *cls, uint32_t field)
 {
     if (field < cls->size())
     {

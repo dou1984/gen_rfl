@@ -35,7 +35,6 @@ using namespace reflect;
 {{#namesp}}
 namespace {{namespace}}
 {{{/namesp}}
-using {{class}}_func = meta<{{class}}> &(*)({{class}} *, uint64_t, branch_string &);
 enum {{class}}_meta_enum
 {{{#fields}}
     e__{{class}}__{{variant}}{{__field}},{{/fields}}
@@ -61,7 +60,7 @@ static meta<{{class}}> g_{{class}} = {
     .m_member = [](const {{class}} *c) -> void* { return nullptr; },
 };
 {{#invoke_fields}}
-int invoke_{{class}}_{{variant}}{{__field}}(const {{class}}* c, uint64_t argc, ...);{{/invoke_fields}}
+int invoke__{{class}}__{{variant}}{{__field}}(const {{class}}* c, uint64_t argc, ...);{{/invoke_fields}}
 static meta<{{class}}> g_{{class}}_func[] = 
 {{{#invoke_fields}}
     {
@@ -69,18 +68,18 @@ static meta<{{class}}> g_{{class}}_func[] =
         .m_type = "{{type}}",
         .m_flags = {{flags}},
         .m_field = e__{{class}}__{{variant}}{{__field}}, // {{field}}{{#invoke_field}}
-        .m_func = invoke_{{class}}_{{variant}}{{__field}},{{/invoke_field}}
+        .m_func = invoke__{{class}}__{{variant}}{{__field}},{{/invoke_field}}
     },{{/invoke_fields}}
 };
 {{#invoke_func}}
-meta<{{class}}>& invoke_{{class}}_{{variant}}(const {{class}} *c, const std::string &tag);{{/invoke_func}}
+meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::string &tag);{{/invoke_func}}
 static meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
     {
         .m_variant = "{{variant}}",
         .m_type = "{{type}}",
         .m_flags = {{flags}},
         .m_field = e__{{class}}__{{variant}}{{__field}}, // {{field}}{{#is_invoke}}
-        .m_invoke = invoke_{{class}}_{{variant}},{{/is_invoke}}{{#is_member}}
+        .m_invoke = invoke__{{class}}__{{variant}},{{/is_invoke}}{{#is_member}}
         .m_member = [](const {{class}} *cls) -> void * 
         {{{#is_field}}
             return (void *)std::addressof(cls->{{variant}});{{/is_field}}{{#is_static}}

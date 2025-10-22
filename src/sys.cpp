@@ -60,7 +60,7 @@ bool __mkdir(const std::string &path)
     return mkdir(path.data(), 0755) == 0;
 };
 int MkDir(const std::string &path)
-{    
+{
     auto r = __mkdir(path);
     return r ? 0 : -1;
 }
@@ -274,4 +274,9 @@ std::string GetRelativePath(const std::string &baseFile, const std::string &targ
     }
 
     return relativePath;
+}
+
+bool IsCurDir(const std::string &path)
+{
+    return path == "." || path == "./" || path == "";
 }

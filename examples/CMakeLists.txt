@@ -14,8 +14,8 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE DEBUG)
 endif()
 
-file(GLOB ALL_CPP_FILES "*.cpp" "gen_rfl/*.cpp" "gen_rfl/**/*.cpp" "gen_rfl/**/**/*.cpp")
-# list(FILTER ALL_CPP_FILES EXCLUDE REGEX "build/*.cpp$")
+file(GLOB ALL_CPP_FILES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/**/*.cpp" "${CMAKE_SOURCE_DIR}/*.cpp" "${CMAKE_SOURCE_DIR}/gen_rfl/**/*.cpp"  "${CMAKE_SOURCE_DIR}/gen_rfl/**/**/*.cpp")
+list(FILTER ALL_CPP_FILES EXCLUDE REGEX "build/*.cpp$")
 
 add_executable(${PROJECT_NAME}
     ${ALL_CPP_FILES}

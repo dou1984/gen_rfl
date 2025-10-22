@@ -23,6 +23,7 @@
 #include <iostream>
 #include "filter.h"
 #include "config.h"
+#include "sys.h"
 
 namespace reflect
 {
@@ -30,20 +31,35 @@ namespace reflect
     {
         auto &conf = get_config();
         std::regex tmp_regex(conf.tmp_dir);
-        std::regex base_regex(conf.regex);
-        std::regex cmake_regex("^.*/CMakeFiles/\\d+\\.\\d+.\\d+/.+/CMake.+$");
+        std::regex base_regex(conf.source_pattern);
+        std::regex cmake_regex("^.*/CMakeFiles/.+/CMake.+$");
+        auto tmp_rfl_dir = std::string(".*[^/]+_rfl/") + conf.source_pattern;
+        std::regex rfl_dir_regex(tmp_rfl_dir);
+        std::regex spec_file("(base_types.cpp|base_types.h|rfl.h)$");
+        auto tmp_dir = conf.tmp_dir;
         return [=](const std::string &file) -> bool
         {
-            if (std::regex_search(file, tmp_regex))
+            if (!(IsCurDir(tmp_dir)))
+            {
+                if (std::regex_search(file, tmp_regex))
+                {
+
+                    return true;
+                }
+            }
+            if (std::regex_search(file, rfl_dir_regex))
             {
                 return true;
             }
-
             if (!std::regex_search(file, base_regex))
             {
                 return true;
             }
             if (std::regex_search(file, cmake_regex))
+            {
+                return true;
+            }
+            if (std::regex_search(file, spec_file))
             {
                 return true;
             }
@@ -55,9 +71,19 @@ namespace reflect
     {
         auto &conf = get_config();
         std::regex tmp_regex(conf.tmp_dir);
+        auto tmp_dir = conf.tmp_dir;
+        auto tmp_rfl_dir = std::string(".*[^/]+_rfl/") + conf.source_pattern;
+        std::regex rfl_dir_regex(tmp_rfl_dir);
         return [=](const std::string &file) -> bool
         {
-            if (std::regex_search(file, tmp_regex))
+            if (!(IsCurDir(tmp_dir)))
+            {
+                if (std::regex_search(file, tmp_regex))
+                {
+                    return true;
+                }
+            }
+            if (std::regex_search(file, rfl_dir_regex))
             {
                 return true;
             }

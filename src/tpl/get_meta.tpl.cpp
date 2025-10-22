@@ -31,18 +31,18 @@ namespace __details__
     meta<{{class}}>& get_meta(const {{class}} *cls, branch_string &tag)
     {{{#meta_bg_1}}
         constexpr void *__meta_label[] = {{{#labels}}
-            &&label_{{layer}}_{{index}},{{/labels}}
+            &&label__{{layer}}__{{index}},{{/labels}}
         };
         constexpr auto count = countof(__meta_label);
         auto value = tag();
         auto index = value % count;        
         goto *__meta_label[index];{{#labels_bg_0}}
-    label_{{layer}}_{{index}}:
-        return rfl_{{layer}}_{{index}}(cls, value, tag);{{/labels_bg_0}}{{#labels_eq_0}}
-    label_{{layer}}_{{index}}:{{/labels_eq_0}}
+    label__{{layer}}__{{index}}:
+        return rfl__{{layer}}__{{index}}(cls, value, tag);{{/labels_bg_0}}{{#labels_eq_0}}
+    label__{{layer}}__{{index}}:{{/labels_eq_0}}
         return g_default_meta;{{/meta_bg_1}}{{#meta_eq_1}}
         auto value = tag();
-        return rfl_{{layer}}_{{index}}(cls, value, tag);{{/meta_eq_1}}
+        return rfl__{{layer}}__{{index}}(cls, value, tag);{{/meta_eq_1}}
     }
     meta<{{class}}>& get_meta(const {{class}} *cls, branch_string &tag, const std::string &args_tag)
     {
