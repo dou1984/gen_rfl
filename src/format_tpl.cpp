@@ -637,6 +637,7 @@ int format_tpl::to_rfl()
     auto tpl_key = "rfl.tpl";
     ctemplate::TemplateDictionary _dict(tpl_key);
 
+    _dict.SetValue("lincense", tpl::lincense());
     for (auto &it : conf.generated)
     {
         auto header = _dict.AddSectionDictionary("indices");
