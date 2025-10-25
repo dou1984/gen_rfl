@@ -63,7 +63,7 @@ namespace reflect
             {
                 return true;
             }
-            std::cout << "get_filter: " << file << std::endl;
+            // std::cout << "get_filter: " << file << std::endl;
             return false;
         };
     }

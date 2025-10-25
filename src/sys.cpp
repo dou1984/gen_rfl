@@ -280,3 +280,9 @@ bool IsCurDir(const std::string &path)
 {
     return path == "." || path == "./" || path == "";
 }
+
+bool IsExist(const std::string &path)
+{
+    struct stat buffer;
+    return stat(path.c_str(), &buffer) == 0;
+}

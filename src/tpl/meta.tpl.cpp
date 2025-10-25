@@ -22,7 +22,7 @@
 #include <string>
 #include "tpl.h"
 
-const std::string meta_tpl = R"({{lincense}}
+const std::string meta_tpl = R"({{license}}
 #include <cstdint>
 #include <cstdarg>
 #include <iostream>

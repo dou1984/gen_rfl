@@ -29,8 +29,8 @@ int generate_file_name(std::string &header, std::string &source, std::string &_h
 {
     auto &conf = ::get_config();
 
-    auto fname = ::get_config().m_file;
-    auto _class = ::get_config().m_class;
+    auto fname = conf.m_file;
+    auto _class = conf.m_class;
 
     assert(fname.size() > 0);
     assert(fname.back() != '/');
@@ -38,7 +38,7 @@ int generate_file_name(std::string &header, std::string &source, std::string &_h
     {
         fname = fname.substr(conf.cwd.size());
     }
-    ::get_config().m_relative_file = fname;
+    conf.m_relative_file = fname;
 
     std::regex suffix(R"(\.(h|hpp|c|cc|cxx|c++|cpp)$)");
     fname = std::regex_replace(fname, suffix, "_rfl");
@@ -65,18 +65,18 @@ bool is_generated(std::string &header, std::string &source)
     auto &conf = ::get_config();
     conf.generated.emplace(__header);
 
-    auto key_file = ::get_config().m_file + ":" + header;
+    auto key_file = conf.m_file + ":" + header;
     auto it = conf.generate_header.find(key_file);
     if (it == conf.generate_header.end())
     {
-        auto modified_time = GetFileModified(::get_config().m_file);
+        auto modified_time = GetFileModified(conf.m_file);
         conf.generate_header.emplace(key_file, modified_time);
         return false;
     }
-    auto modified_time = GetFileModified(::get_config().m_file);
+    auto modified_time = GetFileModified(conf.m_file);
     if (modified_time > it->second)
     {
-        std::cerr << "file " << ::get_config().m_file << "header " << header << std::endl;
+        std::cerr << "file " << conf.m_file << "header " << header << std::endl;
         conf.generate_header.emplace(key_file, modified_time);
         return false;
     }

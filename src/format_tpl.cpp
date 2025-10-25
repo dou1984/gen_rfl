@@ -166,7 +166,7 @@ int format_tpl::to_header(branch &bra, analyzer &ana)
 {
     auto tpl_key = "header.tpl";
     ctemplate::TemplateDictionary _header(tpl_key);
-    _header.SetValue("lincense", tpl::lincense());
+    _header.SetValue("license", tpl::license());
     _header.SetValue("class", ::get_config().m_class);
     _header.SetValue("raw_class", ::get_config().m_raw_class);
     _header.SetValue("header", GetRelativePath(::get_config().m_relative_file, "") + "/base_types.h");
@@ -191,7 +191,7 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
     std::cout << "file: " << conf.m_file << std::endl;
     std::cout << "real_tmp_dir: " << conf.real_tmp_dir_loc << std::endl;
     std::cout << "header_name: " << header_name << std::endl;
-    _meta.SetValue("lincense", tpl::lincense());
+    _meta.SetValue("license", tpl::license());
     _meta.SetValue("header", header_name);
     _meta.SetValue("class", conf.m_class);
     if (!conf.m_namespace.empty())
@@ -637,7 +637,7 @@ int format_tpl::to_rfl()
     auto tpl_key = "rfl.tpl";
     ctemplate::TemplateDictionary _dict(tpl_key);
 
-    _dict.SetValue("lincense", tpl::lincense());
+    _dict.SetValue("license", tpl::license());
     for (auto &it : conf.generated)
     {
         auto header = _dict.AddSectionDictionary("indices");
@@ -658,7 +658,7 @@ int format_tpl::to_base_types()
     auto tpl_key = "base_types.tpl";
     ctemplate::TemplateDictionary _dict(tpl_key);
 
-    _dict.SetValue("lincense", tpl::lincense());
+    _dict.SetValue("license", tpl::license());
     for (auto &it : conf.base_types)
     {
         auto base_types = _dict.AddSectionDictionary("base_types");
@@ -706,7 +706,7 @@ int format_tpl::to_base_types_source()
     auto tpl_key = "base_types_source.tpl";
     ctemplate::TemplateDictionary _dict(tpl_key);
 
-    _dict.SetValue("lincense", tpl::lincense());
+    _dict.SetValue("license", tpl::license());
     for (auto &it : conf.base_types)
     {
         auto base_types = _dict.AddSectionDictionary("base_types");

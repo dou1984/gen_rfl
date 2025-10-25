@@ -21,10 +21,12 @@ find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
 find_package(GTest REQUIRED)
 find_package(gflags REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 include_directories(
     ${LLVM_INCLUDE_DIRS}
     ${CLANG_INCLUDE_DIRS}
+    ${YAML_CPP_INCLUDE_DIR}
 )
 
 link_directories(${LLVM_LIBRARY_DIRS})
@@ -42,6 +44,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ctemplate
     clangTooling
     gflags
+    ${YAML_CPP_LIBRARIES}
     ${LLVM_LIBRARIES}
 )
 
@@ -64,7 +67,7 @@ add_executable(unit_test
     tpl/get_meta.tpl.cpp
     tpl/rfl.tpl.cpp
     tpl/invoke.tpl.cpp
-    tpl/lincense.cpp
+    tpl/license.cpp
     config.cpp
     sys.cpp
     sys_test.cpp
@@ -76,6 +79,7 @@ target_link_libraries(unit_test PRIVATE
     GTest::Main
     ctemplate
     clangTooling
+    ${YAML_CPP_LIBRARIES}
 )
 
 add_test(NAME unit_test COMMAND branch)
@@ -85,7 +89,6 @@ install(
     reflect.h
     branch_string.h    
     DESTINATION include/gen_rfl
-
 )
 
 install(

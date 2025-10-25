@@ -22,7 +22,7 @@
 #include <string>
 #include "tpl.h"
 
-const std::string base_types_tpl = R"({{lincense}}
+const std::string base_types_tpl = R"({{license}}
 #pragma once
 #include <stdint.h>
 #include <list>
@@ -39,7 +39,7 @@ const char *get_type({{class}} *);{{/base_types}}{{#base_stl}}
 void* get_field_value({{class}} *cls, uint32_t field);{{/base_stl}}
 
 )";
-const std::string base_types_source_tpl = R"({{lincense}}
+const std::string base_types_source_tpl = R"({{license}}
 #include "base_types.h"
 
 {{#base_types}}

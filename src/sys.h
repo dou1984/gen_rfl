@@ -35,3 +35,5 @@ std::string SplitFile(const std::string &str);
 std::string GetRelativePath(const std::string &basePath, const std::string &targetPath);
 
 bool IsCurDir(const std::string &path);
+
+bool IsExist(const std::string &path);

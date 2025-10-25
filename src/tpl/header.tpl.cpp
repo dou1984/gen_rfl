@@ -22,7 +22,7 @@
 #include <string>
 #include "tpl.h"
 
-const std::string header_tpl = R"magic({{lincense}}
+const std::string header_tpl = R"magic({{license}}
 #pragma once
 #include <string>
 #include <typeinfo>

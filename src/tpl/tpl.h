@@ -33,7 +33,7 @@ namespace tpl
     const std::string &rfl();
     const std::string &base_types();
     const std::string &base_types_source();
-    const std::string &lincense();
+    const std::string &license();
 
     const std::string &invoke();
     const std::string &invoke_field();

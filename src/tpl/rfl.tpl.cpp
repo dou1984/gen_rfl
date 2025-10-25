@@ -22,7 +22,7 @@
 #include <string>
 #include "tpl.h"
 
-const std::string rfl_tpl = R"({{lincense}}
+const std::string rfl_tpl = R"({{license}}
 #pragma once
 #include "base_types.h"
 {{#indices}}#include "{{header}}"

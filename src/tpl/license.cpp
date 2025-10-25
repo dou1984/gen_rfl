@@ -21,7 +21,7 @@
 #include <string>
 #include "tpl.h"
 
-const std::string lincense_tpl = R"(// Copyright (c) 2023-2025 Zhao Yun Shan
+const std::string license_tpl = R"(// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -45,8 +45,8 @@ const std::string lincense_tpl = R"(// Copyright (c) 2023-2025 Zhao Yun Shan
 
 namespace tpl
 {
-    const std::string &lincense()
+    const std::string &license()
     {
-        return lincense_tpl;
+        return license_tpl;
     }
 }

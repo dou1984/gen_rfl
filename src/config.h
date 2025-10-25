@@ -24,6 +24,7 @@
 #include <map>
 #include <set>
 #include <chrono>
+#include <vector>
 
 struct Data
 {
@@ -56,10 +57,15 @@ struct Conf : Data, Global
     std::string src_dir;
     std::string tmp_dir;
     std::string real_tmp_dir_loc;
-    std::string cwd;    
-    std::string cmake;
+    std::string cwd;
+    std::string cmake_pattern;
     std::string source_pattern;
-    std::string filter;
+
+    std::vector<std::string> llvm_args;
 };
 
 Conf &get_config();
+
+int read_config_from_yaml(const std::string &json_file);
+
+int write_default_to_yaml(const std::string &json_file);

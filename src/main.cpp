@@ -32,25 +32,13 @@
 #include "travel_src.h"
 
 using namespace gflags;
-DEFINE_string(tmp_dir, "gen_rfl", "tmp directory");
-// DEFINE_string(tmp_dir, "", "tmp directory");
-DEFINE_string(src, "./", "source directory");
-DEFINE_string(libs, "libs", "output libs directory");
-DEFINE_string(include, "include", "output include directory");
-DEFINE_string(source_pattern, ".+\\.(cpp|c|c++|cc|cxx|h|hpp|hxx)$", "regex source file");
-DEFINE_string(filter, "base_types.cpp", "regex source file");
+
+DEFINE_string(config, ".gen_rfl.yaml", "config file");
 
 auto &conf = get_config();
 
 void set_config()
 {
-    conf.tmp_dir = FLAGS_tmp_dir;
-    conf.src_dir = FLAGS_src;
-    conf.libs_dir = FLAGS_libs;
-    conf.include_dir = FLAGS_include;
-    conf.source_pattern = FLAGS_source_pattern;
-    conf.filter = FLAGS_filter;
-
     char cwd[PATH_MAX];
     getcwd(cwd, sizeof(cwd));
     conf.cwd = cwd;
@@ -85,17 +73,15 @@ int main(int argc, char *argv[])
 {
 
     ParseCommandLineFlags(&argc, &argv, true);
-    set_config();
 
-    std::vector<std::string> Args = {
-        "--std=c++20",
-        "-I/usr/include",
-        "-I/usr/include/c++/12",
-        "-I/usr/include/x86_64-linux-gnu/c++/12",
-        "-I/usr/lib/llvm-15/include",
-        "-fparse-all-comments",
-        "-D__clang__",
-    };
+    auto config_json = FLAGS_config;
+    if (!IsExist(config_json))
+    {
+        write_default_to_yaml(config_json);
+    }
+    read_config_from_yaml(config_json);
+
+    set_config();
 
     auto filter = reflect::get_filter();
     std::vector<std::string> sources;
@@ -112,7 +98,7 @@ int main(int argc, char *argv[])
                 });
 
     // 运行 ClangTool
-    clang::tooling::FixedCompilationDatabase Compilations("./", Args);
+    clang::tooling::FixedCompilationDatabase Compilations("./", conf.llvm_args);
 
     clang::tooling::ClangTool Tool(Compilations, sources);
 
