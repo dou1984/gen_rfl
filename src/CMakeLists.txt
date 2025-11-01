@@ -4,7 +4,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_FIND_LIBRARY_SUFFIXES .a .so)
-set(BUILD_SHARED_LIBS OFF)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXX_FLAGS}")
 
@@ -34,12 +33,9 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeR
 
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
-# find_package(GTest REQUIRED)
-# find_package(gflags REQUIRED)
-# find_package(yaml-cpp REQUIRED)
-find_library(GTEST_CPP_LIB NAMES gtest PATHS /usr/lib NO_DEFAULT_PATH)
-find_library(GFLAGS_CPP_LIB NAMES gflags PATHS /usr/lib NO_DEFAULT_PATH)
-find_library(YAML_CPP_LIB NAMES yaml-cpp PATHS /usr/lib NO_DEFAULT_PATH)
+find_package(GTest REQUIRED)
+find_package(gflags REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
 include_directories(
     ${LLVM_INCLUDE_DIRS}
@@ -61,8 +57,8 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ctemplate
     clangTooling    
-    ${GFLAGS_CPP_LIB}
-    ${YAML_CPP_LIBRARIES}        
+    yaml-cpp
+    gflags  
 )
 
 if (!ALPINE)
@@ -91,10 +87,11 @@ add_executable(unit_test
     sys_test.cpp
 )
 target_link_libraries(unit_test PRIVATE
-    ${GTEST_CPP_LIB}
+    GTEST::GTEST
+    GTEST::MAIN
     ctemplate
     clangTooling
-    ${YAML_CPP_LIBRARIES}
+    yaml-cpp
 )
 add_test(NAME unit_test COMMAND branch)
 
