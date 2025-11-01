@@ -116,6 +116,10 @@ bool GetNamespaces(CXXRecordDecl *D, std::string &NamespaceName)
         if (auto *NS = dyn_cast<NamespaceDecl>(Context))
         {
             std::string Part = NS->getNameAsString();
+            if (Part == "std")
+            {
+                Part = "";
+            }
             if (!NamespaceName.empty())
             {
                 NamespaceName = Part + "::" + NamespaceName;
@@ -129,6 +133,12 @@ bool GetNamespaces(CXXRecordDecl *D, std::string &NamespaceName)
     }
     return true;
 }
+
+#ifdef ALPINE
+#define TTK_Class TagTypeKind::Class
+#define TTK_Struct TagTypeKind::Struct
+#define TTK_Union TagTypeKind::Union
+#endif
 bool GetRawClass(CXXRecordDecl *D)
 {
     switch (D->getTagKind())
@@ -165,7 +175,8 @@ bool GetBaseTypeName(const std::string &Name, std::string &BaseTypeName, int &fl
     }
     else
     {
-        throw std::runtime_error("Unsupported base class type.");
+        std::cerr << "Name: " << Name << "BaseTypeName: " << BaseTypeName << std::endl;
+        return false;
     }
     return true;
 }

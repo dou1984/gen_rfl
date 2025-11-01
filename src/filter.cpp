@@ -32,7 +32,7 @@ namespace reflect
         auto &conf = get_config();
         std::regex tmp_regex(conf.tmp_dir);
         std::regex base_regex(conf.source_pattern);
-        std::regex cmake_regex("^.*/CMakeFiles/.+/CMake.+$");
+        std::regex cmake_regex(conf.cmake_pattern);
         auto tmp_rfl_dir = std::string(".*[^/]+_rfl/") + conf.source_pattern;
         std::regex rfl_dir_regex(tmp_rfl_dir);
         std::regex spec_file("(base_types.cpp|base_types.h|rfl.h)$");

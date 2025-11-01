@@ -29,6 +29,7 @@
 #include <llvm/Support/CommandLine.h>
 #include <llvm/Support/raw_ostream.h>
 #include <clang/Tooling/CompilationDatabase.h>
+#include <clang/Basic/TokenKinds.h>
 
 using namespace clang;
 

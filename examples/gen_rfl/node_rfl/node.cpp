@@ -31,7 +31,6 @@ using namespace reflect;
 
 enum node_meta_enum
 {
-    e__node__base,
     e__node__deinit,
     e__node__init,
     e__node__lllllllllllllllllllllllllll0,
@@ -281,76 +280,66 @@ meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std:
 meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::string &tag);
 static meta<node> g_node_meta[] = {
     {
-        .m_variant = "base",
-        .m_type = "base",
-        .m_flags = 0x82001,
-        .m_field = e__node__base, // 0
-        .m_member = [](const node *cls) -> void * 
-        {
-            return (base *)(cls);
-        },
-    },
-    {
         .m_variant = "deinit",
         .m_type = "",
         .m_flags = 0x480001,
-        .m_field = e__node__deinit, // 28
+        .m_field = e__node__deinit, // 27
         .m_invoke = invoke__node__deinit,
     },
     {
         .m_variant = "init",
         .m_type = "",
         .m_flags = 0x480001,
-        .m_field = e__node__init, // 27
+        .m_field = e__node__init, // 26
         .m_invoke = invoke__node__init,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll0",
         .m_type = "",
         .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll0, // 29
+        .m_field = e__node__lllllllllllllllllllllllllll0, // 28
         .m_invoke = invoke__node__lllllllllllllllllllllllllll0,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll1",
         .m_type = "",
         .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll1, // 30
+        .m_field = e__node__lllllllllllllllllllllllllll1, // 29
         .m_invoke = invoke__node__lllllllllllllllllllllllllll1,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll2",
         .m_type = "",
         .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll2, // 31
+        .m_field = e__node__lllllllllllllllllllllllllll2, // 30
         .m_invoke = invoke__node__lllllllllllllllllllllllllll2,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll3",
         .m_type = "",
         .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll3, // 32
+        .m_field = e__node__lllllllllllllllllllllllllll3, // 31
         .m_invoke = invoke__node__lllllllllllllllllllllllllll3,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll4",
         .m_type = "",
         .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll4, // 33
+        .m_field = e__node__lllllllllllllllllllllllllll4, // 32
         .m_invoke = invoke__node__lllllllllllllllllllllllllll4,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll5",
         .m_type = "",
         .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll5, // 34
+        .m_field = e__node__lllllllllllllllllllllllllll5, // 33
         .m_invoke = invoke__node__lllllllllllllllllllllllllll5,
     },
     {
         .m_variant = "oooo19",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooo19, // 20
+        .m_field = e__node__oooo19, // 19
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooo19);
@@ -360,7 +349,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooo20",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooo20, // 21
+        .m_field = e__node__oooo20, // 20
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooo20);
@@ -370,7 +359,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooo21",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooo21, // 22
+        .m_field = e__node__oooooo21, // 21
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo21);
@@ -380,7 +369,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooo22",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooo22, // 23
+        .m_field = e__node__oooooo22, // 22
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo22);
@@ -390,7 +379,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooo23",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooo23, // 24
+        .m_field = e__node__oooooo23, // 23
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo23);
@@ -400,7 +389,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooo24",
         .m_type = "const char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooo24, // 25
+        .m_field = e__node__oooooo24, // 24
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo24);
@@ -410,7 +399,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooo25",
         .m_type = "char *",
         .m_flags = 0x90001,
-        .m_field = e__node__oooooo25, // 26
+        .m_field = e__node__oooooo25, // 25
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo25);
@@ -420,7 +409,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooo10",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooo10, // 11
+        .m_field = e__node__oooooooo10, // 10
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooo10);
@@ -430,7 +419,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooo11",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooo11, // 12
+        .m_field = e__node__oooooooo11, // 11
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooo11);
@@ -440,7 +429,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "ooooooooo9",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__ooooooooo9, // 10
+        .m_field = e__node__ooooooooo9, // 9
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooo9);
@@ -450,7 +439,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooo12",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooo12, // 13
+        .m_field = e__node__oooooooooooooo12, // 12
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo12);
@@ -460,7 +449,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooo18",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooo18, // 19
+        .m_field = e__node__oooooooooooooo18, // 18
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo18);
@@ -470,7 +459,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooo8",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooo8, // 9
+        .m_field = e__node__oooooooooooooo8, // 8
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo8);
@@ -480,7 +469,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "ooooooooooooooo17",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooo17, // 18
+        .m_field = e__node__ooooooooooooooo17, // 17
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooo17);
@@ -490,7 +479,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "ooooooooooooooo7",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooo7, // 8
+        .m_field = e__node__ooooooooooooooo7, // 7
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooo7);
@@ -500,7 +489,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "ooooooooooooooooooooo16",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooooooooo16, // 17
+        .m_field = e__node__ooooooooooooooooooooo16, // 16
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooo16);
@@ -510,7 +499,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "ooooooooooooooooooooooo6",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooooooooooo6, // 7
+        .m_field = e__node__ooooooooooooooooooooooo6, // 6
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooo6);
@@ -520,7 +509,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooooooooooooooo0",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo0, // 1
+        .m_field = e__node__oooooooooooooooooooooooooo0, // 0
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo0);
@@ -530,7 +519,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooooooooooooooo1",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo1, // 2
+        .m_field = e__node__oooooooooooooooooooooooooo1, // 1
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo1);
@@ -540,7 +529,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooooooooooooooo14",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo14, // 15
+        .m_field = e__node__oooooooooooooooooooooooooo14, // 14
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo14);
@@ -550,7 +539,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooooooooooooooo2",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo2, // 3
+        .m_field = e__node__oooooooooooooooooooooooooo2, // 2
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo2);
@@ -560,7 +549,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooooooooooooooo3",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo3, // 4
+        .m_field = e__node__oooooooooooooooooooooooooo3, // 3
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo3);
@@ -570,7 +559,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooooooooooooooo4",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo4, // 5
+        .m_field = e__node__oooooooooooooooooooooooooo4, // 4
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo4);
@@ -580,7 +569,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooooooooooooooooooooooooo5",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo5, // 6
+        .m_field = e__node__oooooooooooooooooooooooooo5, // 5
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo5);
@@ -590,7 +579,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "ooooooooooooooooooooooooooo13",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooooooooooooooo13, // 14
+        .m_field = e__node__ooooooooooooooooooooooooooo13, // 13
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooooooo13);
@@ -600,7 +589,7 @@ static meta<node> g_node_meta[] = {
         .m_variant = "ooooooooooooooooooooooooooo15",
         .m_type = "char *",
         .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooooooooooooooo15, // 16
+        .m_field = e__node__ooooooooooooooooooooooooooo15, // 15
         .m_member = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooooooo15);
@@ -1206,19 +1195,6 @@ inline meta<node> &rfl__0__10(const node *cls, uint64_t value, branch_string &ta
         if (!tag) // complete
         {
             return g_node_meta[e__node__oooo19];
-        }
-        return g_default_meta;
-    }
-    return g_default_meta;
-}
-
-inline meta<node> &rfl__0__11(const node *cls, uint64_t value, branch_string &tag)
-{
-    if (0x65736162 == value) // base
-    {
-        if (!tag) // complete
-        {
-            return g_node_meta[e__node__base];
         }
         return g_default_meta;
     }
@@ -2803,8 +2779,6 @@ namespace __details__
         return rfl__0__9(cls, value, tag);
     label__0__10:
         return rfl__0__10(cls, value, tag);
-    label__0__11:
-        return rfl__0__11(cls, value, tag);
     label__0__13:
         return rfl__0__13(cls, value, tag);
     label__0__16:
@@ -2820,6 +2794,7 @@ namespace __details__
     label__0__6:
     label__0__7:
     label__0__8:
+    label__0__11:
     label__0__12:
     label__0__14:
     label__0__15:

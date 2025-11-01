@@ -3,15 +3,30 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_FIND_LIBRARY_SUFFIXES .a .so)
+set(BUILD_SHARED_LIBS OFF)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
-set(LLVM_DIR /usr/lib/llvm-15/lib/cmake/llvm)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXX_FLAGS}")
+
+option(ALPINE "Enable ALPINE support" OFF)
+
+if (ALPINE)
+set(LLVM_DIR /usr/lib/llvm18/lib/cmake/llvm)
+set(Clang_DIR /usr/lib/llvm18/lib/cmake/clang)
+set(CMAKE_IGNORE_IMPORT_LIBRARY ON)
+set(LLVM_NO_STATIC_LIBRARIES ON)
+set(LLVM_INCLUDE_TESTS OFF)
+set(LLVM_BUILD_TESTS OFF)
+add_definitions(-DALPINE=1)
+else ()
+set(LLVM_DIR /usr/lib/llvm-15/lib/cmake/llvm)
+set(Clang_DIR /usr/lib/llvm-15/lib/cmake/clang)
 set(CLANG_LIBRARY_DIRS
     "/usr/lib/llvm-15/lib"
     "/usr/lib/llvm-15/lib/x86_64-linux-gnu"
     "/usr/lib/x86_64-linux-gnu/llvm-15/lib"
 )
-set(Clang_DIR /usr/lib/llvm-15/lib/cmake/clang)
+endif()
 
 project(gen_rfl)
 
@@ -19,9 +34,12 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeR
 
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
-find_package(GTest REQUIRED)
-find_package(gflags REQUIRED)
-find_package(yaml-cpp REQUIRED)
+# find_package(GTest REQUIRED)
+# find_package(gflags REQUIRED)
+# find_package(yaml-cpp REQUIRED)
+find_library(GTEST_CPP_LIB NAMES gtest PATHS /usr/lib NO_DEFAULT_PATH)
+find_library(GFLAGS_CPP_LIB NAMES gflags PATHS /usr/lib NO_DEFAULT_PATH)
+find_library(YAML_CPP_LIB NAMES yaml-cpp PATHS /usr/lib NO_DEFAULT_PATH)
 
 include_directories(
     ${LLVM_INCLUDE_DIRS}
@@ -32,7 +50,7 @@ include_directories(
 link_directories(${LLVM_LIBRARY_DIRS})
 link_directories(${CLANG_LIBRARY_DIRS})
 
-file(GLOB ALL_CPP_FILES "*.cpp" "tpl/*.cpp" "tpl/**/*.cpp")
+file(GLOB ALL_CPP_FILES "*.cpp" "tpl/*.cpp")
 list(FILTER ALL_CPP_FILES EXCLUDE REGEX "_test\\.cpp$")
 # list(FILTER ALL_CPP_FILES EXCLUDE REGEX "build\/.*.cpp$")
 
@@ -42,14 +60,14 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ctemplate
-    clangTooling
-    gflags
-    ${YAML_CPP_LIBRARIES}
-    ${LLVM_LIBRARIES}
+    clangTooling    
+    ${GFLAGS_CPP_LIB}
+    ${YAML_CPP_LIBRARIES}        
 )
 
-enable_testing()
+if (!ALPINE)
 
+enable_testing()
 add_executable(unit_test
     gen_rfl.cpp
     branch_string_test.cpp
@@ -71,18 +89,16 @@ add_executable(unit_test
     config.cpp
     sys.cpp
     sys_test.cpp
-
 )
-
 target_link_libraries(unit_test PRIVATE
-    GTest::GTest
-    GTest::Main
+    ${GTEST_CPP_LIB}
     ctemplate
     clangTooling
     ${YAML_CPP_LIBRARIES}
 )
-
 add_test(NAME unit_test COMMAND branch)
+
+endif()
 
 install(
     FILES

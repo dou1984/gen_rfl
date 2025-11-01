@@ -61,7 +61,7 @@ int read_config_from_yaml(const std::string &output_file)
         if (root["source_pattern"])
             conf.source_pattern = root["source_pattern"].as<std::string>();
         else
-            conf.source_pattern = ".+\\.(cpp|c|c++|cc|cxx|h|hpp|hxx)$";
+            conf.source_pattern = "\\.(cpp|c|c++|cc|cxx|h|hpp|hxx)$";
 
         if (root["cmake_pattern"])
             conf.cmake_pattern = root["cmake_pattern"].as<std::string>();
@@ -96,17 +96,25 @@ int write_default_to_yaml(const std::string &output_file)
     root["src_dir"] = "./";
     root["libs_dir"] = "libs";
     root["include_dir"] = "include";
-    root["source_pattern"] = ".+\\.(cpp|c++|cc|cxx|h|hpp|hxx)$";
+    root["source_pattern"] = "\\.(cpp|c++|cc|cxx|h|hpp|hxx)$";
     root["cmake_pattern"] = "^.*/CMakeFiles/.+/CMake.+$";
 
     YAML::Node llvm_args;
     llvm_args.push_back("--std=c++20");
+#ifdef ALPINE
+    // llvm_args.push_back("-stdlib=libstdc++");
+    llvm_args.push_back("-I/usr/include/c++/14.2.0");
+    llvm_args.push_back("-I/usr/include/c++/14.2.0/x86_64-alpine-linux-musl");
+    
+#else
     llvm_args.push_back("-I/usr/include");
     llvm_args.push_back("-I/usr/include/c++/12");
     llvm_args.push_back("-I/usr/include/x86_64-linux-gnu/c++/12");
     llvm_args.push_back("-I/usr/lib/llvm-15/include");
+#endif
     llvm_args.push_back("-fparse-all-comments");
     llvm_args.push_back("-D__clang__");
+
     root["llvm_args"] = llvm_args;
 
     try
