@@ -49,29 +49,38 @@ namespace __details__
         return get_meta(cls, tag).m_invoke(cls, args_tag);    
     }    
 }
-void *get_value(const {{class}} *cls, const std::string &_tag)
+reflect::Value get_value(const {{class}} *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
-    return __details__::get_meta(cls, tag).m_member(cls);
+    auto _meta = __details__::get_meta(cls, tag);
+    if (__contains__(_meta.m_flags, flag_member))
+    {
+        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
+    }      
+    return __get_value(cls, _tag);   
 }
-void *get_value(const {{class}} *cls, const char *tag)
+reflect::Value get_value(const {{class}} *cls, const char *tag)
 {
     return get_value(cls, std::string(tag));
 }
-void *get_value(const {{class}} *cls, const std::string &_tag, const char *expected_type)
+reflect::Value get_value(const {{class}} *cls, const std::string &_tag, const char *expected_type)
 {
     branch_string tag(_tag);
     auto _meta = __details__::get_meta(cls, tag);
-    return (strcmp(expected_type, _meta.m_type) == 0) ? _meta.m_member(cls) : nullptr;
+    if  (strcmp(expected_type, _meta.m_type) == 0) 
+    {
+        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);    
+    }
+    return reflect::Value(nullptr, 0);
 }
-void *get_field_value(const {{class}} *cls, uint32_t field)
+reflect::Value get_field_value(const {{class}} *cls, uint32_t field)
 {
     if (field < get_fields_max(cls))
     {
         auto& _meta = g_{{class}}_meta[field];        
-        return _meta.m_member(cls);
+        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
     }
-    return nullptr;
+    return reflect::Value(nullptr, 0);
 }
 const char* get_type(const {{class}} *cls, const std::string &_tag)
 {
@@ -109,7 +118,11 @@ const char* get_name(const {{class}} *cls, uint32_t field)
 meta<{{class}}> &get_meta(const {{class}} *cls)
 {
     return g_{{class}};
-}
+}{{#setter_fields}}
+int setter__{{class}}__{{variant}}(const {{class}}* c, uint32_t argc, ...)
+{
+    return 0;
+}{{/setter_fields}}
 {{#namesp}}
 }{{/namesp}}
 )";

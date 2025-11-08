@@ -64,7 +64,7 @@ auto get_access(const T &t)
     case AS_private:
         return flag_private;
     default:
-        return flag_none;
+        return flag_member;
     }
 }
 template <class T>
@@ -268,7 +268,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                 {
                     continue;
                 }
-                auto flag_virtual_ = Base.isVirtual() ? flag_virtual : 0;
+                auto flag_virtual_ = Base.isVirtual() ? flag_virtual : flag_member;
                 analyzer::info_t detail = {
                     .m_variant = BaseTypeName,
                     .m_raw_variant = BaseTypeName,
@@ -362,8 +362,8 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                 continue;
             }
             auto MethodName = Method->getNameAsString();
-            auto flag_const_ = Method->isConst() ? flag_const : 0;
-            auto flag_virtual_ = Method->isVirtual() ? flag_virtual : 0;
+            auto flag_const_ = Method->isConst() ? flag_const : flag_member;
+            auto flag_virtual_ = Method->isVirtual() ? flag_virtual : flag_member;
 
             std::list<std::string> _input;
             auto parameters = Method->parameters();

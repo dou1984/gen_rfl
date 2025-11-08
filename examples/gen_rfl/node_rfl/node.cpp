@@ -24,6 +24,8 @@
 #include <iostream>
 #include <gen_rfl/reflect.h>
 #include <gen_rfl/branch_string.h>
+#include <gen_rfl/setter.h>
+#include "base.h"
 #include "node.h"
 #include "../../node.h"
 
@@ -31,6 +33,7 @@ using namespace reflect;
 
 enum node_meta_enum
 {
+    e__node__base,
     e__node__deinit,
     e__node__init,
     e__node__lllllllllllllllllllllllllll0,
@@ -91,19 +94,27 @@ enum node_func_enum
     e__node__lllllllllllllllllllllllllll5__18,
     e__node__func__end,
 };
+static int set_value_invalid(node *cls, uint32_t, ...)
+{
+    return 0;
+}
 static meta<node> g_default_meta = {
     .m_variant = "",
     .m_type = "",
-    .m_flags = __flags(flag_none),
+    .m_flags = 0,
+    .m_t_flags = 0,
     .m_field = UINT32_MAX,
-    .m_member = [](const node *c) -> void* { return nullptr; },
+    .m_getter = [](const node *c) -> void* { return nullptr; },
+    .m_setter = set_value_invalid,
 };
 static meta<node> g_node = {
     .m_variant = "node",
-    .m_type = "node",
-    .m_flags = __flags(flag_none),
+    .m_type = "",
+    .m_flags = 0,
+    .m_t_flags = 0,
     .m_field = UINT32_MAX,
-    .m_member = [](const node *c) -> void* { return nullptr; },
+    .m_getter = [](const node *c) -> void* { return nullptr; },
+    .m_setter = set_value_invalid,
 };
 
 int invoke__node__deinit__7(const node* c, uint64_t argc, ...);
@@ -126,147 +137,214 @@ int invoke__node__lllllllllllllllllllllllllll4__17(const node* c, uint64_t argc,
 int invoke__node__lllllllllllllllllllllllllll4__16(const node* c, uint64_t argc, ...);
 int invoke__node__lllllllllllllllllllllllllll5__19(const node* c, uint64_t argc, ...);
 int invoke__node__lllllllllllllllllllllllllll5__18(const node* c, uint64_t argc, ...);
+int setter__node__base(node* c, uint32_t argc, ...);
+int setter__node__oooo19(node* c, uint32_t argc, ...);
+int setter__node__oooo20(node* c, uint32_t argc, ...);
+int setter__node__oooooo21(node* c, uint32_t argc, ...);
+int setter__node__oooooo22(node* c, uint32_t argc, ...);
+int setter__node__oooooo23(node* c, uint32_t argc, ...);
+int setter__node__oooooo24(node* c, uint32_t argc, ...);
+int setter__node__oooooo25(node* c, uint32_t argc, ...);
+int setter__node__oooooooo10(node* c, uint32_t argc, ...);
+int setter__node__oooooooo11(node* c, uint32_t argc, ...);
+int setter__node__ooooooooo9(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooo12(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooo18(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooo8(node* c, uint32_t argc, ...);
+int setter__node__ooooooooooooooo17(node* c, uint32_t argc, ...);
+int setter__node__ooooooooooooooo7(node* c, uint32_t argc, ...);
+int setter__node__ooooooooooooooooooooo16(node* c, uint32_t argc, ...);
+int setter__node__ooooooooooooooooooooooo6(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooooooooooooooo0(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooooooooooooooo1(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooooooooooooooo14(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooooooooooooooo2(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooooooooooooooo3(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooooooooooooooo4(node* c, uint32_t argc, ...);
+int setter__node__oooooooooooooooooooooooooo5(node* c, uint32_t argc, ...);
+int setter__node__ooooooooooooooooooooooooooo13(node* c, uint32_t argc, ...);
+int setter__node__ooooooooooooooooooooooooooo15(node* c, uint32_t argc, ...);
 static meta<node> g_node_func[] = 
 {
     {
         .m_variant = "deinit",
         .m_type = "()",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__deinit__7, // 7
         .m_func = invoke__node__deinit__7,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "deinit",
         .m_type = "int()",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__deinit__6, // 6
         .m_func = invoke__node__deinit__6,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "init",
         .m_type = "()",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__init__5, // 5
         .m_func = invoke__node__init__5,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "init",
         .m_type = "(float,double,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__init__3, // 3
         .m_func = invoke__node__init__3,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "init",
         .m_type = "(int,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__init__1, // 1
         .m_func = invoke__node__init__1,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "init",
         .m_type = "int()",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__init__4, // 4
         .m_func = invoke__node__init__4,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "init",
         .m_type = "int(float,double,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__init__2, // 2
         .m_func = invoke__node__init__2,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "init",
         .m_type = "int(int,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__init__0, // 0
         .m_func = invoke__node__init__0,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll0",
         .m_type = "(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll0__9, // 9
         .m_func = invoke__node__lllllllllllllllllllllllllll0__9,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll0",
         .m_type = "int(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll0__8, // 8
         .m_func = invoke__node__lllllllllllllllllllllllllll0__8,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll1",
         .m_type = "(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll1__11, // 11
         .m_func = invoke__node__lllllllllllllllllllllllllll1__11,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll1",
         .m_type = "int(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll1__10, // 10
         .m_func = invoke__node__lllllllllllllllllllllllllll1__10,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll2",
         .m_type = "(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll2__13, // 13
         .m_func = invoke__node__lllllllllllllllllllllllllll2__13,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll2",
         .m_type = "int(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll2__12, // 12
         .m_func = invoke__node__lllllllllllllllllllllllllll2__12,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll3",
         .m_type = "(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll3__15, // 15
         .m_func = invoke__node__lllllllllllllllllllllllllll3__15,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll3",
         .m_type = "int(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll3__14, // 14
         .m_func = invoke__node__lllllllllllllllllllllllllll3__14,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll4",
         .m_type = "(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll4__17, // 17
         .m_func = invoke__node__lllllllllllllllllllllllllll4__17,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll4",
         .m_type = "int(const char *,const char *)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll4__16, // 16
         .m_func = invoke__node__lllllllllllllllllllllllllll4__16,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll5",
         .m_type = "(const std::string &,const std::string &)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll5__19, // 19
         .m_func = invoke__node__lllllllllllllllllllllllllll5__19,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll5",
         .m_type = "int(const std::string &,const std::string &)",
-        .m_flags = 0x880001,
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll5__18, // 18
         .m_func = invoke__node__lllllllllllllllllllllllllll5__18,
+        .m_setter = set_value_invalid,
     },
 };
 
@@ -280,323 +358,414 @@ meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std:
 meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::string &tag);
 static meta<node> g_node_meta[] = {
     {
+        .m_variant = "base",
+        .m_type =  "base",
+        .m_flags = 0x821,
+        .m_t_flags = flag_type<base>(),
+        .m_field = e__node__base, // 0
+        .m_getter = [](const node *cls) -> void * 
+        {
+            return (void *)static_cast<const base *>(cls);
+        },
+        .m_setter = setter__node__base,
+    },
+    {
         .m_variant = "deinit",
-        .m_type = "",
-        .m_flags = 0x480001,
-        .m_field = e__node__deinit, // 27
+        .m_type =  "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__deinit, // 28
         .m_invoke = invoke__node__deinit,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "init",
-        .m_type = "",
-        .m_flags = 0x480001,
-        .m_field = e__node__init, // 26
+        .m_type =  "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__init, // 27
         .m_invoke = invoke__node__init,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll0",
-        .m_type = "",
-        .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll0, // 28
+        .m_type =  "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll0, // 29
         .m_invoke = invoke__node__lllllllllllllllllllllllllll0,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll1",
-        .m_type = "",
-        .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll1, // 29
+        .m_type =  "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll1, // 30
         .m_invoke = invoke__node__lllllllllllllllllllllllllll1,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll2",
-        .m_type = "",
-        .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll2, // 30
+        .m_type =  "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll2, // 31
         .m_invoke = invoke__node__lllllllllllllllllllllllllll2,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll3",
-        .m_type = "",
-        .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll3, // 31
+        .m_type =  "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll3, // 32
         .m_invoke = invoke__node__lllllllllllllllllllllllllll3,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll4",
-        .m_type = "",
-        .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll4, // 32
+        .m_type =  "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll4, // 33
         .m_invoke = invoke__node__lllllllllllllllllllllllllll4,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "lllllllllllllllllllllllllll5",
-        .m_type = "",
-        .m_flags = 0x480001,
-        .m_field = e__node__lllllllllllllllllllllllllll5, // 33
+        .m_type =  "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll5, // 34
         .m_invoke = invoke__node__lllllllllllllllllllllllllll5,
+        .m_setter = set_value_invalid,
     },
     {
         .m_variant = "oooo19",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooo19, // 19
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooo19, // 20
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooo19);
         },
+        .m_setter = setter__node__oooo19,
     },
     {
         .m_variant = "oooo20",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooo20, // 20
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooo20, // 21
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooo20);
         },
+        .m_setter = setter__node__oooo20,
     },
     {
         .m_variant = "oooooo21",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooo21, // 21
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooo21, // 22
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo21);
         },
+        .m_setter = setter__node__oooooo21,
     },
     {
         .m_variant = "oooooo22",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooo22, // 22
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooo22, // 23
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo22);
         },
+        .m_setter = setter__node__oooooo22,
     },
     {
         .m_variant = "oooooo23",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooo23, // 23
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooo23, // 24
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo23);
         },
+        .m_setter = setter__node__oooooo23,
     },
     {
         .m_variant = "oooooo24",
-        .m_type = "const char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooo24, // 24
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "const char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<const char *>(),
+        .m_field = e__node__oooooo24, // 25
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo24);
         },
+        .m_setter = setter__node__oooooo24,
     },
     {
         .m_variant = "oooooo25",
-        .m_type = "char *",
-        .m_flags = 0x90001,
-        .m_field = e__node__oooooo25, // 25
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "const char *",
+        .m_flags = 0x901,
+        .m_t_flags = flag_type<const char *>(),
+        .m_field = e__node__oooooo25, // 26
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo25);
         },
+        .m_setter = setter__node__oooooo25,
     },
     {
         .m_variant = "oooooooo10",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooo10, // 10
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooo10, // 11
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooo10);
         },
+        .m_setter = setter__node__oooooooo10,
     },
     {
         .m_variant = "oooooooo11",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooo11, // 11
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooo11, // 12
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooo11);
         },
+        .m_setter = setter__node__oooooooo11,
     },
     {
         .m_variant = "ooooooooo9",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__ooooooooo9, // 9
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__ooooooooo9, // 10
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooo9);
         },
+        .m_setter = setter__node__ooooooooo9,
     },
     {
         .m_variant = "oooooooooooooo12",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooo12, // 12
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooo12, // 13
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo12);
         },
+        .m_setter = setter__node__oooooooooooooo12,
     },
     {
         .m_variant = "oooooooooooooo18",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooo18, // 18
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooo18, // 19
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo18);
         },
+        .m_setter = setter__node__oooooooooooooo18,
     },
     {
         .m_variant = "oooooooooooooo8",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooo8, // 8
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooo8, // 9
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo8);
         },
+        .m_setter = setter__node__oooooooooooooo8,
     },
     {
         .m_variant = "ooooooooooooooo17",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooo17, // 17
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__ooooooooooooooo17, // 18
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooo17);
         },
+        .m_setter = setter__node__ooooooooooooooo17,
     },
     {
         .m_variant = "ooooooooooooooo7",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooo7, // 7
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__ooooooooooooooo7, // 8
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooo7);
         },
+        .m_setter = setter__node__ooooooooooooooo7,
     },
     {
         .m_variant = "ooooooooooooooooooooo16",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooooooooo16, // 16
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__ooooooooooooooooooooo16, // 17
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooo16);
         },
+        .m_setter = setter__node__ooooooooooooooooooooo16,
     },
     {
         .m_variant = "ooooooooooooooooooooooo6",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooooooooooo6, // 6
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__ooooooooooooooooooooooo6, // 7
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooo6);
         },
+        .m_setter = setter__node__ooooooooooooooooooooooo6,
     },
     {
         .m_variant = "oooooooooooooooooooooooooo0",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo0, // 0
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "const char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<const char *>(),
+        .m_field = e__node__oooooooooooooooooooooooooo0, // 1
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo0);
         },
+        .m_setter = setter__node__oooooooooooooooooooooooooo0,
     },
     {
         .m_variant = "oooooooooooooooooooooooooo1",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo1, // 1
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooooooooooooooo1, // 2
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo1);
         },
+        .m_setter = setter__node__oooooooooooooooooooooooooo1,
     },
     {
         .m_variant = "oooooooooooooooooooooooooo14",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo14, // 14
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooooooooooooooo14, // 15
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo14);
         },
+        .m_setter = setter__node__oooooooooooooooooooooooooo14,
     },
     {
         .m_variant = "oooooooooooooooooooooooooo2",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo2, // 2
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooooooooooooooo2, // 3
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo2);
         },
+        .m_setter = setter__node__oooooooooooooooooooooooooo2,
     },
     {
         .m_variant = "oooooooooooooooooooooooooo3",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo3, // 3
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooooooooooooooo3, // 4
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo3);
         },
+        .m_setter = setter__node__oooooooooooooooooooooooooo3,
     },
     {
         .m_variant = "oooooooooooooooooooooooooo4",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo4, // 4
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooooooooooooooo4, // 5
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo4);
         },
+        .m_setter = setter__node__oooooooooooooooooooooooooo4,
     },
     {
         .m_variant = "oooooooooooooooooooooooooo5",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__oooooooooooooooooooooooooo5, // 5
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__oooooooooooooooooooooooooo5, // 6
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo5);
         },
+        .m_setter = setter__node__oooooooooooooooooooooooooo5,
     },
     {
         .m_variant = "ooooooooooooooooooooooooooo13",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooooooooooooooo13, // 13
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__ooooooooooooooooooooooooooo13, // 14
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooooooo13);
         },
+        .m_setter = setter__node__ooooooooooooooooooooooooooo13,
     },
     {
         .m_variant = "ooooooooooooooooooooooooooo15",
-        .m_type = "char *",
-        .m_flags = 0x80001,
-        .m_field = e__node__ooooooooooooooooooooooooooo15, // 15
-        .m_member = [](const node *cls) -> void * 
+        .m_type =  "char *",
+        .m_flags = 0x801,
+        .m_t_flags = flag_type<char *>(),
+        .m_field = e__node__ooooooooooooooooooooooooooo15, // 16
+        .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooooooo15);
         },
+        .m_setter = setter__node__ooooooooooooooooooooooooooo15,
     },
 };
-
+reflect::Value __get_value(const node* cls, const std::string& _tag)
+{ 
+    {
+        branch_string tag(_tag);
+        auto _meta = __details__::get_meta(static_cast<const base*>(cls), tag);
+        if (__contains__(_meta.m_flags, flag_member))
+        {
+            return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
+        }
+    }
+    return reflect::Value(nullptr, 0);
+}
 
 inline meta<node> &rfl__0__1(const node *cls, uint64_t value, branch_string &tag)
 {
@@ -609,6 +778,12 @@ inline meta<node> &rfl__0__1(const node *cls, uint64_t value, branch_string &tag
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooo23(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooo23, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__0__2(const node *cls, uint64_t value, branch_string &tag)
@@ -624,6 +799,12 @@ inline meta<node> &rfl__0__2(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__oooooooooooooo12(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooo12, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__1__0(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x32316f6f6f6f6f6f == value) // oooooo12
@@ -635,6 +816,12 @@ inline meta<node> &rfl__1__0(const node *cls, uint64_t value, branch_string &tag
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__ooooooooooooooooooooo16(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->ooooooooooooooooooooo16, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__2__0(const node *cls, uint64_t value, branch_string &tag)
@@ -650,6 +837,12 @@ inline meta<node> &rfl__2__0(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__oooooooooooooooooooooooooo0(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooooooooooooooo0, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__3__1(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x306f6f == value) // oo0
@@ -661,6 +854,12 @@ inline meta<node> &rfl__3__1(const node *cls, uint64_t value, branch_string &tag
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooooooooooooooooooooooo4(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooooooooooooooo4, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__3__2(const node *cls, uint64_t value, branch_string &tag)
@@ -676,6 +875,12 @@ inline meta<node> &rfl__3__2(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__oooooooooooooooooooooooooo1(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooooooooooooooo1, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__3__6(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x316f6f == value) // oo1
@@ -687,6 +892,12 @@ inline meta<node> &rfl__3__6(const node *cls, uint64_t value, branch_string &tag
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooooooooooooooooooooooo5(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooooooooooooooo5, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__3__7(const node *cls, uint64_t value, branch_string &tag)
@@ -702,6 +913,12 @@ inline meta<node> &rfl__3__7(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__ooooooooooooooooooooooooooo15(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->ooooooooooooooooooooooooooo15, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__3__8(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x35316f6f6f == value) // ooo15
@@ -713,6 +930,12 @@ inline meta<node> &rfl__3__8(const node *cls, uint64_t value, branch_string &tag
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooooooooooooooooooooooo14(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooooooooooooooo14, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__3__9(const node *cls, uint64_t value, branch_string &tag)
@@ -728,6 +951,12 @@ inline meta<node> &rfl__3__9(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__oooooooooooooooooooooooooo2(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooooooooooooooo2, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__3__11(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x326f6f == value) // oo2
@@ -741,6 +970,12 @@ inline meta<node> &rfl__3__11(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
+int setter__node__ooooooooooooooooooooooooooo13(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->ooooooooooooooooooooooooooo13, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__3__15(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x33316f6f6f == value) // ooo13
@@ -752,6 +987,12 @@ inline meta<node> &rfl__3__15(const node *cls, uint64_t value, branch_string &ta
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooooooooooooooooooooooo3(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooooooooooooooo3, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__3__16(const node *cls, uint64_t value, branch_string &tag)
@@ -829,6 +1070,12 @@ inline meta<node> &rfl__2__2(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__ooooooooooooooooooooooo6(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->ooooooooooooooooooooooo6, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__2__5(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x366f6f6f6f6f6f6f == value) // ooooooo6
@@ -874,6 +1121,12 @@ inline meta<node> &rfl__1__4(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__oooooooooooooo18(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooo18, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__1__6(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x38316f6f6f6f6f6f == value) // oooooo18
@@ -887,6 +1140,12 @@ inline meta<node> &rfl__1__6(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__oooooooooooooo8(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooooooooo8, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__1__8(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x386f6f6f6f6f6f == value) // oooooo8
@@ -898,6 +1157,12 @@ inline meta<node> &rfl__1__8(const node *cls, uint64_t value, branch_string &tag
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__ooooooooooooooo17(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->ooooooooooooooo17, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__2__7(const node *cls, uint64_t value, branch_string &tag)
@@ -926,6 +1191,12 @@ inline meta<node> &rfl__1__10(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
+int setter__node__oooooooo10(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooo10, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__1__12(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x3031 == value) // 10
@@ -937,6 +1208,12 @@ inline meta<node> &rfl__1__12(const node *cls, uint64_t value, branch_string &ta
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooooo11(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooooo11, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__1__13(const node *cls, uint64_t value, branch_string &tag)
@@ -952,6 +1229,12 @@ inline meta<node> &rfl__1__13(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
+int setter__node__ooooooooo9(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->ooooooooo9, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__1__15(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x396f == value) // o9
@@ -963,6 +1246,12 @@ inline meta<node> &rfl__1__15(const node *cls, uint64_t value, branch_string &ta
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__ooooooooooooooo7(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->ooooooooooooooo7, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__1__16(const node *cls, uint64_t value, branch_string &tag)
@@ -1034,6 +1323,12 @@ inline meta<node> &rfl__0__3(const node *cls, uint64_t value, branch_string &tag
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooo21(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooo21, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__0__5(const node *cls, uint64_t value, branch_string &tag)
@@ -1188,6 +1483,12 @@ inline meta<node> &rfl__0__9(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
+int setter__node__oooo19(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooo19, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__0__10(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x39316f6f6f6f == value) // oooo19
@@ -1201,6 +1502,32 @@ inline meta<node> &rfl__0__10(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
+int setter__node__base(node* c, uint32_t _flag, ...)
+{
+    auto _ptr = static_cast<base*>(c);
+    SETTER(*_ptr, _flag);
+    return 0;
+}
+
+inline meta<node> &rfl__0__11(const node *cls, uint64_t value, branch_string &tag)
+{
+    if (0x65736162 == value) // base
+    {
+        if (!tag) // complete
+        {
+            return g_node_meta[e__node__base];
+        }
+        return g_default_meta;
+    }
+    return g_default_meta;
+}
+
+int setter__node__oooooo24(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooo24, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__0__13(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x34326f6f6f6f6f6f == value) // oooooo24
@@ -1212,6 +1539,12 @@ inline meta<node> &rfl__0__13(const node *cls, uint64_t value, branch_string &ta
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooo22(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooo22, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__0__16(const node *cls, uint64_t value, branch_string &tag)
@@ -1240,6 +1573,12 @@ inline meta<node> &rfl__0__17(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
+int setter__node__oooo20(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooo20, _flag);
+    return 0;
+}
+
 inline meta<node> &rfl__0__22(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x30326f6f6f6f == value) // oooo20
@@ -1251,6 +1590,12 @@ inline meta<node> &rfl__0__22(const node *cls, uint64_t value, branch_string &ta
         return g_default_meta;
     }
     return g_default_meta;
+}
+
+int setter__node__oooooo25(node* c, uint32_t _flag, ...)
+{    
+    SETTER(c->oooooo25, _flag);
+    return 0;
 }
 
 inline meta<node> &rfl__0__24(const node *cls, uint64_t value, branch_string &tag)
@@ -2779,6 +3124,8 @@ namespace __details__
         return rfl__0__9(cls, value, tag);
     label__0__10:
         return rfl__0__10(cls, value, tag);
+    label__0__11:
+        return rfl__0__11(cls, value, tag);
     label__0__13:
         return rfl__0__13(cls, value, tag);
     label__0__16:
@@ -2794,7 +3141,6 @@ namespace __details__
     label__0__6:
     label__0__7:
     label__0__8:
-    label__0__11:
     label__0__12:
     label__0__14:
     label__0__15:
@@ -2810,29 +3156,38 @@ namespace __details__
         return get_meta(cls, tag).m_invoke(cls, args_tag);    
     }    
 }
-void *get_value(const node *cls, const std::string &_tag)
+reflect::Value get_value(const node *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
-    return __details__::get_meta(cls, tag).m_member(cls);
+    auto _meta = __details__::get_meta(cls, tag);
+    if (__contains__(_meta.m_flags, flag_member))
+    {
+        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
+    }      
+    return __get_value(cls, _tag);   
 }
-void *get_value(const node *cls, const char *tag)
+reflect::Value get_value(const node *cls, const char *tag)
 {
     return get_value(cls, std::string(tag));
 }
-void *get_value(const node *cls, const std::string &_tag, const char *expected_type)
+reflect::Value get_value(const node *cls, const std::string &_tag, const char *expected_type)
 {
     branch_string tag(_tag);
     auto _meta = __details__::get_meta(cls, tag);
-    return (strcmp(expected_type, _meta.m_type) == 0) ? _meta.m_member(cls) : nullptr;
+    if  (strcmp(expected_type, _meta.m_type) == 0) 
+    {
+        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);    
+    }
+    return reflect::Value(nullptr, 0);
 }
-void *get_field_value(const node *cls, uint32_t field)
+reflect::Value get_field_value(const node *cls, uint32_t field)
 {
     if (field < get_fields_max(cls))
     {
         auto& _meta = g_node_meta[field];        
-        return _meta.m_member(cls);
+        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
     }
-    return nullptr;
+    return reflect::Value(nullptr, 0);
 }
 const char* get_type(const node *cls, const std::string &_tag)
 {

@@ -20,39 +20,37 @@
 //
 
 #pragma once
+#include <limits>
 #include <cstring>
 #include <cstdint>
 #include <cstddef>
-#include <any>
+#include <concepts>
+#include <cassert>
+#include <string_view>
+#include <type_traits>
+#include <utility>
+#include <iostream>
 
 namespace reflect
 {
 #ifndef countof
 #define countof(X) (sizeof(X) / sizeof(X[0]))
 #endif
-#define offset(CLS, META) ((char *)(CLS) + (uint64_t)(META.m_offset))
-
-    template <typename CLS, typename M>
-    constexpr uint64_t to_offset(M CLS::*member)
-    {
-        return uint64_t(&(static_cast<CLS *>(0)->*member));
-    }
-    template <typename CLS, typename M>
-    constexpr uint64_t to_offset()
-    {
-        return uint64_t(static_cast<M *>(static_cast<CLS *>(0)));
-    }
 
     constexpr uint32_t __flag(uint32_t flag) { return 1 << flag; }
-    template <typename... CLS>
-    constexpr uint32_t __flags(CLS... flag) { return (__flag(flag) | ...); }
+    template <typename... F>
+    constexpr uint32_t __flags(F... flag) { return (__flag(flag) | ...); }
 
-    template <typename... CLS>
-    constexpr bool __has_flag(uint32_t flags, CLS... flag)
+    template <typename... F>
+    constexpr bool __contains__(uint32_t flags, F... flag)
     {
         return (flags & __flags(flag...)) != 0;
     }
-
+    template <typename... F>
+    constexpr bool __exclude__(uint32_t flags, F... flag)
+    {
+        return (flags & __flags(flag...)) == 0;
+    }
     template <typename S, typename... T>
     std::string __join(S &&s, T &&...t)
     {
@@ -63,22 +61,15 @@ namespace reflect
         }
         return result;
     }
-    enum
+    enum FLAG_REFLECT
     {
-        flag_none,
-        flag_integer,
-        flag_floating,
-        flag_char,
-        flag_string,
+        flag_member,
+
         flag_pointer,
         flag_reference,
         flag_enum,
-        flag_signed,
 
         flag_union,
-        flag_array,
-        flag_map,
-        flag_set,
         flag_struct,
         flag_class,
 
@@ -95,22 +86,68 @@ namespace reflect
         flag_argument,
 
     };
+    enum BASE_REFLECT
+    {
+        flag_4bytes,
+        flag_8bytes,
+        flag_signed,
+        flag_integral,
+        flag_floating,
+        flag_string,
+        flag_char_pointer,
+        flag_end,
+    };
+
     template <class T>
     struct meta
     {
-        using meta_member_t = void *(*)(const T *);
+        using meta_getter_t = void *(*)(const T *);
+        using meta_setter_t = int (*)(T *, uint32_t, ...);
         using meta_invoke_t = meta &(*)(const T *, const std::string &);
         using meta_func_t = int (*)(const T *, uint64_t, ...);
         const char *m_variant = "";
         const char *m_type = "";
         uint32_t m_flags = 0;
-        uint32_t m_field = 0;
+        uint32_t m_t_flags = 0;
+        uint64_t m_field = 0;
         union
         {
             meta_func_t m_func;
             meta_invoke_t m_invoke;
-            meta_member_t m_member;
+            meta_getter_t m_getter;
         };
+        meta_setter_t m_setter;
     };
+
+    template <class T>
+    constexpr uint32_t flag_type()
+    {
+        constexpr auto l = sizeof(T);
+        uint32_t _flag = 0;
+        _flag |= l <= 4   ? __flag(flag_4bytes)
+                 : l <= 8 ? __flag(flag_8bytes)
+                          : __flag(flag_end);
+        if constexpr (std::is_integral<std::decay_t<T>>::value)
+        {
+            _flag |= __flag(flag_integral);
+            if constexpr (std::is_signed<std::decay_t<T>>::value)
+            {
+                _flag |= __flag(flag_signed);
+            }
+        }
+        else if constexpr (std::is_floating_point<std::decay_t<T>>::value)
+        {
+            _flag |= __flag(flag_floating);
+        }
+        else if constexpr (std::is_same<std::decay_t<T>, std::string>::value)
+        {
+            _flag |= __flag(flag_string);
+        }
+        else if constexpr (std::is_same<std::decay_t<T>, const char *>::value || std::is_same<std::decay_t<T>, char *>::value)
+        {
+            _flag |= __flag(flag_char_pointer);
+        }
+        return _flag;
+    }
 
 }

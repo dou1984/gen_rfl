@@ -23,29 +23,65 @@
 #include "base/common.h"
 #include "gen_rfl/rfl.h"
 
-int main()
+int set_base()
 {
-    struct node n;
+    base b = {0};
+
+    set_value(&b, "a", "-100");
+    assert(b.a == -100);
+    set_value(&b, "b", 10);
+    assert(b.b == 10);
+    set_value(&b, "k", "hello");
+    assert(b.k == "hello");
+    set_value(&b, "ooooooooooooooooooooooooooool0", "999");
+    assert(strcmp(b.ooooooooooooooooooooooooooool0, "999") == 0);
+    auto r = set_value(&b, "e", "-1000");
+    assert(r == -1);
+    set_value(&b, "e", "100");
+    assert(b.e == 100);
+    set_value(&b, "k", 100);
+    assert(b.k == "100");
+
+    set_value(&b, "o", std::vector<int>{0, 1, 2, 3});
+    return 0;
+}
+int get_node()
+{
+    node n = {0};
     n.a = 1;
-    n.ooooooooooooooooooooooooooooo0 = "new string";
+    n.oooooooooooooooooooooooooo0 = "new string";
+    n.ooooooooooooooooooooooooooool0 = "000";
 
     char test[] = "hello world";
     n.oooo19 = test;
 
-    std::cout << get_type(&n, "oooo19") << "=" << get_value<char *>(&n, "oooo19") << std::endl;
+    assert(get_value(&n, "oooo19").to_string() == test);
 
-    std::cout << "ooooooooooooooooooooooooooo13" << get_value<char *>(&n, "ooooooooooooooooooooooooooo13") << std::endl;
-  
-    auto _base = get_value<base>(&n, "base");
-    auto r = get_value<const char *>(_base, "ooooooooooooooooooooooooooooo0");
+    assert(get_value(&n, "ooooooooooooooooooooooooooo13").to_string() == "");
 
-    std::cout << r << std::endl;
-    set_value(&n, "oooooooooooooooooooooooooo0", (char *)0);
+    assert(strcmp(get_value(&n, "ooooooooooooooooooooooooooool0").as_cstr(), "000") == 0);
 
+    base b = {0};
+    b.a = 1;
+    b.b = 2;
+    b.c = 3;
+    b.d = 4;
+
+    set_value(&n, "base", b);
+
+    assert(n.a == 1);
+    assert(n.b == 2);
+    assert(n.c == 3);
+    assert(n.d == 4);
+
+    return 0;
+}
+int invoke_node()
+{
+    int ret = 0;
+    node n;
     std::string method = "init";
     const char *hello = "hello world";
-
-    int ret = 0;
     auto s = invoke_r(&n, method, ret, 1, hello);
     s = invoke_r(&n, method, ret, 2, hello);
     s = invoke(&n, method, 3, hello);
@@ -56,5 +92,16 @@ int main()
     // std::string l0 = "l0";
     // std::string l1 = "l1";
     // s = invoke(&n, "lllllllllllllllllllllllllll5", l0, l1); // error
+    return 0;
+}
+
+int main()
+{
+    set_base();
+
+    get_node();
+
+    invoke_node();
+
     return 0;
 }

@@ -28,7 +28,7 @@
 
 struct base
 {
-    uint64_t h;
+
     int8_t a;
     int16_t b;
     int32_t c;
@@ -36,6 +36,7 @@ struct base
     uint8_t e;
     uint16_t f;
     uint32_t g;
+    uint64_t h;
     float i;
     double j;
     std::string k;
@@ -43,13 +44,13 @@ struct base
     const char *m;
     std::map<int, int> n;
     std::vector<int> o;
-    const char *ooooooooooooooooooooooooooooo0;
+    const char *ooooooooooooooooooooooooooool0;
 };
 
-struct node  : base
+struct node : base
 {
 
-    char *oooooooooooooooooooooooooo0;
+    const char *oooooooooooooooooooooooooo0;
     char *oooooooooooooooooooooooooo1;
     char *oooooooooooooooooooooooooo2;
     char *oooooooooooooooooooooooooo3;
@@ -74,7 +75,7 @@ struct node  : base
     char *oooooo22;
     char *oooooo23;
     const char *oooooo24;
-    static char *oooooo25;
+    static const char *oooooo25;
     int init(int, const char *);
     int init(float, double, const char *);
     int init();

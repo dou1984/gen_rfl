@@ -40,8 +40,6 @@ public:
         uint64_t m_value = 0;
         uint32_t m_flags = 0;
         uint32_t m_field = 0;
-        uint32_t m_layer = 0;
-        uint32_t m_index = 0;
     };
 
     struct config_t

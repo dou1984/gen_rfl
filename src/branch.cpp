@@ -49,8 +49,8 @@ branch branch_builder(uint32_t layer, analyzer &ana)
         auto value = info.m_value;
         auto index = value % perfect_index;
         auto &__info = branch_vec[index][value];
-        info.m_layer = __info.m_layer = layer;
-        info.m_index = __info.m_index = branch_vec[index].m_index;
+        __info.m_layer = layer;
+        __info.m_index = branch_vec[index].m_index;
         __info.m_field = info.m_field;
         __info.m_variants.emplace(info.m_variant, &info);
 

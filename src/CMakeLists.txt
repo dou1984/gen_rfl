@@ -100,7 +100,9 @@ endif()
 install(
     FILES
     reflect.h
-    branch_string.h    
+    branch_string.h
+    setter.h
+    value.h
     DESTINATION include/gen_rfl
 )
 

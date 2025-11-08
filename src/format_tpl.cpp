@@ -86,6 +86,11 @@ int format_tpl::init()
         std::cerr << "template error func.tpl" << std::endl;
         return -1;
     }
+    if (!ctemplate::StringToTemplateCache("setter.tpl", tpl::setter(), ctemplate::DO_NOT_STRIP))
+    {
+        std::cerr << "template error setter.tpl" << std::endl;
+        return -1;
+    }
     if (!ctemplate::StringToTemplateCache("invoke_field.tpl", tpl::invoke_field(), ctemplate::DO_NOT_STRIP))
     {
         std::cerr << "template error invoke_field.tpl" << std::endl;
@@ -206,14 +211,25 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
 
         auto dict = _meta.AddSectionDictionary("fields");
         dict->SetValue("variant", field.m_variant);
-
         dict->SetValue("type", field.m_raw_type);
         char buf[64];
         to_hex(field.m_flags, buf, sizeof(buf));
         dict->SetValue("flags", buf);
+
+        if (!__contains__(field.m_flags, flag_function, flag_argument))
+        {
+            dict->SetValue("t_flags", std::string("flag_type<") + field.m_raw_type + std::string(">()"));
+            auto setter_fields = _meta.AddSectionDictionary("setter_fields");
+            setter_fields->SetValue("variant", field.m_variant);
+            setter_fields->SetValue("__field", __field(field.m_field));
+        }
+        else
+        {
+            dict->SetValue("t_flags", "0");
+        }
         dict->SetIntValue("field", field.m_field);
 
-        if (__has_flag(field.m_flags, flag_function))
+        if (__contains__(field.m_flags, flag_function))
         {
             dict->AddSectionDictionary("is_invoke");
             auto invoke_func = _meta.AddSectionDictionary("invoke_func");
@@ -222,11 +238,14 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
         else
         {
             auto is_member = dict->AddSectionDictionary("is_member");
-            if (__has_flag(field.m_flags, flag_struct, flag_class))
+            if (__contains__(field.m_flags, flag_struct, flag_class))
             {
                 is_member->AddSectionDictionary("is_derived");
+
+                auto is_base = _meta.AddSectionDictionary("is_base");
+                is_base->SetValue("variant", field.m_variant);
             }
-            else if (__has_flag(field.m_flags, flag_static))
+            else if (__contains__(field.m_flags, flag_static))
             {
                 is_member->AddSectionDictionary("is_static");
             }
@@ -251,7 +270,7 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
             dict->SetValue("flags", buf);
             dict->SetIntValue("field", field.m_field);
             dict->SetValue("__field", __field(field.m_field));
-            if (__has_flag(field.m_flags, flag_argument))
+            if (__contains__(field.m_flags, flag_argument))
             {
                 auto invoke_field = dict->AddSectionDictionary("invoke_field");
                 invoke_field->SetValue("variant", field.m_raw_variant);
@@ -329,7 +348,7 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
             for (auto &details : info.second.m_variants)
             {
                 auto _detail = details.second;
-                if (__has_flag(_detail->m_flags, flag_argument))
+                if (__contains__(_detail->m_flags, flag_argument))
                 {
                     continue;
                 }
@@ -383,15 +402,20 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
                 }
                 else
                 {
-                    if (__has_flag(_detail->m_flags, flag_argument))
+                    if (__contains__(_detail->m_flags, flag_argument))
                     {
                         continue;
                     }
                     auto complete = block->AddSectionDictionary("complete");
                     complete->SetValue("variant", _detail->m_raw_variant);
-                    if (__has_flag(_detail->m_flags, flag_argument))
+                    if (__contains__(_detail->m_flags, flag_argument))
                     {
                         complete->SetValue("__field", __field(_detail->m_field));
+                    }
+
+                    if (!__contains__(_detail->m_flags, flag_function))
+                    {
+                        to_setter(_detail);
                     }
                 }
             }
@@ -404,7 +428,32 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
 
     return 0;
 }
+int format_tpl::to_setter(analyzer::info_t *_detail)
+{
+    auto tpl_key = "setter.tpl";
 
+    ctemplate::TemplateDictionary _setter(tpl_key);
+    _setter.SetValue("class", ::get_config().m_class);
+    _setter.SetValue("variant", _detail->m_raw_variant);
+    if (__contains__(_detail->m_flags, flag_class, flag_struct))
+    {
+        auto is_derived = _setter.AddSectionDictionary("is_derived");
+        is_derived->SetValue("class", ::get_config().m_class);
+        is_derived->SetValue("variant", _detail->m_raw_variant);
+    }
+    else
+    {
+        auto is_field = _setter.AddSectionDictionary("is_field");
+        is_field->SetValue("class", ::get_config().m_class);
+        is_field->SetValue("variant", _detail->m_raw_variant);
+    }
+
+    std::string _output;
+    expand(tpl_key, _setter, _output);
+    m_output_source.emplace_back(std::move(_output));
+
+    return 0;
+}
 int format_tpl::to_invoke(const std::string &variant, const branch &bra)
 {
 
@@ -562,7 +611,7 @@ int format_tpl::to_invoke_layer(const std::string &variant, const branch_map &br
                 auto complete = block->AddSectionDictionary("complete");
                 complete->SetValue("variant", info->m_raw_variant);
 
-                if (__has_flag(info->m_flags, flag_argument))
+                if (__contains__(info->m_flags, flag_argument))
                 {
                     complete->SetValue("__field", __field(info->m_field));
                 }

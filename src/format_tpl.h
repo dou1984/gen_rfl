@@ -39,6 +39,8 @@ public:
 
     int to_func(uint32_t layer, uint32_t index, branch &bra);
 
+    int to_setter(analyzer::info_t *);
+
     int to_invoke(const std::string &variant, const branch &bra);
 
     int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch &bra);
