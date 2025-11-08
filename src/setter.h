@@ -25,71 +25,92 @@
 namespace reflect
 {
 
-#define SETTER(V, F)                                               \
-    do                                                             \
-    {                                                              \
-        int r = 0;                                                 \
-        va_list __arguments__;                                     \
-        va_start(__arguments__, F);                                \
-        if (__contains__((F), flag_integral))                      \
-        {                                                          \
-            if (__contains__((F), flag_signed))                    \
-            {                                                      \
-                if (__contains__((F), flag_4bytes))                \
-                {                                                  \
-                    auto _value = va_arg(__arguments__, uint32_t); \
-                    r = __set__((V), (F), _value);                 \
-                }                                                  \
-                else if (__contains__((F), flag_8bytes))           \
-                {                                                  \
-                    auto _value = va_arg(__arguments__, uint64_t); \
-                    r = __set__((V), (F), _value);                 \
-                }                                                  \
-            }                                                      \
-            else                                                   \
-            {                                                      \
-                if (__contains__((F), flag_4bytes))                \
-                {                                                  \
-                    auto _value = va_arg(__arguments__, int32_t);  \
-                    r = __set__((V), (F), _value);                 \
-                }                                                  \
-                else if (__contains__((F), flag_8bytes))           \
-                {                                                  \
-                    auto _value = va_arg(__arguments__, int64_t);  \
-                    r = __set__((V), (F), _value);                 \
-                }                                                  \
-            }                                                      \
-        }                                                          \
-        else if (__contains__((F), flag_floating))                 \
-        {                                                          \
-            auto _value = va_arg(__arguments__, double);           \
-            r = __set__((V), (F), _value);                         \
-        }                                                          \
-        else if (__contains__((F), flag_string))                   \
-        {                                                          \
-            auto _value = va_arg(__arguments__, const char *);     \
-            auto _size = va_arg(__arguments__, size_t);            \
-            std::string_view str(_value, _size);                   \
-            r = __set__((V), (F), str);                            \
-        }                                                          \
-        else if (__contains__((F), flag_char_pointer))             \
-        {                                                          \
-            auto _value = va_arg(__arguments__, const char *);     \
-            r = __set__((V), (F), _value);                         \
-        }                                                          \
-        else                                                       \
-        {                                                          \
-            auto _type = va_arg(__arguments__, const char *);      \
-            if (strcmp(::get_type(std::addressof(V)), _type) == 0) \
-            {                                                      \
-                auto _value = va_arg(__arguments__,                \
-                                     std::decay_t<decltype(V)> *); \
-                r = __set__((V), (F), _value);                     \
-            }                                                      \
-        }                                                          \
-        va_end(__arguments__);                                     \
-        return r;                                                  \
-    } while (false)
+#define SETTER(V, F)                                           \
+    int r = 0;                                                 \
+    va_list __arguments__;                                     \
+    va_start(__arguments__, F);                                \
+    do                                                         \
+    {                                                          \
+        constexpr void *__meta__[] = {                         \
+            &&label_uint8,                                     \
+            &&label_uint16,                                    \
+            &&label_uint32,                                    \
+            &&label_uint64,                                    \
+            &&label_int8,                                      \
+            &&label_int16,                                     \
+            &&label_int32,                                     \
+            &&label_int64,                                     \
+            &&label_float,                                     \
+            &&label_double,                                    \
+            &&label_cstr,                                      \
+            &&label_string,                                    \
+            &&label_end,                                       \
+        };                                                     \
+        goto *__meta__[(F)];                                   \
+    label_uint8:                                               \
+    label_uint16:                                              \
+    label_uint32:                                              \
+    {                                                          \
+        auto _value = va_arg(__arguments__, uint32_t);         \
+        r = __set__((V), (F), _value);                         \
+        break;                                                 \
+    }                                                          \
+    label_uint64:                                              \
+    {                                                          \
+        auto _value = va_arg(__arguments__, uint64_t);         \
+        r = __set__((V), (F), _value);                         \
+        break;                                                 \
+    }                                                          \
+    label_int8:                                                \
+    label_int16:                                               \
+    label_int32:                                               \
+    {                                                          \
+        auto _value = va_arg(__arguments__, int32_t);          \
+        r = __set__((V), (F), _value);                         \
+        break;                                                 \
+    }                                                          \
+    label_int64:                                               \
+    {                                                          \
+        auto _value = va_arg(__arguments__, int64_t);          \
+        r = __set__((V), (F), _value);                         \
+        break;                                                 \
+    }                                                          \
+    label_float:                                               \
+    label_double:                                              \
+    {                                                          \
+        auto _value = va_arg(__arguments__, double);           \
+        r = __set__((V), (F), _value);                         \
+        break;                                                 \
+    }                                                          \
+    label_cstr:                                                \
+    {                                                          \
+        auto _value = va_arg(__arguments__, const char *);     \
+        r = __set__((V), (F), _value);                         \
+        break;                                                 \
+    }                                                          \
+    label_string:                                              \
+    {                                                          \
+        auto _value = va_arg(__arguments__, const char *);     \
+        auto _size = va_arg(__arguments__, size_t);            \
+        std::string_view str(_value, _size);                   \
+        r = __set__((V), (F), str);                            \
+        break;                                                 \
+    }                                                          \
+    label_end:                                                 \
+    {                                                          \
+        auto _type = va_arg(__arguments__, const char *);      \
+        if (strcmp(::get_type(std::addressof(V)), _type) == 0) \
+        {                                                      \
+            auto _value = va_arg(                              \
+                __arguments__, std::decay_t<decltype(V)> *);   \
+            r = __set__((V), (F), _value);                     \
+            break;                                             \
+        }                                                      \
+    }                                                          \
+    } while (false);                                           \
+    va_end(__arguments__);                                     \
+    return r;
+
 #define END_IF_ERR(t)    \
     if (errno == ERANGE) \
     {                    \
@@ -144,14 +165,14 @@ namespace reflect
     template <float_pointer S, arithmetic T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_floating, flag_integral));
+        assert(__exists__(_flag, e_uint8, e_uint16, e_uint32, e_uint64, e_int8, e_int16, e_int32, e_int64, e_float, e_double));
         s = std::forward<T>(t);
         return 0;
     }
     template <signed_integer S, char_string T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_string));
+        assert(_flag == e_string);
         if (t.empty())
         {
             return -1;
@@ -164,7 +185,7 @@ namespace reflect
     template <unsigned_integer S, char_string T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_string));
+        assert(_flag == e_string);
         if (t.empty())
         {
             return -1;
@@ -177,7 +198,7 @@ namespace reflect
     template <float_pointer S, char_string T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_string));
+        assert(_flag == e_string);
         if (t.empty())
         {
             return -1;
@@ -190,7 +211,7 @@ namespace reflect
     template <signed_integer S, char_pointer T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_char_pointer));
+        assert(_flag == e_cstr);
         if (t == nullptr)
         {
             return -1;
@@ -203,7 +224,7 @@ namespace reflect
     template <unsigned_integer S, char_pointer T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_char_pointer));
+        assert(_flag == e_cstr);
         if (t == nullptr)
         {
             return -1;
@@ -216,7 +237,7 @@ namespace reflect
     template <float_pointer S, char_pointer T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_char_pointer));
+        assert(_flag == e_cstr);
         if (t == nullptr)
         {
             return -1;
@@ -229,21 +250,21 @@ namespace reflect
     template <char_string S, arithmetic T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_integral, flag_floating));
+        assert(__exists__(_flag, e_uint8, e_uint16, e_uint32, e_uint64, e_int8, e_int16, e_int32, e_int64, e_float, e_double));
         s = std::to_string(t);
         return 0;
     }
     template <char_string S, char_string T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_string));
+        assert(_flag == e_string);
         s = std::forward<T>(t);
         return 0;
     }
     template <char_string S, char_pointer T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_char_pointer));
+        assert(_flag == e_cstr);
         if (t == nullptr)
         {
             return -1;
@@ -254,7 +275,7 @@ namespace reflect
     template <char_pointer S, char_pointer T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_char_pointer));
+        assert(_flag == e_cstr);
         if (t == nullptr)
         {
             return -1;
@@ -268,7 +289,7 @@ namespace reflect
     template <char_pointer S, char_string T>
     int __set__(S &s, uint32_t _flag, T &&t)
     {
-        assert(__contains__(_flag, flag_string));
+        assert(_flag == e_string);
         if constexpr (std::is_const<typename std::remove_pointer<S>::type>::value)
         {
             s = t.data();

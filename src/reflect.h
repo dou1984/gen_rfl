@@ -30,6 +30,7 @@
 #include <type_traits>
 #include <utility>
 #include <iostream>
+#include <bitset>
 
 namespace reflect
 {
@@ -46,10 +47,10 @@ namespace reflect
     {
         return (flags & __flags(flag...)) != 0;
     }
-    template <typename... F>
-    constexpr bool __exclude__(uint32_t flags, F... flag)
+    template <class... F>
+    constexpr bool __exists__(uint32_t flags, F &&...flag)
     {
-        return (flags & __flags(flag...)) == 0;
+        return ((flags == flag) || ...);
     }
     template <typename S, typename... T>
     std::string __join(S &&s, T &&...t)
@@ -86,16 +87,21 @@ namespace reflect
         flag_argument,
 
     };
-    enum BASE_REFLECT
+    enum TYPE_REFLECT
     {
-        flag_4bytes,
-        flag_8bytes,
-        flag_signed,
-        flag_integral,
-        flag_floating,
-        flag_string,
-        flag_char_pointer,
-        flag_end,
+        e_uint8,
+        e_uint16,
+        e_uint32,
+        e_uint64,
+        e_int8,
+        e_int16,
+        e_int32,
+        e_int64,
+        e_float,
+        e_double,
+        e_cstr,
+        e_string,
+        e_type_end,
     };
 
     template <class T>
@@ -123,31 +129,40 @@ namespace reflect
     constexpr uint32_t flag_type()
     {
         constexpr auto l = sizeof(T);
-        uint32_t _flag = 0;
-        _flag |= l <= 4   ? __flag(flag_4bytes)
-                 : l <= 8 ? __flag(flag_8bytes)
-                          : __flag(flag_end);
         if constexpr (std::is_integral<std::decay_t<T>>::value)
         {
-            _flag |= __flag(flag_integral);
             if constexpr (std::is_signed<std::decay_t<T>>::value)
             {
-                _flag |= __flag(flag_signed);
+                return l == 1   ? e_int8
+                       : l == 2 ? e_int16
+                       : l == 4 ? e_int32
+                       : l == 8 ? e_int64
+                                : e_type_end;
+            }
+            else
+            {
+                return l == 1   ? e_uint8
+                       : l == 2 ? e_uint16
+                       : l == 4 ? e_uint32
+                       : l == 8 ? e_uint64
+                                : e_type_end;
             }
         }
         else if constexpr (std::is_floating_point<std::decay_t<T>>::value)
         {
-            _flag |= __flag(flag_floating);
+            return l == 4   ? e_float
+                   : l == 8 ? e_double
+                            : e_type_end;
         }
         else if constexpr (std::is_same<std::decay_t<T>, std::string>::value)
         {
-            _flag |= __flag(flag_string);
+            return e_string;
         }
         else if constexpr (std::is_same<std::decay_t<T>, const char *>::value || std::is_same<std::decay_t<T>, char *>::value)
         {
-            _flag |= __flag(flag_char_pointer);
+            return e_cstr;
         }
-        return _flag;
+        return e_type_end;
     }
 
 }

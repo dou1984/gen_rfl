@@ -50,7 +50,7 @@ namespace reflect
 
         const std::string &as_string()
         {
-            if (__contains__(m_flags, flag_string))
+            if (m_flags == e_string)
             {
                 return __ref<std::string>();
             }
@@ -59,11 +59,11 @@ namespace reflect
         }
         const char *as_cstr()
         {
-            if (__contains__(m_flags, flag_char_pointer))
+            if (m_flags == e_cstr)
             {
                 return __ref<const char *>();
             }
-            else if (__contains__(m_flags, flag_string))
+            else if (m_flags == e_string)
             {
                 return __ref<std::string>().data();
             }
@@ -84,31 +84,45 @@ namespace reflect
         template <class T>
         T as_number()
         {
-            if (__contains__(m_flags, flag_integral))
-            {
-                if (__contains__(m_flags, flag_signed))
-                {
-                    if (__contains__(m_flags, flag_4bytes))
-                    {
-                        return __ref<uint32_t>();
-                    }
-                    else if (__contains__(m_flags, flag_8bytes))
-                    {
-                        return __ref<uint64_t>();
-                    }
-                }
-            }
-            else if (__contains__(m_flags, flag_floating))
-            {
-                if (__contains__(m_flags, flag_4bytes))
-                {
-                    return __ref<float>();
-                }
-                else if (__contains__(m_flags, flag_8bytes))
-                {
-                    return __ref<double>();
-                }
-            }
+            constexpr void *__meta__[] = {
+                &&label_uint8,
+                &&label_uint16,
+                &&label_uint32,
+                &&label_uint64,
+                &&label_int8,
+                &&label_int16,
+                &&label_int32,
+                &&label_int64,
+                &&label_float,
+                &&label_double,
+                &&label_cstr,
+                &&label_string,
+                &&label_end,
+            };
+            goto *__meta__[m_flags];
+        label_uint8:
+            return __ref<uint8_t>();
+        label_uint16:
+            return __ref<uint16_t>();
+        label_uint32:
+            return __ref<uint32_t>();
+        label_uint64:
+            return __ref<uint64_t>();
+        label_int8:
+            return __ref<int8_t>();
+        label_int16:
+            return __ref<int16_t>();
+        label_int32:
+            return __ref<int32_t>();
+        label_int64:
+            return __ref<int64_t>();
+        label_float:
+            return __ref<float>();
+        label_double:
+            return __ref<double>();
+        label_cstr:
+        label_string:
+        label_end:
             return 0;
         }
         template <class T, class S>
@@ -121,50 +135,47 @@ namespace reflect
         template <class T>
         T __to()
         {
-            if (__contains__(m_flags, flag_integral))
-            {
-                if (__contains__(m_flags, flag_signed))
-                {
-                    if (__contains__(m_flags, flag_4bytes))
-                    {
-                        return __to<T, uint32_t>();
-                    }
-                    else if (__contains__(m_flags, flag_8bytes))
-                    {
-                        return __to<T, uint64_t>();
-                    }
-                }
-                else
-                {
-                    if (__contains__(m_flags, flag_4bytes))
-                    {
-                        return __to<T, int32_t>();
-                    }
-                    else if (__contains__(m_flags, flag_8bytes))
-                    {
-                        return __to<T, int64_t>();
-                    }
-                }
-            }
-            else if (__contains__(m_flags, flag_floating))
-            {
-                if (__contains__(m_flags, flag_4bytes))
-                {
-                    return __to<T, float>();
-                }
-                else if (__contains__(m_flags, flag_8bytes))
-                {
-                    return __to<T, double>();
-                }
-            }
-            else if (__contains__(m_flags, flag_string))
-            {
-                return __to<T, std::string>();
-            }
-            else if (__contains__(m_flags, flag_char_pointer))
-            {
-                return __to<T, const char *>();
-            }
+            constexpr void *__meta__[] = {
+                &&label_uint8,
+                &&label_uint16,
+                &&label_uint32,
+                &&label_uint64,
+                &&label_int8,
+                &&label_int16,
+                &&label_int32,
+                &&label_int64,
+                &&label_float,
+                &&label_double,
+                &&label_cstr,
+                &&label_string,
+                &&label_end,
+            };
+            goto *__meta__[m_flags];
+        label_uint8:
+            return __to<T, uint8_t>();
+        label_uint16:
+            return __to<T, uint16_t>();
+        label_uint32:
+            return __to<T, uint32_t>();
+        label_uint64:
+            return __to<T, uint64_t>();
+        label_int8:
+            return __to<T, int8_t>();
+        label_int16:
+            return __to<T, int16_t>();
+        label_int32:
+            return __to<T, int32_t>();
+        label_int64:
+            return __to<T, int64_t>();
+        label_float:
+            return __to<T, float>();
+        label_double:
+            return __to<T, double>();
+        label_cstr:
+            return __to<T, const char *>();
+        label_string:
+            return __to<T, std::string>();
+        label_end:
             return T{};
         }
     };
