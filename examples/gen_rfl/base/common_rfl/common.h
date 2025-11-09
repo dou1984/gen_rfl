@@ -38,7 +38,6 @@ namespace __details__
 }
 reflect::Value get_value(const common *cls, const char *tag);
 reflect::Value get_value(const common *cls, const std::string &tag);
-reflect::Value get_value(const common *cls, const std::string &tag, const char *expected_type);
 reflect::Value get_field_value(const common *cls, uint32_t field);
 const char *get_type(const common *cls, const std::string &tag);
 const char *get_type(const common *cls, const char *tag);

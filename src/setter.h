@@ -20,317 +20,114 @@
 //
 
 #pragma once
+#include <cstdarg>
 #include "reflect.h"
 
 namespace reflect
 {
-
-#define SETTER(V, F)                                           \
-    int r = 0;                                                 \
-    va_list __arguments__;                                     \
-    va_start(__arguments__, F);                                \
-    do                                                         \
-    {                                                          \
-        constexpr void *__meta__[] = {                         \
-            &&label_uint8,                                     \
-            &&label_uint16,                                    \
-            &&label_uint32,                                    \
-            &&label_uint64,                                    \
-            &&label_int8,                                      \
-            &&label_int16,                                     \
-            &&label_int32,                                     \
-            &&label_int64,                                     \
-            &&label_float,                                     \
-            &&label_double,                                    \
-            &&label_cstr,                                      \
-            &&label_string,                                    \
-            &&label_end,                                       \
-        };                                                     \
-        goto *__meta__[(F)];                                   \
-    label_uint8:                                               \
-    label_uint16:                                              \
-    label_uint32:                                              \
-    {                                                          \
-        auto _value = va_arg(__arguments__, uint32_t);         \
-        r = __set__((V), (F), _value);                         \
-        break;                                                 \
-    }                                                          \
-    label_uint64:                                              \
-    {                                                          \
-        auto _value = va_arg(__arguments__, uint64_t);         \
-        r = __set__((V), (F), _value);                         \
-        break;                                                 \
-    }                                                          \
-    label_int8:                                                \
-    label_int16:                                               \
-    label_int32:                                               \
-    {                                                          \
-        auto _value = va_arg(__arguments__, int32_t);          \
-        r = __set__((V), (F), _value);                         \
-        break;                                                 \
-    }                                                          \
-    label_int64:                                               \
-    {                                                          \
-        auto _value = va_arg(__arguments__, int64_t);          \
-        r = __set__((V), (F), _value);                         \
-        break;                                                 \
-    }                                                          \
-    label_float:                                               \
-    label_double:                                              \
-    {                                                          \
-        auto _value = va_arg(__arguments__, double);           \
-        r = __set__((V), (F), _value);                         \
-        break;                                                 \
-    }                                                          \
-    label_cstr:                                                \
-    {                                                          \
-        auto _value = va_arg(__arguments__, const char *);     \
-        r = __set__((V), (F), _value);                         \
-        break;                                                 \
-    }                                                          \
-    label_string:                                              \
-    {                                                          \
-        auto _value = va_arg(__arguments__, const char *);     \
-        auto _size = va_arg(__arguments__, size_t);            \
-        std::string_view str(_value, _size);                   \
-        r = __set__((V), (F), str);                            \
-        break;                                                 \
-    }                                                          \
-    label_end:                                                 \
-    {                                                          \
-        auto _type = va_arg(__arguments__, const char *);      \
-        if (strcmp(::get_type(std::addressof(V)), _type) == 0) \
-        {                                                      \
-            auto _value = va_arg(                              \
-                __arguments__, std::decay_t<decltype(V)> *);   \
-            r = __set__((V), (F), _value);                     \
-            break;                                             \
-        }                                                      \
-    }                                                          \
-    } while (false);                                           \
-    va_end(__arguments__);                                     \
-    return r;
-
-#define END_IF_ERR(t)    \
-    if (errno == ERANGE) \
-    {                    \
-        return -1;       \
-    }                    \
-    if (end == t)        \
-    {                    \
-        return -1;       \
-    }
-
-    template <class T>
-    concept signed_integer = std::integral<std::decay_t<T>> && std::is_signed<std::decay_t<T>>::value;
-
-    template <class T>
-    concept unsigned_integer = std::integral<std::decay_t<T>> && std::is_unsigned<std::decay_t<T>>::value;
-
-    template <class T>
-    concept integer = std::integral<std::decay_t<T>>;
-
-    template <class T>
-    concept float_pointer = std::is_floating_point<std::decay_t<T>>::value;
-
-    template <typename T>
-    concept arithmetic = std::is_arithmetic<std::decay_t<T>>::value;
-
-    template <class T>
-    concept char_string = std::same_as<std::decay_t<T>, std::string> || std::same_as<std::decay_t<T>, std::string_view>;
-
-    template <class T>
-    concept char_pointer = std::same_as<std::decay_t<T>, const char *> || std::same_as<std::decay_t<T>, char *>;
-
-    template <integer S, arithmetic T>
-    int __set__(S &s, uint32_t _flag, T &&t)
+    template <class CLS, auto MEMBER>
+    auto &__ref_member__(CLS *cls)
     {
-        if constexpr (std::is_integral<std::decay_t<T>>::value)
+        return (cls->*MEMBER);
+    }
+    template <class CLS, class BASE>
+    auto &__ref_base__(CLS *cls)
+    {
+        return *(static_cast<BASE *>(cls));
+    }
+    template <class CLS, auto STATIC>
+    auto &__ref_static__(CLS *cls)
+    {
+        return *STATIC;
+    }
+    template <class CLS, auto FUNC>
+    int __setter__(CLS *cls, unsigned int _flag, ...)
+    {
+        auto &field = FUNC(cls);
+        int r = 0;
+        va_list __arguments__;
+        va_start(__arguments__, _flag);
+        do
         {
-            if (std::cmp_greater(t, std::numeric_limits<S>::max()) || std::cmp_less(t, std::numeric_limits<S>::min()))
+            constexpr void *__meta__[] = {
+                &&label_uint8,
+                &&label_uint16,
+                &&label_uint32,
+                &&label_uint64,
+                &&label_int8,
+                &&label_int16,
+                &&label_int32,
+                &&label_int64,
+                &&label_float,
+                &&label_double,
+                &&label_cstr,
+                &&label_string,
+                &&label_end,
+            };
+            goto *__meta__[_flag];
+        label_uint8:
+        label_uint16:
+        label_uint32:
+        {
+            auto _value = va_arg(__arguments__, uint32_t);
+            r = __set__(field, _flag, _value);
+            break;
+        }
+        label_uint64:
+        {
+            auto _value = va_arg(__arguments__, uint64_t);
+            r = __set__(field, _flag, _value);
+            break;
+        }
+        label_int8:
+        label_int16:
+        label_int32:
+        {
+            auto _value = va_arg(__arguments__, int32_t);
+            r = __set__(field, _flag, _value);
+            break;
+        }
+        label_int64:
+        {
+            auto _value = va_arg(__arguments__, int64_t);
+            r = __set__(field, _flag, _value);
+            break;
+        }
+        label_float:
+        label_double:
+        {
+            auto _value = va_arg(__arguments__, double);
+            r = __set__(field, _flag, _value);
+            break;
+        }
+        label_cstr:
+        {
+            auto _value = va_arg(__arguments__, const char *);
+            r = __set__(field, _flag, _value);
+            break;
+        }
+        label_string:
+        {
+            auto _value = va_arg(__arguments__, const char *);
+            auto _size = va_arg(__arguments__, size_t);
+            std::string_view str(_value, _size);
+            r = __set__(field, _flag, str);
+            break;
+        }
+        label_end:
+        {
+            auto _type = va_arg(__arguments__, const char *);
+            std::decay_t<decltype(field)> *t = nullptr;
+            if (strcmp(::get_type(t), _type) == 0)
             {
-                return -1;
+                auto _value = va_arg(
+                    __arguments__, std::decay_t<decltype(field)> *);
+                r = __set__(field, _flag, _value);
+                break;
             }
         }
-        else if constexpr (std::is_floating_point<std::decay_t<T>>::value)
-        {
-            if (t > static_cast<std::decay_t<T>>(std::numeric_limits<S>::max()) || t < static_cast<std::decay_t<T>>(std::numeric_limits<S>::min()))
-            {
-                return -1;
-            }
-        }
-        s = std::forward<T>(t);
-        return 0;
-    }
-    template <float_pointer S, arithmetic T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(__exists__(_flag, e_uint8, e_uint16, e_uint32, e_uint64, e_int8, e_int16, e_int32, e_int64, e_float, e_double));
-        s = std::forward<T>(t);
-        return 0;
-    }
-    template <signed_integer S, char_string T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_string);
-        if (t.empty())
-        {
-            return -1;
-        }
-        char *end = nullptr;
-        auto _value = std::strtoll(t.data(), &end, 10);
-        END_IF_ERR(t.data());
-        return __set__(s, flag_type<decltype(_value)>(), _value);
-    }
-    template <unsigned_integer S, char_string T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_string);
-        if (t.empty())
-        {
-            return -1;
-        }
-        char *end = nullptr;
-        auto _value = std::strtoull(t.data(), &end, 10);
-        END_IF_ERR(t.data());
-        return __set__(s, flag_type<decltype(_value)>(), _value);
-    }
-    template <float_pointer S, char_string T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_string);
-        if (t.empty())
-        {
-            return -1;
-        }
-        char *end = nullptr;
-        auto _value = std::strtod(t.data(), &end);
-        END_IF_ERR(t.data());
-        return __set__(s, flag_type<decltype(_value)>(), _value);
-    }
-    template <signed_integer S, char_pointer T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_cstr);
-        if (t == nullptr)
-        {
-            return -1;
-        }
-        char *end = nullptr;
-        auto _value = std::strtoll(t, &end, 10);
-        END_IF_ERR(t);
-        return __set__(s, flag_type<decltype(_value)>(), _value);
-    }
-    template <unsigned_integer S, char_pointer T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_cstr);
-        if (t == nullptr)
-        {
-            return -1;
-        }
-        char *end = nullptr;
-        auto _value = std::strtoull(t, &end, 10);
-        END_IF_ERR(t);
-        return __set__(s, flag_type<decltype(_value)>(), _value);
-    }
-    template <float_pointer S, char_pointer T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_cstr);
-        if (t == nullptr)
-        {
-            return -1;
-        }
-        char *end = nullptr;
-        auto _value = std::strtod(t, &end);
-        END_IF_ERR(t);
-        return __set__(s, flag_type<decltype(_value)>(), _value);
-    }
-    template <char_string S, arithmetic T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(__exists__(_flag, e_uint8, e_uint16, e_uint32, e_uint64, e_int8, e_int16, e_int32, e_int64, e_float, e_double));
-        s = std::to_string(t);
-        return 0;
-    }
-    template <char_string S, char_string T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_string);
-        s = std::forward<T>(t);
-        return 0;
-    }
-    template <char_string S, char_pointer T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_cstr);
-        if (t == nullptr)
-        {
-            return -1;
-        }
-        s = std::forward<T>(t);
-        return 0;
-    }
-    template <char_pointer S, char_pointer T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_cstr);
-        if (t == nullptr)
-        {
-            return -1;
-        }
-        if constexpr (std::is_const<typename std::remove_pointer<S>::type>::value)
-        {
-            s = std::forward<T>(t);
-        }
-        return 0;
-    }
-    template <char_pointer S, char_string T>
-    int __set__(S &s, uint32_t _flag, T &&t)
-    {
-        assert(_flag == e_string);
-        if constexpr (std::is_const<typename std::remove_pointer<S>::type>::value)
-        {
-            s = t.data();
-        }
-        return 0;
-    }
-    template <class S>
-    int __set__(S &s, uint32_t _flag, S *p)
-    {
-        s = *p;
-        return 0;
-    }
-    template <class S, class T>
-    int __set__(S &s, uint32_t _flag, T &&p)
-    {
-        assert(false);
-        return 0;
-    }
-    template <class CLS, class O, class T>
-    int set_value(CLS &cls, O &o, T &&value)
-    {
-        if (!__contains__(o.m_flags, flag_function, flag_argument))
-        {
-            if constexpr (std::is_arithmetic<std::decay_t<T>>::value)
-            {
-                return o.m_setter(cls, flag_type<T>(), value);
-            }
-            else if constexpr (std::is_same<std::decay_t<T>, std::string>::value || std::is_same<std::decay_t<T>, std::string_view>::value)
-            {
-                return o.m_setter(cls, flag_type<T>(), value.data(), value.size());
-            }
-            else if constexpr (std::is_same<std::decay_t<T>, const char *>::value || std::is_same<std::decay_t<T>, char *>::value)
-            {
-                return o.m_setter(cls, flag_type<T>(), value);
-            }
-            else
-            {
-                auto _ptr = std::addressof(value);
-                return o.m_setter(cls, flag_type<T>(), get_type(_ptr), _ptr);
-            }
-        }
-        return -1;
+        } while (false);
+        va_end(__arguments__);
+        return r;
     }
 }

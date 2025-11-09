@@ -27,11 +27,11 @@ const std::string meta_tpl = R"({{license}}
 #include <cstdarg>
 #include <iostream>
 #include <gen_rfl/reflect.h>
-#include <gen_rfl/branch_string.h>
-#include <gen_rfl/setter.h>{{#is_base}}
+#include <gen_rfl/branch_string.h>{{#is_base}}
 #include "{{variant}}.h"{{/is_base}}
 #include "{{class}}.h"
 #include "{{header}}"
+#include <gen_rfl/setter.h>
 
 using namespace reflect;
 {{#namesp}}
@@ -70,8 +70,7 @@ static meta<{{class}}> g_{{class}} = {
     .m_setter = set_value_invalid,
 };
 {{#invoke_fields}}
-int invoke__{{class}}__{{variant}}{{__field}}(const {{class}}* c, uint64_t argc, ...);{{/invoke_fields}}{{#setter_fields}}
-int setter__{{class}}__{{variant}}({{class}}* c, uint32_t argc, ...);{{/setter_fields}}
+int invoke__{{class}}__{{variant}}{{__field}}(const {{class}}* c, uint64_t argc, ...);{{/invoke_fields}}
 static meta<{{class}}> g_{{class}}_func[] = 
 {{{#invoke_fields}}
     {
@@ -89,7 +88,7 @@ meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::s
 static meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
     {
         .m_variant = "{{variant}}",
-        .m_type =  "{{type}}",
+        .m_type = "{{type}}",
         .m_flags = {{flags}},
         .m_t_flags = {{t_flags}},
         .m_field = e__{{class}}__{{variant}}, // {{field}}{{#is_invoke}}
@@ -100,15 +99,20 @@ static meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
             return (void *)std::addressof(cls->{{variant}});{{/is_field}}{{#is_static}}
             return (void *)std::addressof(cls->{{variant}});{{/is_static}}{{#is_derived}}
             return (void *)static_cast<const {{variant}} *>(cls);{{/is_derived}}
-        },
-        .m_setter = setter__{{class}}__{{variant}},{{/is_member}}
+        },{{#is_field}}
+        .m_setter = []() -> auto
+        { return __setter__<{{class}}, __ref_member__<{{class}}, &{{class}}::{{variant}}>>; }(),{{/is_field}}{{#is_static}}
+        .m_setter = []() -> auto
+        { return __setter__<{{class}}, __ref_static__<{{class}}, &{{class}}::{{variant}}>>; }(),{{/is_static}}{{#is_derived}}
+        .m_setter = []() -> auto
+        { return __setter__<{{class}}, __ref_base__<{{class}}, {{variant}}>>; }(),{{/is_derived}}{{/is_member}}
     },{{/fields}}
 };
 reflect::Value __get_value(const {{class}}* cls, const std::string& _tag)
 {{{#is_base}} 
     {
         branch_string tag(_tag);
-        auto _meta = __details__::get_meta(static_cast<const {{variant}}*>(cls), tag);
+        auto _meta = __details__::get_meta(static_cast<const {{variant}} *>(cls), tag);
         if (__contains__(_meta.m_flags, flag_member))
         {
             return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   

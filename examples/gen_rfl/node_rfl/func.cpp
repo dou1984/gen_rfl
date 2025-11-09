@@ -24,9 +24,9 @@
 #include <iostream>
 #include <gen_rfl/reflect.h>
 #include <gen_rfl/branch_string.h>
-#include <gen_rfl/setter.h>
 #include "func.h"
 #include "../../node.h"
+#include <gen_rfl/setter.h>
 
 using namespace reflect;
 
@@ -129,7 +129,7 @@ meta<func>& invoke__func__init(const func *c, const std::string &tag);
 static meta<func> g_func_meta[] = {
     {
         .m_variant = "deinit",
-        .m_type =  "",
+        .m_type = "",
         .m_flags = 0x4801,
         .m_t_flags = 0,
         .m_field = e__func__deinit, // 1
@@ -138,7 +138,7 @@ static meta<func> g_func_meta[] = {
     },
     {
         .m_variant = "done",
-        .m_type =  "",
+        .m_type = "",
         .m_flags = 0x4801,
         .m_t_flags = 0,
         .m_field = e__func__done, // 2
@@ -147,7 +147,7 @@ static meta<func> g_func_meta[] = {
     },
     {
         .m_variant = "init",
-        .m_type =  "",
+        .m_type = "",
         .m_flags = 0x4801,
         .m_t_flags = 0,
         .m_field = e__func__init, // 0
@@ -446,16 +446,6 @@ reflect::Value get_value(const func *cls, const std::string &_tag)
 reflect::Value get_value(const func *cls, const char *tag)
 {
     return get_value(cls, std::string(tag));
-}
-reflect::Value get_value(const func *cls, const std::string &_tag, const char *expected_type)
-{
-    branch_string tag(_tag);
-    auto _meta = __details__::get_meta(cls, tag);
-    if  (strcmp(expected_type, _meta.m_type) == 0) 
-    {
-        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);    
-    }
-    return reflect::Value(nullptr, 0);
 }
 reflect::Value get_field_value(const func *cls, uint32_t field)
 {

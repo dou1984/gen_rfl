@@ -24,14 +24,12 @@
 #include <cstring>
 #include <type_traits>
 #include "reflect.h"
-#include "setter.h"
+#include "set.h"
 
 namespace reflect
 {
     class Value
     {
-        void *m_data = nullptr;
-        uint32_t m_flags = 0;
 
     public:
         Value(void *_data, uint32_t _flags) : m_data(_data), m_flags(_flags)
@@ -78,9 +76,19 @@ namespace reflect
         double as_double() { return as_number<double>(); }
 
     private:
+        void *m_data = nullptr;
+        uint32_t m_flags = 0;
+
+    private:
         template <class T>
         T &__ref() { return *((T *)m_data); }
-
+        template <class T, class S>
+        T __to()
+        {
+            T t;
+            __set__(t, m_flags, __ref<S>());
+            return t;
+        }
         template <class T>
         T as_number()
         {
@@ -124,13 +132,6 @@ namespace reflect
         label_string:
         label_end:
             return 0;
-        }
-        template <class T, class S>
-        T __to()
-        {
-            T t;
-            __set__(t, m_flags, __ref<S>());
-            return t;
         }
         template <class T>
         T __to()

@@ -63,16 +63,6 @@ reflect::Value get_value(const {{class}} *cls, const char *tag)
 {
     return get_value(cls, std::string(tag));
 }
-reflect::Value get_value(const {{class}} *cls, const std::string &_tag, const char *expected_type)
-{
-    branch_string tag(_tag);
-    auto _meta = __details__::get_meta(cls, tag);
-    if  (strcmp(expected_type, _meta.m_type) == 0) 
-    {
-        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);    
-    }
-    return reflect::Value(nullptr, 0);
-}
 reflect::Value get_field_value(const {{class}} *cls, uint32_t field)
 {
     if (field < get_fields_max(cls))
@@ -118,11 +108,7 @@ const char* get_name(const {{class}} *cls, uint32_t field)
 meta<{{class}}> &get_meta(const {{class}} *cls)
 {
     return g_{{class}};
-}{{#setter_fields}}
-int setter__{{class}}__{{variant}}(const {{class}}* c, uint32_t argc, ...)
-{
-    return 0;
-}{{/setter_fields}}
+}
 {{#namesp}}
 }{{/namesp}}
 )";

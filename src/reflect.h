@@ -108,7 +108,7 @@ namespace reflect
     struct meta
     {
         using meta_getter_t = void *(*)(const T *);
-        using meta_setter_t = int (*)(T *, uint32_t, ...);
+        using meta_setter_t = int (*)(T *, unsigned int, ...);
         using meta_invoke_t = meta &(*)(const T *, const std::string &);
         using meta_func_t = int (*)(const T *, uint64_t, ...);
         const char *m_variant = "";

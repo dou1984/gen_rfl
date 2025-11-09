@@ -57,24 +57,10 @@ inline meta<{{class}}> &rfl__{{layer}}__{{index}}(const {{class}} *cls, uint64_t
 }
 )";
 
-const std::string setter_tpl = R"(
-int setter__{{class}}__{{variant}}({{class}}* c, uint32_t _flag, ...)
-{{{#is_field}}    
-    SETTER(c->{{variant}}, _flag);{{/is_field}}{{#is_derived}}
-    auto _ptr = static_cast<{{variant}}*>(c);
-    SETTER(*_ptr, _flag);{{/is_derived}}
-    return 0;
-}
-)";
-
 namespace tpl
 {
     const std::string &func()
     {
         return func_tpl;
-    }
-    const std::string &setter()
-    {
-        return setter_tpl;
     }
 }

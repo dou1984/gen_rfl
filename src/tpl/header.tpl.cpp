@@ -42,7 +42,6 @@ namespace __details__
 }
 reflect::Value get_value(const {{class}} *cls, const char *tag);
 reflect::Value get_value(const {{class}} *cls, const std::string &tag);
-reflect::Value get_value(const {{class}} *cls, const std::string &tag, const char *expected_type);
 reflect::Value get_field_value(const {{class}} *cls, uint32_t field);
 const char *get_type(const {{class}} *cls, const std::string &tag);
 const char *get_type(const {{class}} *cls, const char *tag);

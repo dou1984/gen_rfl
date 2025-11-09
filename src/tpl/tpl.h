@@ -27,7 +27,6 @@ namespace tpl
 {
 
     const std::string &func();
-    const std::string &setter();
     const std::string &get_meta();
     const std::string &header();
     const std::string &meta();

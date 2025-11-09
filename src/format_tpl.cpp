@@ -86,11 +86,6 @@ int format_tpl::init()
         std::cerr << "template error func.tpl" << std::endl;
         return -1;
     }
-    if (!ctemplate::StringToTemplateCache("setter.tpl", tpl::setter(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error setter.tpl" << std::endl;
-        return -1;
-    }
     if (!ctemplate::StringToTemplateCache("invoke_field.tpl", tpl::invoke_field(), ctemplate::DO_NOT_STRIP))
     {
         std::cerr << "template error invoke_field.tpl" << std::endl;
@@ -219,9 +214,6 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
         if (!__contains__(field.m_flags, flag_function, flag_argument))
         {
             dict->SetValue("t_flags", std::string("flag_type<") + field.m_raw_type + std::string(">()"));
-            auto setter_fields = _meta.AddSectionDictionary("setter_fields");
-            setter_fields->SetValue("variant", field.m_variant);
-            setter_fields->SetValue("__field", __field(field.m_field));
         }
         else
         {
@@ -412,11 +404,6 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
                     {
                         complete->SetValue("__field", __field(_detail->m_field));
                     }
-
-                    if (!__contains__(_detail->m_flags, flag_function))
-                    {
-                        to_setter(_detail);
-                    }
                 }
             }
         }
@@ -425,32 +412,6 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
         expand(tpl_key, _func, _output);
         m_output_source.emplace_back(std::move(_output));
     }
-
-    return 0;
-}
-int format_tpl::to_setter(analyzer::info_t *_detail)
-{
-    auto tpl_key = "setter.tpl";
-
-    ctemplate::TemplateDictionary _setter(tpl_key);
-    _setter.SetValue("class", ::get_config().m_class);
-    _setter.SetValue("variant", _detail->m_raw_variant);
-    if (__contains__(_detail->m_flags, flag_class, flag_struct))
-    {
-        auto is_derived = _setter.AddSectionDictionary("is_derived");
-        is_derived->SetValue("class", ::get_config().m_class);
-        is_derived->SetValue("variant", _detail->m_raw_variant);
-    }
-    else
-    {
-        auto is_field = _setter.AddSectionDictionary("is_field");
-        is_field->SetValue("class", ::get_config().m_class);
-        is_field->SetValue("variant", _detail->m_raw_variant);
-    }
-
-    std::string _output;
-    expand(tpl_key, _setter, _output);
-    m_output_source.emplace_back(std::move(_output));
 
     return 0;
 }
