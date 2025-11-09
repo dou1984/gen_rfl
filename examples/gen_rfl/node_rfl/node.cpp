@@ -29,7 +29,6 @@
 #include "../../node.h"
 #include <gen_rfl/setter.h>
 
-using namespace reflect;
 
 enum node_meta_enum
 {
@@ -98,7 +97,7 @@ static int set_value_invalid(node *cls, uint32_t, ...)
 {
     return 0;
 }
-static meta<node> g_default_meta = {
+static reflect::meta<node> g_default_meta = {
     .m_variant = "",
     .m_type = "",
     .m_flags = 0,
@@ -107,7 +106,7 @@ static meta<node> g_default_meta = {
     .m_getter = [](const node *c) -> void* { return nullptr; },
     .m_setter = set_value_invalid,
 };
-static meta<node> g_node = {
+static reflect::meta<node> g_node = {
     .m_variant = "node",
     .m_type = "",
     .m_flags = 0,
@@ -137,7 +136,7 @@ int invoke__node__lllllllllllllllllllllllllll4__17(const node* c, uint64_t argc,
 int invoke__node__lllllllllllllllllllllllllll4__16(const node* c, uint64_t argc, ...);
 int invoke__node__lllllllllllllllllllllllllll5__19(const node* c, uint64_t argc, ...);
 int invoke__node__lllllllllllllllllllllllllll5__18(const node* c, uint64_t argc, ...);
-static meta<node> g_node_func[] = 
+static reflect::meta<node> g_node_func[] = 
 {
     {
         .m_variant = "deinit",
@@ -321,27 +320,27 @@ static meta<node> g_node_func[] =
     },
 };
 
-meta<node>& invoke__node__deinit(const node *c, const std::string &tag);
-meta<node>& invoke__node__init(const node *c, const std::string &tag);
-meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::string &tag);
-meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::string &tag);
-meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::string &tag);
-meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::string &tag);
-meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::string &tag);
-meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::string &tag);
-static meta<node> g_node_meta[] = {
+reflect::meta<node>& invoke__node__deinit(const node *c, const std::string &tag);
+reflect::meta<node>& invoke__node__init(const node *c, const std::string &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::string &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::string &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::string &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::string &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::string &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::string &tag);
+static reflect::meta<node> g_node_meta[] = {
     {
         .m_variant = "base",
         .m_type = "base",
         .m_flags = 0x821,
-        .m_t_flags = flag_type<base>(),
+        .m_t_flags = ::reflect::flag_type<base>(),
         .m_field = e__node__base, // 0
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)static_cast<const base *>(cls);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_base__<node, base>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_base__<node, base>>; }(),
     },
     {
         .m_variant = "deinit",
@@ -419,339 +418,339 @@ static meta<node> g_node_meta[] = {
         .m_variant = "oooo19",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooo19, // 20
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooo19);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooo19>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooo19>>; }(),
     },
     {
         .m_variant = "oooo20",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooo20, // 21
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooo20);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooo20>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooo20>>; }(),
     },
     {
         .m_variant = "oooooo21",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooo21, // 22
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo21);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooo21>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooo21>>; }(),
     },
     {
         .m_variant = "oooooo22",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooo22, // 23
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo22);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooo22>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooo22>>; }(),
     },
     {
         .m_variant = "oooooo23",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooo23, // 24
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo23);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooo23>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooo23>>; }(),
     },
     {
         .m_variant = "oooooo24",
         .m_type = "const char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<const char *>(),
+        .m_t_flags = ::reflect::flag_type<const char *>(),
         .m_field = e__node__oooooo24, // 25
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo24);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooo24>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooo24>>; }(),
     },
     {
         .m_variant = "oooooo25",
         .m_type = "const char *",
         .m_flags = 0x901,
-        .m_t_flags = flag_type<const char *>(),
+        .m_t_flags = ::reflect::flag_type<const char *>(),
         .m_field = e__node__oooooo25, // 26
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooo25);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_static__<node, &node::oooooo25>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_static__<node, &node::oooooo25>>; }(),
     },
     {
         .m_variant = "oooooooo10",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooo10, // 11
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooo10);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooo10>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooo10>>; }(),
     },
     {
         .m_variant = "oooooooo11",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooo11, // 12
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooo11);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooo11>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooo11>>; }(),
     },
     {
         .m_variant = "ooooooooo9",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__ooooooooo9, // 10
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooo9);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::ooooooooo9>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::ooooooooo9>>; }(),
     },
     {
         .m_variant = "oooooooooooooo12",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooo12, // 13
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo12);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooo12>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooo12>>; }(),
     },
     {
         .m_variant = "oooooooooooooo18",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooo18, // 19
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo18);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooo18>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooo18>>; }(),
     },
     {
         .m_variant = "oooooooooooooo8",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooo8, // 9
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooo8);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooo8>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooo8>>; }(),
     },
     {
         .m_variant = "ooooooooooooooo17",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__ooooooooooooooo17, // 18
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooo17);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::ooooooooooooooo17>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::ooooooooooooooo17>>; }(),
     },
     {
         .m_variant = "ooooooooooooooo7",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__ooooooooooooooo7, // 8
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooo7);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::ooooooooooooooo7>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::ooooooooooooooo7>>; }(),
     },
     {
         .m_variant = "ooooooooooooooooooooo16",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__ooooooooooooooooooooo16, // 17
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooo16);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::ooooooooooooooooooooo16>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::ooooooooooooooooooooo16>>; }(),
     },
     {
         .m_variant = "ooooooooooooooooooooooo6",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__ooooooooooooooooooooooo6, // 7
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooo6);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::ooooooooooooooooooooooo6>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::ooooooooooooooooooooooo6>>; }(),
     },
     {
         .m_variant = "oooooooooooooooooooooooooo0",
         .m_type = "const char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<const char *>(),
+        .m_t_flags = ::reflect::flag_type<const char *>(),
         .m_field = e__node__oooooooooooooooooooooooooo0, // 1
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo0);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo0>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooooooooooooooo0>>; }(),
     },
     {
         .m_variant = "oooooooooooooooooooooooooo1",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooooooooooooooo1, // 2
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo1);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo1>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooooooooooooooo1>>; }(),
     },
     {
         .m_variant = "oooooooooooooooooooooooooo14",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooooooooooooooo14, // 15
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo14);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo14>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooooooooooooooo14>>; }(),
     },
     {
         .m_variant = "oooooooooooooooooooooooooo2",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooooooooooooooo2, // 3
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo2);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo2>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooooooooooooooo2>>; }(),
     },
     {
         .m_variant = "oooooooooooooooooooooooooo3",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooooooooooooooo3, // 4
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo3);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo3>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooooooooooooooo3>>; }(),
     },
     {
         .m_variant = "oooooooooooooooooooooooooo4",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooooooooooooooo4, // 5
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo4);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo4>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooooooooooooooo4>>; }(),
     },
     {
         .m_variant = "oooooooooooooooooooooooooo5",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__oooooooooooooooooooooooooo5, // 6
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->oooooooooooooooooooooooooo5);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo5>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::oooooooooooooooooooooooooo5>>; }(),
     },
     {
         .m_variant = "ooooooooooooooooooooooooooo13",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__ooooooooooooooooooooooooooo13, // 14
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooooooo13);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::ooooooooooooooooooooooooooo13>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::ooooooooooooooooooooooooooo13>>; }(),
     },
     {
         .m_variant = "ooooooooooooooooooooooooooo15",
         .m_type = "char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<char *>(),
+        .m_t_flags = ::reflect::flag_type<char *>(),
         .m_field = e__node__ooooooooooooooooooooooooooo15, // 16
         .m_getter = [](const node *cls) -> void * 
         {
             return (void *)std::addressof(cls->ooooooooooooooooooooooooooo15);
         },
         .m_setter = []() -> auto
-        { return __setter__<node, __ref_member__<node, &node::ooooooooooooooooooooooooooo15>>; }(),
+        { return ::reflect::__setter__<node, ::reflect::__ref_member__<node, &node::ooooooooooooooooooooooooooo15>>; }(),
     },
 };
 reflect::Value __get_value(const node* cls, const std::string& _tag)
@@ -759,7 +758,7 @@ reflect::Value __get_value(const node* cls, const std::string& _tag)
     {
         branch_string tag(_tag);
         auto _meta = __details__::get_meta(static_cast<const base *>(cls), tag);
-        if (__contains__(_meta.m_flags, flag_member))
+        if (__contains__(_meta.m_flags, ::reflect::flag_member))
         {
             return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
         }
@@ -767,7 +766,7 @@ reflect::Value __get_value(const node* cls, const std::string& _tag)
     return reflect::Value(nullptr, 0);
 }
 
-inline meta<node> &rfl__0__1(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__1(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x74696e69 == value) // init
     {
@@ -780,7 +779,7 @@ inline meta<node> &rfl__0__1(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__2(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__2(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x33326f6f6f6f6f6f == value) // oooooo23
     {
@@ -793,7 +792,7 @@ inline meta<node> &rfl__0__2(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__0(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__0(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x32316f6f6f6f6f6f == value) // oooooo12
     {
@@ -806,7 +805,7 @@ inline meta<node> &rfl__1__0(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__2__0(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__2__0(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x36316f6f6f6f6f == value) // ooooo16
     {
@@ -819,7 +818,7 @@ inline meta<node> &rfl__2__0(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__1(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__1(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x306f6f == value) // oo0
     {
@@ -832,7 +831,7 @@ inline meta<node> &rfl__3__1(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__2(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__2(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x346f6f == value) // oo4
     {
@@ -845,7 +844,7 @@ inline meta<node> &rfl__3__2(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__6(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__6(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x316f6f == value) // oo1
     {
@@ -858,7 +857,7 @@ inline meta<node> &rfl__3__6(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__7(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__7(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x356f6f == value) // oo5
     {
@@ -871,7 +870,7 @@ inline meta<node> &rfl__3__7(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__8(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__8(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x35316f6f6f == value) // ooo15
     {
@@ -884,7 +883,7 @@ inline meta<node> &rfl__3__8(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__9(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__9(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x34316f6f == value) // oo14
     {
@@ -897,7 +896,7 @@ inline meta<node> &rfl__3__9(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__11(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__11(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x326f6f == value) // oo2
     {
@@ -910,7 +909,7 @@ inline meta<node> &rfl__3__11(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__15(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__15(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x33316f6f6f == value) // ooo13
     {
@@ -923,7 +922,7 @@ inline meta<node> &rfl__3__15(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__16(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__16(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x336f6f == value) // oo3
     {
@@ -936,7 +935,7 @@ inline meta<node> &rfl__3__16(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__2__2(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__2__2(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
     { // incomplete_bg_1    
@@ -998,7 +997,7 @@ inline meta<node> &rfl__2__2(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__2__5(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__2__5(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x366f6f6f6f6f6f6f == value) // ooooooo6
     {
@@ -1011,7 +1010,7 @@ inline meta<node> &rfl__2__5(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__4(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__4(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
     { // incomplete_bg_1    
@@ -1043,7 +1042,7 @@ inline meta<node> &rfl__1__4(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__6(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__6(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x38316f6f6f6f6f6f == value) // oooooo18
     {
@@ -1056,7 +1055,7 @@ inline meta<node> &rfl__1__6(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__8(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__8(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x386f6f6f6f6f6f == value) // oooooo8
     {
@@ -1069,7 +1068,7 @@ inline meta<node> &rfl__1__8(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__2__7(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__2__7(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x37 == value) // 7
     {
@@ -1082,7 +1081,7 @@ inline meta<node> &rfl__2__7(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__10(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__10(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x316f6f6f6f6f6f6f == value) // ooooooo1
     {
@@ -1095,7 +1094,7 @@ inline meta<node> &rfl__1__10(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__12(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__12(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x3031 == value) // 10
     {
@@ -1108,7 +1107,7 @@ inline meta<node> &rfl__1__12(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__13(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__13(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x3131 == value) // 11
     {
@@ -1121,7 +1120,7 @@ inline meta<node> &rfl__1__13(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__15(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__15(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x396f == value) // o9
     {
@@ -1134,7 +1133,7 @@ inline meta<node> &rfl__1__15(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__16(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__16(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x376f6f6f6f6f6f6f == value) // ooooooo7
     {
@@ -1147,7 +1146,7 @@ inline meta<node> &rfl__1__16(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__3(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__3(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
     { // incomplete_bg_1    
@@ -1205,7 +1204,7 @@ inline meta<node> &rfl__0__3(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__5(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__5(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x31326f6f6f6f6f6f == value) // oooooo21
     {
@@ -1218,7 +1217,7 @@ inline meta<node> &rfl__0__5(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__19(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__19(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x316c6c6c == value) // lll1
     {
@@ -1231,7 +1230,7 @@ inline meta<node> &rfl__3__19(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__20(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__20(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x326c6c6c == value) // lll2
     {
@@ -1244,7 +1243,7 @@ inline meta<node> &rfl__3__20(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__21(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__21(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x336c6c6c == value) // lll3
     {
@@ -1257,7 +1256,7 @@ inline meta<node> &rfl__3__21(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__22(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__22(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x346c6c6c == value) // lll4
     {
@@ -1270,7 +1269,7 @@ inline meta<node> &rfl__3__22(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__23(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__23(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x356c6c6c == value) // lll5
     {
@@ -1283,7 +1282,7 @@ inline meta<node> &rfl__3__23(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__3__25(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__3__25(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x306c6c6c == value) // lll0
     {
@@ -1296,7 +1295,7 @@ inline meta<node> &rfl__3__25(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__2__8(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__2__8(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x6c6c6c6c6c6c6c6c == value) // llllllll
     { // incomplete_bg_1    
@@ -1331,7 +1330,7 @@ inline meta<node> &rfl__2__8(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__1__17(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__1__17(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x6c6c6c6c6c6c6c6c == value) // llllllll
     {
@@ -1344,7 +1343,7 @@ inline meta<node> &rfl__1__17(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__9(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__9(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x6c6c6c6c6c6c6c6c == value) // llllllll
     {
@@ -1357,7 +1356,7 @@ inline meta<node> &rfl__0__9(const node *cls, uint64_t value, branch_string &tag
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__10(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__10(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x39316f6f6f6f == value) // oooo19
     {
@@ -1370,7 +1369,7 @@ inline meta<node> &rfl__0__10(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__11(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__11(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x65736162 == value) // base
     {
@@ -1383,7 +1382,7 @@ inline meta<node> &rfl__0__11(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__13(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__13(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x34326f6f6f6f6f6f == value) // oooooo24
     {
@@ -1396,7 +1395,7 @@ inline meta<node> &rfl__0__13(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__16(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__16(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x32326f6f6f6f6f6f == value) // oooooo22
     {
@@ -1409,7 +1408,7 @@ inline meta<node> &rfl__0__16(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__17(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__17(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x74696e696564 == value) // deinit
     {
@@ -1422,7 +1421,7 @@ inline meta<node> &rfl__0__17(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__22(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__22(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x30326f6f6f6f == value) // oooo20
     {
@@ -1435,7 +1434,7 @@ inline meta<node> &rfl__0__22(const node *cls, uint64_t value, branch_string &ta
     return g_default_meta;
 }
 
-inline meta<node> &rfl__0__24(const node *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &rfl__0__24(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x35326f6f6f6f6f6f == value) // oooooo25
     {
@@ -1462,7 +1461,7 @@ int invoke__node__deinit__7(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline meta<node> &invoke__deinit__0__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__deinit__0__0(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2928 == value) // ()
     {
@@ -1490,7 +1489,7 @@ int invoke__node__deinit__6(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline meta<node> &invoke__deinit__0__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__deinit__0__1(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2928746e69 == value) // int()
     {
@@ -1503,7 +1502,7 @@ inline meta<node> &invoke__deinit__0__1(const node *c, uint64_t value, branch_st
     return g_default_meta;
 }
 
-meta<node>& invoke__node__deinit(const node *c, const std::string &bra)
+::reflect::meta<node>& invoke__node__deinit(const node *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -1545,7 +1544,7 @@ int invoke__node__init__2(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline meta<node> &invoke__init__3__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__3__0(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20726168 == value) // har *)
     {
@@ -1558,7 +1557,7 @@ inline meta<node> &invoke__init__3__0(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__2__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__2__0(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f632c == value) // ,const c
     {
@@ -1571,7 +1570,7 @@ inline meta<node> &invoke__init__2__0(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__1__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__1__0(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x656c62756f642c74 == value) // t,double
     {
@@ -1584,7 +1583,7 @@ inline meta<node> &invoke__init__1__0(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__0__3(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__3(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x616f6c6628746e69 == value) // int(floa
     {
@@ -1613,7 +1612,7 @@ int invoke__node__init__1(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline meta<node> &invoke__init__2__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__2__1(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a == value) // *)
     {
@@ -1626,7 +1625,7 @@ inline meta<node> &invoke__init__2__1(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__1__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__1__1(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2072616863207473 == value) // st char 
     {
@@ -1639,7 +1638,7 @@ inline meta<node> &invoke__init__1__1(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__0__6(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__6(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6e6f632c746e6928 == value) // (int,con
     {
@@ -1667,7 +1666,7 @@ int invoke__node__init__4(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline meta<node> &invoke__init__0__7(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__7(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2928746e69 == value) // int()
     {
@@ -1694,7 +1693,7 @@ int invoke__node__init__5(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline meta<node> &invoke__init__0__9(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__9(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2928 == value) // ()
     {
@@ -1724,7 +1723,7 @@ int invoke__node__init__3(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline meta<node> &invoke__init__3__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__3__1(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20 == value) //  *)
     {
@@ -1737,7 +1736,7 @@ inline meta<node> &invoke__init__3__1(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__2__2(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__2__2(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x726168632074736e == value) // nst char
     {
@@ -1750,7 +1749,7 @@ inline meta<node> &invoke__init__2__2(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__1__2(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__1__2(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6f632c656c62756f == value) // ouble,co
     {
@@ -1763,7 +1762,7 @@ inline meta<node> &invoke__init__1__2(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__0__10(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__10(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x642c74616f6c6628 == value) // (float,d
     {
@@ -1793,7 +1792,7 @@ int invoke__node__init__0(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline meta<node> &invoke__init__2__3(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__2__3(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a207261 == value) // ar *)
     {
@@ -1806,7 +1805,7 @@ inline meta<node> &invoke__init__2__3(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__1__3(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__1__3(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x68632074736e6f63 == value) // const ch
     {
@@ -1819,7 +1818,7 @@ inline meta<node> &invoke__init__1__3(const node *c, uint64_t value, branch_stri
     return g_default_meta;
 }
 
-inline meta<node> &invoke__init__0__11(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__11(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2c746e6928746e69 == value) // int(int,
     {
@@ -1832,7 +1831,7 @@ inline meta<node> &invoke__init__0__11(const node *c, uint64_t value, branch_str
     return g_default_meta;
 }
 
-meta<node>& invoke__node__init(const node *c, const std::string &bra)
+::reflect::meta<node>& invoke__node__init(const node *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -1889,7 +1888,7 @@ int invoke__node__lllllllllllllllllllllllllll0__8(const node *c, uint64_t argc, 
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll0__3__2(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__3__2(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20726168 == value) // har *)
     {
@@ -1902,7 +1901,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll0__3__2(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll0__2__4(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__2__4(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f632c == value) // ,const c
     {
@@ -1915,7 +1914,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll0__2__4(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll0__1__4(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__1__4(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2a20726168632074 == value) // t char *
     {
@@ -1928,7 +1927,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll0__1__4(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll0__0__13(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__0__13(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x736e6f6328746e69 == value) // int(cons
     {
@@ -1957,7 +1956,7 @@ int invoke__node__lllllllllllllllllllllllllll0__9(const node *c, uint64_t argc, 
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll0__3__3(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__3__3(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20 == value) //  *)
     {
@@ -1970,7 +1969,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll0__3__3(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll0__2__5(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__2__5(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x726168632074736e == value) // nst char
     {
@@ -1983,7 +1982,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll0__2__5(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll0__1__5(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__1__5(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6f632c2a20726168 == value) // har *,co
     {
@@ -1996,7 +1995,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll0__1__5(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll0__0__14(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__0__14(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f6328 == value) // (const c
     {
@@ -2009,7 +2008,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll0__0__14(const node *c, ui
     return g_default_meta;
 }
 
-meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::string &bra)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -2054,7 +2053,7 @@ int invoke__node__lllllllllllllllllllllllllll1__10(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll1__3__4(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__3__4(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20726168 == value) // har *)
     {
@@ -2067,7 +2066,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll1__3__4(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll1__2__6(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__2__6(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f632c == value) // ,const c
     {
@@ -2080,7 +2079,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll1__2__6(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll1__1__6(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__1__6(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2a20726168632074 == value) // t char *
     {
@@ -2093,7 +2092,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll1__1__6(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll1__0__18(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__0__18(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x736e6f6328746e69 == value) // int(cons
     {
@@ -2122,7 +2121,7 @@ int invoke__node__lllllllllllllllllllllllllll1__11(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll1__3__5(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__3__5(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20 == value) //  *)
     {
@@ -2135,7 +2134,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll1__3__5(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll1__2__7(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__2__7(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x726168632074736e == value) // nst char
     {
@@ -2148,7 +2147,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll1__2__7(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll1__1__7(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__1__7(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6f632c2a20726168 == value) // har *,co
     {
@@ -2161,7 +2160,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll1__1__7(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll1__0__19(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__0__19(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f6328 == value) // (const c
     {
@@ -2174,7 +2173,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll1__0__19(const node *c, ui
     return g_default_meta;
 }
 
-meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::string &bra)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -2219,7 +2218,7 @@ int invoke__node__lllllllllllllllllllllllllll2__12(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll2__3__6(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__3__6(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20726168 == value) // har *)
     {
@@ -2232,7 +2231,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll2__3__6(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll2__2__8(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__2__8(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f632c == value) // ,const c
     {
@@ -2245,7 +2244,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll2__2__8(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll2__1__8(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__1__8(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2a20726168632074 == value) // t char *
     {
@@ -2258,7 +2257,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll2__1__8(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll2__0__23(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__0__23(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x736e6f6328746e69 == value) // int(cons
     {
@@ -2287,7 +2286,7 @@ int invoke__node__lllllllllllllllllllllllllll2__13(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll2__3__7(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__3__7(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20 == value) //  *)
     {
@@ -2300,7 +2299,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll2__3__7(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll2__2__9(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__2__9(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x726168632074736e == value) // nst char
     {
@@ -2313,7 +2312,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll2__2__9(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll2__1__9(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__1__9(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6f632c2a20726168 == value) // har *,co
     {
@@ -2326,7 +2325,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll2__1__9(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll2__0__24(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__0__24(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f6328 == value) // (const c
     {
@@ -2339,7 +2338,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll2__0__24(const node *c, ui
     return g_default_meta;
 }
 
-meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::string &bra)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -2384,7 +2383,7 @@ int invoke__node__lllllllllllllllllllllllllll3__14(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll3__3__8(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__3__8(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20726168 == value) // har *)
     {
@@ -2397,7 +2396,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll3__3__8(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll3__2__10(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__2__10(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f632c == value) // ,const c
     {
@@ -2410,7 +2409,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll3__2__10(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll3__1__10(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__1__10(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2a20726168632074 == value) // t char *
     {
@@ -2423,7 +2422,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll3__1__10(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll3__0__28(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__0__28(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x736e6f6328746e69 == value) // int(cons
     {
@@ -2452,7 +2451,7 @@ int invoke__node__lllllllllllllllllllllllllll3__15(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll3__3__9(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__3__9(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20 == value) //  *)
     {
@@ -2465,7 +2464,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll3__3__9(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll3__2__11(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__2__11(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x726168632074736e == value) // nst char
     {
@@ -2478,7 +2477,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll3__2__11(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll3__1__11(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__1__11(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6f632c2a20726168 == value) // har *,co
     {
@@ -2491,7 +2490,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll3__1__11(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll3__0__29(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__0__29(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f6328 == value) // (const c
     {
@@ -2504,7 +2503,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll3__0__29(const node *c, ui
     return g_default_meta;
 }
 
-meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::string &bra)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -2549,7 +2548,7 @@ int invoke__node__lllllllllllllllllllllllllll4__16(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll4__3__10(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__3__10(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20726168 == value) // har *)
     {
@@ -2562,7 +2561,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll4__3__10(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll4__2__12(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__2__12(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f632c == value) // ,const c
     {
@@ -2575,7 +2574,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll4__2__12(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll4__1__12(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__1__12(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2a20726168632074 == value) // t char *
     {
@@ -2588,7 +2587,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll4__1__12(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll4__0__33(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__0__33(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x736e6f6328746e69 == value) // int(cons
     {
@@ -2617,7 +2616,7 @@ int invoke__node__lllllllllllllllllllllllllll4__17(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll4__3__11(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__3__11(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x292a20 == value) //  *)
     {
@@ -2630,7 +2629,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll4__3__11(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll4__2__13(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__2__13(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x726168632074736e == value) // nst char
     {
@@ -2643,7 +2642,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll4__2__13(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll4__1__13(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__1__13(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6f632c2a20726168 == value) // har *,co
     {
@@ -2656,7 +2655,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll4__1__13(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll4__0__34(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__0__34(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x632074736e6f6328 == value) // (const c
     {
@@ -2669,7 +2668,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll4__0__34(const node *c, ui
     return g_default_meta;
 }
 
-meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::string &bra)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -2713,7 +2712,7 @@ int invoke__node__lllllllllllllllllllllllllll5__19(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__5__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__5__0(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x29 == value) // )
     {
@@ -2726,7 +2725,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__5__0(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__4__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__4__0(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2620676e69727473 == value) // string &
     {
@@ -2739,7 +2738,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__4__0(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__3__12(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__3__12(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x3a3a647473207473 == value) // st std::
     {
@@ -2752,7 +2751,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__3__12(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__2__14(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__2__14(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6e6f632c2620676e == value) // ng &,con
     {
@@ -2765,7 +2764,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__2__14(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__1__14(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__1__14(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x697274733a3a6474 == value) // td::stri
     {
@@ -2778,7 +2777,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__1__14(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__0__37(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__0__37(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x732074736e6f6328 == value) // (const s
     {
@@ -2808,7 +2807,7 @@ int invoke__node__lllllllllllllllllllllllllll5__18(const node *c, uint64_t argc,
     return -1;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__5__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__5__1(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x29262067 == value) // g &)
     {
@@ -2821,7 +2820,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__5__1(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__4__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__4__1(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x6e697274733a3a64 == value) // d::strin
     {
@@ -2834,7 +2833,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__4__1(const node *c, uin
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__3__13(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__3__13(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x74732074736e6f63 == value) // const st
     {
@@ -2847,7 +2846,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__3__13(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__2__15(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__2__15(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2c2620676e697274 == value) // tring &,
     {
@@ -2860,7 +2859,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__2__15(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__1__15(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__1__15(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x733a3a6474732074 == value) // t std::s
     {
@@ -2873,7 +2872,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__1__15(const node *c, ui
     return g_default_meta;
 }
 
-inline meta<node> &invoke__lllllllllllllllllllllllllll5__0__39(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__0__39(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x736e6f6328746e69 == value) // int(cons
     {
@@ -2886,7 +2885,7 @@ inline meta<node> &invoke__lllllllllllllllllllllllllll5__0__39(const node *c, ui
     return g_default_meta;
 }
 
-meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::string &bra)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -2916,7 +2915,7 @@ const uint64_t get_fields_max(const node *cls)
 }
 namespace __details__
 {    
-    meta<node>& get_meta(const node *cls, branch_string &tag)
+    ::reflect::meta<node>& get_meta(const node *cls, branch_string &tag)
     {
         constexpr void *__meta_label[] = {
             &&label__0__0,
@@ -2988,31 +2987,31 @@ namespace __details__
     label__0__23:
         return g_default_meta;
     }
-    meta<node>& get_meta(const node *cls, branch_string &tag, const std::string &args_tag)
+    ::reflect::meta<node>& get_meta(const node *cls, branch_string &tag, const std::string &args_tag)
     {
         return get_meta(cls, tag).m_invoke(cls, args_tag);    
     }    
 }
-reflect::Value get_value(const node *cls, const std::string &_tag)
+::reflect::Value get_value(const node *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
     auto _meta = __details__::get_meta(cls, tag);
-    if (__contains__(_meta.m_flags, flag_member))
+    if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
     {
-        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
+        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
     }      
     return __get_value(cls, _tag);   
 }
-reflect::Value get_value(const node *cls, const char *tag)
+::reflect::Value get_value(const node *cls, const char *tag)
 {
     return get_value(cls, std::string(tag));
 }
-reflect::Value get_field_value(const node *cls, uint32_t field)
+::reflect::Value get_field_value(const node *cls, uint32_t field)
 {
     if (field < get_fields_max(cls))
     {
         auto& _meta = g_node_meta[field];        
-        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
+        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
     }
     return reflect::Value(nullptr, 0);
 }
@@ -3049,7 +3048,7 @@ const char* get_name(const node *cls, uint32_t field)
     }
     return g_default_meta.m_variant;
 }
-meta<node> &get_meta(const node *cls)
+::reflect::meta<node> &get_meta(const node *cls)
 {
     return g_node;
 }

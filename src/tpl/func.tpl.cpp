@@ -23,7 +23,7 @@
 #include "tpl.h"
 
 const std::string func_tpl = R"(
-inline meta<{{class}}> &rfl__{{layer}}__{{index}}(const {{class}} *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<{{class}}> &rfl__{{layer}}__{{index}}(const {{class}} *cls, uint64_t value, branch_string &tag)
 {{{#block}}
     if ({{value}} == value) // {{comment}}
     {{{#complete}}

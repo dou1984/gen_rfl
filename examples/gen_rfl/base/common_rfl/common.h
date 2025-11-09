@@ -27,18 +27,17 @@
 #include <gen_rfl/branch_string.h>
 #include "../../base_types.h"
 
-using namespace reflect;
 namespace fastest
 {
 struct common;
 namespace __details__
 {
-    meta<common> &get_meta(const common *cls, branch_string& tag);    
-    meta<common> &get_meta(const common *cls, branch_string& tag, const std::string& func_args);
+    ::reflect::meta<common> &get_meta(const common *cls, branch_string& tag);    
+    ::reflect::meta<common> &get_meta(const common *cls, branch_string& tag, const std::string& func_args);
 }
-reflect::Value get_value(const common *cls, const char *tag);
-reflect::Value get_value(const common *cls, const std::string &tag);
-reflect::Value get_field_value(const common *cls, uint32_t field);
+::reflect::Value get_value(const common *cls, const char *tag);
+::reflect::Value get_value(const common *cls, const std::string &tag);
+::reflect::Value get_field_value(const common *cls, uint32_t field);
 const char *get_type(const common *cls, const std::string &tag);
 const char *get_type(const common *cls, const char *tag);
 const char *get_type(const common *cls);
@@ -60,7 +59,7 @@ int invoke(common *cls, const std::string &_tag, R &&...args)
     branch_string tag(_tag);
     if constexpr (sizeof...(args) > 0)
     {
-        static const std::string func_args = std::string("(") + __join(get_type(std::addressof(args))...) + ")";
+        static const std::string func_args = std::string("(") + ::reflect::__join(get_type(std::addressof(args))...) + ")";
         return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args), std::forward<R>(args)...);
     }
     else
@@ -75,7 +74,7 @@ int invoke_r(common *cls, const std::string &_tag, Ret&& ret, R &&...args)
     branch_string tag(_tag);
     if constexpr (sizeof...(args) > 0)
     {
-        static const std::string func_args = std::string(get_type(std::addressof(ret))) + std::string("(") + __join(get_type(std::addressof(args))...) + ")";
+        static const std::string func_args = std::string(get_type(std::addressof(ret))) + std::string("(") + ::reflect::__join(get_type(std::addressof(args))...) + ")";
         return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::forward<Ret>(ret), std::forward<R>(args)...);
     }
     else

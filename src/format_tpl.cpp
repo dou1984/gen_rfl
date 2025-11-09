@@ -213,7 +213,7 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
 
         if (!__contains__(field.m_flags, flag_function, flag_argument))
         {
-            dict->SetValue("t_flags", std::string("flag_type<") + field.m_raw_type + std::string(">()"));
+            dict->SetValue("t_flags", std::string("::reflect::flag_type<") + field.m_raw_type + std::string(">()"));
         }
         else
         {

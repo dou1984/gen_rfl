@@ -28,7 +28,7 @@ const uint64_t get_fields_max(const {{class}} *cls)
 }
 namespace __details__
 {    
-    meta<{{class}}>& get_meta(const {{class}} *cls, branch_string &tag)
+    ::reflect::meta<{{class}}>& get_meta(const {{class}} *cls, branch_string &tag)
     {{{#meta_bg_1}}
         constexpr void *__meta_label[] = {{{#labels}}
             &&label__{{layer}}__{{index}},{{/labels}}
@@ -44,31 +44,31 @@ namespace __details__
         auto value = tag();
         return rfl__{{layer}}__{{index}}(cls, value, tag);{{/meta_eq_1}}
     }
-    meta<{{class}}>& get_meta(const {{class}} *cls, branch_string &tag, const std::string &args_tag)
+    ::reflect::meta<{{class}}>& get_meta(const {{class}} *cls, branch_string &tag, const std::string &args_tag)
     {
         return get_meta(cls, tag).m_invoke(cls, args_tag);    
     }    
 }
-reflect::Value get_value(const {{class}} *cls, const std::string &_tag)
+::reflect::Value get_value(const {{class}} *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
     auto _meta = __details__::get_meta(cls, tag);
-    if (__contains__(_meta.m_flags, flag_member))
+    if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
     {
-        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
+        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
     }      
     return __get_value(cls, _tag);   
 }
-reflect::Value get_value(const {{class}} *cls, const char *tag)
+::reflect::Value get_value(const {{class}} *cls, const char *tag)
 {
     return get_value(cls, std::string(tag));
 }
-reflect::Value get_field_value(const {{class}} *cls, uint32_t field)
+::reflect::Value get_field_value(const {{class}} *cls, uint32_t field)
 {
     if (field < get_fields_max(cls))
     {
         auto& _meta = g_{{class}}_meta[field];        
-        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
+        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
     }
     return reflect::Value(nullptr, 0);
 }
@@ -105,7 +105,7 @@ const char* get_name(const {{class}} *cls, uint32_t field)
     }
     return g_default_meta.m_variant;
 }
-meta<{{class}}> &get_meta(const {{class}} *cls)
+::reflect::meta<{{class}}> &get_meta(const {{class}} *cls)
 {
     return g_{{class}};
 }

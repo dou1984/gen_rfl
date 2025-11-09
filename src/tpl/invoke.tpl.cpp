@@ -23,7 +23,7 @@
 #include "tpl.h"
 
 const std::string invoke_tpl = R"(
-meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::string &bra)
+::reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::string &bra)
 {
     branch_string tag(bra);
     if (tag)
@@ -67,7 +67,7 @@ int invoke__{{class}}__{{variant}}{{__field}}(const {{class}} *c, uint64_t argc,
 )";
 
 const std::string invoke_layer_tpl = R"(
-inline meta<{{class}}> &invoke__{{variant}}__{{layer}}__{{index}}(const {{class}} *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<{{class}}> &invoke__{{variant}}__{{layer}}__{{index}}(const {{class}} *c, uint64_t value, branch_string &tag)
 {{{#block}}
     if ({{value}} == value) // {{comment}}
     {{{#complete}}

@@ -28,7 +28,6 @@
 #include "../../../base/common.h"
 #include <gen_rfl/setter.h>
 
-using namespace reflect;
 
 namespace fastest
 {
@@ -48,7 +47,7 @@ static int set_value_invalid(common *cls, uint32_t, ...)
 {
     return 0;
 }
-static meta<common> g_default_meta = {
+static reflect::meta<common> g_default_meta = {
     .m_variant = "",
     .m_type = "",
     .m_flags = 0,
@@ -57,7 +56,7 @@ static meta<common> g_default_meta = {
     .m_getter = [](const common *c) -> void* { return nullptr; },
     .m_setter = set_value_invalid,
 };
-static meta<common> g_common = {
+static reflect::meta<common> g_common = {
     .m_variant = "common",
     .m_type = "",
     .m_flags = 0,
@@ -67,62 +66,62 @@ static meta<common> g_common = {
     .m_setter = set_value_invalid,
 };
 
-static meta<common> g_common_func[] = 
+static reflect::meta<common> g_common_func[] = 
 {
 };
 
-static meta<common> g_common_meta[] = {
+static reflect::meta<common> g_common_meta[] = {
     {
         .m_variant = "o0000000",
         .m_type = "const char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<const char *>(),
+        .m_t_flags = ::reflect::flag_type<const char *>(),
         .m_field = e__common__o0000000, // 0
         .m_getter = [](const common *cls) -> void * 
         {
             return (void *)std::addressof(cls->o0000000);
         },
         .m_setter = []() -> auto
-        { return __setter__<common, __ref_member__<common, &common::o0000000>>; }(),
+        { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000000>>; }(),
     },
     {
         .m_variant = "o0000001",
         .m_type = "const char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<const char *>(),
+        .m_t_flags = ::reflect::flag_type<const char *>(),
         .m_field = e__common__o0000001, // 1
         .m_getter = [](const common *cls) -> void * 
         {
             return (void *)std::addressof(cls->o0000001);
         },
         .m_setter = []() -> auto
-        { return __setter__<common, __ref_member__<common, &common::o0000001>>; }(),
+        { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000001>>; }(),
     },
     {
         .m_variant = "o0000002",
         .m_type = "const char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<const char *>(),
+        .m_t_flags = ::reflect::flag_type<const char *>(),
         .m_field = e__common__o0000002, // 2
         .m_getter = [](const common *cls) -> void * 
         {
             return (void *)std::addressof(cls->o0000002);
         },
         .m_setter = []() -> auto
-        { return __setter__<common, __ref_member__<common, &common::o0000002>>; }(),
+        { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000002>>; }(),
     },
     {
         .m_variant = "o0000003",
         .m_type = "const char *",
         .m_flags = 0x801,
-        .m_t_flags = flag_type<const char *>(),
+        .m_t_flags = ::reflect::flag_type<const char *>(),
         .m_field = e__common__o0000003, // 3
         .m_getter = [](const common *cls) -> void * 
         {
             return (void *)std::addressof(cls->o0000003);
         },
         .m_setter = []() -> auto
-        { return __setter__<common, __ref_member__<common, &common::o0000003>>; }(),
+        { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000003>>; }(),
     },
 };
 reflect::Value __get_value(const common* cls, const std::string& _tag)
@@ -130,7 +129,7 @@ reflect::Value __get_value(const common* cls, const std::string& _tag)
     return reflect::Value(nullptr, 0);
 }
 
-inline meta<common> &rfl__0__0(const common *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<common> &rfl__0__0(const common *cls, uint64_t value, branch_string &tag)
 {
     if (0x333030303030306f == value) // o0000003
     {
@@ -143,7 +142,7 @@ inline meta<common> &rfl__0__0(const common *cls, uint64_t value, branch_string 
     return g_default_meta;
 }
 
-inline meta<common> &rfl__0__2(const common *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<common> &rfl__0__2(const common *cls, uint64_t value, branch_string &tag)
 {
     if (0x303030303030306f == value) // o0000000
     {
@@ -156,7 +155,7 @@ inline meta<common> &rfl__0__2(const common *cls, uint64_t value, branch_string 
     return g_default_meta;
 }
 
-inline meta<common> &rfl__0__3(const common *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<common> &rfl__0__3(const common *cls, uint64_t value, branch_string &tag)
 {
     if (0x313030303030306f == value) // o0000001
     {
@@ -169,7 +168,7 @@ inline meta<common> &rfl__0__3(const common *cls, uint64_t value, branch_string 
     return g_default_meta;
 }
 
-inline meta<common> &rfl__0__4(const common *cls, uint64_t value, branch_string &tag)
+inline ::reflect::meta<common> &rfl__0__4(const common *cls, uint64_t value, branch_string &tag)
 {
     if (0x323030303030306f == value) // o0000002
     {
@@ -188,7 +187,7 @@ const uint64_t get_fields_max(const common *cls)
 }
 namespace __details__
 {    
-    meta<common>& get_meta(const common *cls, branch_string &tag)
+    ::reflect::meta<common>& get_meta(const common *cls, branch_string &tag)
     {
         constexpr void *__meta_label[] = {
             &&label__0__0,
@@ -212,31 +211,31 @@ namespace __details__
     label__0__1:
         return g_default_meta;
     }
-    meta<common>& get_meta(const common *cls, branch_string &tag, const std::string &args_tag)
+    ::reflect::meta<common>& get_meta(const common *cls, branch_string &tag, const std::string &args_tag)
     {
         return get_meta(cls, tag).m_invoke(cls, args_tag);    
     }    
 }
-reflect::Value get_value(const common *cls, const std::string &_tag)
+::reflect::Value get_value(const common *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
     auto _meta = __details__::get_meta(cls, tag);
-    if (__contains__(_meta.m_flags, flag_member))
+    if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
     {
-        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
+        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
     }      
     return __get_value(cls, _tag);   
 }
-reflect::Value get_value(const common *cls, const char *tag)
+::reflect::Value get_value(const common *cls, const char *tag)
 {
     return get_value(cls, std::string(tag));
 }
-reflect::Value get_field_value(const common *cls, uint32_t field)
+::reflect::Value get_field_value(const common *cls, uint32_t field)
 {
     if (field < get_fields_max(cls))
     {
         auto& _meta = g_common_meta[field];        
-        return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
+        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
     }
     return reflect::Value(nullptr, 0);
 }
@@ -273,7 +272,7 @@ const char* get_name(const common *cls, uint32_t field)
     }
     return g_default_meta.m_variant;
 }
-meta<common> &get_meta(const common *cls)
+::reflect::meta<common> &get_meta(const common *cls)
 {
     return g_common;
 }
