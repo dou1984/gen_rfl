@@ -22,116 +22,144 @@
 #include "base_types.h"
 
 
-const char *get_type(char * *)
+const std::string &get_type(char * *)
 {
-    return "char *";
+    static const std::string _ = "char *";
+    return _;
 }
-const char *get_type(const char * *)
+const std::string &get_type(const char * *)
 {
-    return "const char *";
+    static const std::string _ = "const char *";
+    return _;
 }
-const char *get_type(const double *)
+const std::string &get_type(const double *)
 {
-    return "const double";
+    static const std::string _ = "const double";
+    return _;
 }
-const char *get_type(const float *)
+const std::string &get_type(const float *)
 {
-    return "const float";
+    static const std::string _ = "const float";
+    return _;
 }
-const char *get_type(const int *)
+const std::string &get_type(const int *)
 {
-    return "const int";
+    static const std::string _ = "const int";
+    return _;
 }
-const char *get_type(const long *)
+const std::string &get_type(const long *)
 {
-    return "const long";
+    static const std::string _ = "const long";
+    return _;
 }
-const char *get_type(const short *)
+const std::string &get_type(const short *)
 {
-    return "const short";
+    static const std::string _ = "const short";
+    return _;
 }
-const char *get_type(const signed char *)
+const std::string &get_type(const signed char *)
 {
-    return "const signed char";
+    static const std::string _ = "const signed char";
+    return _;
 }
-const char *get_type(const std::map<int, int> *)
+const std::string &get_type(const std::map<int, int> *)
 {
-    return "const std::map<int, int>";
+    static const std::string _ = "const std::map<int, int>";
+    return _;
 }
-const char *get_type(const std::string *)
+const std::string &get_type(const std::string *)
 {
-    return "const std::string";
+    static const std::string _ = "const std::string";
+    return _;
 }
-const char *get_type(const std::vector<int> *)
+const std::string &get_type(const std::vector<int> *)
 {
-    return "const std::vector<int>";
+    static const std::string _ = "const std::vector<int>";
+    return _;
 }
-const char *get_type(const unsigned char *)
+const std::string &get_type(const unsigned char *)
 {
-    return "const unsigned char";
+    static const std::string _ = "const unsigned char";
+    return _;
 }
-const char *get_type(const unsigned int *)
+const std::string &get_type(const unsigned int *)
 {
-    return "const unsigned int";
+    static const std::string _ = "const unsigned int";
+    return _;
 }
-const char *get_type(const unsigned long *)
+const std::string &get_type(const unsigned long *)
 {
-    return "const unsigned long";
+    static const std::string _ = "const unsigned long";
+    return _;
 }
-const char *get_type(const unsigned short *)
+const std::string &get_type(const unsigned short *)
 {
-    return "const unsigned short";
+    static const std::string _ = "const unsigned short";
+    return _;
 }
-const char *get_type(double *)
+const std::string &get_type(double *)
 {
-    return "double";
+    static const std::string _ = "double";
+    return _;
 }
-const char *get_type(float *)
+const std::string &get_type(float *)
 {
-    return "float";
+    static const std::string _ = "float";
+    return _;
 }
-const char *get_type(int *)
+const std::string &get_type(int *)
 {
-    return "int";
+    static const std::string _ = "int";
+    return _;
 }
-const char *get_type(long *)
+const std::string &get_type(long *)
 {
-    return "long";
+    static const std::string _ = "long";
+    return _;
 }
-const char *get_type(short *)
+const std::string &get_type(short *)
 {
-    return "short";
+    static const std::string _ = "short";
+    return _;
 }
-const char *get_type(signed char *)
+const std::string &get_type(signed char *)
 {
-    return "signed char";
+    static const std::string _ = "signed char";
+    return _;
 }
-const char *get_type(std::map<int, int> *)
+const std::string &get_type(std::map<int, int> *)
 {
-    return "std::map<int, int>";
+    static const std::string _ = "std::map<int, int>";
+    return _;
 }
-const char *get_type(std::string *)
+const std::string &get_type(std::string *)
 {
-    return "std::string";
+    static const std::string _ = "std::string";
+    return _;
 }
-const char *get_type(std::vector<int> *)
+const std::string &get_type(std::vector<int> *)
 {
-    return "std::vector<int>";
+    static const std::string _ = "std::vector<int>";
+    return _;
 }
-const char *get_type(unsigned char *)
+const std::string &get_type(unsigned char *)
 {
-    return "unsigned char";
+    static const std::string _ = "unsigned char";
+    return _;
 }
-const char *get_type(unsigned int *)
+const std::string &get_type(unsigned int *)
 {
-    return "unsigned int";
+    static const std::string _ = "unsigned int";
+    return _;
 }
-const char *get_type(unsigned long *)
+const std::string &get_type(unsigned long *)
 {
-    return "unsigned long";
+    static const std::string _ = "unsigned long";
+    return _;
 }
-const char *get_type(unsigned short *)
+const std::string &get_type(unsigned short *)
 {
-    return "unsigned short";
+    static const std::string _ = "unsigned short";
+    return _;
 }
 

@@ -62,7 +62,7 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_end,
+                &&label_type_other,
             };
             goto *__meta__[_flag];
         label_uint8:
@@ -114,11 +114,11 @@ namespace reflect
             r = __set__(field, _flag, str);
             break;
         }
-        label_end:
+        label_type_other:
         {
-            auto _type = va_arg(__arguments__, const char *);
             std::decay_t<decltype(field)> *t = nullptr;
-            if (strcmp(::get_type(t), _type) == 0)
+            auto _type = va_arg(__arguments__, const std::string *);
+            if (*_type == ::get_type(t))
             {
                 auto _value = va_arg(
                     __arguments__, std::decay_t<decltype(field)> *);

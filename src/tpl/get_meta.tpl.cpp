@@ -22,7 +22,7 @@
 #include "tpl.h"
 
 const std::string get_meta_tpl = R"(
-const uint64_t get_fields_max(const {{class}} *cls)
+const uint64_t get_fields_count(const {{class}} *cls)
 {
     return countof(g_{{class}}_meta);
 }
@@ -65,26 +65,29 @@ namespace __details__
 }
 ::reflect::Value get_field_value(const {{class}} *cls, uint32_t field)
 {
-    if (field < get_fields_max(cls))
+    if (field < get_fields_count(cls))
     {
-        auto& _meta = g_{{class}}_meta[field];        
-        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
+        auto& _meta = g_{{class}}_meta[field]; 
+        if (_meta.m_t_flags != 0)
+        {
+            return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);
+        }
     }
-    return reflect::Value(nullptr, 0);
+    return reflect::Value(nullptr, reflect::e_type_other);
 }
-const char* get_type(const {{class}} *cls, const std::string &_tag)
+const std::string &get_type(const {{class}} *cls, const std::string &_tag)
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;
 }
-const char* get_type(const {{class}} *cls, const char *_tag) 
+const std::string &get_type(const {{class}} *cls, const char *_tag) 
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;    
 }
-const char *get_type(const {{class}} *cls)
+const std::string &get_type(const {{class}} *cls)
 {
-    static const char _class[] = "{{class}}";
+    static const std::string _class = "{{class}}";
     return _class;
 }
 uint64_t get_field(const {{class}} *cls, const std::string &_tag)
@@ -97,9 +100,9 @@ uint64_t get_field(const {{class}} *cls, const char *_tag)
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
 }
-const char* get_name(const {{class}} *cls, uint32_t field)
+const std::string &get_name(const {{class}} *cls, uint32_t field)
 {
-    if (field < get_fields_max(cls))
+    if (field < get_fields_count(cls))
     {
         return g_{{class}}_meta[field].m_variant;
     }

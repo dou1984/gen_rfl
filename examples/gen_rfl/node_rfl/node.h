@@ -21,6 +21,7 @@
 
 #pragma once
 #include <string>
+#include <initializer_list>
 #include <typeinfo>
 #include <cassert>
 #include <gen_rfl/value.h>
@@ -36,13 +37,13 @@ namespace __details__
 ::reflect::Value get_value(const node *cls, const char *tag);
 ::reflect::Value get_value(const node *cls, const std::string &tag);
 ::reflect::Value get_field_value(const node *cls, uint32_t field);
-const char *get_type(const node *cls, const std::string &tag);
-const char *get_type(const node *cls, const char *tag);
-const char *get_type(const node *cls);
+const std::string &get_type(const node *cls, const std::string &tag);
+const std::string &get_type(const node *cls, const char *tag);
+const std::string &get_type(const node *cls);
 uint64_t get_field(const node *cls, const std::string &tag);
 uint64_t get_field(const node *cls, const char *tag);
-const uint64_t get_fields_max(const node *cls);
-const char *get_name(const node *cls, uint32_t field);
+const uint64_t get_fields_count(const node *cls);
+const std::string &get_name(const node *cls, uint32_t field);
  
 template <class T>
 int set_value(node *cls, const std::string &_tag, T &&value)

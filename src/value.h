@@ -105,7 +105,7 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_end,
+                &&label_type_other,
             };
             goto *__meta__[m_flags];
         label_uint8:
@@ -130,7 +130,7 @@ namespace reflect
             return __ref<double>();
         label_cstr:
         label_string:
-        label_end:
+        label_type_other:
             return 0;
         }
         template <class T>
@@ -149,7 +149,7 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_end,
+                &&label_type_other,
             };
             goto *__meta__[m_flags];
         label_uint8:
@@ -176,7 +176,7 @@ namespace reflect
             return __to<T, const char *>();
         label_string:
             return __to<T, std::string>();
-        label_end:
+        label_type_other:
             return T{};
         }
     };

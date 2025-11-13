@@ -35,7 +35,7 @@ const std::string base_types_tpl = R"({{license}}
 #include <unordered_map>
 #include <unordered_set>
 {{#base_types}}
-const char *get_type({{class}} *);{{/base_types}}{{#base_stl}}
+const std::string &get_type({{class}} *);{{/base_types}}{{#base_stl}}
 void* get_field_value({{class}} *cls, uint32_t field);{{/base_stl}}
 
 )";
@@ -43,9 +43,10 @@ const std::string base_types_source_tpl = R"({{license}}
 #include "base_types.h"
 
 {{#base_types}}
-const char *get_type({{class}} *)
+const std::string &get_type({{class}} *)
 {
-    return "{{raw_class}}";
+    static const std::string _ = "{{raw_class}}";
+    return _;
 }{{/base_types}}{{#base_stl}}
 void* get_field_value({{class}} *cls, uint32_t field)
 {

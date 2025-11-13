@@ -21,6 +21,7 @@
 
 #pragma once
 #include <string>
+#include <initializer_list>
 #include <typeinfo>
 #include <cassert>
 #include <gen_rfl/value.h>
@@ -36,13 +37,13 @@ namespace __details__
 ::reflect::Value get_value(const base *cls, const char *tag);
 ::reflect::Value get_value(const base *cls, const std::string &tag);
 ::reflect::Value get_field_value(const base *cls, uint32_t field);
-const char *get_type(const base *cls, const std::string &tag);
-const char *get_type(const base *cls, const char *tag);
-const char *get_type(const base *cls);
+const std::string &get_type(const base *cls, const std::string &tag);
+const std::string &get_type(const base *cls, const char *tag);
+const std::string &get_type(const base *cls);
 uint64_t get_field(const base *cls, const std::string &tag);
 uint64_t get_field(const base *cls, const char *tag);
-const uint64_t get_fields_max(const base *cls);
-const char *get_name(const base *cls, uint32_t field);
+const uint64_t get_fields_count(const base *cls);
+const std::string &get_name(const base *cls, uint32_t field);
  
 template <class T>
 int set_value(base *cls, const std::string &_tag, T &&value)

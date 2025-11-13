@@ -156,7 +156,7 @@ static reflect::meta<func> g_func_meta[] = {
 };
 reflect::Value __get_value(const func* cls, const std::string& _tag)
 {
-    return reflect::Value(nullptr, 0);
+    return reflect::Value(nullptr, reflect::e_type_other);
 }
 
 inline ::reflect::meta<func> &rfl__0__3(const func *cls, uint64_t value, branch_string &tag)
@@ -394,7 +394,7 @@ inline ::reflect::meta<func> &invoke__init__0__5(const func *c, uint64_t value, 
     return g_default_meta;
 }
 
-const uint64_t get_fields_max(const func *cls)
+const uint64_t get_fields_count(const func *cls)
 {
     return countof(g_func_meta);
 }
@@ -448,26 +448,29 @@ namespace __details__
 }
 ::reflect::Value get_field_value(const func *cls, uint32_t field)
 {
-    if (field < get_fields_max(cls))
+    if (field < get_fields_count(cls))
     {
-        auto& _meta = g_func_meta[field];        
-        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
+        auto& _meta = g_func_meta[field]; 
+        if (_meta.m_t_flags != 0)
+        {
+            return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);
+        }
     }
-    return reflect::Value(nullptr, 0);
+    return reflect::Value(nullptr, reflect::e_type_other);
 }
-const char* get_type(const func *cls, const std::string &_tag)
+const std::string &get_type(const func *cls, const std::string &_tag)
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;
 }
-const char* get_type(const func *cls, const char *_tag) 
+const std::string &get_type(const func *cls, const char *_tag) 
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;    
 }
-const char *get_type(const func *cls)
+const std::string &get_type(const func *cls)
 {
-    static const char _class[] = "func";
+    static const std::string _class = "func";
     return _class;
 }
 uint64_t get_field(const func *cls, const std::string &_tag)
@@ -480,9 +483,9 @@ uint64_t get_field(const func *cls, const char *_tag)
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
 }
-const char* get_name(const func *cls, uint32_t field)
+const std::string &get_name(const func *cls, uint32_t field)
 {
-    if (field < get_fields_max(cls))
+    if (field < get_fields_count(cls))
     {
         return g_func_meta[field].m_variant;
     }

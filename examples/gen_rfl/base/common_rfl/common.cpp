@@ -126,7 +126,7 @@ static reflect::meta<common> g_common_meta[] = {
 };
 reflect::Value __get_value(const common* cls, const std::string& _tag)
 {
-    return reflect::Value(nullptr, 0);
+    return reflect::Value(nullptr, reflect::e_type_other);
 }
 
 inline ::reflect::meta<common> &rfl__0__0(const common *cls, uint64_t value, branch_string &tag)
@@ -181,7 +181,7 @@ inline ::reflect::meta<common> &rfl__0__4(const common *cls, uint64_t value, bra
     return g_default_meta;
 }
 
-const uint64_t get_fields_max(const common *cls)
+const uint64_t get_fields_count(const common *cls)
 {
     return countof(g_common_meta);
 }
@@ -232,26 +232,29 @@ namespace __details__
 }
 ::reflect::Value get_field_value(const common *cls, uint32_t field)
 {
-    if (field < get_fields_max(cls))
+    if (field < get_fields_count(cls))
     {
-        auto& _meta = g_common_meta[field];        
-        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);        
+        auto& _meta = g_common_meta[field]; 
+        if (_meta.m_t_flags != 0)
+        {
+            return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);
+        }
     }
-    return reflect::Value(nullptr, 0);
+    return reflect::Value(nullptr, reflect::e_type_other);
 }
-const char* get_type(const common *cls, const std::string &_tag)
+const std::string &get_type(const common *cls, const std::string &_tag)
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;
 }
-const char* get_type(const common *cls, const char *_tag) 
+const std::string &get_type(const common *cls, const char *_tag) 
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;    
 }
-const char *get_type(const common *cls)
+const std::string &get_type(const common *cls)
 {
-    static const char _class[] = "common";
+    static const std::string _class = "common";
     return _class;
 }
 uint64_t get_field(const common *cls, const std::string &_tag)
@@ -264,9 +267,9 @@ uint64_t get_field(const common *cls, const char *_tag)
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
 }
-const char* get_name(const common *cls, uint32_t field)
+const std::string &get_name(const common *cls, uint32_t field)
 {
-    if (field < get_fields_max(cls))
+    if (field < get_fields_count(cls))
     {
         return g_common_meta[field].m_variant;
     }

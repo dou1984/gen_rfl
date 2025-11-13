@@ -101,7 +101,7 @@ namespace reflect
         e_double,
         e_cstr,
         e_string,
-        e_type_end,
+        e_type_other,
     };
 
     template <class T>
@@ -111,8 +111,8 @@ namespace reflect
         using meta_setter_t = int (*)(T *, unsigned int, ...);
         using meta_invoke_t = meta &(*)(const T *, const std::string &);
         using meta_func_t = int (*)(const T *, uint64_t, ...);
-        const char *m_variant = "";
-        const char *m_type = "";
+        const std::string m_variant;
+        const std::string m_type;
         uint32_t m_flags = 0;
         uint32_t m_t_flags = 0;
         uint64_t m_field = 0;
@@ -137,7 +137,7 @@ namespace reflect
                        : l == 2 ? e_int16
                        : l == 4 ? e_int32
                        : l == 8 ? e_int64
-                                : e_type_end;
+                                : e_type_other;
             }
             else
             {
@@ -145,14 +145,14 @@ namespace reflect
                        : l == 2 ? e_uint16
                        : l == 4 ? e_uint32
                        : l == 8 ? e_uint64
-                                : e_type_end;
+                                : e_type_other;
             }
         }
         else if constexpr (std::is_floating_point<std::decay_t<T>>::value)
         {
             return l == 4   ? e_float
                    : l == 8 ? e_double
-                            : e_type_end;
+                            : e_type_other;
         }
         else if constexpr (std::is_same<std::decay_t<T>, std::string>::value)
         {
@@ -162,7 +162,7 @@ namespace reflect
         {
             return e_cstr;
         }
-        return e_type_end;
+        return e_type_other;
     }
 
 }
