@@ -86,6 +86,7 @@ struct node : base
     int lllllllllllllllllllllllllll3(const char *, const char *);
     int lllllllllllllllllllllllllll4(const char *, const char *);
     int lllllllllllllllllllllllllll5(const std::string &, const std::string &);
+    int lllllllllllllllllllllllllll6(std::string &, std::string &);
 };
 
 struct func

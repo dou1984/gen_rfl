@@ -25,11 +25,11 @@
 const std::string header_tpl = R"magic({{license}}
 #pragma once
 #include <string>
-#include <initializer_list>
 #include <typeinfo>
 #include <cassert>
 #include <gen_rfl/value.h>
 #include <gen_rfl/branch_string.h>
+#include <gen_rfl/reflect.h>
 #include "{{header}}"
 {{#namesp}}
 namespace {{namespace}}
@@ -65,7 +65,7 @@ int invoke({{class}} *cls, const std::string &_tag, R &&...args)
     if constexpr (sizeof...(args) > 0)
     {
         static const std::string func_args = std::string("(") + ::reflect::__join(get_type(std::addressof(args))...) + ")";
-        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args), std::forward<R>(args)...);
+        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args), std::addressof(args)...);
     }
     else
     {
@@ -80,12 +80,12 @@ int invoke_r({{class}} *cls, const std::string &_tag, Ret&& ret, R &&...args)
     if constexpr (sizeof...(args) > 0)
     {
         static const std::string func_args = std::string(get_type(std::addressof(ret))) + std::string("(") + ::reflect::__join(get_type(std::addressof(args))...) + ")";
-        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::forward<Ret>(ret), std::forward<R>(args)...);
+        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::addressof(ret), std::addressof(args)...);
     }
     else
     {
         static const std::string func_args = std::string(get_type(std::addressof(ret))) + "()";
-        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::forward<Ret>(ret));
+        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::addressof(ret));
     }
 }
 {{#namesp}}

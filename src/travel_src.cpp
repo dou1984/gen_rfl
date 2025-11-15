@@ -107,6 +107,25 @@ void insert_base_types(const std::string &type)
     }
 }
 
+std::string RemoveExtents(const std::string &type)
+{
+    constexpr char _const[] = "const ";
+    std::string_view view = type;
+    if (view.compare(0, strlen(_const), _const) == 0)
+    {
+        view = view.substr(6);
+    }
+    constexpr char _ampersand[] = "&";
+    auto l = view.size();
+    if (l > 0)
+    {
+        if (view.compare(l - 1, l, _ampersand) == 0)
+        {
+            view = view.substr(0, l - 2);
+        }
+    }
+    return std::string(view.data(), view.size());
+}
 bool GetNamespaces(CXXRecordDecl *D, std::string &NamespaceName)
 {
 
@@ -370,7 +389,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
             for (auto &Param : parameters)
             {
                 auto [FieldType, UnqualifiedType] = get_type_name(Param);
-                _input.push_back(FieldType.getAsString());
+                _input.push_back(RemoveExtents(FieldType.getAsString()));
             }
 
             {

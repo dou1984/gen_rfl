@@ -30,7 +30,6 @@
 #include <type_traits>
 #include <utility>
 #include <iostream>
-#include <bitset>
 
 namespace reflect
 {
@@ -62,6 +61,16 @@ namespace reflect
         }
         return result;
     }
+    template <typename S>
+    std::string __join(S &&s)
+    {
+        return s;
+    }
+    template <typename S>
+    std::string __join()
+    {
+        return "";
+    }
     enum FLAG_REFLECT
     {
         flag_member,
@@ -89,6 +98,7 @@ namespace reflect
     };
     enum TYPE_REFLECT
     {
+        e_nullptr,
         e_uint8,
         e_uint16,
         e_uint32,
@@ -101,7 +111,8 @@ namespace reflect
         e_double,
         e_cstr,
         e_string,
-        e_type_other,
+        e_type_unfundamental,        
+        e_type_end
     };
 
     template <class T>
@@ -137,7 +148,7 @@ namespace reflect
                        : l == 2 ? e_int16
                        : l == 4 ? e_int32
                        : l == 8 ? e_int64
-                                : e_type_other;
+                                : e_type_unfundamental;
             }
             else
             {
@@ -145,14 +156,14 @@ namespace reflect
                        : l == 2 ? e_uint16
                        : l == 4 ? e_uint32
                        : l == 8 ? e_uint64
-                                : e_type_other;
+                                : e_type_unfundamental;
             }
         }
         else if constexpr (std::is_floating_point<std::decay_t<T>>::value)
         {
             return l == 4   ? e_float
                    : l == 8 ? e_double
-                            : e_type_other;
+                            : e_type_unfundamental;
         }
         else if constexpr (std::is_same<std::decay_t<T>, std::string>::value)
         {
@@ -162,7 +173,7 @@ namespace reflect
         {
             return e_cstr;
         }
-        return e_type_other;
+        return e_type_unfundamental;
     }
 
 }

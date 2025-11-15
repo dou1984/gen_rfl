@@ -126,7 +126,7 @@ static reflect::meta<common> g_common_meta[] = {
 };
 reflect::Value __get_value(const common* cls, const std::string& _tag)
 {
-    return reflect::Value(nullptr, reflect::e_type_other);
+    return reflect::Value(nullptr, reflect::e_nullptr);
 }
 
 inline ::reflect::meta<common> &rfl__0__0(const common *cls, uint64_t value, branch_string &tag)
@@ -212,14 +212,23 @@ namespace __details__
         return g_default_meta;
     }
     ::reflect::meta<common>& get_meta(const common *cls, branch_string &tag, const std::string &args_tag)
-    {
-        return get_meta(cls, tag).m_invoke(cls, args_tag);    
+    {        
+        auto &_meta = __details__::get_meta(cls, tag);
+        if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
+        {
+            auto &_invoke = _meta.m_invoke(cls, args_tag);
+            if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+            {
+                return _invoke;
+            }
+        }
+        return g_default_meta;
     }    
 }
 ::reflect::Value get_value(const common *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
-    auto _meta = __details__::get_meta(cls, tag);
+    auto& _meta = __details__::get_meta(cls, tag);
     if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
     {
         return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
@@ -240,7 +249,7 @@ namespace __details__
             return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);
         }
     }
-    return reflect::Value(nullptr, reflect::e_type_other);
+    return reflect::Value(nullptr, reflect::e_nullptr);
 }
 const std::string &get_type(const common *cls, const std::string &_tag)
 {

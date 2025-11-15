@@ -41,6 +41,7 @@ enum node_meta_enum
     e__node__lllllllllllllllllllllllllll3,
     e__node__lllllllllllllllllllllllllll4,
     e__node__lllllllllllllllllllllllllll5,
+    e__node__lllllllllllllllllllllllllll6,
     e__node__oooo19,
     e__node__oooo20,
     e__node__oooooo21,
@@ -91,6 +92,8 @@ enum node_func_enum
     e__node__lllllllllllllllllllllllllll4__16,
     e__node__lllllllllllllllllllllllllll5__19,
     e__node__lllllllllllllllllllllllllll5__18,
+    e__node__lllllllllllllllllllllllllll6__21,
+    e__node__lllllllllllllllllllllllllll6__20,
     e__node__func__end,
 };
 static int set_value_invalid(node *cls, uint32_t, ...)
@@ -136,6 +139,8 @@ int invoke__node__lllllllllllllllllllllllllll4__17(const node* c, uint64_t argc,
 int invoke__node__lllllllllllllllllllllllllll4__16(const node* c, uint64_t argc, ...);
 int invoke__node__lllllllllllllllllllllllllll5__19(const node* c, uint64_t argc, ...);
 int invoke__node__lllllllllllllllllllllllllll5__18(const node* c, uint64_t argc, ...);
+int invoke__node__lllllllllllllllllllllllllll6__21(const node* c, uint64_t argc, ...);
+int invoke__node__lllllllllllllllllllllllllll6__20(const node* c, uint64_t argc, ...);
 static reflect::meta<node> g_node_func[] = 
 {
     {
@@ -167,7 +172,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "init",
-        .m_type = "(float,double,const char *)",
+        .m_type = "(float,double,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__init__3, // 3
@@ -176,7 +181,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "init",
-        .m_type = "(int,const char *)",
+        .m_type = "(int,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__init__1, // 1
@@ -194,7 +199,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "init",
-        .m_type = "int(float,double,const char *)",
+        .m_type = "int(float,double,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__init__2, // 2
@@ -203,7 +208,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "init",
-        .m_type = "int(int,const char *)",
+        .m_type = "int(int,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__init__0, // 0
@@ -212,7 +217,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll0",
-        .m_type = "(const char *,const char *)",
+        .m_type = "(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll0__9, // 9
@@ -221,7 +226,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll0",
-        .m_type = "int(const char *,const char *)",
+        .m_type = "int(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll0__8, // 8
@@ -230,7 +235,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll1",
-        .m_type = "(const char *,const char *)",
+        .m_type = "(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll1__11, // 11
@@ -239,7 +244,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll1",
-        .m_type = "int(const char *,const char *)",
+        .m_type = "int(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll1__10, // 10
@@ -248,7 +253,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll2",
-        .m_type = "(const char *,const char *)",
+        .m_type = "(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll2__13, // 13
@@ -257,7 +262,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll2",
-        .m_type = "int(const char *,const char *)",
+        .m_type = "int(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll2__12, // 12
@@ -266,7 +271,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll3",
-        .m_type = "(const char *,const char *)",
+        .m_type = "(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll3__15, // 15
@@ -275,7 +280,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll3",
-        .m_type = "int(const char *,const char *)",
+        .m_type = "int(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll3__14, // 14
@@ -284,7 +289,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll4",
-        .m_type = "(const char *,const char *)",
+        .m_type = "(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll4__17, // 17
@@ -293,7 +298,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll4",
-        .m_type = "int(const char *,const char *)",
+        .m_type = "int(char *,char *)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll4__16, // 16
@@ -302,7 +307,7 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll5",
-        .m_type = "(const std::string &,const std::string &)",
+        .m_type = "(std::string,std::string)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll5__19, // 19
@@ -311,11 +316,29 @@ static reflect::meta<node> g_node_func[] =
     },
     {
         .m_variant = "lllllllllllllllllllllllllll5",
-        .m_type = "int(const std::string &,const std::string &)",
+        .m_type = "int(std::string,std::string)",
         .m_flags = 0x8801,
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll5__18, // 18
         .m_func = invoke__node__lllllllllllllllllllllllllll5__18,
+        .m_setter = set_value_invalid,
+    },
+    {
+        .m_variant = "lllllllllllllllllllllllllll6",
+        .m_type = "(std::string,std::string)",
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll6__21, // 21
+        .m_func = invoke__node__lllllllllllllllllllllllllll6__21,
+        .m_setter = set_value_invalid,
+    },
+    {
+        .m_variant = "lllllllllllllllllllllllllll6",
+        .m_type = "int(std::string,std::string)",
+        .m_flags = 0x8801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll6__20, // 20
+        .m_func = invoke__node__lllllllllllllllllllllllllll6__20,
         .m_setter = set_value_invalid,
     },
 };
@@ -328,6 +351,7 @@ reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, c
 reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::string &tag);
 reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::string &tag);
 reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::string &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll6(const node *c, const std::string &tag);
 static reflect::meta<node> g_node_meta[] = {
     {
         .m_variant = "base",
@@ -412,6 +436,15 @@ static reflect::meta<node> g_node_meta[] = {
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll5, // 34
         .m_invoke = invoke__node__lllllllllllllllllllllllllll5,
+        .m_setter = set_value_invalid,
+    },
+    {
+        .m_variant = "lllllllllllllllllllllllllll6",
+        .m_type = "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0,
+        .m_field = e__node__lllllllllllllllllllllllllll6, // 35
+        .m_invoke = invoke__node__lllllllllllllllllllllllllll6,
         .m_setter = set_value_invalid,
     },
     {
@@ -763,7 +796,7 @@ reflect::Value __get_value(const node* cls, const std::string& _tag)
             return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
         }
     }
-    return reflect::Value(nullptr, reflect::e_type_other);
+    return reflect::Value(nullptr, reflect::e_nullptr);
 }
 
 inline ::reflect::meta<node> &rfl__0__1(const node *cls, uint64_t value, branch_string &tag)
@@ -1282,6 +1315,19 @@ inline ::reflect::meta<node> &rfl__3__23(const node *cls, uint64_t value, branch
     return g_default_meta;
 }
 
+inline ::reflect::meta<node> &rfl__3__24(const node *cls, uint64_t value, branch_string &tag)
+{
+    if (0x366c6c6c == value) // lll6
+    {
+        if (!tag) // complete
+        {
+            return g_node_meta[e__node__lllllllllllllllllllllllllll6];
+        }
+        return g_default_meta;
+    }
+    return g_default_meta;
+}
+
 inline ::reflect::meta<node> &rfl__3__25(const node *cls, uint64_t value, branch_string &tag)
 {
     if (0x306c6c6c == value) // lll0
@@ -1322,9 +1368,10 @@ inline ::reflect::meta<node> &rfl__2__8(const node *cls, uint64_t value, branch_
         return rfl__3__22(cls, _value, tag);
     label__3__23:
         return rfl__3__23(cls, _value, tag);
+    label__3__24:
+        return rfl__3__24(cls, _value, tag);
     label__3__25:
         return rfl__3__25(cls, _value, tag);
-    label__3__24:
         return g_default_meta;
     }
     return g_default_meta;
@@ -1481,7 +1528,7 @@ int invoke__node__deinit__6(const node *c, uint64_t argc, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
+        auto& _r = *(va_arg(__arguments_list, int *));
         va_end(__arguments_list);
         _r = cls->deinit();
         return 0;
@@ -1533,10 +1580,10 @@ int invoke__node__init__2(const node *c, uint64_t argc, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
-        auto _a_0 = va_arg(__arguments_list, double);
-        auto _a_1 = va_arg(__arguments_list, double);
-        auto _a_2 = va_arg(__arguments_list, const char *);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, double *));
+        auto& _a_1 = *(va_arg(__arguments_list, double *));
+        auto& _a_2 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         _r = cls->init(_a_0, _a_1, _a_2);
         return 0;
@@ -1544,28 +1591,15 @@ int invoke__node__init__2(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__init__3__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__2__0(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20726168 == value) // har *)
+    if (0x292a20726168632c == value) // ,char *)
     {
         if (!tag)
         {
             return g_node_func[e__node__init__2];
         }
         return g_default_meta;
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__init__2__0(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f632c == value) // ,const c
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__init__3__0(c, _value, tag);
-        }
     }
     return g_default_meta;
 }
@@ -1583,7 +1617,7 @@ inline ::reflect::meta<node> &invoke__init__1__0(const node *c, uint64_t value, 
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__init__0__3(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__5(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x616f6c6628746e69 == value) // int(floa
     {
@@ -1596,51 +1630,39 @@ inline ::reflect::meta<node> &invoke__init__0__3(const node *c, uint64_t value, 
     return g_default_meta;
 }
 
-int invoke__node__init__1(const node *c, uint64_t argc, ...)
+int invoke__node__init__0(const node *c, uint64_t argc, ...)
 {
     auto *cls = (node *)(c); 
-    if (cls && argc == 2)
+    if (cls && argc == 3)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _a_0 = va_arg(__arguments_list, int);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, int *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
-        cls->init(_a_0, _a_1);
+        _r = cls->init(_a_0, _a_1);
         return 0;
     }
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__init__2__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__1__1(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a == value) // *)
+    if (0x292a2072616863 == value) // char *)
     {
         if (!tag)
         {
-            return g_node_func[e__node__init__1];
+            return g_node_func[e__node__init__0];
         }
         return g_default_meta;
     }
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__init__1__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__8(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x2072616863207473 == value) // st char 
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__init__2__1(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__init__0__6(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6e6f632c746e6928 == value) // (int,con
+    if (0x2c746e6928746e69 == value) // int(int,
     {
         if (tag)
         {
@@ -1658,7 +1680,7 @@ int invoke__node__init__4(const node *c, uint64_t argc, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
+        auto& _r = *(va_arg(__arguments_list, int *));
         va_end(__arguments_list);
         _r = cls->init();
         return 0;
@@ -1666,7 +1688,7 @@ int invoke__node__init__4(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__init__0__7(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__9(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2928746e69 == value) // int()
     {
@@ -1675,6 +1697,48 @@ inline ::reflect::meta<node> &invoke__init__0__7(const node *c, uint64_t value, 
             return g_node_func[e__node__init__4];
         }
         return g_default_meta;
+    }
+    return g_default_meta;
+}
+
+int invoke__node__init__1(const node *c, uint64_t argc, ...)
+{
+    auto *cls = (node *)(c); 
+    if (cls && argc == 2)
+    {
+        va_list __arguments_list;
+        va_start(__arguments_list, argc);
+        auto& _a_0 = *(va_arg(__arguments_list, int *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
+        va_end(__arguments_list);
+        cls->init(_a_0, _a_1);
+        return 0;
+    }
+    return -1;
+}
+
+inline ::reflect::meta<node> &invoke__init__1__2(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x292a2072 == value) // r *)
+    {
+        if (!tag)
+        {
+            return g_node_func[e__node__init__1];
+        }
+        return g_default_meta;
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__init__0__11(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x6168632c746e6928 == value) // (int,cha
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__init__1__2(c, _value, tag);
+        }
     }
     return g_default_meta;
 }
@@ -1693,7 +1757,7 @@ int invoke__node__init__5(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__init__0__9(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__12(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x2928 == value) // ()
     {
@@ -1713,9 +1777,9 @@ int invoke__node__init__3(const node *c, uint64_t argc, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _a_0 = va_arg(__arguments_list, double);
-        auto _a_1 = va_arg(__arguments_list, double);
-        auto _a_2 = va_arg(__arguments_list, const char *);
+        auto& _a_0 = *(va_arg(__arguments_list, double *));
+        auto& _a_1 = *(va_arg(__arguments_list, double *));
+        auto& _a_2 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         cls->init(_a_0, _a_1, _a_2);
         return 0;
@@ -1723,9 +1787,9 @@ int invoke__node__init__3(const node *c, uint64_t argc, ...)
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__init__3__1(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__2__1(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20 == value) //  *)
+    if (0x292a207261 == value) // ar *)
     {
         if (!tag)
         {
@@ -1736,91 +1800,22 @@ inline ::reflect::meta<node> &invoke__init__3__1(const node *c, uint64_t value, 
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__init__2__2(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x726168632074736e == value) // nst char
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__init__3__1(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__init__1__2(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6f632c656c62756f == value) // ouble,co
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__init__2__2(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__init__0__10(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x642c74616f6c6628 == value) // (float,d
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__init__1__2(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-int invoke__node__init__0(const node *c, uint64_t argc, ...)
-{
-    auto *cls = (node *)(c); 
-    if (cls && argc == 3)
-    {
-        va_list __arguments_list;
-        va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
-        auto _a_0 = va_arg(__arguments_list, int);
-        auto _a_1 = va_arg(__arguments_list, const char *);
-        va_end(__arguments_list);
-        _r = cls->init(_a_0, _a_1);
-        return 0;
-    }
-    return -1;
-}
-
-inline ::reflect::meta<node> &invoke__init__2__3(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x292a207261 == value) // ar *)
-    {
-        if (!tag)
-        {
-            return g_node_func[e__node__init__0];
-        }
-        return g_default_meta;
-    }
-    return g_default_meta;
-}
-
 inline ::reflect::meta<node> &invoke__init__1__3(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x68632074736e6f63 == value) // const ch
+    if (0x68632c656c62756f == value) // ouble,ch
     {
         if (tag)
         {
             auto _value = tag();
-            return invoke__init__2__3(c, _value, tag);
+            return invoke__init__2__1(c, _value, tag);
         }
     }
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__init__0__11(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__init__0__13(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x2c746e6928746e69 == value) // int(int,
+    if (0x642c74616f6c6628 == value) // (float,d
     {
         if (tag)
         {
@@ -1846,26 +1841,30 @@ inline ::reflect::meta<node> &invoke__init__0__11(const node *c, uint64_t value,
             &&label_9,
             &&label_10,
             &&label_11,
+            &&label_12,
+            &&label_13,
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;        
         goto *__meta_label[index];
-    label_3:
-        return invoke__init__0__3(c, _value, tag);
-    label_6:
-        return invoke__init__0__6(c, _value, tag);
-    label_7:
-        return invoke__init__0__7(c, _value, tag);
+    label_5:
+        return invoke__init__0__5(c, _value, tag);
+    label_8:
+        return invoke__init__0__8(c, _value, tag);
     label_9:
         return invoke__init__0__9(c, _value, tag);
-    label_10:
-        return invoke__init__0__10(c, _value, tag);
     label_11:
         return invoke__init__0__11(c, _value, tag);
+    label_12:
+        return invoke__init__0__12(c, _value, tag);
+    label_13:
+        return invoke__init__0__13(c, _value, tag);
+    label_3:
     label_4:
-    label_5:
-    label_8:
+    label_6:
+    label_7:
+    label_10:
         return g_default_meta;
     }
     return g_default_meta;
@@ -1878,9 +1877,9 @@ int invoke__node__lllllllllllllllllllllllllll0__8(const node *c, uint64_t argc, 
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         _r = cls->lllllllllllllllllllllllllll0(_a_0, _a_1);
         return 0;
@@ -1888,9 +1887,9 @@ int invoke__node__lllllllllllllllllllllllllll0__8(const node *c, uint64_t argc, 
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__3__2(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__2__2(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20726168 == value) // har *)
+    if (0x292a == value) // *)
     {
         if (!tag)
         {
@@ -1901,35 +1900,22 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__3__2(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__2__4(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f632c == value) // ,const c
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll0__3__2(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
 inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__1__4(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x2a20726168632074 == value) // t char *
+    if (0x20726168632c2a20 == value) //  *,char 
     {
         if (tag)
         {
             auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll0__2__4(c, _value, tag);
+            return invoke__lllllllllllllllllllllllllll0__2__2(c, _value, tag);
         }
     }
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__0__13(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__0__14(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x736e6f6328746e69 == value) // int(cons
+    if (0x7261686328746e69 == value) // int(char
     {
         if (tag)
         {
@@ -1947,8 +1933,8 @@ int invoke__node__lllllllllllllllllllllllllll0__9(const node *c, uint64_t argc, 
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         cls->lllllllllllllllllllllllllll0(_a_0, _a_1);
         return 0;
@@ -1956,9 +1942,9 @@ int invoke__node__lllllllllllllllllllllllllll0__9(const node *c, uint64_t argc, 
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__3__3(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__1__5(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20 == value) //  *)
+    if (0x292a2072616863 == value) // char *)
     {
         if (!tag)
         {
@@ -1969,35 +1955,9 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__3__3(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__2__5(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__0__16(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x726168632074736e == value) // nst char
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll0__3__3(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__1__5(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6f632c2a20726168 == value) // har *,co
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll0__2__5(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__0__14(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f6328 == value) // (const c
+    if (0x2c2a207261686328 == value) // (char *,
     {
         if (tag)
         {
@@ -2014,23 +1974,23 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll0__0__14(const 
     if (tag)
     {
         constexpr void *__meta_label[] = {
-            &&label_12,
-            &&label_13,
             &&label_14,
             &&label_15,
             &&label_16,
+            &&label_17,
+            &&label_18,
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;        
         goto *__meta_label[index];
-    label_13:
-        return invoke__lllllllllllllllllllllllllll0__0__13(c, _value, tag);
     label_14:
         return invoke__lllllllllllllllllllllllllll0__0__14(c, _value, tag);
-    label_12:
-    label_15:
     label_16:
+        return invoke__lllllllllllllllllllllllllll0__0__16(c, _value, tag);
+    label_15:
+    label_17:
+    label_18:
         return g_default_meta;
     }
     return g_default_meta;
@@ -2043,9 +2003,9 @@ int invoke__node__lllllllllllllllllllllllllll1__10(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         _r = cls->lllllllllllllllllllllllllll1(_a_0, _a_1);
         return 0;
@@ -2053,9 +2013,9 @@ int invoke__node__lllllllllllllllllllllllllll1__10(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__3__4(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__2__3(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20726168 == value) // har *)
+    if (0x292a == value) // *)
     {
         if (!tag)
         {
@@ -2066,35 +2026,22 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__3__4(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__2__6(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f632c == value) // ,const c
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll1__3__4(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
 inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__1__6(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x2a20726168632074 == value) // t char *
+    if (0x20726168632c2a20 == value) //  *,char 
     {
         if (tag)
         {
             auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll1__2__6(c, _value, tag);
+            return invoke__lllllllllllllllllllllllllll1__2__3(c, _value, tag);
         }
     }
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__0__18(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__0__19(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x736e6f6328746e69 == value) // int(cons
+    if (0x7261686328746e69 == value) // int(char
     {
         if (tag)
         {
@@ -2112,8 +2059,8 @@ int invoke__node__lllllllllllllllllllllllllll1__11(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         cls->lllllllllllllllllllllllllll1(_a_0, _a_1);
         return 0;
@@ -2121,9 +2068,9 @@ int invoke__node__lllllllllllllllllllllllllll1__11(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__3__5(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__1__7(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20 == value) //  *)
+    if (0x292a2072616863 == value) // char *)
     {
         if (!tag)
         {
@@ -2134,35 +2081,9 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__3__5(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__2__7(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__0__21(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x726168632074736e == value) // nst char
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll1__3__5(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__1__7(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6f632c2a20726168 == value) // har *,co
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll1__2__7(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__0__19(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f6328 == value) // (const c
+    if (0x2c2a207261686328 == value) // (char *,
     {
         if (tag)
         {
@@ -2179,23 +2100,23 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll1__0__19(const 
     if (tag)
     {
         constexpr void *__meta_label[] = {
-            &&label_17,
-            &&label_18,
             &&label_19,
             &&label_20,
             &&label_21,
+            &&label_22,
+            &&label_23,
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;        
         goto *__meta_label[index];
-    label_18:
-        return invoke__lllllllllllllllllllllllllll1__0__18(c, _value, tag);
     label_19:
         return invoke__lllllllllllllllllllllllllll1__0__19(c, _value, tag);
-    label_17:
-    label_20:
     label_21:
+        return invoke__lllllllllllllllllllllllllll1__0__21(c, _value, tag);
+    label_20:
+    label_22:
+    label_23:
         return g_default_meta;
     }
     return g_default_meta;
@@ -2208,9 +2129,9 @@ int invoke__node__lllllllllllllllllllllllllll2__12(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         _r = cls->lllllllllllllllllllllllllll2(_a_0, _a_1);
         return 0;
@@ -2218,9 +2139,9 @@ int invoke__node__lllllllllllllllllllllllllll2__12(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__3__6(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__2__4(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20726168 == value) // har *)
+    if (0x292a == value) // *)
     {
         if (!tag)
         {
@@ -2231,35 +2152,22 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__3__6(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__2__8(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f632c == value) // ,const c
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll2__3__6(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
 inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__1__8(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x2a20726168632074 == value) // t char *
+    if (0x20726168632c2a20 == value) //  *,char 
     {
         if (tag)
         {
             auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll2__2__8(c, _value, tag);
+            return invoke__lllllllllllllllllllllllllll2__2__4(c, _value, tag);
         }
     }
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__0__23(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__0__24(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x736e6f6328746e69 == value) // int(cons
+    if (0x7261686328746e69 == value) // int(char
     {
         if (tag)
         {
@@ -2277,8 +2185,8 @@ int invoke__node__lllllllllllllllllllllllllll2__13(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         cls->lllllllllllllllllllllllllll2(_a_0, _a_1);
         return 0;
@@ -2286,9 +2194,9 @@ int invoke__node__lllllllllllllllllllllllllll2__13(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__3__7(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__1__9(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20 == value) //  *)
+    if (0x292a2072616863 == value) // char *)
     {
         if (!tag)
         {
@@ -2299,35 +2207,9 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__3__7(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__2__9(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__0__26(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x726168632074736e == value) // nst char
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll2__3__7(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__1__9(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6f632c2a20726168 == value) // har *,co
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll2__2__9(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__0__24(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f6328 == value) // (const c
+    if (0x2c2a207261686328 == value) // (char *,
     {
         if (tag)
         {
@@ -2344,23 +2226,23 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll2__0__24(const 
     if (tag)
     {
         constexpr void *__meta_label[] = {
-            &&label_22,
-            &&label_23,
             &&label_24,
             &&label_25,
             &&label_26,
+            &&label_27,
+            &&label_28,
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;        
         goto *__meta_label[index];
-    label_23:
-        return invoke__lllllllllllllllllllllllllll2__0__23(c, _value, tag);
     label_24:
         return invoke__lllllllllllllllllllllllllll2__0__24(c, _value, tag);
-    label_22:
-    label_25:
     label_26:
+        return invoke__lllllllllllllllllllllllllll2__0__26(c, _value, tag);
+    label_25:
+    label_27:
+    label_28:
         return g_default_meta;
     }
     return g_default_meta;
@@ -2373,9 +2255,9 @@ int invoke__node__lllllllllllllllllllllllllll3__14(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         _r = cls->lllllllllllllllllllllllllll3(_a_0, _a_1);
         return 0;
@@ -2383,9 +2265,9 @@ int invoke__node__lllllllllllllllllllllllllll3__14(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__3__8(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__2__5(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20726168 == value) // har *)
+    if (0x292a == value) // *)
     {
         if (!tag)
         {
@@ -2396,35 +2278,22 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__3__8(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__2__10(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f632c == value) // ,const c
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll3__3__8(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
 inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__1__10(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x2a20726168632074 == value) // t char *
+    if (0x20726168632c2a20 == value) //  *,char 
     {
         if (tag)
         {
             auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll3__2__10(c, _value, tag);
+            return invoke__lllllllllllllllllllllllllll3__2__5(c, _value, tag);
         }
     }
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__0__28(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__0__29(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x736e6f6328746e69 == value) // int(cons
+    if (0x7261686328746e69 == value) // int(char
     {
         if (tag)
         {
@@ -2442,8 +2311,8 @@ int invoke__node__lllllllllllllllllllllllllll3__15(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         cls->lllllllllllllllllllllllllll3(_a_0, _a_1);
         return 0;
@@ -2451,9 +2320,9 @@ int invoke__node__lllllllllllllllllllllllllll3__15(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__3__9(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__1__11(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20 == value) //  *)
+    if (0x292a2072616863 == value) // char *)
     {
         if (!tag)
         {
@@ -2464,35 +2333,9 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__3__9(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__2__11(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__0__31(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x726168632074736e == value) // nst char
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll3__3__9(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__1__11(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6f632c2a20726168 == value) // har *,co
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll3__2__11(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__0__29(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f6328 == value) // (const c
+    if (0x2c2a207261686328 == value) // (char *,
     {
         if (tag)
         {
@@ -2509,23 +2352,23 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll3__0__29(const 
     if (tag)
     {
         constexpr void *__meta_label[] = {
-            &&label_27,
-            &&label_28,
             &&label_29,
             &&label_30,
             &&label_31,
+            &&label_32,
+            &&label_33,
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;        
         goto *__meta_label[index];
-    label_28:
-        return invoke__lllllllllllllllllllllllllll3__0__28(c, _value, tag);
     label_29:
         return invoke__lllllllllllllllllllllllllll3__0__29(c, _value, tag);
-    label_27:
-    label_30:
     label_31:
+        return invoke__lllllllllllllllllllllllllll3__0__31(c, _value, tag);
+    label_30:
+    label_32:
+    label_33:
         return g_default_meta;
     }
     return g_default_meta;
@@ -2538,9 +2381,9 @@ int invoke__node__lllllllllllllllllllllllllll4__16(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         _r = cls->lllllllllllllllllllllllllll4(_a_0, _a_1);
         return 0;
@@ -2548,9 +2391,9 @@ int invoke__node__lllllllllllllllllllllllllll4__16(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__3__10(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__2__6(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20726168 == value) // har *)
+    if (0x292a == value) // *)
     {
         if (!tag)
         {
@@ -2561,35 +2404,22 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__3__10(const 
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__2__12(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f632c == value) // ,const c
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll4__3__10(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
 inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__1__12(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x2a20726168632074 == value) // t char *
+    if (0x20726168632c2a20 == value) //  *,char 
     {
         if (tag)
         {
             auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll4__2__12(c, _value, tag);
+            return invoke__lllllllllllllllllllllllllll4__2__6(c, _value, tag);
         }
     }
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__0__33(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__0__34(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x736e6f6328746e69 == value) // int(cons
+    if (0x7261686328746e69 == value) // int(char
     {
         if (tag)
         {
@@ -2607,8 +2437,8 @@ int invoke__node__lllllllllllllllllllllllllll4__17(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _a_0 = va_arg(__arguments_list, const char *);
-        auto _a_1 = va_arg(__arguments_list, const char *);
+        auto& _a_0 = *(va_arg(__arguments_list, char * *));
+        auto& _a_1 = *(va_arg(__arguments_list, char * *));
         va_end(__arguments_list);
         cls->lllllllllllllllllllllllllll4(_a_0, _a_1);
         return 0;
@@ -2616,9 +2446,9 @@ int invoke__node__lllllllllllllllllllllllllll4__17(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__3__11(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__1__13(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x292a20 == value) //  *)
+    if (0x292a2072616863 == value) // char *)
     {
         if (!tag)
         {
@@ -2629,35 +2459,9 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__3__11(const 
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__2__13(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__0__36(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x726168632074736e == value) // nst char
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll4__3__11(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__1__13(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6f632c2a20726168 == value) // har *,co
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll4__2__13(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__0__34(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x632074736e6f6328 == value) // (const c
+    if (0x2c2a207261686328 == value) // (char *,
     {
         if (tag)
         {
@@ -2674,24 +2478,93 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll4__0__34(const 
     if (tag)
     {
         constexpr void *__meta_label[] = {
-            &&label_32,
-            &&label_33,
             &&label_34,
             &&label_35,
             &&label_36,
+            &&label_37,
+            &&label_38,
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;        
         goto *__meta_label[index];
-    label_33:
-        return invoke__lllllllllllllllllllllllllll4__0__33(c, _value, tag);
     label_34:
         return invoke__lllllllllllllllllllllllllll4__0__34(c, _value, tag);
-    label_32:
-    label_35:
     label_36:
+        return invoke__lllllllllllllllllllllllllll4__0__36(c, _value, tag);
+    label_35:
+    label_37:
+    label_38:
         return g_default_meta;
+    }
+    return g_default_meta;
+}
+
+int invoke__node__lllllllllllllllllllllllllll5__18(const node *c, uint64_t argc, ...)
+{
+    auto *cls = (node *)(c); 
+    if (cls && argc == 3)
+    {
+        va_list __arguments_list;
+        va_start(__arguments_list, argc);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+        auto& _a_1 = *(va_arg(__arguments_list, std::string *));
+        va_end(__arguments_list);
+        _r = cls->lllllllllllllllllllllllllll5(_a_0, _a_1);
+        return 0;
+    }
+    return -1;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__3__0(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x29676e69 == value) // ing)
+    {
+        if (!tag)
+        {
+            return g_node_func[e__node__lllllllllllllllllllllllllll5__18];
+        }
+        return g_default_meta;
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__2__7(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x7274733a3a647473 == value) // std::str
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll5__3__0(c, _value, tag);
+        }
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__1__14(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x2c676e697274733a == value) // :string,
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll5__2__7(c, _value, tag);
+        }
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__0__39(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x3a64747328746e69 == value) // int(std:
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll5__1__14(c, _value, tag);
+        }
     }
     return g_default_meta;
 }
@@ -2703,8 +2576,8 @@ int invoke__node__lllllllllllllllllllllllllll5__19(const node *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto& _a_0 = *(va_arg(__arguments_list, const std::string *));
-        auto& _a_1 = *(va_arg(__arguments_list, const std::string *));
+        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+        auto& _a_1 = *(va_arg(__arguments_list, std::string *));
         va_end(__arguments_list);
         cls->lllllllllllllllllllllllllll5(_a_0, _a_1);
         return 0;
@@ -2712,7 +2585,7 @@ int invoke__node__lllllllllllllllllllllllllll5__19(const node *c, uint64_t argc,
     return -1;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__5__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__3__1(const node *c, uint64_t value, branch_string &tag)
 {
     if (0x29 == value) // )
     {
@@ -2725,135 +2598,14 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__5__0(const n
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__4__0(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__2__8(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x2620676e69727473 == value) // string &
+    if (0x676e697274733a3a == value) // ::string
     {
         if (tag)
         {
             auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__5__0(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__3__12(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x3a3a647473207473 == value) // st std::
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__4__0(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__2__14(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6e6f632c2620676e == value) // ng &,con
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__3__12(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__1__14(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x697274733a3a6474 == value) // td::stri
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__2__14(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__0__37(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x732074736e6f6328 == value) // (const s
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__1__14(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-int invoke__node__lllllllllllllllllllllllllll5__18(const node *c, uint64_t argc, ...)
-{
-    auto *cls = (node *)(c); 
-    if (cls && argc == 3)
-    {
-        va_list __arguments_list;
-        va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
-        auto& _a_0 = *(va_arg(__arguments_list, const std::string *));
-        auto& _a_1 = *(va_arg(__arguments_list, const std::string *));
-        va_end(__arguments_list);
-        _r = cls->lllllllllllllllllllllllllll5(_a_0, _a_1);
-        return 0;
-    }
-    return -1;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__5__1(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x29262067 == value) // g &)
-    {
-        if (!tag)
-        {
-            return g_node_func[e__node__lllllllllllllllllllllllllll5__18];
-        }
-        return g_default_meta;
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__4__1(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x6e697274733a3a64 == value) // d::strin
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__5__1(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__3__13(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x74732074736e6f63 == value) // const st
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__4__1(c, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__2__15(const node *c, uint64_t value, branch_string &tag)
-{
-    if (0x2c2620676e697274 == value) // tring &,
-    {
-        if (tag)
-        {
-            auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__3__13(c, _value, tag);
+            return invoke__lllllllllllllllllllllllllll5__3__1(c, _value, tag);
         }
     }
     return g_default_meta;
@@ -2861,20 +2613,20 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__2__15(const 
 
 inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__1__15(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x733a3a6474732074 == value) // t std::s
+    if (0x6474732c676e6972 == value) // ring,std
     {
         if (tag)
         {
             auto _value = tag();
-            return invoke__lllllllllllllllllllllllllll5__2__15(c, _value, tag);
+            return invoke__lllllllllllllllllllllllllll5__2__8(c, _value, tag);
         }
     }
     return g_default_meta;
 }
 
-inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__0__39(const node *c, uint64_t value, branch_string &tag)
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__0__42(const node *c, uint64_t value, branch_string &tag)
 {
-    if (0x736e6f6328746e69 == value) // int(cons
+    if (0x74733a3a64747328 == value) // (std::st
     {
         if (tag)
         {
@@ -2891,19 +2643,188 @@ inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll5__0__39(const 
     if (tag)
     {
         constexpr void *__meta_label[] = {
-            &&label_37,
-            &&label_38,
             &&label_39,
+            &&label_40,
+            &&label_41,
+            &&label_42,
+            &&label_43,
         };
         constexpr auto count = countof(__meta_label);
         auto _value = tag();
         auto index = _value % count;        
         goto *__meta_label[index];
-    label_37:
-        return invoke__lllllllllllllllllllllllllll5__0__37(c, _value, tag);
     label_39:
         return invoke__lllllllllllllllllllllllllll5__0__39(c, _value, tag);
-    label_38:
+    label_42:
+        return invoke__lllllllllllllllllllllllllll5__0__42(c, _value, tag);
+    label_40:
+    label_41:
+    label_43:
+        return g_default_meta;
+    }
+    return g_default_meta;
+}
+
+int invoke__node__lllllllllllllllllllllllllll6__20(const node *c, uint64_t argc, ...)
+{
+    auto *cls = (node *)(c); 
+    if (cls && argc == 3)
+    {
+        va_list __arguments_list;
+        va_start(__arguments_list, argc);
+        auto& _r = *(va_arg(__arguments_list, int *));
+        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+        auto& _a_1 = *(va_arg(__arguments_list, std::string *));
+        va_end(__arguments_list);
+        _r = cls->lllllllllllllllllllllllllll6(_a_0, _a_1);
+        return 0;
+    }
+    return -1;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll6__3__2(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x29676e69 == value) // ing)
+    {
+        if (!tag)
+        {
+            return g_node_func[e__node__lllllllllllllllllllllllllll6__20];
+        }
+        return g_default_meta;
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll6__2__9(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x7274733a3a647473 == value) // std::str
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll6__3__2(c, _value, tag);
+        }
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll6__1__16(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x2c676e697274733a == value) // :string,
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll6__2__9(c, _value, tag);
+        }
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll6__0__44(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x3a64747328746e69 == value) // int(std:
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll6__1__16(c, _value, tag);
+        }
+    }
+    return g_default_meta;
+}
+
+int invoke__node__lllllllllllllllllllllllllll6__21(const node *c, uint64_t argc, ...)
+{
+    auto *cls = (node *)(c); 
+    if (cls && argc == 2)
+    {
+        va_list __arguments_list;
+        va_start(__arguments_list, argc);
+        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+        auto& _a_1 = *(va_arg(__arguments_list, std::string *));
+        va_end(__arguments_list);
+        cls->lllllllllllllllllllllllllll6(_a_0, _a_1);
+        return 0;
+    }
+    return -1;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll6__3__3(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x29 == value) // )
+    {
+        if (!tag)
+        {
+            return g_node_func[e__node__lllllllllllllllllllllllllll6__21];
+        }
+        return g_default_meta;
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll6__2__10(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x676e697274733a3a == value) // ::string
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll6__3__3(c, _value, tag);
+        }
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll6__1__17(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x6474732c676e6972 == value) // ring,std
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll6__2__10(c, _value, tag);
+        }
+    }
+    return g_default_meta;
+}
+
+inline ::reflect::meta<node> &invoke__lllllllllllllllllllllllllll6__0__47(const node *c, uint64_t value, branch_string &tag)
+{
+    if (0x74733a3a64747328 == value) // (std::st
+    {
+        if (tag)
+        {
+            auto _value = tag();
+            return invoke__lllllllllllllllllllllllllll6__1__17(c, _value, tag);
+        }
+    }
+    return g_default_meta;
+}
+
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll6(const node *c, const std::string &bra)
+{
+    branch_string tag(bra);
+    if (tag)
+    {
+        constexpr void *__meta_label[] = {
+            &&label_44,
+            &&label_45,
+            &&label_46,
+            &&label_47,
+            &&label_48,
+        };
+        constexpr auto count = countof(__meta_label);
+        auto _value = tag();
+        auto index = _value % count;        
+        goto *__meta_label[index];
+    label_44:
+        return invoke__lllllllllllllllllllllllllll6__0__44(c, _value, tag);
+    label_47:
+        return invoke__lllllllllllllllllllllllllll6__0__47(c, _value, tag);
+    label_45:
+    label_46:
+    label_48:
         return g_default_meta;
     }
     return g_default_meta;
@@ -2988,14 +2909,23 @@ namespace __details__
         return g_default_meta;
     }
     ::reflect::meta<node>& get_meta(const node *cls, branch_string &tag, const std::string &args_tag)
-    {
-        return get_meta(cls, tag).m_invoke(cls, args_tag);    
+    {        
+        auto &_meta = __details__::get_meta(cls, tag);
+        if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
+        {
+            auto &_invoke = _meta.m_invoke(cls, args_tag);
+            if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+            {
+                return _invoke;
+            }
+        }
+        return g_default_meta;
     }    
 }
 ::reflect::Value get_value(const node *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
-    auto _meta = __details__::get_meta(cls, tag);
+    auto& _meta = __details__::get_meta(cls, tag);
     if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
     {
         return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
@@ -3016,7 +2946,7 @@ namespace __details__
             return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);
         }
     }
-    return reflect::Value(nullptr, reflect::e_type_other);
+    return reflect::Value(nullptr, reflect::e_nullptr);
 }
 const std::string &get_type(const node *cls, const std::string &_tag)
 {

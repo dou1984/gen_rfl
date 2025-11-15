@@ -497,41 +497,20 @@ int format_tpl::to_invoke_field(const branch_info &bra)
 
         if (_bra.second->m_output.size() > 0)
         {
-            if (_bra.second->m_output.back() == '&')
-            {
-                auto ret_ref = has_argv->AddSectionDictionary("ret_ref");
-                ret_ref->SetValue("compatible_output", compatible(_bra.second->m_output));
-            }
-            else
-            {
-                auto ret = has_argv->AddSectionDictionary("ret");
-                ret->SetValue("compatible_output", compatible(_bra.second->m_output));
-            }
+            auto ret = has_argv->AddSectionDictionary("ret");
+            ret->SetValue("compatible_output", compatible(_bra.second->m_output));
         }
         int index = 0;
         for (auto &_input : _bra.second->m_input)
         {
-            if (_input.back() == '&')
+
+            auto argv = has_argv->AddSectionDictionary("argv");
+            argv->SetValue("input", _input);
+            argv->SetValue("compatible_input", compatible(_input));
+            argv->SetIntValue("index", index++);
+            if (index != _size)
             {
-                auto argv = has_argv->AddSectionDictionary("argv_ref");
-                argv->SetValue("input", _input);
-                argv->SetValue("compatible_input", compatible(_input));
-                argv->SetIntValue("index", index++);
-                if (index != _size)
-                {
-                    argv->SetValue("comma", ", ");
-                }
-            }
-            else
-            {
-                auto argv = has_argv->AddSectionDictionary("argv");
-                argv->SetValue("input", _input);
-                argv->SetValue("compatible_input", compatible(_input));
-                argv->SetIntValue("index", index++);
-                if (index != _size)
-                {
-                    argv->SetValue("comma", ", ");
-                }
+                argv->SetValue("comma", ", ");
             }
         }
 

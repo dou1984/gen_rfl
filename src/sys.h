@@ -37,3 +37,4 @@ std::string GetRelativePath(const std::string &basePath, const std::string &targ
 bool IsCurDir(const std::string &path);
 
 bool IsExist(const std::string &path);
+

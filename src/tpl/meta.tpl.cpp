@@ -117,7 +117,7 @@ reflect::Value __get_value(const {{class}}* cls, const std::string& _tag)
             return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
         }
     }{{/is_base}}
-    return reflect::Value(nullptr, reflect::e_type_other);
+    return reflect::Value(nullptr, reflect::e_nullptr);
 }
 )";
 

@@ -101,7 +101,7 @@ install(
     FILES
     reflect.h
     branch_string.h
-    set.h
+    set_value.h
     setter.h
     value.h
     DESTINATION include/gen_rfl

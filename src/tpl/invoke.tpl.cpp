@@ -54,12 +54,10 @@ int invoke__{{class}}__{{variant}}{{__field}}(const {{class}} *c, uint64_t argc,
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);{{#ret}}
-        auto _r = va_arg(__arguments_list, {{compatible_output}});{{/ret}}{{#ret_ref}}
-        auto& _r = *(va_arg(__arguments_list, {{compatible_output}}*));{{/ret_ref}}{{#argv}}
-        auto _a_{{index}} = va_arg(__arguments_list, {{compatible_input}});{{/argv}}{{#argv_ref}}
-        auto& _a_{{index}} = *(va_arg(__arguments_list, {{compatible_input}}*));{{/argv_ref}}
+        auto& _r = *(va_arg(__arguments_list, {{compatible_output}} *));{{/ret}}{{#argv}}
+        auto& _a_{{index}} = *(va_arg(__arguments_list, {{compatible_input}} *));{{/argv}}
         va_end(__arguments_list);
-        {{#ret}}_r = {{/ret}}{{#ret_ref}}_r = {{/ret_ref}}cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}}{{#argv_ref}}_a_{{index}}{{comma}}{{/argv_ref}});
+        {{#ret}}_r = {{/ret}}cls->{{variant}}({{#argv}}_a_{{index}}{{comma}}{{/argv}});
         return 0;
     }{{/has_argv}}
     return -1;

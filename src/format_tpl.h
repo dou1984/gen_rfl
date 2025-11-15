@@ -71,5 +71,4 @@ protected:
 private:
     std::string m_output_header;
     std::list<std::string> m_output_source;
-    std::string m_output_makefile;
 };

@@ -60,9 +60,14 @@ int node::lllllllllllllllllllllllllll4(const char *, const char *)
 }
 int node::lllllllllllllllllllllllllll5(const std::string &, const std::string &)
 {
-    return 0;
+    return 200;
 }
-
+int node::lllllllllllllllllllllllllll6(std::string &lh, std::string &rh)
+{
+    lh = "hello";
+    rh = "world";
+    return 301;
+}
 int func::init()
 {
     return 0;

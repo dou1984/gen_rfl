@@ -94,9 +94,17 @@ int invoke_node()
     func f;
     s = invoke(&f, "done");
 
-    // std::string l0 = "l0";
-    // std::string l1 = "l1";
-    // s = invoke(&n, "lllllllllllllllllllllllllll5", l0, l1); // error
+    std::string l0 = "l0";
+    std::string l1 = "l1";
+    int r = 0;
+    s = invoke_r(&n, "lllllllllllllllllllllllllll5", r, l0, l1);
+    assert(r == 200);
+
+    std::string c0;
+    std::string c1;
+    s = invoke_r(&n, "lllllllllllllllllllllllllll6", r, c0, c1);
+    assert(r == 301);
+
     return 0;
 }
 

@@ -156,7 +156,7 @@ static reflect::meta<func> g_func_meta[] = {
 };
 reflect::Value __get_value(const func* cls, const std::string& _tag)
 {
-    return reflect::Value(nullptr, reflect::e_type_other);
+    return reflect::Value(nullptr, reflect::e_nullptr);
 }
 
 inline ::reflect::meta<func> &rfl__0__3(const func *cls, uint64_t value, branch_string &tag)
@@ -232,7 +232,7 @@ int invoke__func__deinit__2(const func *c, uint64_t argc, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
+        auto& _r = *(va_arg(__arguments_list, int *));
         va_end(__arguments_list);
         _r = cls->deinit();
         return 0;
@@ -349,7 +349,7 @@ int invoke__func__init__0(const func *c, uint64_t argc, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argc);
-        auto _r = va_arg(__arguments_list, int);
+        auto& _r = *(va_arg(__arguments_list, int *));
         va_end(__arguments_list);
         _r = cls->init();
         return 0;
@@ -428,14 +428,23 @@ namespace __details__
         return g_default_meta;
     }
     ::reflect::meta<func>& get_meta(const func *cls, branch_string &tag, const std::string &args_tag)
-    {
-        return get_meta(cls, tag).m_invoke(cls, args_tag);    
+    {        
+        auto &_meta = __details__::get_meta(cls, tag);
+        if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
+        {
+            auto &_invoke = _meta.m_invoke(cls, args_tag);
+            if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+            {
+                return _invoke;
+            }
+        }
+        return g_default_meta;
     }    
 }
 ::reflect::Value get_value(const func *cls, const std::string &_tag)
 {
     branch_string tag(_tag); 
-    auto _meta = __details__::get_meta(cls, tag);
+    auto& _meta = __details__::get_meta(cls, tag);
     if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
     {
         return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
@@ -456,7 +465,7 @@ namespace __details__
             return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);
         }
     }
-    return reflect::Value(nullptr, reflect::e_type_other);
+    return reflect::Value(nullptr, reflect::e_nullptr);
 }
 const std::string &get_type(const func *cls, const std::string &_tag)
 {

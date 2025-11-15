@@ -24,7 +24,7 @@
 #include <cstring>
 #include <type_traits>
 #include "reflect.h"
-#include "set.h"
+#include "set_value.h"
 
 namespace reflect
 {
@@ -93,6 +93,7 @@ namespace reflect
         T as_number()
         {
             constexpr void *__meta__[] = {
+                &&label_nullptr,
                 &&label_uint8,
                 &&label_uint16,
                 &&label_uint32,
@@ -105,8 +106,9 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_type_other,
+                &&label_type_unfundametal,
             };
+            assert(m_flags < e_type_end);
             goto *__meta__[m_flags];
         label_uint8:
             return __ref<uint8_t>();
@@ -128,15 +130,17 @@ namespace reflect
             return __ref<float>();
         label_double:
             return __ref<double>();
+        label_nullptr:
         label_cstr:
         label_string:
-        label_type_other:
+        label_type_unfundametal:
             return 0;
         }
         template <class T>
         T __to()
         {
             constexpr void *__meta__[] = {
+                &&label_nullptr,
                 &&label_uint8,
                 &&label_uint16,
                 &&label_uint32,
@@ -149,8 +153,9 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_type_other,
+                &&label_type_unfundametal,
             };
+            assert(m_flags < e_type_end);
             goto *__meta__[m_flags];
         label_uint8:
             return __to<T, uint8_t>();
@@ -176,7 +181,8 @@ namespace reflect
             return __to<T, const char *>();
         label_string:
             return __to<T, std::string>();
-        label_type_other:
+        label_type_unfundametal:
+        label_nullptr:
             return T{};
         }
     };

@@ -21,6 +21,7 @@
 
 #pragma once
 #include <cstdarg>
+#include <cassert>
 #include "reflect.h"
 
 namespace reflect
@@ -50,6 +51,7 @@ namespace reflect
         do
         {
             constexpr void *__meta__[] = {
+                &&label_nullptr,
                 &&label_uint8,
                 &&label_uint16,
                 &&label_uint32,
@@ -62,8 +64,9 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_type_other,
+                &&label_type_unfundametal,
             };
+            assert(_flag < e_type_end);
             goto *__meta__[_flag];
         label_uint8:
         label_uint16:
@@ -114,7 +117,7 @@ namespace reflect
             r = __set__(field, _flag, str);
             break;
         }
-        label_type_other:
+        label_type_unfundametal:
         {
             std::decay_t<decltype(field)> *t = nullptr;
             auto _type = va_arg(__arguments__, const std::string *);
@@ -123,8 +126,12 @@ namespace reflect
                 auto _value = va_arg(
                     __arguments__, std::decay_t<decltype(field)> *);
                 r = __set__(field, _flag, _value);
-                break;
             }
+            break;
+        }
+        label_nullptr:
+        {
+            break;
         }
         } while (false);
         va_end(__arguments__);
