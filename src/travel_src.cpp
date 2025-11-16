@@ -107,11 +107,15 @@ void insert_base_types(const std::string &type)
     }
 }
 
-std::string RemoveExtents(const std::string &type)
+bool HasConst(const std::string &type)
 {
     constexpr char _const[] = "const ";
+    return type.compare(0, sizeof(_const) - 1, _const) == 0;
+}
+std::string RemoveExtents(const std::string &type)
+{
     std::string_view view = type;
-    if (view.compare(0, strlen(_const), _const) == 0)
+    if (HasConst(type))
     {
         view = view.substr(6);
     }
@@ -385,11 +389,18 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
             auto flag_virtual_ = Method->isVirtual() ? flag_virtual : flag_member;
 
             std::list<std::string> _input;
+            auto i = 0;
+            std::bitset<ARGUMENTS_SIZE_MAX> _t_flags;
             auto parameters = Method->parameters();
             for (auto &Param : parameters)
             {
                 auto [FieldType, UnqualifiedType] = get_type_name(Param);
-                _input.push_back(RemoveExtents(FieldType.getAsString()));
+                auto _field_type = FieldType.getAsString();
+                _input.push_back(RemoveExtents(_field_type));
+                if (HasConst(_field_type))
+                {
+                    _t_flags.set(i++);
+                }
             }
 
             {
@@ -408,6 +419,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                         .m_input = _input,
                         .m_output = _output,
                         .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument),
+                        .m_t_flags = _t_flags.to_ullong(),
                     };
                     ana_func[MethodName].init(&ana_config_func).push_back(_tmp_type, detail);
                 }
@@ -420,6 +432,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                         .m_input = _input,
                         .m_output = "",
                         .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument),
+                        .m_t_flags = _t_flags.to_ullong(),
                     };
                     ana_func[MethodName].init(&ana_config_func).push_back(_tmp_type, detail);
                 }

@@ -23,6 +23,7 @@
 #include <cstdint>
 #include <cstring>
 #include <type_traits>
+#include <bitset>
 #include "reflect.h"
 #include "set_value.h"
 
@@ -186,4 +187,5 @@ namespace reflect
             return T{};
         }
     };
+
 }

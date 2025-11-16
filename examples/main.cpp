@@ -67,6 +67,13 @@ int get_node()
     b.c = 3;
     b.d = 4;
 
+    {
+        auto pn = &b;
+        for (auto i = 0; i < get_fields_count(pn); i++)
+        {
+            std::cout << get_field_type(pn, i) << " " << get_name(pn, i) << " " << get_field_value(pn, i).to_string() << std::endl;
+        }
+    }
     set_value(&n, "base", b);
 
     assert(n.a == 1);
@@ -74,10 +81,12 @@ int get_node()
     assert(n.c == 3);
     assert(n.d == 4);
 
-    auto pn = &n;
-    for (auto i = 0; i < get_fields_count(pn); i++)
     {
-        std::cout << get_name(pn, i) << get_field_value(pn, i).to_string() << std::endl;
+        auto pn = &n;
+        for (auto i = 0; i < get_fields_count(pn); i++)
+        {
+            std::cout << get_field_type(pn, i) << " " << get_name(pn, i) << " " << get_field_value(pn, i).to_string() << std::endl;
+        }
     }
     return 0;
 }

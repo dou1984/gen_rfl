@@ -104,6 +104,7 @@ install(
     set_value.h
     setter.h
     value.h
+    arguments.h
     DESTINATION include/gen_rfl
 )
 

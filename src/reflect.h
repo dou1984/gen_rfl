@@ -36,6 +36,7 @@ namespace reflect
 #ifndef countof
 #define countof(X) (sizeof(X) / sizeof(X[0]))
 #endif
+#define ARGUMENTS_SIZE_MAX 32
 
     constexpr uint32_t __flag(uint32_t flag) { return 1 << flag; }
     template <typename... F>
@@ -111,17 +112,17 @@ namespace reflect
         e_double,
         e_cstr,
         e_string,
-        e_type_unfundamental,        
+        e_type_unfundamental,
         e_type_end
     };
-
+    struct Arguments;
     template <class T>
     struct meta
     {
         using meta_getter_t = void *(*)(const T *);
         using meta_setter_t = int (*)(T *, unsigned int, ...);
         using meta_invoke_t = meta &(*)(const T *, const std::string &);
-        using meta_func_t = int (*)(const T *, uint64_t, ...);
+        using meta_func_t = int (*)(const T *, const Arguments *, ...);
         const std::string m_variant;
         const std::string m_type;
         uint32_t m_flags = 0;

@@ -28,7 +28,6 @@
 
 struct base
 {
-
     int8_t a;
     int16_t b;
     int32_t c;
@@ -49,7 +48,6 @@ struct base
 
 struct node : base
 {
-
     const char *oooooooooooooooooooooooooo0;
     char *oooooooooooooooooooooooooo1;
     char *oooooooooooooooooooooooooo2;

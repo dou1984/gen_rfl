@@ -27,6 +27,7 @@
 #include "base.h"
 #include "../../node.h"
 #include <gen_rfl/setter.h>
+#include <gen_rfl/arguments.h>
 
 
 enum base_meta_enum
@@ -81,214 +82,326 @@ static reflect::meta<base> g_base_func[] =
 };
 
 static reflect::meta<base> g_base_meta[] = {
+{
+    .m_variant = "a",
+    .m_type = []() -> auto
     {
-        .m_variant = "a",
-        .m_type = "signed char",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<signed char>(),
-        .m_field = e__base__a, // 0
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->a);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::a>>; }(),
-    },
+        if constexpr (reflect::fundamental<signed char>) 
+        {          
+            return typeid(signed char).name();         
+        }                                         
+        return "signed char";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<signed char>(),
+    .m_field = e__base__a, // 0
+    .m_getter = [](const base *cls) -> void * 
     {
-        .m_variant = "b",
-        .m_type = "short",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<short>(),
-        .m_field = e__base__b, // 1
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->b);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::b>>; }(),
+        return (void *)std::addressof(cls->a);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::a>>; }(),
+},
+{
+    .m_variant = "b",
+    .m_type = []() -> auto
     {
-        .m_variant = "c",
-        .m_type = "int",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<int>(),
-        .m_field = e__base__c, // 2
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->c);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::c>>; }(),
-    },
+        if constexpr (reflect::fundamental<short>) 
+        {          
+            return typeid(short).name();         
+        }                                         
+        return "short";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<short>(),
+    .m_field = e__base__b, // 1
+    .m_getter = [](const base *cls) -> void * 
     {
-        .m_variant = "d",
-        .m_type = "long",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<long>(),
-        .m_field = e__base__d, // 3
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->d);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::d>>; }(),
+        return (void *)std::addressof(cls->b);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::b>>; }(),
+},
+{
+    .m_variant = "c",
+    .m_type = []() -> auto
     {
-        .m_variant = "e",
-        .m_type = "unsigned char",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<unsigned char>(),
-        .m_field = e__base__e, // 4
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->e);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::e>>; }(),
-    },
+        if constexpr (reflect::fundamental<int>) 
+        {          
+            return typeid(int).name();         
+        }                                         
+        return "int";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<int>(),
+    .m_field = e__base__c, // 2
+    .m_getter = [](const base *cls) -> void * 
     {
-        .m_variant = "f",
-        .m_type = "unsigned short",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<unsigned short>(),
-        .m_field = e__base__f, // 5
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->f);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::f>>; }(),
+        return (void *)std::addressof(cls->c);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::c>>; }(),
+},
+{
+    .m_variant = "d",
+    .m_type = []() -> auto
     {
-        .m_variant = "g",
-        .m_type = "unsigned int",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<unsigned int>(),
-        .m_field = e__base__g, // 6
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->g);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::g>>; }(),
-    },
+        if constexpr (reflect::fundamental<long>) 
+        {          
+            return typeid(long).name();         
+        }                                         
+        return "long";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<long>(),
+    .m_field = e__base__d, // 3
+    .m_getter = [](const base *cls) -> void * 
     {
-        .m_variant = "h",
-        .m_type = "unsigned long",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<unsigned long>(),
-        .m_field = e__base__h, // 7
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->h);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::h>>; }(),
+        return (void *)std::addressof(cls->d);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::d>>; }(),
+},
+{
+    .m_variant = "e",
+    .m_type = []() -> auto
     {
-        .m_variant = "i",
-        .m_type = "float",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<float>(),
-        .m_field = e__base__i, // 8
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->i);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::i>>; }(),
-    },
+        if constexpr (reflect::fundamental<unsigned char>) 
+        {          
+            return typeid(unsigned char).name();         
+        }                                         
+        return "unsigned char";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<unsigned char>(),
+    .m_field = e__base__e, // 4
+    .m_getter = [](const base *cls) -> void * 
     {
-        .m_variant = "j",
-        .m_type = "double",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<double>(),
-        .m_field = e__base__j, // 9
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->j);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::j>>; }(),
+        return (void *)std::addressof(cls->e);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::e>>; }(),
+},
+{
+    .m_variant = "f",
+    .m_type = []() -> auto
     {
-        .m_variant = "k",
-        .m_type = "std::string",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<std::string>(),
-        .m_field = e__base__k, // 10
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->k);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::k>>; }(),
-    },
+        if constexpr (reflect::fundamental<unsigned short>) 
+        {          
+            return typeid(unsigned short).name();         
+        }                                         
+        return "unsigned short";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<unsigned short>(),
+    .m_field = e__base__f, // 5
+    .m_getter = [](const base *cls) -> void * 
     {
-        .m_variant = "l",
-        .m_type = "char *",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<char *>(),
-        .m_field = e__base__l, // 11
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->l);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::l>>; }(),
+        return (void *)std::addressof(cls->f);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::f>>; }(),
+},
+{
+    .m_variant = "g",
+    .m_type = []() -> auto
     {
-        .m_variant = "m",
-        .m_type = "const char *",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<const char *>(),
-        .m_field = e__base__m, // 12
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->m);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::m>>; }(),
-    },
+        if constexpr (reflect::fundamental<unsigned int>) 
+        {          
+            return typeid(unsigned int).name();         
+        }                                         
+        return "unsigned int";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<unsigned int>(),
+    .m_field = e__base__g, // 6
+    .m_getter = [](const base *cls) -> void * 
     {
-        .m_variant = "n",
-        .m_type = "std::map<int, int>",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<std::map<int, int>>(),
-        .m_field = e__base__n, // 13
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->n);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::n>>; }(),
+        return (void *)std::addressof(cls->g);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::g>>; }(),
+},
+{
+    .m_variant = "h",
+    .m_type = []() -> auto
     {
-        .m_variant = "o",
-        .m_type = "std::vector<int>",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<std::vector<int>>(),
-        .m_field = e__base__o, // 14
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->o);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::o>>; }(),
-    },
+        if constexpr (reflect::fundamental<unsigned long>) 
+        {          
+            return typeid(unsigned long).name();         
+        }                                         
+        return "unsigned long";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<unsigned long>(),
+    .m_field = e__base__h, // 7
+    .m_getter = [](const base *cls) -> void * 
     {
-        .m_variant = "ooooooooooooooooooooooooooool0",
-        .m_type = "const char *",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<const char *>(),
-        .m_field = e__base__ooooooooooooooooooooooooooool0, // 15
-        .m_getter = [](const base *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->ooooooooooooooooooooooooooool0);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::ooooooooooooooooooooooooooool0>>; }(),
+        return (void *)std::addressof(cls->h);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::h>>; }(),
+},
+{
+    .m_variant = "i",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<float>) 
+        {          
+            return typeid(float).name();         
+        }                                         
+        return "float";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<float>(),
+    .m_field = e__base__i, // 8
+    .m_getter = [](const base *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->i);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::i>>; }(),
+},
+{
+    .m_variant = "j",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<double>) 
+        {          
+            return typeid(double).name();         
+        }                                         
+        return "double";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<double>(),
+    .m_field = e__base__j, // 9
+    .m_getter = [](const base *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->j);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::j>>; }(),
+},
+{
+    .m_variant = "k",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<std::string>) 
+        {          
+            return typeid(std::string).name();         
+        }                                         
+        return "std::string";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<std::string>(),
+    .m_field = e__base__k, // 10
+    .m_getter = [](const base *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->k);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::k>>; }(),
+},
+{
+    .m_variant = "l",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<char *>) 
+        {          
+            return typeid(char *).name();         
+        }                                         
+        return "char *";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<char *>(),
+    .m_field = e__base__l, // 11
+    .m_getter = [](const base *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->l);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::l>>; }(),
+},
+{
+    .m_variant = "m",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<const char *>) 
+        {          
+            return typeid(const char *).name();         
+        }                                         
+        return "const char *";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<const char *>(),
+    .m_field = e__base__m, // 12
+    .m_getter = [](const base *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->m);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::m>>; }(),
+},
+{
+    .m_variant = "n",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<std::map<int, int>>) 
+        {          
+            return typeid(std::map<int, int>).name();         
+        }                                         
+        return "std::map<int, int>";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<std::map<int, int>>(),
+    .m_field = e__base__n, // 13
+    .m_getter = [](const base *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->n);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::n>>; }(),
+},
+{
+    .m_variant = "o",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<std::vector<int>>) 
+        {          
+            return typeid(std::vector<int>).name();         
+        }                                         
+        return "std::vector<int>";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<std::vector<int>>(),
+    .m_field = e__base__o, // 14
+    .m_getter = [](const base *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->o);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::o>>; }(),
+},
+{
+    .m_variant = "ooooooooooooooooooooooooooool0",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<const char *>) 
+        {          
+            return typeid(const char *).name();         
+        }                                         
+        return "const char *";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<const char *>(),
+    .m_field = e__base__ooooooooooooooooooooooooooool0, // 15
+    .m_getter = [](const base *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->ooooooooooooooooooooooooooool0);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::ooooooooooooooooooooooooooool0>>; }(),
+},
 };
 reflect::Value __get_value(const base* cls, const std::string& _tag)
 {
@@ -680,6 +793,19 @@ uint64_t get_field(const base *cls, const char *_tag)
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
+}
+const std::string &get_field_type(const base *cls, uint32_t field)
+{
+    if (field < get_fields_count(cls))
+    {
+        auto& _meta = g_base_meta[field]; 
+        if (_meta.m_t_flags != 0)
+        {
+            return _meta.m_type;
+        }
+    }
+    static std::string _ = "";
+    return _;
 }
 const std::string &get_name(const base *cls, uint32_t field)
 {

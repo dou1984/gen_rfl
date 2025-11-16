@@ -36,25 +36,28 @@ namespace reflect
     }
 
     template <class T>
-    concept signed_integer = std::integral<std::decay_t<T>> && std::is_signed<std::decay_t<T>>::value;
+    concept signed_integer = std::integral<std::decay_t<T>> && std::is_signed_v<std::decay_t<T>>;
 
     template <class T>
-    concept unsigned_integer = std::integral<std::decay_t<T>> && std::is_unsigned<std::decay_t<T>>::value;
+    concept unsigned_integer = std::integral<std::decay_t<T>> && std::is_unsigned_v<std::decay_t<T>>;
 
     template <class T>
     concept integer = std::integral<std::decay_t<T>>;
 
     template <class T>
-    concept float_pointer = std::is_floating_point<std::decay_t<T>>::value;
+    concept float_pointer = std::is_floating_point_v<std::decay_t<T>>;
 
     template <typename T>
-    concept arithmetic = std::is_arithmetic<std::decay_t<T>>::value;
+    concept arithmetic = std::is_arithmetic_v<std::decay_t<T>>;
 
     template <class T>
     concept char_string = std::same_as<std::decay_t<T>, std::string> || std::same_as<std::decay_t<T>, std::string_view>;
 
     template <class T>
     concept char_pointer = std::same_as<std::decay_t<T>, const char *> || std::same_as<std::decay_t<T>, char *>;
+
+    template <class T>
+    concept fundamental = std::is_arithmetic_v<std::decay_t<T>> || std::same_as<std::decay_t<T>, const char *> || std::same_as<std::decay_t<T>, char *>;
 
     template <integer S, arithmetic T>
     int __set__(S &s, uint32_t _flag, T &&t)

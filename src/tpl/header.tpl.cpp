@@ -31,6 +31,7 @@ const std::string header_tpl = R"magic({{license}}
 #include <gen_rfl/branch_string.h>
 #include <gen_rfl/reflect.h>
 #include "{{header}}"
+#include <gen_rfl/arguments.h>
 {{#namesp}}
 namespace {{namespace}}
 {{{/namesp}}
@@ -46,6 +47,7 @@ namespace __details__
 const std::string &get_type(const {{class}} *cls, const std::string &tag);
 const std::string &get_type(const {{class}} *cls, const char *tag);
 const std::string &get_type(const {{class}} *cls);
+const std::string &get_field_type(const {{class}} *cls, uint32_t field);
 uint64_t get_field(const {{class}} *cls, const std::string &tag);
 uint64_t get_field(const {{class}} *cls, const char *tag);
 const uint64_t get_fields_count(const {{class}} *cls);
@@ -62,31 +64,15 @@ template <class... R>
 int invoke({{class}} *cls, const std::string &_tag, R &&...args)
 {
     branch_string tag(_tag);
-    if constexpr (sizeof...(args) > 0)
-    {
-        static const std::string func_args = std::string("(") + ::reflect::__join(get_type(std::addressof(args))...) + ")";
-        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args), std::addressof(args)...);
-    }
-    else
-    {
-        static const std::string func_args = "()";
-        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args));
-    }
+    static reflect::NArguments _(std::forward<R>(args)...);
+    return __details__::get_meta(cls, tag, _.m_arguments).m_func(cls, std::addressof(_), std::addressof(args)...);
 }
 template <class Ret, class... R>
 int invoke_r({{class}} *cls, const std::string &_tag, Ret&& ret, R &&...args)
 {   
     branch_string tag(_tag);
-    if constexpr (sizeof...(args) > 0)
-    {
-        static const std::string func_args = std::string(get_type(std::addressof(ret))) + std::string("(") + ::reflect::__join(get_type(std::addressof(args))...) + ")";
-        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::addressof(ret), std::addressof(args)...);
-    }
-    else
-    {
-        static const std::string func_args = std::string(get_type(std::addressof(ret))) + "()";
-        return __details__::get_meta(cls, tag, func_args).m_func(cls, sizeof...(args) + 1, std::addressof(ret));
-    }
+    static reflect::RArguments _(std::forward<Ret>(ret), std::forward<R>(args)...);
+    return __details__::get_meta(cls, tag, _.m_arguments).m_func(cls, std::addressof(_), std::addressof(ret), std::addressof(args)...);
 }
 {{#namesp}}
 }{{/namesp}}

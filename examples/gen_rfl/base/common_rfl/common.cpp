@@ -27,6 +27,7 @@
 #include "common.h"
 #include "../../../base/common.h"
 #include <gen_rfl/setter.h>
+#include <gen_rfl/arguments.h>
 
 
 namespace fastest
@@ -71,58 +72,86 @@ static reflect::meta<common> g_common_func[] =
 };
 
 static reflect::meta<common> g_common_meta[] = {
+{
+    .m_variant = "o0000000",
+    .m_type = []() -> auto
     {
-        .m_variant = "o0000000",
-        .m_type = "const char *",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<const char *>(),
-        .m_field = e__common__o0000000, // 0
-        .m_getter = [](const common *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->o0000000);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000000>>; }(),
-    },
+        if constexpr (reflect::fundamental<const char *>) 
+        {          
+            return typeid(const char *).name();         
+        }                                         
+        return "const char *";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<const char *>(),
+    .m_field = e__common__o0000000, // 0
+    .m_getter = [](const common *cls) -> void * 
     {
-        .m_variant = "o0000001",
-        .m_type = "const char *",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<const char *>(),
-        .m_field = e__common__o0000001, // 1
-        .m_getter = [](const common *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->o0000001);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000001>>; }(),
+        return (void *)std::addressof(cls->o0000000);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000000>>; }(),
+},
+{
+    .m_variant = "o0000001",
+    .m_type = []() -> auto
     {
-        .m_variant = "o0000002",
-        .m_type = "const char *",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<const char *>(),
-        .m_field = e__common__o0000002, // 2
-        .m_getter = [](const common *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->o0000002);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000002>>; }(),
-    },
+        if constexpr (reflect::fundamental<const char *>) 
+        {          
+            return typeid(const char *).name();         
+        }                                         
+        return "const char *";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<const char *>(),
+    .m_field = e__common__o0000001, // 1
+    .m_getter = [](const common *cls) -> void * 
     {
-        .m_variant = "o0000003",
-        .m_type = "const char *",
-        .m_flags = 0x801,
-        .m_t_flags = ::reflect::flag_type<const char *>(),
-        .m_field = e__common__o0000003, // 3
-        .m_getter = [](const common *cls) -> void * 
-        {
-            return (void *)std::addressof(cls->o0000003);
-        },
-        .m_setter = []() -> auto
-        { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000003>>; }(),
+        return (void *)std::addressof(cls->o0000001);
     },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000001>>; }(),
+},
+{
+    .m_variant = "o0000002",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<const char *>) 
+        {          
+            return typeid(const char *).name();         
+        }                                         
+        return "const char *";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<const char *>(),
+    .m_field = e__common__o0000002, // 2
+    .m_getter = [](const common *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->o0000002);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000002>>; }(),
+},
+{
+    .m_variant = "o0000003",
+    .m_type = []() -> auto
+    {
+        if constexpr (reflect::fundamental<const char *>) 
+        {          
+            return typeid(const char *).name();         
+        }                                         
+        return "const char *";
+    }(),
+    .m_flags = 0x801,
+    .m_t_flags = ::reflect::flag_type<const char *>(),
+    .m_field = e__common__o0000003, // 3
+    .m_getter = [](const common *cls) -> void * 
+    {
+        return (void *)std::addressof(cls->o0000003);
+    },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000003>>; }(),
+},
 };
 reflect::Value __get_value(const common* cls, const std::string& _tag)
 {
@@ -275,6 +304,19 @@ uint64_t get_field(const common *cls, const char *_tag)
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
+}
+const std::string &get_field_type(const common *cls, uint32_t field)
+{
+    if (field < get_fields_count(cls))
+    {
+        auto& _meta = g_common_meta[field]; 
+        if (_meta.m_t_flags != 0)
+        {
+            return _meta.m_type;
+        }
+    }
+    static std::string _ = "";
+    return _;
 }
 const std::string &get_name(const common *cls, uint32_t field)
 {

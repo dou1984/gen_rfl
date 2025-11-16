@@ -54,6 +54,7 @@ void analyzer::push_back_view(const std::string &variant, const info_t &detail)
     info.m_input = detail.m_input;
     info.m_output = detail.m_output;
     info.m_flags = detail.m_flags;
+    info.m_t_flags = detail.m_t_flags;
     info.m_field = get_config()->m_max_field++;
     m_data.emplace(variant, std::move(info));
 }
@@ -70,6 +71,7 @@ void analyzer::copy_view(const std::string &variant, const info_t &detail)
     info.m_input = detail.m_input;
     info.m_output = detail.m_output;
     info.m_flags = detail.m_flags;
+    info.m_t_flags = detail.m_t_flags;
     info.m_field = detail.m_field;
     m_data.emplace(variant, std::move(info));
 }

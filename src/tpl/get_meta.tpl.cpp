@@ -109,6 +109,19 @@ uint64_t get_field(const {{class}} *cls, const char *_tag)
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
 }
+const std::string &get_field_type(const {{class}} *cls, uint32_t field)
+{
+    if (field < get_fields_count(cls))
+    {
+        auto& _meta = g_{{class}}_meta[field]; 
+        if (_meta.m_t_flags != 0)
+        {
+            return _meta.m_type;
+        }
+    }
+    static std::string _ = "";
+    return _;
+}
 const std::string &get_name(const {{class}} *cls, uint32_t field)
 {
     if (field < get_fields_count(cls))

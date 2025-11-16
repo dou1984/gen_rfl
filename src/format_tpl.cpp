@@ -25,6 +25,7 @@
 #include <fstream>
 #include <cstring>
 #include "reflect.h"
+#include "arguments.h"
 #include "config.h"
 #include "tpl/tpl.h"
 #include "sys.h"
@@ -217,7 +218,8 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
         }
         else
         {
-            dict->SetValue("t_flags", "0");
+            to_hex(field.m_t_flags, buf, sizeof(buf));
+            dict->SetValue("t_flags", buf);
         }
         dict->SetIntValue("field", field.m_field);
 

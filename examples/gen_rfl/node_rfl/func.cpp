@@ -27,6 +27,7 @@
 #include "func.h"
 #include "../../node.h"
 #include <gen_rfl/setter.h>
+#include <gen_rfl/arguments.h>
 
 
 enum func_meta_enum
@@ -68,11 +69,11 @@ static reflect::meta<func> g_func = {
     .m_setter = set_value_invalid,
 };
 
-int invoke__func__deinit__3(const func* c, uint64_t argc, ...);
-int invoke__func__deinit__2(const func* c, uint64_t argc, ...);
-int invoke__func__done__4(const func* c, uint64_t argc, ...);
-int invoke__func__init__1(const func* c, uint64_t argc, ...);
-int invoke__func__init__0(const func* c, uint64_t argc, ...);
+int invoke__func__deinit__3(const func* c, const reflect::Arguments *, ...);
+int invoke__func__deinit__2(const func* c, const reflect::Arguments *, ...);
+int invoke__func__done__4(const func* c, const reflect::Arguments *, ...);
+int invoke__func__init__1(const func* c, const reflect::Arguments *, ...);
+int invoke__func__init__0(const func* c, const reflect::Arguments *, ...);
 static reflect::meta<func> g_func_func[] = 
 {
     {
@@ -126,33 +127,30 @@ reflect::meta<func>& invoke__func__deinit(const func *c, const std::string &tag)
 reflect::meta<func>& invoke__func__done(const func *c, const std::string &tag);
 reflect::meta<func>& invoke__func__init(const func *c, const std::string &tag);
 static reflect::meta<func> g_func_meta[] = {
-    {
-        .m_variant = "deinit",
-        .m_type = "",
-        .m_flags = 0x4801,
-        .m_t_flags = 0,
-        .m_field = e__func__deinit, // 1
-        .m_invoke = invoke__func__deinit,
-        .m_setter = set_value_invalid,
-    },
-    {
-        .m_variant = "done",
-        .m_type = "",
-        .m_flags = 0x4801,
-        .m_t_flags = 0,
-        .m_field = e__func__done, // 2
-        .m_invoke = invoke__func__done,
-        .m_setter = set_value_invalid,
-    },
-    {
-        .m_variant = "init",
-        .m_type = "",
-        .m_flags = 0x4801,
-        .m_t_flags = 0,
-        .m_field = e__func__init, // 0
-        .m_invoke = invoke__func__init,
-        .m_setter = set_value_invalid,
-    },
+{
+    .m_variant = "deinit",
+    .m_flags = 0x4801,
+    .m_t_flags = 0x0,
+    .m_field = e__func__deinit, // 1
+    .m_invoke = invoke__func__deinit,
+    .m_setter = set_value_invalid,
+},
+{
+    .m_variant = "done",
+    .m_flags = 0x4801,
+    .m_t_flags = 0x0,
+    .m_field = e__func__done, // 2
+    .m_invoke = invoke__func__done,
+    .m_setter = set_value_invalid,
+},
+{
+    .m_variant = "init",
+    .m_flags = 0x4801,
+    .m_t_flags = 0x0,
+    .m_field = e__func__init, // 0
+    .m_invoke = invoke__func__init,
+    .m_setter = set_value_invalid,
+},
 };
 reflect::Value __get_value(const func* cls, const std::string& _tag)
 {
@@ -198,13 +196,13 @@ inline ::reflect::meta<func> &rfl__0__6(const func *cls, uint64_t value, branch_
     return g_default_meta;
 }
 
-int invoke__func__deinit__3(const func *c, uint64_t argc, ...)
+int invoke__func__deinit__3(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
-    if (cls && argc == 0)
+    if (cls && argu->m_count == 0)
     {
         va_list __arguments_list;
-        va_start(__arguments_list, argc);
+        va_start(__arguments_list, argu);
         va_end(__arguments_list);
         cls->deinit();
         return 0;
@@ -225,13 +223,13 @@ inline ::reflect::meta<func> &invoke__deinit__0__0(const func *c, uint64_t value
     return g_default_meta;
 }
 
-int invoke__func__deinit__2(const func *c, uint64_t argc, ...)
+int invoke__func__deinit__2(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
-    if (cls && argc == 1)
+    if (cls && argu->m_count == 1)
     {
         va_list __arguments_list;
-        va_start(__arguments_list, argc);
+        va_start(__arguments_list, argu);
         auto& _r = *(va_arg(__arguments_list, int *));
         va_end(__arguments_list);
         _r = cls->deinit();
@@ -277,13 +275,13 @@ inline ::reflect::meta<func> &invoke__deinit__0__1(const func *c, uint64_t value
     return g_default_meta;
 }
 
-int invoke__func__done__4(const func *c, uint64_t argc, ...)
+int invoke__func__done__4(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
-    if (cls && argc == 0)
+    if (cls && argu->m_count == 0)
     {
         va_list __arguments_list;
-        va_start(__arguments_list, argc);
+        va_start(__arguments_list, argu);
         va_end(__arguments_list);
         cls->done();
         return 0;
@@ -315,13 +313,13 @@ inline ::reflect::meta<func> &invoke__done__0__3(const func *c, uint64_t value, 
     return g_default_meta;
 }
 
-int invoke__func__init__1(const func *c, uint64_t argc, ...)
+int invoke__func__init__1(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
-    if (cls && argc == 0)
+    if (cls && argu->m_count == 0)
     {
         va_list __arguments_list;
-        va_start(__arguments_list, argc);
+        va_start(__arguments_list, argu);
         va_end(__arguments_list);
         cls->init();
         return 0;
@@ -342,13 +340,13 @@ inline ::reflect::meta<func> &invoke__init__0__4(const func *c, uint64_t value, 
     return g_default_meta;
 }
 
-int invoke__func__init__0(const func *c, uint64_t argc, ...)
+int invoke__func__init__0(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
-    if (cls && argc == 1)
+    if (cls && argu->m_count == 1)
     {
         va_list __arguments_list;
-        va_start(__arguments_list, argc);
+        va_start(__arguments_list, argu);
         auto& _r = *(va_arg(__arguments_list, int *));
         va_end(__arguments_list);
         _r = cls->init();
@@ -491,6 +489,19 @@ uint64_t get_field(const func *cls, const char *_tag)
 {
     branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
+}
+const std::string &get_field_type(const func *cls, uint32_t field)
+{
+    if (field < get_fields_count(cls))
+    {
+        auto& _meta = g_func_meta[field]; 
+        if (_meta.m_t_flags != 0)
+        {
+            return _meta.m_type;
+        }
+    }
+    static std::string _ = "";
+    return _;
 }
 const std::string &get_name(const func *cls, uint32_t field)
 {

@@ -39,6 +39,7 @@ public:
         std::string m_output;
         uint64_t m_value = 0;
         uint32_t m_flags = 0;
+        uint32_t m_t_flags = 0;
         uint32_t m_field = 0;
     };
 
