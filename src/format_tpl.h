@@ -26,49 +26,52 @@
 #include "branch.h"
 #include "analyzer.h"
 
-class format_tpl
+namespace reflect
 {
-public:
-    format_tpl();
+    class format_tpl
+    {
+    public:
+        format_tpl();
 
-    int to_header(branch &sel, analyzer &ana);
+        int to_header(branch_vec &sel, analyzer &ana);
 
-    int to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func);
+        int to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func);
 
-    int to_get_meta(branch &sel, analyzer &ana);
+        int to_get_meta(branch_vec &sel, analyzer &ana);
 
-    int to_func(uint32_t layer, uint32_t index, branch &bra);
+        int to_func(uint32_t layer, uint32_t index, branch_vec &bra);
 
-    int to_setter(analyzer::info_t *);
+        int to_setter(analyzer::info_t *);
 
-    int to_invoke(const std::string &variant, const branch &bra);
+        int to_invoke(const std::string &variant, const branch_vec &bra);
 
-    int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch &bra);
+        int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch_vec &bra);
 
-    int to_invoke_field(const branch_info &bra);
+        int to_invoke_field(const branch_info &bra);
 
-    int to_invoke_layer(const std::string &variant, const branch_map &bra);
+        int to_invoke_layer(const std::string &variant, const branch_map &bra);
 
-    int to_rfl(analyzer &ana, std::map<std::string, analyzer> &ana_func);
+        int to_rfl(analyzer &ana, std::map<std::string, analyzer> &ana_func);
 
-    int to_file(const std::string &header, const std::string &source);
+        int to_file(const std::string &header, const std::string &source);
 
-public:
-    int to_rfl();
+    public:
+        int to_rfl();
 
-    int to_base_types();
+        int to_base_types();
 
-    int to_base_types_source();
+        int to_base_types_source();
 
-    auto &get() const { return m_output_source; }
+        auto &get() const { return m_output_source; }
 
-    static int init();
+        static int init();
 
-protected:
-    bool is_invoked(const std::string &variant);
-    std::set<std::string> m_invoke_filter;
+    protected:
+        bool is_invoked(const std::string &variant);
+        std::set<std::string> m_invoke_filter;
 
-private:    
-    std::string m_output_header;
-    std::list<std::string> m_output_source;
-};
+    private:
+        std::string m_output_header;
+        std::list<std::string> m_output_source;
+    };
+}

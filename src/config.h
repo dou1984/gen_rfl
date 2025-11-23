@@ -25,48 +25,44 @@
 #include <set>
 #include <chrono>
 #include <vector>
+#include "config_src.h"
 
-struct Data
+namespace reflect
 {
-    std::map<std::string, std::chrono::system_clock::time_point> generate_header;
-    std::set<std::string> generated;
-    std::set<std::string> base_types;
-};
-struct Global
-{
-    std::string m_file;
-    std::string m_relative_file;
-    std::string m_class;
-    std::string m_raw_class;
-    std::string m_namespace;
-
-    void clear()
+    struct Data
     {
-        m_file.clear();
-        m_relative_file.clear();
-        m_raw_class.clear();
-        m_class.clear();
-        m_namespace.clear();
-    }
-};
+        std::map<std::string, std::chrono::system_clock::time_point> generate_header;
+        std::set<std::string> generated;
+        std::set<std::string> base_types;
+    };
 
-struct Conf : Data, Global
-{
-    std::string include_dir;
-    std::string libs_dir;
-    std::string tpl_dir;
-    std::string src_dir;
-    std::string tmp_dir;
-    std::string real_tmp_dir_loc;
-    std::string cwd;
-    std::string cmake_pattern;
-    std::string source_pattern;
+    struct Conf : Data, SourceInfo
+    {
+        std::string include_dir;
+        std::string libs_dir;
+        std::string tpl_dir;
+        std::string src_dir;
+        std::string tmp_dir;
+        std::string real_tmp_dir_loc;
+        std::string cwd;
+        std::string cmake_pattern;
+        std::string source_pattern;
 
-    std::vector<std::string> llvm_args;
-};
+        std::vector<std::string> llvm_args;
 
-Conf &get_config();
+        SourceFiles source_code;
 
-int read_config_from_yaml(const std::string &json_file);
+        void save()
+        {
+            SourceInfo *_this = static_cast<SourceInfo *>(this);
+            source_code.set(std::move(*_this));
+        }
+    };
 
-int write_default_to_yaml(const std::string &json_file);
+    Conf &get_config();
+
+    int read_config_from_yaml(const std::string &json_file);
+
+    int write_default_to_yaml(const std::string &json_file);
+
+}

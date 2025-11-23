@@ -24,81 +24,83 @@
 #include <iostream>
 #include <cassert>
 
-using namespace reflect;
-branch branch_builder(uint32_t layer, analyzer &ana)
+namespace reflect
 {
-    branch branch_vec;
-    uint64_t perfect_index = ana.calc_perfect_index();
-    branch_vec.resize(perfect_index);
-
-    auto &max_index = ana.get_config()->m_max_index;
-    if (layer >= max_index.size())
+    branch_vec branch_builder(uint32_t layer, analyzer &ana)
     {
-        max_index.resize(layer + 1);
-    }
+        branch_vec _branch_vec;
+        uint64_t perfect_index = ana.calc_perfect_index();
+        _branch_vec.resize(perfect_index);
 
-    for (auto i = 0; i < branch_vec.size(); i++)
-    {
-        branch_vec[i].m_layer = layer;
-        branch_vec[i].m_index = max_index[layer]++;
-    }
-
-    for (auto &it : ana.get_data())
-    {
-        auto &info = it.second;
-        auto value = info.m_value;
-        auto index = value % perfect_index;
-        auto &__info = branch_vec[index][value];
-        __info.m_layer = layer;
-        __info.m_index = branch_vec[index].m_index;
-        __info.m_field = info.m_field;
-        __info.m_variants.emplace(info.m_variant, &info);
-
-        if (it.first.size() > sizeof(uint64_t))
+        auto &max_index = ana.get_config()->m_max_index;
+        if (layer >= max_index.size())
         {
-            auto variant = it.first.substr(sizeof(uint64_t));
-            __info.m_analyzer_child.init(ana.get_config()).copy_view(variant, info);
+            max_index.resize(layer + 1);
         }
-    }
 
-    for (auto &info : branch_vec)
-    {
-        for (auto &x : info)
+        for (auto i = 0; i < _branch_vec.size(); i++)
         {
-            if (x.second.m_analyzer_child.get_data().size() > 0)
+            _branch_vec[i].m_layer = layer;
+            _branch_vec[i].m_index = max_index[layer]++;
+        }
+
+        for (auto &it : ana.get_data())
+        {
+            auto &info = it.second;
+            auto value = info.m_value;
+            auto index = value % perfect_index;
+            auto &__info = _branch_vec[index][value];
+            __info.m_layer = layer;
+            __info.m_index = _branch_vec[index].m_index;
+            __info.m_field = info.m_field;
+            __info.m_variants.emplace(info.m_variant, &info);
+
+            if (it.first.size() > sizeof(uint64_t))
             {
-                x.second.m_branch_child = branch_builder(layer + 1, x.second.m_analyzer_child);
+                auto variant = it.first.substr(sizeof(uint64_t));
+                __info.m_analyzer_child.init(ana.get_config()).copy_view(variant, info);
             }
         }
+
+        for (auto &info : _branch_vec)
+        {
+            for (auto &x : info)
+            {
+                if (x.second.m_analyzer_child.get_data().size() > 0)
+                {
+                    x.second.m_branch_child = branch_builder(layer + 1, x.second.m_analyzer_child);
+                }
+            }
+        }
+
+        return _branch_vec;
     }
 
-    return branch_vec;
-}
-
-analyzer::info_t *branch_info::first_variant() const
-{
-    assert(equil_variant(m_variants.begin()->second->m_raw_variant));
-    return m_variants.begin()->second;
-}
-bool branch_info::equil_variant(const std::string &variant) const
-{
-    for (auto &_variant : m_variants)
+    analyzer::info_t *branch_info::first_variant() const
     {
-        if (_variant.second->m_raw_variant != variant)
-        {
-            return false;
-        }
+        assert(equil_variant(m_variants.begin()->second->m_raw_variant));
+        return m_variants.begin()->second;
     }
-    return true;
-}
-analyzer::info_t *branch_info::get_variant(const std::string &variant) const
-{
-    for (auto &_variant : m_variants)
+    bool branch_info::equil_variant(const std::string &variant) const
     {
-        if (_variant.second->m_raw_variant == variant)
+        for (auto &_variant : m_variants)
         {
-            return _variant.second;
+            if (_variant.second->m_raw_variant != variant)
+            {
+                return false;
+            }
         }
+        return true;
     }
-    return nullptr;
+    analyzer::info_t *branch_info::get_variant(const std::string &variant) const
+    {
+        for (auto &_variant : m_variants)
+        {
+            if (_variant.second->m_raw_variant == variant)
+            {
+                return _variant.second;
+            }
+        }
+        return nullptr;
+    }
 }

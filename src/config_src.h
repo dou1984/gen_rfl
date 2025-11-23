@@ -18,12 +18,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#pragma once
 
+#pragma once
 #include <string>
+#include <map>
 
 namespace reflect
 {
-    int generate_file_name(std::string &header, std::string &source, std::string &_header);
-    bool is_generated(std::string &header, std::string &source);
+
+    struct SourceInfo
+    {
+        std::string m_file;
+        std::string m_relative_file;
+        std::string m_class;
+        std::string m_raw_class;
+        std::string m_namespace;
+
+        void clear()
+        {
+            m_file.clear();
+            m_relative_file.clear();
+            m_raw_class.clear();
+            m_class.clear();
+            m_namespace.clear();
+        }
+    };
+
+    struct SourceFiles
+    {
+        std::map<std::string, SourceInfo> m_data;
+
+        void set(SourceInfo &&_info)
+        {
+            m_data.emplace(_info.m_file + "/" + _info.m_class, std::move(_info));
+        }
+    };
 }

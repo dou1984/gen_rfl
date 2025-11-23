@@ -33,9 +33,9 @@
 
 using namespace gflags;
 
-DEFINE_string(config, ".gen_rfl.yaml", "config file");
+DEFINE_string(config, "gen_rfl.yaml", "config file");
 
-auto &conf = get_config();
+auto &conf = ::reflect::get_config();
 
 void set_config()
 {
@@ -77,9 +77,9 @@ int main(int argc, char *argv[])
     auto config_json = FLAGS_config;
     if (!IsExist(config_json))
     {
-        write_default_to_yaml(config_json);
+        ::reflect::write_default_to_yaml(config_json);
     }
-    read_config_from_yaml(config_json);
+    ::reflect::read_config_from_yaml(config_json);
 
     set_config();
 
@@ -102,9 +102,9 @@ int main(int argc, char *argv[])
 
     clang::tooling::ClangTool Tool(Compilations, sources);
 
-    Tool.run(clang::tooling::newFrontendActionFactory<GetRflFrontendAction>().get());
+    Tool.run(clang::tooling::newFrontendActionFactory<::reflect::GetRflFrontendAction>().get());
 
-    format_tpl fmt;
+    ::reflect::format_tpl fmt;
 
     fmt.to_rfl();
     fmt.to_base_types();

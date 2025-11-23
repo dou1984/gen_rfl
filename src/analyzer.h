@@ -27,61 +27,66 @@
 #include <tuple>
 #include <map>
 
-class analyzer
+namespace reflect
 {
-public:
-    struct info_t
-    {
-        std::string m_variant;
-        std::string m_raw_variant;
-        std::string m_raw_type;
-        std::list<std::string> m_input;
-        std::string m_output;
-        uint64_t m_value = 0;
-        uint32_t m_flags = 0;
-        uint32_t m_t_flags = 0;
-        uint32_t m_field = 0;
-    };
 
-    struct config_t
+    class analyzer
     {
-        std::vector<uint32_t> m_max_index;
-        uint32_t m_max_field = 0;
-        void clear()
+    public:
+        struct info_t
         {
-            m_max_index.clear();
-            m_max_field = 0;
+            std::string m_variant;
+            std::string m_raw_variant;
+            std::string m_raw_type;
+            std::list<std::string> m_input;
+            std::string m_output;
+            uint64_t m_value = 0;
+            uint32_t m_flags = 0;
+            uint32_t m_t_flags = 0;
+            uint32_t m_field = 0;
+        };
+
+        struct config_t
+        {
+            std::vector<uint32_t> m_max_index;
+            uint32_t m_max_field = 0;
+            void clear()
+            {
+                m_max_index.clear();
+                m_max_field = 0;
+            }
+        };
+
+    public:
+        analyzer();
+
+        analyzer &init(config_t *_config);
+
+        void push_back(const std::string &variant)
+        {
+            info_t detail;
+            push_back_view(variant, detail);
         }
+        void push_back(const std::string &variant, const info_t &detail)
+        {
+            push_back_view(variant, detail);
+        }
+        void push_back_view(const std::string &variant, const info_t &detail);
+
+        void copy_view(const std::string &variant, const info_t &detail);
+
+        bool get_prefect_index(int index) const;
+
+        uint64_t calc_perfect_index() const;
+
+        auto &get_data() { return m_data; }
+        auto get_config() { return m_config; }
+
+    private:
+        void __push_back_view(const std::string &variant, const info_t &detail);
+
+        config_t *m_config;
+        // std::multimap<std::string, info_t> m_data;
+        std::map<std::string, info_t> m_data;
     };
-
-public:
-    analyzer();
-
-    analyzer &init(config_t *_config);
-
-    void push_back(const std::string &variant)
-    {
-        info_t detail;
-        push_back_view(variant, detail);
-    }
-    void push_back(const std::string &variant, const info_t &detail)
-    {
-        push_back_view(variant, detail);
-    }
-    void push_back_view(const std::string &variant, const info_t &detail);
-
-    void copy_view(const std::string &variant, const info_t &detail);
-
-    bool get_prefect_index(int index) const;
-
-    uint64_t calc_perfect_index() const;
-
-    auto &get_data() { return m_data; }
-    auto get_config() { return m_config; }
-
-private:
-    void __push_back_view(const std::string &variant, const info_t &detail);
-
-    config_t *m_config;
-    std::multimap<std::string, info_t> m_data;
-};
+}

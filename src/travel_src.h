@@ -33,35 +33,38 @@
 
 using namespace clang;
 
-class GenRflASTVisitor : public RecursiveASTVisitor<GenRflASTVisitor>
+namespace reflect
 {
-public:
-    explicit GenRflASTVisitor(ASTContext *Context);
+    class GenRflASTVisitor : public RecursiveASTVisitor<GenRflASTVisitor>
+    {
+    public:
+        explicit GenRflASTVisitor(ASTContext *Context);
 
-    // 访问函数声明
-    bool VisitFunctionDecl(FunctionDecl *FD);
+        // 访问函数声明
+        bool VisitFunctionDecl(FunctionDecl *FD);
 
-    bool VisitCXXRecordDecl(CXXRecordDecl *D);
+        bool VisitCXXRecordDecl(CXXRecordDecl *D);
 
-    bool VisitVarDecl(VarDecl *VD);
+        bool VisitVarDecl(VarDecl *VD);
 
-private:
-    SourceManager *SM;
-};
+    private:
+        SourceManager *SM;
+    };
 
-class GenRflASTConsumer : public ASTConsumer
-{
-public:
-    explicit GenRflASTConsumer(ASTContext *Context);
+    class GenRflASTConsumer : public ASTConsumer
+    {
+    public:
+        explicit GenRflASTConsumer(ASTContext *Context);
 
-    void HandleTranslationUnit(ASTContext &Context) override;
+        void HandleTranslationUnit(ASTContext &Context) override;
 
-private:
-    GenRflASTVisitor Visitor;
-};
+    private:
+        GenRflASTVisitor Visitor;
+    };
 
-class GetRflFrontendAction : public ASTFrontendAction
-{
-public:
-    std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, StringRef File) override;
-};
+    class GetRflFrontendAction : public ASTFrontendAction
+    {
+    public:
+        std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI, StringRef File) override;
+    };
+}

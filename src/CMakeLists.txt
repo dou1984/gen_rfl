@@ -61,6 +61,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     gflags  
 )
 
+if (!ALPINE)
+
 enable_testing()
 add_executable(unit_test
     gen_rfl.cpp
@@ -86,6 +88,7 @@ target_link_libraries(unit_test PRIVATE
 )
 add_test(NAME unit_test COMMAND branch)
 
+endif()
 
 install(
 FILES
@@ -94,7 +97,8 @@ FILES
     set_value.h
     setter.h
     value.h
-    arguments.h   
+    arguments.h  
+    config_src.h 
     DESTINATION include/gen_rfl
 )
 install(

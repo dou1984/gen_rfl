@@ -29,28 +29,31 @@
 #include "analyzer.h"
 #include "branch_string.h"
 
-struct branch_info;
-struct branch_map : std::map<uint64_t, branch_info>
+namespace reflect
 {
-    uint32_t m_layer = 0;
-    uint32_t m_index = 0;
-};
+    struct branch_info;
+    struct branch_map : std::map<uint64_t, branch_info>
+    {
+        uint32_t m_layer = 0;
+        uint32_t m_index = 0;
+    };
+    using branch_vec = std::vector<branch_map>;
+    struct branch_info
+    {
+        uint32_t m_layer = 0;
+        uint32_t m_index = 0;
+        uint32_t m_field = 0;
+        std::multimap<std::string, analyzer::info_t *> m_variants;
 
-using branch = std::vector<branch_map>;
-struct branch_info
-{
-    uint32_t m_layer = 0;
-    uint32_t m_index = 0;
-    uint32_t m_field = 0;
-    std::multimap<std::string, analyzer::info_t *> m_variants;
+        // children
+        analyzer m_analyzer_child;
+        branch_vec m_branch_child;
 
-    // children
-    analyzer m_analyzer_child;
-    branch m_branch_child;
+        analyzer::info_t *first_variant() const;
+        bool equil_variant(const std::string &variant) const;
+        analyzer::info_t *get_variant(const std::string &variant) const;
+    };
 
-    analyzer::info_t *first_variant() const;
-    bool equil_variant(const std::string &variant) const;
-    analyzer::info_t *get_variant(const std::string &variant) const;
-};
+    branch_vec branch_builder(uint32_t, analyzer &);
 
-branch branch_builder(uint32_t, analyzer &);
+}
