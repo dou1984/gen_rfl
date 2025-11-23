@@ -35,15 +35,15 @@ namespace reflect
         template <class T>
         void __set(uint32_t i)
         {
-            if constexpr (std::is_const<T>::value)
+            if constexpr (!std::is_const<T>::value)
             {
                 m_t_flags.set(i);
             }
         }
     };
-    struct NArguments : Arguments
+    struct BArguments : Arguments
     {
-        NArguments()
+        BArguments()
         {
             m_count = 0;
             m_arguments += "(";
@@ -51,7 +51,7 @@ namespace reflect
             m_arguments += ")";
         }
         template <class... T>
-        NArguments(T &&...t)
+        BArguments(T &&...t)
         {
             m_count = 0;
             m_arguments += "(";

@@ -27,10 +27,30 @@ int set_base()
 {
     base b = {0};
 
+    set_value(&b, "a", 10);
+    set_value(&b, "b", 10);
+    set_value(&b, "c", 10);
+    set_value(&b, "d", 10);
+    set_value(&b, "e", 10);
+    set_value(&b, "f", 10);
+    set_value(&b, "g", 10);
+    set_value(&b, "h", 10);
+    set_value(&b, "i", 10);
+    set_value(&b, "j", 10);
+    set_value(&b, "k", 10);
+    assert(b.a == 10);
+    assert(b.b == 10);
+    assert(b.c == 10);
+    assert(b.d == 10);
+    assert(b.e == 10);
+    assert(b.f == 10);
+    assert(b.g == 10);
+    assert(b.i == 10);
+    assert(b.j == 10);
+    assert(b.k == "10");
+
     set_value(&b, "a", "-100");
     assert(b.a == -100);
-    set_value(&b, "b", 10);
-    assert(b.b == 10);
     set_value(&b, "k", "hello");
     assert(b.k == "hello");
     set_value(&b, "ooooooooooooooooooooooooooool0", "999");
@@ -39,12 +59,11 @@ int set_base()
     assert(r == -1);
     set_value(&b, "e", "100");
     assert(b.e == 100);
-    set_value(&b, "k", 100);
-    assert(b.k == "100");
 
     set_value(&b, "o", std::vector<int>{0, 1, 2, 3});
     return 0;
 }
+
 int get_node()
 {
     node n = {0};
@@ -117,6 +136,18 @@ int invoke_node()
     return 0;
 }
 
+int invoke_node2()
+{
+    node n;
+
+    const char *ptr = "hello";
+    int i = 1;
+    long j = 1;
+    auto s = invoke(&n, "init", i, j, ptr);
+
+    return 0;
+}
+
 int main()
 {
     set_base();
@@ -125,5 +156,6 @@ int main()
 
     invoke_node();
 
+    invoke_node2();
     return 0;
 }

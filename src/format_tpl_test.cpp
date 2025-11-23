@@ -42,7 +42,24 @@ TEST(format, rander_string)
 
     std::cout << result << std::endl;
 }
+TEST(format, rander_file)
+{
+    EXPECT_TRUE(ctemplate::Template::SetTemplateRootDirectory("/home/dou1984/github/genreflect/src/tpl/"));
 
+    ctemplate::TemplateDictionary dict("rfl");
+    auto includes = dict.AddSectionDictionary("includes");
+    includes->SetValue("header", "#include <iostream>");
+
+    std::string result;
+    EXPECT_TRUE(ctemplate::ExpandTemplate("rfl.tpl", ctemplate::DO_NOT_STRIP, &dict, &result));
+
+    EXPECT_EQ(result, R"word(
+#pragma once
+#include "base_types.h"
+)word");
+
+    std::cout << result << std::endl;
+}
 TEST(format, rander_branch)
 {
     analyzer ana;

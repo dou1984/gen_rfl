@@ -66,7 +66,7 @@ namespace reflect
                 &&label_string,
                 &&label_type_unfundametal,
             };
-            assert(_flag < e_type_end);
+            assert(_flag < e_reflect_end);
             goto *__meta__[_flag];
         label_uint8:
         label_uint16:

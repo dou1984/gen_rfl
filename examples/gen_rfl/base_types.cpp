@@ -162,4 +162,3 @@ const std::string &get_type(unsigned short *)
     static const std::string _ = "unsigned short";
     return _;
 }
-

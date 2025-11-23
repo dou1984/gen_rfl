@@ -24,7 +24,7 @@
 TEST(branch_string, normal)
 {
     const char *str = "hello world! everyone";
-    branch_string b(str);
+    reflect::branch_string b(str);
 
     EXPECT_TRUE(b);
     EXPECT_EQ(b(), 8031924123371070824u);
@@ -37,7 +37,7 @@ TEST(branch_string, normal)
 TEST(branch_string, empty)
 {
     std::string str = "oooooooooooo";
-    branch_string b(str);
+    reflect::branch_string b(str);
 
     EXPECT_TRUE(b);
     EXPECT_EQ(b(), 0x6f6f6f6f6f6f6f6f);

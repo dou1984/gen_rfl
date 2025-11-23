@@ -390,7 +390,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
 
             std::list<std::string> _input;
             auto i = 0;
-            std::bitset<ARGUMENTS_SIZE_MAX> _t_flags;
+            uint32_t _t_flags = 0;
             auto parameters = Method->parameters();
             for (auto &Param : parameters)
             {
@@ -399,7 +399,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                 _input.push_back(RemoveExtents(_field_type));
                 if (HasConst(_field_type))
                 {
-                    _t_flags.set(i++);
+                    _t_flags |= __flag(i++);
                 }
             }
 
@@ -419,7 +419,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                         .m_input = _input,
                         .m_output = _output,
                         .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument),
-                        .m_t_flags = _t_flags.to_ullong(),
+                        .m_t_flags = _t_flags,
                     };
                     ana_func[MethodName].init(&ana_config_func).push_back(_tmp_type, detail);
                 }
@@ -432,7 +432,7 @@ bool GenRflASTVisitor::VisitCXXRecordDecl(CXXRecordDecl *D)
                         .m_input = _input,
                         .m_output = "",
                         .m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument),
-                        .m_t_flags = _t_flags.to_ullong(),
+                        .m_t_flags = _t_flags,
                     };
                     ana_func[MethodName].init(&ana_config_func).push_back(_tmp_type, detail);
                 }

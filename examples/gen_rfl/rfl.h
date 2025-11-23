@@ -25,4 +25,3 @@
 #include "node_rfl/base.h"
 #include "node_rfl/func.h"
 #include "node_rfl/node.h"
-

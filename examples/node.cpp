@@ -21,7 +21,7 @@
 #include "node.h"
 
 const char *node::oooooo25 = nullptr;
-int node::init(int, const char *)
+int node::init(int, long long, const char *)
 {
     return 0;
 }

@@ -58,6 +58,17 @@ int read_config_from_yaml(const std::string &output_file)
         else
             conf.include_dir = "include";
 
+        if (root["tpl_dir"])
+        {
+            conf.tpl_dir = root["tpl_dir"].as<std::string>();
+            if (conf.tpl_dir.back() != '/')
+            {
+                conf.tpl_dir += "/";
+            }
+        }
+        else
+            conf.tpl_dir = "./tpl/";
+
         if (root["source_pattern"])
             conf.source_pattern = root["source_pattern"].as<std::string>();
         else
@@ -105,7 +116,7 @@ int write_default_to_yaml(const std::string &output_file)
     // llvm_args.push_back("-stdlib=libstdc++");
     llvm_args.push_back("-I/usr/include/c++/14.2.0");
     llvm_args.push_back("-I/usr/include/c++/14.2.0/x86_64-alpine-linux-musl");
-    
+
 #else
     llvm_args.push_back("-I/usr/include");
     llvm_args.push_back("-I/usr/include/c++/12");

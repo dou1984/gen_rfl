@@ -1,28 +1,3 @@
-// Copyright (c) 2023-2025 Zhao Yun Shan
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
-
-#include <string>
-#include "tpl.h"
-
-const std::string meta_tpl = R"({{license}}
 #include <cstdint>
 #include <cstdarg>
 #include <iostream>
@@ -87,7 +62,7 @@ static reflect::meta<{{class}}> g_{{class}}_func[] =
 reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::string &tag);{{/invoke_func}}
 static reflect::meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
 {
-    .m_variant = "{{variant}}",{{#is_member}}{{#is_field}}
+    .m_variant = "{{variant}}",{{#not}}{{#is_member}}{{#is_field}}
     .m_type = []() -> auto
     {
         if constexpr (reflect::fundamental<{{type}}>) 
@@ -104,7 +79,8 @@ static reflect::meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
         }                                         
         return "{{type}}";
     }(),{{/is_static}}{{#is_derived}}
-    .m_type = "{{type}}",{{/is_derived}}{{/is_member}}
+    .m_type = "{{type}}",{{/is_derived}}{{/is_member}}{{/not}}
+    .m_type = "{{type}}",
     .m_flags = {{flags}},
     .m_t_flags = {{t_flags}},
     .m_field = e__{{class}}__{{variant}}, // {{field}}{{#is_invoke}}
@@ -127,7 +103,7 @@ static reflect::meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
 reflect::Value __get_value(const {{class}}* cls, const std::string& _tag)
 {{{#is_base}} 
     {
-        branch_string tag(_tag);
+        ::reflect::branch_string tag(_tag);
         auto _meta = __details__::get_meta(static_cast<const {{variant}} *>(cls), tag);
         if (__contains__(_meta.m_flags, ::reflect::flag_member))
         {
@@ -135,13 +111,4 @@ reflect::Value __get_value(const {{class}}* cls, const std::string& _tag)
         }
     }{{/is_base}}
     return reflect::Value(nullptr, reflect::e_nullptr);
-}
-)";
-
-namespace tpl
-{
-    const std::string &meta()
-    {
-        return meta_tpl;
-    }
 }

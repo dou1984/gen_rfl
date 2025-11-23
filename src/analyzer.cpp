@@ -44,7 +44,7 @@ analyzer &analyzer::init(config_t *_config)
 }
 void analyzer::push_back_view(const std::string &variant, const info_t &detail)
 {
-    branch_string b(variant);
+    ::reflect::branch_string b(variant);
     assert(b);
     info_t info;
     info.m_value = b();
@@ -61,7 +61,7 @@ void analyzer::push_back_view(const std::string &variant, const info_t &detail)
 void analyzer::copy_view(const std::string &variant, const info_t &detail)
 {
 
-    branch_string b(variant);
+    ::reflect::branch_string b(variant);
     assert(b);
     info_t info;
     info.m_value = b();

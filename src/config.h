@@ -54,6 +54,7 @@ struct Conf : Data, Global
 {
     std::string include_dir;
     std::string libs_dir;
+    std::string tpl_dir;
     std::string src_dir;
     std::string tmp_dir;
     std::string real_tmp_dir_loc;

@@ -1,24 +1,3 @@
-// Copyright (c) 2023-2025 Zhao Yun Shan
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
-
 #include <cstdint>
 #include <cstdarg>
 #include <iostream>
@@ -84,14 +63,7 @@ static reflect::meta<base> g_base_func[] =
 static reflect::meta<base> g_base_meta[] = {
 {
     .m_variant = "a",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<signed char>) 
-        {          
-            return typeid(signed char).name();         
-        }                                         
-        return "signed char";
-    }(),
+    .m_type = "signed char",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<signed char>(),
     .m_field = e__base__a, // 0
@@ -104,14 +76,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "b",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<short>) 
-        {          
-            return typeid(short).name();         
-        }                                         
-        return "short";
-    }(),
+    .m_type = "short",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<short>(),
     .m_field = e__base__b, // 1
@@ -124,14 +89,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "c",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<int>) 
-        {          
-            return typeid(int).name();         
-        }                                         
-        return "int";
-    }(),
+    .m_type = "int",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<int>(),
     .m_field = e__base__c, // 2
@@ -144,14 +102,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "d",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<long>) 
-        {          
-            return typeid(long).name();         
-        }                                         
-        return "long";
-    }(),
+    .m_type = "long",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<long>(),
     .m_field = e__base__d, // 3
@@ -164,14 +115,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "e",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<unsigned char>) 
-        {          
-            return typeid(unsigned char).name();         
-        }                                         
-        return "unsigned char";
-    }(),
+    .m_type = "unsigned char",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<unsigned char>(),
     .m_field = e__base__e, // 4
@@ -184,14 +128,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "f",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<unsigned short>) 
-        {          
-            return typeid(unsigned short).name();         
-        }                                         
-        return "unsigned short";
-    }(),
+    .m_type = "unsigned short",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<unsigned short>(),
     .m_field = e__base__f, // 5
@@ -204,14 +141,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "g",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<unsigned int>) 
-        {          
-            return typeid(unsigned int).name();         
-        }                                         
-        return "unsigned int";
-    }(),
+    .m_type = "unsigned int",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<unsigned int>(),
     .m_field = e__base__g, // 6
@@ -224,14 +154,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "h",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<unsigned long>) 
-        {          
-            return typeid(unsigned long).name();         
-        }                                         
-        return "unsigned long";
-    }(),
+    .m_type = "unsigned long",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<unsigned long>(),
     .m_field = e__base__h, // 7
@@ -244,14 +167,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "i",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<float>) 
-        {          
-            return typeid(float).name();         
-        }                                         
-        return "float";
-    }(),
+    .m_type = "float",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<float>(),
     .m_field = e__base__i, // 8
@@ -264,14 +180,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "j",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<double>) 
-        {          
-            return typeid(double).name();         
-        }                                         
-        return "double";
-    }(),
+    .m_type = "double",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<double>(),
     .m_field = e__base__j, // 9
@@ -284,14 +193,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "k",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<std::string>) 
-        {          
-            return typeid(std::string).name();         
-        }                                         
-        return "std::string";
-    }(),
+    .m_type = "std::string",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<std::string>(),
     .m_field = e__base__k, // 10
@@ -304,14 +206,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "l",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<char *>) 
-        {          
-            return typeid(char *).name();         
-        }                                         
-        return "char *";
-    }(),
+    .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
     .m_field = e__base__l, // 11
@@ -324,14 +219,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "m",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<const char *>) 
-        {          
-            return typeid(const char *).name();         
-        }                                         
-        return "const char *";
-    }(),
+    .m_type = "const char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<const char *>(),
     .m_field = e__base__m, // 12
@@ -344,14 +232,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "n",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<std::map<int, int>>) 
-        {          
-            return typeid(std::map<int, int>).name();         
-        }                                         
-        return "std::map<int, int>";
-    }(),
+    .m_type = "std::map<int, int>",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<std::map<int, int>>(),
     .m_field = e__base__n, // 13
@@ -364,14 +245,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "o",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<std::vector<int>>) 
-        {          
-            return typeid(std::vector<int>).name();         
-        }                                         
-        return "std::vector<int>";
-    }(),
+    .m_type = "std::vector<int>",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<std::vector<int>>(),
     .m_field = e__base__o, // 14
@@ -384,14 +258,7 @@ static reflect::meta<base> g_base_meta[] = {
 },
 {
     .m_variant = "ooooooooooooooooooooooooooool0",
-    .m_type = []() -> auto
-    {
-        if constexpr (reflect::fundamental<const char *>) 
-        {          
-            return typeid(const char *).name();         
-        }                                         
-        return "const char *";
-    }(),
+    .m_type = "const char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<const char *>(),
     .m_field = e__base__ooooooooooooooooooooooooooool0, // 15
@@ -406,9 +273,7 @@ static reflect::meta<base> g_base_meta[] = {
 reflect::Value __get_value(const base* cls, const std::string& _tag)
 {
     return reflect::Value(nullptr, reflect::e_nullptr);
-}
-
-inline ::reflect::meta<base> &rfl__0__0(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__0(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x69 == value) // i
     {
@@ -419,9 +284,7 @@ inline ::reflect::meta<base> &rfl__0__0(const base *cls, uint64_t value, branch_
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__1(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__1(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6a == value) // j
     {
@@ -432,9 +295,7 @@ inline ::reflect::meta<base> &rfl__0__1(const base *cls, uint64_t value, branch_
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__2(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__2(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6b == value) // k
     {
@@ -445,9 +306,7 @@ inline ::reflect::meta<base> &rfl__0__2(const base *cls, uint64_t value, branch_
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__3(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__3(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6c == value) // l
     {
@@ -458,9 +317,7 @@ inline ::reflect::meta<base> &rfl__0__3(const base *cls, uint64_t value, branch_
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__4(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__4(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6d == value) // m
     {
@@ -471,9 +328,7 @@ inline ::reflect::meta<base> &rfl__0__4(const base *cls, uint64_t value, branch_
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__5(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__5(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6e == value) // n
     {
@@ -484,9 +339,7 @@ inline ::reflect::meta<base> &rfl__0__5(const base *cls, uint64_t value, branch_
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__6(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__6(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6f == value) // o
     {
@@ -497,9 +350,7 @@ inline ::reflect::meta<base> &rfl__0__6(const base *cls, uint64_t value, branch_
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__3__0(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__3__0(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x306c6f6f6f6f == value) // ooool0
     {
@@ -510,9 +361,7 @@ inline ::reflect::meta<base> &rfl__3__0(const base *cls, uint64_t value, branch_
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__2__0(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__2__0(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
     {
@@ -523,9 +372,7 @@ inline ::reflect::meta<base> &rfl__2__0(const base *cls, uint64_t value, branch_
         }
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__1__0(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__1__0(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
     {
@@ -536,9 +383,7 @@ inline ::reflect::meta<base> &rfl__1__0(const base *cls, uint64_t value, branch_
         }
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__9(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__9(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
     {
@@ -549,9 +394,7 @@ inline ::reflect::meta<base> &rfl__0__9(const base *cls, uint64_t value, branch_
         }
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__13(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__13(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x61 == value) // a
     {
@@ -562,9 +405,7 @@ inline ::reflect::meta<base> &rfl__0__13(const base *cls, uint64_t value, branch
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__14(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__14(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x62 == value) // b
     {
@@ -575,9 +416,7 @@ inline ::reflect::meta<base> &rfl__0__14(const base *cls, uint64_t value, branch
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__15(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__15(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x63 == value) // c
     {
@@ -588,9 +427,7 @@ inline ::reflect::meta<base> &rfl__0__15(const base *cls, uint64_t value, branch
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__16(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__16(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x64 == value) // d
     {
@@ -601,9 +438,7 @@ inline ::reflect::meta<base> &rfl__0__16(const base *cls, uint64_t value, branch
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__17(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__17(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x65 == value) // e
     {
@@ -614,9 +449,7 @@ inline ::reflect::meta<base> &rfl__0__17(const base *cls, uint64_t value, branch
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__18(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__18(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x66 == value) // f
     {
@@ -627,9 +460,7 @@ inline ::reflect::meta<base> &rfl__0__18(const base *cls, uint64_t value, branch
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__19(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__19(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x67 == value) // g
     {
@@ -640,9 +471,7 @@ inline ::reflect::meta<base> &rfl__0__19(const base *cls, uint64_t value, branch
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-inline ::reflect::meta<base> &rfl__0__20(const base *cls, uint64_t value, branch_string &tag)
+}inline ::reflect::meta<base> &rfl__0__20(const base *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x68 == value) // h
     {
@@ -653,15 +482,13 @@ inline ::reflect::meta<base> &rfl__0__20(const base *cls, uint64_t value, branch
         return g_default_meta;
     }
     return g_default_meta;
-}
-
-const uint64_t get_fields_count(const base *cls)
+}const uint64_t get_fields_count(const base *cls)
 {
     return countof(g_base_meta);
 }
 namespace __details__
 {    
-    ::reflect::meta<base>& get_meta(const base *cls, branch_string &tag)
+    ::reflect::meta<base>& get_meta(const base *cls, ::reflect::branch_string &tag)
     {
         constexpr void *__meta_label[] = {
             &&label__0__0,
@@ -729,7 +556,7 @@ namespace __details__
     label__0__12:
         return g_default_meta;
     }
-    ::reflect::meta<base>& get_meta(const base *cls, branch_string &tag, const std::string &args_tag)
+    ::reflect::meta<base>& get_meta(const base *cls, ::reflect::branch_string &tag, const std::string &args_tag)
     {        
         auto &_meta = __details__::get_meta(cls, tag);
         if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
@@ -745,7 +572,7 @@ namespace __details__
 }
 ::reflect::Value get_value(const base *cls, const std::string &_tag)
 {
-    branch_string tag(_tag); 
+    ::reflect::branch_string tag(_tag); 
     auto& _meta = __details__::get_meta(cls, tag);
     if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
     {
@@ -771,12 +598,12 @@ namespace __details__
 }
 const std::string &get_type(const base *cls, const std::string &_tag)
 {
-    branch_string tag(_tag);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;
 }
 const std::string &get_type(const base *cls, const char *_tag) 
 {
-    branch_string tag(_tag);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;    
 }
 const std::string &get_type(const base *cls)
@@ -786,12 +613,12 @@ const std::string &get_type(const base *cls)
 }
 uint64_t get_field(const base *cls, const std::string &_tag)
 {
-    branch_string tag(_tag);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
 }
 uint64_t get_field(const base *cls, const char *_tag)
 {
-    branch_string tag(_tag);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
 }
 const std::string &get_field_type(const base *cls, uint32_t field)
@@ -819,4 +646,3 @@ const std::string &get_name(const base *cls, uint32_t field)
 {
     return g_base;
 }
-

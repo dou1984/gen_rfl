@@ -68,7 +68,7 @@ protected:
     bool is_invoked(const std::string &variant);
     std::set<std::string> m_invoke_filter;
 
-private:
+private:    
     std::string m_output_header;
     std::list<std::string> m_output_source;
 };

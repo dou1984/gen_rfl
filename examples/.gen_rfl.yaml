@@ -1,6 +1,7 @@
 tmp_dir: gen_rfl
 src_dir: ./
 libs_dir: libs
+tpl_dir: /usr/local/include/gen_rfl/tpl/
 include_dir: include
 source_pattern: \.(cpp|c++|cc|cxx|h|hpp|hxx)$
 cmake_pattern: ^.*/CMakeFiles/.+/CMake.+$

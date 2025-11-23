@@ -32,8 +32,8 @@
 struct func;
 namespace __details__
 {
-    ::reflect::meta<func> &get_meta(const func *cls, branch_string& tag);    
-    ::reflect::meta<func> &get_meta(const func *cls, branch_string& tag, const std::string& func_args);
+    ::reflect::meta<func> &get_meta(const func *cls, ::reflect::branch_string& tag);    
+    ::reflect::meta<func> &get_meta(const func *cls, ::reflect::branch_string& tag, const std::string& func_args);
 }
 ::reflect::Value get_value(const func *cls, const char *tag);
 ::reflect::Value get_value(const func *cls, const std::string &tag);
@@ -49,23 +49,22 @@ const std::string &get_name(const func *cls, uint32_t field);
  
 template <class T>
 int set_value(func *cls, const std::string &_tag, T &&value)
-{
-    branch_string tag(_tag);
+{    
+    ::reflect::branch_string tag(_tag);
     auto o = __details__::get_meta(cls, tag);
     return set_value(cls, o, std::forward<T>(value));    
 }
 template <class... R>
 int invoke(func *cls, const std::string &_tag, R &&...args)
 {
-    branch_string tag(_tag);
-    static reflect::NArguments _(std::forward<R>(args)...);
+    static reflect::BArguments _(std::forward<R>(args)...);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag, _.m_arguments).m_func(cls, std::addressof(_), std::addressof(args)...);
 }
 template <class Ret, class... R>
 int invoke_r(func *cls, const std::string &_tag, Ret&& ret, R &&...args)
-{   
-    branch_string tag(_tag);
+{
     static reflect::RArguments _(std::forward<Ret>(ret), std::forward<R>(args)...);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag, _.m_arguments).m_func(cls, std::addressof(_), std::addressof(ret), std::addressof(args)...);
 }
-

@@ -61,11 +61,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     gflags  
 )
 
-if (!ALPINE)
-
 enable_testing()
 add_executable(unit_test
     gen_rfl.cpp
+    license.cpp
     branch_string_test.cpp
     analyzer_test.cpp
     analyzer.cpp
@@ -74,40 +73,44 @@ add_executable(unit_test
     format_tpl_test.cpp
     format_tpl.cpp
     filter.cpp
-    tpl/base_types.cpp
-    tpl/header.tpl.cpp
-    tpl/func.tpl.cpp
-    tpl/meta.tpl.cpp
-    tpl/get_meta.tpl.cpp
-    tpl/rfl.tpl.cpp
-    tpl/invoke.tpl.cpp
-    tpl/license.cpp
     config.cpp
     sys.cpp
     sys_test.cpp
 )
 target_link_libraries(unit_test PRIVATE
-    GTEST::GTEST
-    GTEST::MAIN
+    GTest::GTest
+    GTest::Main
     ctemplate
     clangTooling
     yaml-cpp
 )
 add_test(NAME unit_test COMMAND branch)
 
-endif()
 
 install(
-    FILES
+FILES
     reflect.h
     branch_string.h
     set_value.h
     setter.h
     value.h
-    arguments.h
+    arguments.h   
     DESTINATION include/gen_rfl
 )
-
+install(
+    FILES
+    tpl/header.tpl
+    tpl/func.tpl
+    tpl/meta.tpl
+    tpl/get_meta.tpl
+    tpl/rfl.tpl
+    tpl/invoke.tpl
+    tpl/invoke_field.tpl
+    tpl/invoke_layer.tpl
+    tpl/base_types_source.tpl
+    tpl/base_types.tpl
+    DESTINATION include/gen_rfl/tpl
+)
 install(
     TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

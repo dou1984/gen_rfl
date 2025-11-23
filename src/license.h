@@ -23,20 +23,7 @@
 
 #include <string>
 
-namespace tpl
+namespace reflect
 {
-
-    const std::string &func();
-    const std::string &get_meta();
-    const std::string &header();
-    const std::string &meta();
-    const std::string &rfl();
-    const std::string &base_types();
-    const std::string &base_types_source();
     const std::string &license();
-
-    const std::string &invoke();
-    const std::string &invoke_field();
-    const std::string &invoke_layer();
-
 }

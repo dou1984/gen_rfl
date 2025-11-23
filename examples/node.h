@@ -74,7 +74,7 @@ struct node : base
     char *oooooo23;
     const char *oooooo24;
     static const char *oooooo25;
-    int init(int, const char *);
+    int init(int, long long, const char *);
     int init(float, double, const char *);
     int init();
     int deinit();

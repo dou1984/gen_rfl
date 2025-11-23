@@ -27,7 +27,7 @@
 #include "reflect.h"
 #include "arguments.h"
 #include "config.h"
-#include "tpl/tpl.h"
+#include "license.h"
 #include "sys.h"
 
 using namespace reflect;
@@ -67,54 +67,10 @@ std::string remove_duplicate_const(const std::string &type)
 }
 int format_tpl::init()
 {
-    if (!ctemplate::StringToTemplateCache("header.tpl", tpl::header(), ctemplate::DO_NOT_STRIP))
+    auto &conf = ::get_config();
+    if (!ctemplate::Template::SetTemplateRootDirectory(conf.tpl_dir))
     {
-        std::cerr << "template error header.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("meta.tpl", tpl::meta(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error meta.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("get_meta.tpl", tpl::get_meta(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error get_meta.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("func.tpl", tpl::func(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error func.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("invoke_field.tpl", tpl::invoke_field(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error invoke_field.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("invoke.tpl", tpl::invoke(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error invoke.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("invoke_layer.tpl", tpl::invoke_layer(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error invoke_layer.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("rfl.tpl", tpl::rfl(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error rfl.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("base_types.tpl", tpl::base_types(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error base_types.tpl" << std::endl;
-        return -1;
-    }
-    if (!ctemplate::StringToTemplateCache("base_types_source.tpl", tpl::base_types_source(), ctemplate::DO_NOT_STRIP))
-    {
-        std::cerr << "template error base_types_source.tpl" << std::endl;
+        std::cerr << "template error template root directory:" << conf.tpl_dir << std::endl;
         return -1;
     }
     return 0;
@@ -146,28 +102,22 @@ int write_file(const std::string &path, const T &content)
 
 int expand(const std::string &tpl_key, const ctemplate::TemplateDictionary &dict, std::string &output)
 {
-    auto _tpl = ctemplate::Template::GetTemplate(tpl_key, ctemplate::DO_NOT_STRIP);
-    if (!_tpl)
+    if (!ctemplate::ExpandTemplate(tpl_key, ctemplate::DO_NOT_STRIP, &dict, &output))
     {
-        std::cerr << "GetTemplate error: " << tpl_key << std::endl;
-        return -1;
-    }
-
-    if (!_tpl->Expand(&output, &dict))
-    {
-        std::cerr << "Expand error: " << tpl_key << std::endl;
+        std::cerr << "Failed to expand template: " << tpl_key << std::endl;
         return -1;
     }
     return 0;
 }
+
 format_tpl::format_tpl()
 {
 }
 int format_tpl::to_header(branch &bra, analyzer &ana)
 {
-    auto tpl_key = "header.tpl";
-    ctemplate::TemplateDictionary _header(tpl_key);
-    _header.SetValue("license", tpl::license());
+
+    ctemplate::TemplateDictionary _header("header");
+    _header.SetValue("license", reflect::license());
     _header.SetValue("class", ::get_config().m_class);
     _header.SetValue("raw_class", ::get_config().m_raw_class);
     _header.SetValue("header", GetRelativePath(::get_config().m_relative_file, "") + "/base_types.h");
@@ -177,14 +127,14 @@ int format_tpl::to_header(branch &bra, analyzer &ana)
         auto _namespace = _header.AddSectionDictionary("namesp");
         _namespace->SetValue("namespace", ::get_config().m_namespace);
     }
+    std::string tpl_key = "header.tpl";
     expand(tpl_key, _header, m_output_header);
     return 0;
 }
 int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func)
 {
-    auto tpl_key = "meta.tpl";
 
-    ctemplate::TemplateDictionary _meta(tpl_key);
+    ctemplate::TemplateDictionary _meta("meta");
     auto &conf = ::get_config();
 
     auto upper_dir = IsCurDir(conf.tmp_dir) ? "/" : "/../";
@@ -192,7 +142,7 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
     std::cout << "file: " << conf.m_file << std::endl;
     std::cout << "real_tmp_dir: " << conf.real_tmp_dir_loc << std::endl;
     std::cout << "header_name: " << header_name << std::endl;
-    _meta.SetValue("license", tpl::license());
+    _meta.SetValue("license", reflect::license());
     _meta.SetValue("header", header_name);
     _meta.SetValue("class", conf.m_class);
     if (!conf.m_namespace.empty())
@@ -272,6 +222,7 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
             }
         }
     }
+    std::string tpl_key = "meta.tpl";
     std::string _output;
     expand(tpl_key, _meta, _output);
     m_output_source.emplace_back(std::move(_output));
@@ -281,8 +232,8 @@ int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func
 
 int format_tpl::to_get_meta(branch &bra, analyzer &ana)
 {
-    auto tpl_key = "get_meta.tpl";
-    ctemplate::TemplateDictionary _get_meta(tpl_key);
+
+    ctemplate::TemplateDictionary _get_meta("get_meta");
     _get_meta.SetValue("class", ::get_config().m_class);
     _get_meta.SetValue("layer", std::to_string(0));
 
@@ -317,6 +268,7 @@ int format_tpl::to_get_meta(branch &bra, analyzer &ana)
         auto _namespace = _get_meta.AddSectionDictionary("namesp");
         _namespace->SetValue("namespace", ::get_config().m_namespace);
     }
+    std::string tpl_key = "get_meta.tpl";
     std::string _output;
     expand(tpl_key, _get_meta, _output);
     m_output_source.emplace_back(std::move(_output));
@@ -324,7 +276,6 @@ int format_tpl::to_get_meta(branch &bra, analyzer &ana)
 }
 int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
 {
-    auto tpl_key = "func.tpl";
 
     for (auto &_bra : bra)
     {
@@ -332,7 +283,7 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
         {
             continue;
         }
-        ctemplate::TemplateDictionary _func(tpl_key);
+        ctemplate::TemplateDictionary _func("func");
         for (auto &info : _bra)
         {
             _func.SetIntValue("layer", info.second.m_layer);
@@ -410,6 +361,7 @@ int format_tpl::to_func(uint32_t layer, uint32_t index, branch &bra)
             }
         }
 
+        std::string tpl_key = "func.tpl";
         std::string _output;
         expand(tpl_key, _func, _output);
         m_output_source.emplace_back(std::move(_output));
@@ -433,9 +385,7 @@ int format_tpl::to_invoke(const std::string &variant, const branch &bra)
 int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch &bra)
 {
 
-    auto tpl_key = "invoke.tpl";
-
-    ctemplate::TemplateDictionary _invoke(tpl_key);
+    ctemplate::TemplateDictionary _invoke("invoke");
     _invoke.SetValue("class", ::get_config().m_class);
     _invoke.SetValue("variant", variant);
     _invoke.SetIntValue("layer", layer);
@@ -470,6 +420,7 @@ int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &var
         _invoke_one->SetIntValue("next_layer", child.m_layer);
         _invoke_one->SetIntValue("next_index", child.m_index);
     }
+    std::string tpl_key = "invoke.tpl";
     std::string _output;
     expand(tpl_key, _invoke, _output);
     m_output_source.emplace_back(std::move(_output));
@@ -480,12 +431,10 @@ int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &var
 int format_tpl::to_invoke_field(const branch_info &bra)
 {
 
-    auto tpl_key = "invoke_field.tpl";
-
     for (auto &_bra : bra.m_variants)
     {
 
-        ctemplate::TemplateDictionary _invoke_field(tpl_key);
+        ctemplate::TemplateDictionary _invoke_field("invoke_field");
         _invoke_field.SetValue("class", ::get_config().m_class);
         _invoke_field.SetValue("variant", _bra.second->m_raw_variant);
         _invoke_field.SetValue("__field", __field(_bra.second->m_field));
@@ -515,7 +464,7 @@ int format_tpl::to_invoke_field(const branch_info &bra)
                 argv->SetValue("comma", ", ");
             }
         }
-
+        std::string tpl_key = "invoke_field.tpl";
         std::string _output;
         expand(tpl_key, _invoke_field, _output);
         m_output_source.emplace_back(std::move(_output));
@@ -527,8 +476,7 @@ int format_tpl::to_invoke_field(const branch_info &bra)
 int format_tpl::to_invoke_layer(const std::string &variant, const branch_map &bra)
 {
 
-    auto tpl_key = "invoke_layer.tpl";
-    ctemplate::TemplateDictionary _invoke(tpl_key);
+    ctemplate::TemplateDictionary _invoke("invoke_layer");
     _invoke.SetValue("class", ::get_config().m_class);
     _invoke.SetValue("variant", variant);
     _invoke.SetIntValue("layer", bra.m_layer);
@@ -585,7 +533,7 @@ int format_tpl::to_invoke_layer(const std::string &variant, const branch_map &br
             }
         }
     }
-
+    std::string tpl_key = "invoke_layer.tpl";
     std::string _output;
     expand(tpl_key, _invoke, _output);
     m_output_source.emplace_back(std::move(_output));
@@ -625,16 +573,16 @@ int format_tpl::to_rfl()
 {
     auto &conf = get_config();
 
-    auto tpl_key = "rfl.tpl";
-    ctemplate::TemplateDictionary _dict(tpl_key);
+    ctemplate::TemplateDictionary _dict("rfl");
 
-    _dict.SetValue("license", tpl::license());
+    _dict.SetValue("license", reflect::license());
     for (auto &it : conf.generated)
     {
         auto header = _dict.AddSectionDictionary("indices");
         header->SetValue("header", it);
     }
 
+    std::string tpl_key = "rfl.tpl";
     std::string _output;
     expand(tpl_key, _dict, _output);
 
@@ -646,10 +594,9 @@ int format_tpl::to_base_types()
 {
     auto &conf = get_config();
 
-    auto tpl_key = "base_types.tpl";
-    ctemplate::TemplateDictionary _dict(tpl_key);
+    ctemplate::TemplateDictionary _dict("base_types");
 
-    _dict.SetValue("license", tpl::license());
+    _dict.SetValue("license", reflect::license());
     for (auto &it : conf.base_types)
     {
         auto base_types = _dict.AddSectionDictionary("base_types");
@@ -682,6 +629,7 @@ int format_tpl::to_base_types()
         base_types->SetValue("raw_class", remove_duplicate_const(it));
     }
 
+    std::string tpl_key = "base_types.tpl";
     std::string _output;
     expand(tpl_key, _dict, _output);
 
@@ -694,10 +642,9 @@ int format_tpl::to_base_types_source()
 {
     auto &conf = get_config();
 
-    auto tpl_key = "base_types_source.tpl";
-    ctemplate::TemplateDictionary _dict(tpl_key);
+    ctemplate::TemplateDictionary _dict("base_types_source");
 
-    _dict.SetValue("license", tpl::license());
+    _dict.SetValue("license", reflect::license());
     for (auto &it : conf.base_types)
     {
         auto base_types = _dict.AddSectionDictionary("base_types");
@@ -705,6 +652,7 @@ int format_tpl::to_base_types_source()
         base_types->SetValue("raw_class", remove_duplicate_const(it));
     }
 
+    std::string tpl_key = "base_types_source.tpl";
     std::string _output;
     expand(tpl_key, _dict, _output);
 

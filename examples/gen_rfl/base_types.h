@@ -61,4 +61,3 @@ const std::string &get_type(unsigned long *);
 const std::string &get_type(unsigned short *);
 void* get_field_value(std::map<int, int> *cls, uint32_t field);
 void* get_field_value(std::vector<int> *cls, uint32_t field);
-

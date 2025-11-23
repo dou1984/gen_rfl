@@ -19,7 +19,7 @@
 // SOFTWARE.
 //
 #include <string>
-#include "tpl.h"
+#include "license.h"
 
 const std::string license_tpl = R"(// Copyright (c) 2023-2025 Zhao Yun Shan
 //
@@ -43,7 +43,7 @@ const std::string license_tpl = R"(// Copyright (c) 2023-2025 Zhao Yun Shan
 //
 )";
 
-namespace tpl
+namespace reflect
 {
     const std::string &license()
     {

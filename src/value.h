@@ -109,7 +109,7 @@ namespace reflect
                 &&label_string,
                 &&label_type_unfundametal,
             };
-            assert(m_flags < e_type_end);
+            assert(m_flags < e_reflect_end);
             goto *__meta__[m_flags];
         label_uint8:
             return __ref<uint8_t>();
@@ -156,7 +156,7 @@ namespace reflect
                 &&label_string,
                 &&label_type_unfundametal,
             };
-            assert(m_flags < e_type_end);
+            assert(m_flags < e_reflect_end);
             goto *__meta__[m_flags];
         label_uint8:
             return __to<T, uint8_t>();

@@ -1,34 +1,10 @@
-// Copyright (c) 2023-2025 Zhao Yun Shan
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
-#include <string>
-#include "tpl.h"
-
-const std::string get_meta_tpl = R"(
 const uint64_t get_fields_count(const {{class}} *cls)
 {
     return countof(g_{{class}}_meta);
 }
 namespace __details__
 {    
-    ::reflect::meta<{{class}}>& get_meta(const {{class}} *cls, branch_string &tag)
+    ::reflect::meta<{{class}}>& get_meta(const {{class}} *cls, ::reflect::branch_string &tag)
     {{{#meta_bg_1}}
         constexpr void *__meta_label[] = {{{#labels}}
             &&label__{{layer}}__{{index}},{{/labels}}
@@ -44,7 +20,7 @@ namespace __details__
         auto value = tag();
         return rfl__{{layer}}__{{index}}(cls, value, tag);{{/meta_eq_1}}
     }
-    ::reflect::meta<{{class}}>& get_meta(const {{class}} *cls, branch_string &tag, const std::string &args_tag)
+    ::reflect::meta<{{class}}>& get_meta(const {{class}} *cls, ::reflect::branch_string &tag, const std::string &args_tag)
     {        
         auto &_meta = __details__::get_meta(cls, tag);
         if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
@@ -60,7 +36,7 @@ namespace __details__
 }
 ::reflect::Value get_value(const {{class}} *cls, const std::string &_tag)
 {
-    branch_string tag(_tag); 
+    ::reflect::branch_string tag(_tag); 
     auto& _meta = __details__::get_meta(cls, tag);
     if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
     {
@@ -86,12 +62,12 @@ namespace __details__
 }
 const std::string &get_type(const {{class}} *cls, const std::string &_tag)
 {
-    branch_string tag(_tag);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;
 }
 const std::string &get_type(const {{class}} *cls, const char *_tag) 
 {
-    branch_string tag(_tag);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_type;    
 }
 const std::string &get_type(const {{class}} *cls)
@@ -101,12 +77,12 @@ const std::string &get_type(const {{class}} *cls)
 }
 uint64_t get_field(const {{class}} *cls, const std::string &_tag)
 {
-    branch_string tag(_tag);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
 }
 uint64_t get_field(const {{class}} *cls, const char *_tag)
 {
-    branch_string tag(_tag);
+    ::reflect::branch_string tag(_tag);
     return __details__::get_meta(cls, tag).m_field;  
 }
 const std::string &get_field_type(const {{class}} *cls, uint32_t field)
@@ -136,12 +112,3 @@ const std::string &get_name(const {{class}} *cls, uint32_t field)
 }
 {{#namesp}}
 }{{/namesp}}
-)";
-
-namespace tpl
-{
-    const std::string &get_meta()
-    {
-        return get_meta_tpl;
-    }
-}
