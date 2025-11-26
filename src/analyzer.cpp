@@ -45,37 +45,37 @@ namespace reflect
         m_config = _config;
         return *this;
     }
-    void analyzer::push_back_view(const std::string &variant, const info_t &detail)
+    void analyzer::push_back_view(const std::string &variant, std::shared_ptr<info_t> &detail)
     {
         ::reflect::branch_string b(variant);
         assert(b);
-        info_t info;
-        info.m_value = b();
-        info.m_variant = variant;
-        info.m_raw_variant = detail.m_raw_variant;
-        info.m_raw_type = detail.m_raw_type;
-        info.m_input = detail.m_input;
-        info.m_output = detail.m_output;
-        info.m_flags = detail.m_flags;
-        info.m_t_flags = detail.m_t_flags;
-        info.m_field = get_config()->m_max_field++;
-        m_data.emplace(variant, std::move(info));
+        auto info = std::make_shared<info_t>();
+        info->m_value = b();
+        info->m_variant = variant;
+        info->m_raw_variant = detail->m_raw_variant;
+        info->m_raw_type = detail->m_raw_type;
+        info->m_input = detail->m_input;
+        info->m_output = detail->m_output;
+        info->m_flags = detail->m_flags;
+        info->m_t_flags = detail->m_t_flags;
+        info->m_field = get_config()->m_max_field++;
+        m_data.emplace(variant, info);
     }
-    void analyzer::copy_view(const std::string &variant, const info_t &detail)
+    void analyzer::copy_view(const std::string &variant, std::shared_ptr<info_t> &detail)
     {
 
         ::reflect::branch_string b(variant);
         assert(b);
-        info_t info;
-        info.m_value = b();
-        info.m_variant = variant;
-        info.m_raw_variant = detail.m_raw_variant;
-        info.m_raw_type = detail.m_raw_type;
-        info.m_input = detail.m_input;
-        info.m_output = detail.m_output;
-        info.m_flags = detail.m_flags;
-        info.m_t_flags = detail.m_t_flags;
-        info.m_field = detail.m_field;
+        auto info = std::make_shared<info_t>();
+        info->m_value = b();
+        info->m_variant = variant;
+        info->m_raw_variant = detail->m_raw_variant;
+        info->m_raw_type = detail->m_raw_type;
+        info->m_input = detail->m_input;
+        info->m_output = detail->m_output;
+        info->m_flags = detail->m_flags;
+        info->m_t_flags = detail->m_t_flags;
+        info->m_field = detail->m_field;
         m_data.emplace(variant, std::move(info));
     }
 
@@ -84,8 +84,8 @@ namespace reflect
         std::map<uint64_t, std::set<uint64_t>> _prefect;
         for (auto &v : m_data)
         {
-            auto idx = v.second.m_value % index;
-            _prefect[idx].emplace(v.second.m_value);
+            auto idx = v.second->m_value % index;
+            _prefect[idx].emplace(v.second->m_value);
             if (_prefect[idx].size() > MAX_PERFECT_INDEX)
             {
                 return false;
@@ -98,7 +98,7 @@ namespace reflect
         std::set<uint64_t> m;
         for (auto &v : m_data)
         {
-            m.emplace(v.second.m_value);
+            m.emplace(v.second->m_value);
         }
         auto index = (m.size() / 5) | 1;
 

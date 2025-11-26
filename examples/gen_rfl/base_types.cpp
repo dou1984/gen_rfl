@@ -162,3 +162,19 @@ const std::string &get_type(unsigned short *)
     static const std::string _ = "unsigned short";
     return _;
 }
+::reflect::Value get_field_value(std::map<int, int> *cls, uint32_t field)
+{
+    if (field < cls->size())
+    {
+        return ::reflect::Value(&cls->at(field), ::reflect::flag_type<std::map<int, int>>());        
+    }
+    return ::reflect::Value(nullptr, ::reflect::e_nullptr);
+}
+::reflect::Value get_field_value(std::vector<int> *cls, uint32_t field)
+{
+    if (field < cls->size())
+    {
+        return ::reflect::Value(&cls->at(field), ::reflect::flag_type<std::vector<int>>());        
+    }
+    return ::reflect::Value(nullptr, ::reflect::e_nullptr);
+}

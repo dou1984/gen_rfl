@@ -41,8 +41,6 @@ namespace reflect
 
         int to_func(uint32_t layer, uint32_t index, branch_vec &bra);
 
-        int to_setter(analyzer::info_t *);
-
         int to_invoke(const std::string &variant, const branch_vec &bra);
 
         int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch_vec &bra);
@@ -59,6 +57,8 @@ namespace reflect
         int to_rfl();
 
         int to_base_types();
+
+        int to_base_types(const std::string &name, const std::string &tpl_key, const std::string &file_name);
 
         int to_base_types_source();
 

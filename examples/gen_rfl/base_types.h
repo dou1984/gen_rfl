@@ -30,6 +30,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <gen_rfl/value.h>
 
 const std::string &get_type(char * *);
 const std::string &get_type(const char * *);
@@ -59,5 +60,5 @@ const std::string &get_type(unsigned char *);
 const std::string &get_type(unsigned int *);
 const std::string &get_type(unsigned long *);
 const std::string &get_type(unsigned short *);
-void* get_field_value(std::map<int, int> *cls, uint32_t field);
-void* get_field_value(std::vector<int> *cls, uint32_t field);
+::reflect::Value get_field_value(std::map<int, int> *cls, uint32_t field);
+::reflect::Value get_field_value(std::vector<int> *cls, uint32_t field);

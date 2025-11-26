@@ -26,6 +26,7 @@
 #include <string>
 #include <tuple>
 #include <map>
+#include <memory>
 
 namespace reflect
 {
@@ -64,16 +65,16 @@ namespace reflect
 
         void push_back(const std::string &variant)
         {
-            info_t detail;
+            auto detail = std::make_shared<info_t>();
             push_back_view(variant, detail);
         }
-        void push_back(const std::string &variant, const info_t &detail)
+        void push_back(const std::string &variant, std::shared_ptr<info_t> &detail)
         {
             push_back_view(variant, detail);
         }
-        void push_back_view(const std::string &variant, const info_t &detail);
+        void push_back_view(const std::string &variant, std::shared_ptr<info_t> &detail);
 
-        void copy_view(const std::string &variant, const info_t &detail);
+        void copy_view(const std::string &variant, std::shared_ptr<info_t> &detail);
 
         bool get_prefect_index(int index) const;
 
@@ -86,7 +87,6 @@ namespace reflect
         void __push_back_view(const std::string &variant, const info_t &detail);
 
         config_t *m_config;
-        // std::multimap<std::string, info_t> m_data;
-        std::map<std::string, info_t> m_data;
+        std::map<std::string, std::shared_ptr<info_t>> m_data;
     };
 }

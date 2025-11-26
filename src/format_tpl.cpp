@@ -153,43 +153,43 @@ namespace reflect
 
         for (auto &it : ana.get_data())
         {
-            auto &field = it.second;
+            auto field = it.second;
 
             auto dict = _meta.AddSectionDictionary("fields");
-            dict->SetValue("variant", field.m_variant);
-            dict->SetValue("type", field.m_raw_type);
+            dict->SetValue("variant", field->m_variant);
+            dict->SetValue("type", field->m_raw_type);
             char buf[64];
-            to_hex(field.m_flags, buf, sizeof(buf));
+            to_hex(field->m_flags, buf, sizeof(buf));
             dict->SetValue("flags", buf);
 
-            if (!__contains__(field.m_flags, flag_function, flag_argument))
+            if (!__contains__(field->m_flags, flag_function, flag_argument))
             {
-                dict->SetValue("t_flags", std::string("::reflect::flag_type<") + field.m_raw_type + std::string(">()"));
+                dict->SetValue("t_flags", std::string("::reflect::flag_type<") + field->m_raw_type + std::string(">()"));
             }
             else
             {
-                to_hex(field.m_t_flags, buf, sizeof(buf));
+                to_hex(field->m_t_flags, buf, sizeof(buf));
                 dict->SetValue("t_flags", buf);
             }
-            dict->SetIntValue("field", field.m_field);
+            dict->SetIntValue("field", field->m_field);
 
-            if (__contains__(field.m_flags, flag_function))
+            if (__contains__(field->m_flags, flag_function))
             {
                 dict->AddSectionDictionary("is_invoke");
                 auto invoke_func = _meta.AddSectionDictionary("invoke_func");
-                invoke_func->SetValue("variant", field.m_variant);
+                invoke_func->SetValue("variant", field->m_variant);
             }
             else
             {
                 auto is_member = dict->AddSectionDictionary("is_member");
-                if (__contains__(field.m_flags, flag_struct, flag_class))
+                if (__contains__(field->m_flags, flag_struct, flag_class))
                 {
                     is_member->AddSectionDictionary("is_derived");
 
                     auto is_base = _meta.AddSectionDictionary("is_base");
-                    is_base->SetValue("variant", field.m_variant);
+                    is_base->SetValue("variant", field->m_variant);
                 }
-                else if (__contains__(field.m_flags, flag_static))
+                else if (__contains__(field->m_flags, flag_static))
                 {
                     is_member->AddSectionDictionary("is_static");
                 }
@@ -203,22 +203,22 @@ namespace reflect
         {
             for (auto &it : _func.second.get_data())
             {
-                auto &field = it.second;
+                auto field = it.second;
 
                 auto dict = _meta.AddSectionDictionary("invoke_fields");
-                dict->SetValue("variant", field.m_raw_variant);
-                dict->SetValue("type", field.m_raw_type);
+                dict->SetValue("variant", field->m_raw_variant);
+                dict->SetValue("type", field->m_raw_type);
 
                 char buf[64];
-                to_hex(field.m_flags, buf, sizeof(buf));
+                to_hex(field->m_flags, buf, sizeof(buf));
                 dict->SetValue("flags", buf);
-                dict->SetIntValue("field", field.m_field);
-                dict->SetValue("__field", __field(field.m_field));
-                if (__contains__(field.m_flags, flag_argument))
+                dict->SetIntValue("field", field->m_field);
+                dict->SetValue("__field", __field(field->m_field));
+                if (__contains__(field->m_flags, flag_argument))
                 {
                     auto invoke_field = dict->AddSectionDictionary("invoke_field");
-                    invoke_field->SetValue("variant", field.m_raw_variant);
-                    invoke_field->SetValue("__field", __field(field.m_field));
+                    invoke_field->SetValue("variant", field->m_raw_variant);
+                    invoke_field->SetValue("__field", __field(field->m_field));
                 }
             }
         }
@@ -590,11 +590,18 @@ namespace reflect
         write_file(path, _output);
         return 0;
     }
-    int format_tpl::to_base_types()
+    static std::set<std::string_view> all_stl = {
+        "std::vector",
+        "std::list",
+        "std::map",
+        "std::unordered_map",
+        "std::deque",
+        "std::array",
+    };
+    int format_tpl::to_base_types(const std::string &name, const std::string &tpl_key, const std::string &file_name)
     {
         auto &conf = get_config();
-
-        ctemplate::TemplateDictionary _dict("base_types");
+        ctemplate::TemplateDictionary _dict(name);
 
         _dict.SetValue("license", reflect::license());
         for (auto &it : conf.base_types)
@@ -604,14 +611,6 @@ namespace reflect
             base_types->SetValue("raw_class", remove_duplicate_const(it));
         }
 
-        static std::set<std::string_view> all_stl = {
-            "std::vector",
-            "std::list",
-            "std::map",
-            "std::unordered_map",
-            "std::deque",
-            "std::array",
-        };
         for (auto &it : conf.base_types)
         {
             auto pos = it.find("<");
@@ -629,37 +628,42 @@ namespace reflect
             base_types->SetValue("raw_class", remove_duplicate_const(it));
         }
 
-        std::string tpl_key = "base_types.tpl";
         std::string _output;
         expand(tpl_key, _dict, _output);
 
-        std::string path = conf.tmp_dir + "/base_types.h";
+        std::string path = conf.tmp_dir + "/" + file_name;
         write_file(path, _output);
 
         return 0;
     }
+    int format_tpl::to_base_types()
+    {
+        return to_base_types("base_types", "base_types.tpl", "base_types.h");
+    }
     int format_tpl::to_base_types_source()
     {
-        auto &conf = get_config();
 
-        ctemplate::TemplateDictionary _dict("base_types_source");
+        return to_base_types("base_types_source", "base_types_source.tpl", "base_types.cpp");
+        // auto &conf = get_config();
 
-        _dict.SetValue("license", reflect::license());
-        for (auto &it : conf.base_types)
-        {
-            auto base_types = _dict.AddSectionDictionary("base_types");
-            base_types->SetValue("class", it);
-            base_types->SetValue("raw_class", remove_duplicate_const(it));
-        }
+        // ctemplate::TemplateDictionary _dict("base_types_source");
 
-        std::string tpl_key = "base_types_source.tpl";
-        std::string _output;
-        expand(tpl_key, _dict, _output);
+        // _dict.SetValue("license", reflect::license());
+        // for (auto &it : conf.base_types)
+        // {
+        //     auto base_types = _dict.AddSectionDictionary("base_types");
+        //     base_types->SetValue("class", it);
+        //     base_types->SetValue("raw_class", remove_duplicate_const(it));
+        // }
 
-        std::string path = conf.tmp_dir + "/base_types.cpp";
-        write_file(path, _output);
+        // std::string tpl_key = "base_types_source.tpl";
+        // std::string _output;
+        // expand(tpl_key, _dict, _output);
 
-        return 0;
+        // std::string path = conf.tmp_dir + "/base_types.cpp";
+        // write_file(path, _output);
+
+        // return 0;
     }
 
     bool format_tpl::is_invoked(const std::string &variant)

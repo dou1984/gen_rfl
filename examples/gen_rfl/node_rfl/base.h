@@ -28,6 +28,7 @@
 #include <gen_rfl/reflect.h>
 #include "../base_types.h"
 #include <gen_rfl/arguments.h>
+#include <gen_rfl/set_value.h>
 
 struct base;
 namespace __details__

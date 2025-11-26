@@ -46,14 +46,14 @@ namespace reflect
 
         for (auto &it : ana.get_data())
         {
-            auto &info = it.second;
-            auto value = info.m_value;
+            auto info = it.second;
+            auto value = info->m_value;
             auto index = value % perfect_index;
             auto &__info = _branch_vec[index][value];
             __info.m_layer = layer;
             __info.m_index = _branch_vec[index].m_index;
-            __info.m_field = info.m_field;
-            __info.m_variants.emplace(info.m_variant, &info);
+            __info.m_field = info->m_field;
+            __info.m_variants.emplace(info->m_variant, info);
 
             if (it.first.size() > sizeof(uint64_t))
             {
@@ -76,7 +76,7 @@ namespace reflect
         return _branch_vec;
     }
 
-    analyzer::info_t *branch_info::first_variant() const
+    std::shared_ptr<analyzer::info_t> branch_info::first_variant() const
     {
         assert(equil_variant(m_variants.begin()->second->m_raw_variant));
         return m_variants.begin()->second;
@@ -92,7 +92,7 @@ namespace reflect
         }
         return true;
     }
-    analyzer::info_t *branch_info::get_variant(const std::string &variant) const
+    std::shared_ptr<analyzer::info_t> branch_info::get_variant(const std::string &variant) const
     {
         for (auto &_variant : m_variants)
         {

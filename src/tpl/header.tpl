@@ -8,6 +8,7 @@
 #include <gen_rfl/reflect.h>
 #include "{{header}}"
 #include <gen_rfl/arguments.h>
+#include <gen_rfl/set_value.h>
 {{#namesp}}
 namespace {{namespace}}
 {{{/namesp}}

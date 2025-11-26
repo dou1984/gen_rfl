@@ -26,6 +26,7 @@
 #include <set>
 #include <string_view>
 #include <cassert>
+#include <memory>
 #include "analyzer.h"
 #include "branch_string.h"
 
@@ -37,21 +38,23 @@ namespace reflect
         uint32_t m_layer = 0;
         uint32_t m_index = 0;
     };
-    using branch_vec = std::vector<branch_map>;
+    struct branch_vec : std::vector<branch_map>
+    {
+    };
     struct branch_info
     {
         uint32_t m_layer = 0;
         uint32_t m_index = 0;
         uint32_t m_field = 0;
-        std::multimap<std::string, analyzer::info_t *> m_variants;
+        std::multimap<std::string, std::shared_ptr<analyzer::info_t>> m_variants;
 
         // children
         analyzer m_analyzer_child;
         branch_vec m_branch_child;
 
-        analyzer::info_t *first_variant() const;
+        std::shared_ptr<analyzer::info_t> first_variant() const;
         bool equil_variant(const std::string &variant) const;
-        analyzer::info_t *get_variant(const std::string &variant) const;
+        std::shared_ptr<analyzer::info_t> get_variant(const std::string &variant) const;
     };
 
     branch_vec branch_builder(uint32_t, analyzer &);

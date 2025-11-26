@@ -94,6 +94,7 @@ install(
 FILES
     reflect.h
     branch_string.h
+    set_var.h
     set_value.h
     setter.h
     value.h
