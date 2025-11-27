@@ -92,15 +92,5 @@ namespace reflect
         }
         return true;
     }
-    std::shared_ptr<analyzer::info_t> branch_info::get_variant(const std::string &variant) const
-    {
-        for (auto &_variant : m_variants)
-        {
-            if (_variant.second->m_raw_variant == variant)
-            {
-                return _variant.second;
-            }
-        }
-        return nullptr;
-    }
+
 }

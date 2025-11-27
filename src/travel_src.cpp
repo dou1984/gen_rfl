@@ -261,11 +261,11 @@ namespace reflect
         }
 
         analyzer ana;
-        analyzer::config_t ana_config;
-        ana.init(&ana_config);
+        auto ana_config = std::make_shared<analyzer::config_t>();
+        ana.init(ana_config);
 
         std::map<std::string, analyzer> ana_func;
-        analyzer::config_t ana_config_func;
+        auto ana_config_func = std::make_shared<analyzer::config_t>();
 
         std::string header, source;
         if (is_generated(header, source))
@@ -298,205 +298,205 @@ namespace reflect
                     detail->m_raw_variant = BaseTypeName;
                     detail->m_raw_type = BaseTypeName;
                     detail->m_flags = __flags(flag_object_type, get_access(Base.getAccessSpecifier()), flag_virtual_);
-                
-                ana.push_back(BaseTypeName, detail);
-            }
-        }
-    }
-    PrintingPolicy PP(D->getASTContext().getLangOpts());
 
-    // 遍历类的成员
-    for (auto Member : D->decls())
-    {
-        if (auto *FD = llvm::dyn_cast<FieldDecl>(Member))
-        {
-
-            auto [FieldType, UnqualifiedType] = get_type_name(FD);
-            auto TypeName = FieldType.getAsString();
-            auto Name = FD->getNameAsString();
-
-            auto flag_const_ = FD->getType().isConstQualified() ? flag_const : 0;
-            auto flag_volatile_ = FD->getType().isVolatileQualified() ? flag_volatile : 0;
-
-            if (UnqualifiedType->isBuiltinType())
-            {
-                auto *BT = UnqualifiedType->getAs<BuiltinType>();
-                auto BaseTypeName = BT->getName(PP).str();
-                auto detail = std::make_shared<analyzer::info_t>();
-                detail->m_raw_variant = Name;
-                detail->m_raw_type = BaseTypeName;
-                detail->m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_);
-
-                ana.push_back(Name, detail);
-
-                insert_base_types(BaseTypeName);
-            }
-            else
-            {
-                auto detail = std::make_shared<analyzer::info_t>();
-                detail->m_raw_variant = Name;
-                detail->m_raw_type = TypeName;
-                detail->m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_);
-
-                ana.push_back(Name, detail);
-
-                insert_base_types(TypeName);
-            }
-        }
-        else if (auto *VD = llvm::dyn_cast<VarDecl>(Member))
-        {
-            assert(VD->isStaticDataMember());
-
-            auto [FieldType, UnqualifiedType] = get_type_name(VD);
-            std::string TypeName = FieldType.getAsString();
-            std::string Name = VD->getNameAsString();
-
-            auto flag_const_ = VD->getType().isConstQualified() ? flag_const : 0;
-            auto flag_volatile_ = VD->getType().isVolatileQualified() ? flag_volatile : 0;
-
-            if (UnqualifiedType->isBuiltinType())
-            {
-                auto *BT = UnqualifiedType->getAs<BuiltinType>();
-                auto BaseTypeName = BT->getName(PP).str();
-                auto detail = std::make_shared<analyzer::info_t>();
-                detail->m_raw_variant = Name;
-                detail->m_raw_type = BaseTypeName;
-                detail->m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static);
-
-                ana.push_back(Name, detail);
-
-                insert_base_types(BaseTypeName);
-            }
-            else
-            {
-
-                auto detail = std::make_shared<analyzer::info_t>();
-                detail->m_raw_variant = Name;
-                detail->m_raw_type = TypeName;
-                detail->m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static);
-
-                ana.push_back(Name, detail);
-
-                insert_base_types(TypeName);
-            }
-        }
-        else if (auto Method = llvm::dyn_cast<CXXMethodDecl>(Member))
-        {
-            if (Method->isImplicit())
-            {
-                continue;
-            }
-            auto MethodName = Method->getNameAsString();
-            auto flag_const_ = Method->isConst() ? flag_const : flag_member;
-            auto flag_virtual_ = Method->isVirtual() ? flag_virtual : flag_member;
-
-            std::list<std::string> _input;
-            auto i = 0;
-            uint32_t _t_flags = 0;
-            auto parameters = Method->parameters();
-            for (auto &Param : parameters)
-            {
-                auto [FieldType, UnqualifiedType] = get_type_name(Param);
-                auto _field_type = FieldType.getAsString();
-                _input.push_back(RemoveExtents(_field_type));
-                if (HasConst(_field_type))
-                {
-                    _t_flags |= __flag(i++);
+                    ana.push_back(BaseTypeName, detail);
                 }
             }
+        }
+        PrintingPolicy PP(D->getASTContext().getLangOpts());
 
+        // 遍历类的成员
+        for (auto Member : D->decls())
+        {
+            if (auto *FD = llvm::dyn_cast<FieldDecl>(Member))
             {
-                std::string _output = Method->getReturnType().getAsString();
-                if (_output == "void")
+
+                auto [FieldType, UnqualifiedType] = get_type_name(FD);
+                auto TypeName = FieldType.getAsString();
+                auto Name = FD->getNameAsString();
+
+                auto flag_const_ = FD->getType().isConstQualified() ? flag_const : 0;
+                auto flag_volatile_ = FD->getType().isVolatileQualified() ? flag_volatile : 0;
+
+                if (UnqualifiedType->isBuiltinType())
                 {
-                    _output = "";
+                    auto *BT = UnqualifiedType->getAs<BuiltinType>();
+                    auto BaseTypeName = BT->getName(PP).str();
+                    auto detail = std::make_shared<analyzer::info_t>();
+                    detail->m_raw_variant = Name;
+                    detail->m_raw_type = BaseTypeName;
+                    detail->m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_);
+
+                    ana.push_back(Name, detail);
+
+                    insert_base_types(BaseTypeName);
                 }
                 else
                 {
-                    auto _tmp_type = _output + std::string("(") + join(_input, ",") + std::string(")");
                     auto detail = std::make_shared<analyzer::info_t>();
-                    detail->m_variant = _tmp_type;
-                    detail->m_raw_variant = MethodName;
-                    detail->m_raw_type = _tmp_type;
-                    detail->m_input = _input;
-                    detail->m_output = _output;
-                    detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument);
-                    detail->m_t_flags = _t_flags;
+                    detail->m_raw_variant = Name;
+                    detail->m_raw_type = TypeName;
+                    detail->m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_);
 
-                    ana_func[MethodName].init(&ana_config_func).push_back(_tmp_type, detail);
-                }
-                {
-                    auto _tmp_type = std::string("(") + join(_input, ",") + std::string(")");
-                    auto detail = std::make_shared<analyzer::info_t>();
-                    detail->m_variant = _tmp_type;
-                    detail->m_raw_variant = MethodName;
-                    detail->m_raw_type = _tmp_type;
-                    detail->m_input = _input;
-                    detail->m_output = "";
-                    detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument);
-                    detail->m_t_flags = _t_flags;
+                    ana.push_back(Name, detail);
 
-                    ana_func[MethodName].init(&ana_config_func).push_back(_tmp_type, detail);
+                    insert_base_types(TypeName);
                 }
             }
-
-            if (auto it = ana.get_data().find(MethodName); it == ana.get_data().end())
+            else if (auto *VD = llvm::dyn_cast<VarDecl>(Member))
             {
-                auto detail = std::make_shared<analyzer::info_t>();
-                detail->m_variant = MethodName;
-                detail->m_raw_variant = MethodName;
-                detail->m_raw_type = "";
-                detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_function);
+                assert(VD->isStaticDataMember());
 
-                ana.push_back(MethodName, detail);
+                auto [FieldType, UnqualifiedType] = get_type_name(VD);
+                std::string TypeName = FieldType.getAsString();
+                std::string Name = VD->getNameAsString();
+
+                auto flag_const_ = VD->getType().isConstQualified() ? flag_const : 0;
+                auto flag_volatile_ = VD->getType().isVolatileQualified() ? flag_volatile : 0;
+
+                if (UnqualifiedType->isBuiltinType())
+                {
+                    auto *BT = UnqualifiedType->getAs<BuiltinType>();
+                    auto BaseTypeName = BT->getName(PP).str();
+                    auto detail = std::make_shared<analyzer::info_t>();
+                    detail->m_raw_variant = Name;
+                    detail->m_raw_type = BaseTypeName;
+                    detail->m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static);
+
+                    ana.push_back(Name, detail);
+
+                    insert_base_types(BaseTypeName);
+                }
+                else
+                {
+
+                    auto detail = std::make_shared<analyzer::info_t>();
+                    detail->m_raw_variant = Name;
+                    detail->m_raw_type = TypeName;
+                    detail->m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static);
+
+                    ana.push_back(Name, detail);
+
+                    insert_base_types(TypeName);
+                }
+            }
+            else if (auto Method = llvm::dyn_cast<CXXMethodDecl>(Member))
+            {
+                if (Method->isImplicit())
+                {
+                    continue;
+                }
+                auto MethodName = Method->getNameAsString();
+                auto flag_const_ = Method->isConst() ? flag_const : flag_member;
+                auto flag_virtual_ = Method->isVirtual() ? flag_virtual : flag_member;
+
+                std::list<std::string> _input;
+                auto i = 0;
+                uint32_t _t_flags = 0;
+                auto parameters = Method->parameters();
+                for (auto &Param : parameters)
+                {
+                    auto [FieldType, UnqualifiedType] = get_type_name(Param);
+                    auto _field_type = FieldType.getAsString();
+                    _input.push_back(RemoveExtents(_field_type));
+                    if (HasConst(_field_type))
+                    {
+                        _t_flags |= __flag(i++);
+                    }
+                }
+
+                {
+                    std::string _output = Method->getReturnType().getAsString();
+                    if (_output == "void")
+                    {
+                        _output = "";
+                    }
+                    else
+                    {
+                        auto _tmp_type = _output + std::string("(") + join(_input, ",") + std::string(")");
+                        auto detail = std::make_shared<analyzer::info_t>();
+                        detail->m_variant = _tmp_type;
+                        detail->m_raw_variant = MethodName;
+                        detail->m_raw_type = _tmp_type;
+                        detail->m_input = _input;
+                        detail->m_output = _output;
+                        detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument);
+                        detail->m_t_flags = _t_flags;
+
+                        ana_func[MethodName].init(ana_config_func).push_back(_tmp_type, detail);
+                    }
+                    {
+                        auto _tmp_type = std::string("(") + join(_input, ",") + std::string(")");
+                        auto detail = std::make_shared<analyzer::info_t>();
+                        detail->m_variant = _tmp_type;
+                        detail->m_raw_variant = MethodName;
+                        detail->m_raw_type = _tmp_type;
+                        detail->m_input = _input;
+                        detail->m_output = "";
+                        detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument);
+                        detail->m_t_flags = _t_flags;
+
+                        ana_func[MethodName].init(ana_config_func).push_back(_tmp_type, detail);
+                    }
+                }
+
+                if (auto it = ana.get_data().find(MethodName); it == ana.get_data().end())
+                {
+                    auto detail = std::make_shared<analyzer::info_t>();
+                    detail->m_variant = MethodName;
+                    detail->m_raw_variant = MethodName;
+                    detail->m_raw_type = "";
+                    detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_function);
+
+                    ana.push_back(MethodName, detail);
+                }
+            }
+            // 嵌套类
+            else if (auto Nested = llvm::dyn_cast<CXXRecordDecl>(Member))
+            {
+                // if (!Nested->isImplicit())
+                // {
+                //     llvm::outs() << "    - Nested class: " << Nested->getNameAsString() << "\n";
+                // }
             }
         }
-        // 嵌套类
-        else if (auto Nested = llvm::dyn_cast<CXXRecordDecl>(Member))
+
+        format_tpl fmt;
+
+        fmt.to_rfl(ana, ana_func);
+        fmt.to_file(header, source);
+
+        ::reflect::get_config().save();
+        return true;
+    }
+    bool GenRflASTVisitor::VisitVarDecl(VarDecl *VD)
+    {
+        if (SM->isInSystemHeader(VD->getLocation()))
         {
-            // if (!Nested->isImplicit())
-            // {
-            //     llvm::outs() << "    - Nested class: " << Nested->getNameAsString() << "\n";
-            // }
+            return true;
         }
-    }
 
-    format_tpl fmt;
-
-    fmt.to_rfl(ana, ana_func);
-    fmt.to_file(header, source);
-
-    ::reflect::get_config().save();
-    return true;
-}
-bool GenRflASTVisitor::VisitVarDecl(VarDecl *VD)
-{
-    if (SM->isInSystemHeader(VD->getLocation()))
-    {
-        return true;
-    }
-
-    if (llvm::dyn_cast<FieldDecl>(VD))
-    {
-        return true;
-    }
+        if (llvm::dyn_cast<FieldDecl>(VD))
+        {
+            return true;
+        }
 #ifdef LLVM_OUT
-    llvm::outs() << "Variable: " << VD->getNameAsString() << " (Type: " << VD->getType().getAsString() << ")\n";
+        llvm::outs() << "Variable: " << VD->getNameAsString() << " (Type: " << VD->getType().getAsString() << ")\n";
 #endif
-    return true;
-}
+        return true;
+    }
 
-GenRflASTConsumer::GenRflASTConsumer(ASTContext *Context) : Visitor(Context)
-{
-}
+    GenRflASTConsumer::GenRflASTConsumer(ASTContext *Context) : Visitor(Context)
+    {
+    }
 
-void GenRflASTConsumer::HandleTranslationUnit(ASTContext &Context)
-{
-    Visitor.TraverseDecl(Context.getTranslationUnitDecl());
-}
+    void GenRflASTConsumer::HandleTranslationUnit(ASTContext &Context)
+    {
+        Visitor.TraverseDecl(Context.getTranslationUnitDecl());
+    }
 
-std::unique_ptr<ASTConsumer> GetRflFrontendAction::CreateASTConsumer(CompilerInstance &CI, StringRef File)
-{
-    return std::make_unique<GenRflASTConsumer>(&CI.getASTContext());
-}
+    std::unique_ptr<ASTConsumer> GetRflFrontendAction::CreateASTConsumer(CompilerInstance &CI, StringRef File)
+    {
+        return std::make_unique<GenRflASTConsumer>(&CI.getASTContext());
+    }
 }

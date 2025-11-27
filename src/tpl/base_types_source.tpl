@@ -11,7 +11,7 @@ const std::string &get_type({{class}} *)
 {
     if (field < cls->size())
     {
-        return ::reflect::Value(&cls->at(field), ::reflect::flag_type<{{class}}>());        
+        return ::reflect::Value(std::addressof(cls->at(field)), ::reflect::flag_type<{{class}}>());        
     }
     return ::reflect::Value(nullptr, ::reflect::e_nullptr);
 }{{/base_stl}}

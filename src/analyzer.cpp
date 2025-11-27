@@ -40,7 +40,7 @@ namespace reflect
     {
     }
 
-    analyzer &analyzer::init(config_t *_config)
+    analyzer &analyzer::init(const std::shared_ptr<config_t> &_config)
     {
         m_config = _config;
         return *this;
@@ -76,7 +76,7 @@ namespace reflect
         info->m_flags = detail->m_flags;
         info->m_t_flags = detail->m_t_flags;
         info->m_field = detail->m_field;
-        m_data.emplace(variant, std::move(info));
+        m_data.emplace(variant, info);
     }
 
     bool analyzer::get_prefect_index(int index) const

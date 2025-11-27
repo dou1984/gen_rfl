@@ -58,9 +58,7 @@ static reflect::meta<common> g_common_meta[] = {
     .m_t_flags = ::reflect::flag_type<const char *>(),
     .m_field = e__common__o0000000, // 0
     .m_getter = [](const common *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->o0000000);
-    },
+    { return (void *)std::addressof(cls->o0000000); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000000>>; }(),
 },
@@ -71,9 +69,7 @@ static reflect::meta<common> g_common_meta[] = {
     .m_t_flags = ::reflect::flag_type<const char *>(),
     .m_field = e__common__o0000001, // 1
     .m_getter = [](const common *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->o0000001);
-    },
+    { return (void *)std::addressof(cls->o0000001); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000001>>; }(),
 },
@@ -84,9 +80,7 @@ static reflect::meta<common> g_common_meta[] = {
     .m_t_flags = ::reflect::flag_type<const char *>(),
     .m_field = e__common__o0000002, // 2
     .m_getter = [](const common *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->o0000002);
-    },
+    { return (void *)std::addressof(cls->o0000002); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000002>>; }(),
 },
@@ -97,9 +91,7 @@ static reflect::meta<common> g_common_meta[] = {
     .m_t_flags = ::reflect::flag_type<const char *>(),
     .m_field = e__common__o0000003, // 3
     .m_getter = [](const common *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->o0000003);
-    },
+    { return (void *)std::addressof(cls->o0000003); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000003>>; }(),
 },

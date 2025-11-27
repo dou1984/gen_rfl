@@ -61,13 +61,8 @@ namespace reflect
     public:
         analyzer();
 
-        analyzer &init(config_t *_config);
+        analyzer &init(const std::shared_ptr<config_t> &_config);
 
-        void push_back(const std::string &variant)
-        {
-            auto detail = std::make_shared<info_t>();
-            push_back_view(variant, detail);
-        }
         void push_back(const std::string &variant, std::shared_ptr<info_t> &detail)
         {
             push_back_view(variant, detail);
@@ -81,12 +76,12 @@ namespace reflect
         uint64_t calc_perfect_index() const;
 
         auto &get_data() { return m_data; }
-        auto get_config() { return m_config; }
+        auto get_config() const { return m_config; }
 
     private:
         void __push_back_view(const std::string &variant, const info_t &detail);
 
-        config_t *m_config;
+        std::shared_ptr<config_t> m_config;
         std::map<std::string, std::shared_ptr<info_t>> m_data;
     };
 }

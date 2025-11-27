@@ -68,9 +68,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<signed char>(),
     .m_field = e__base__a, // 0
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->a);
-    },
+    { return (void *)std::addressof(cls->a); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::a>>; }(),
 },
@@ -81,9 +79,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<short>(),
     .m_field = e__base__b, // 1
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->b);
-    },
+    { return (void *)std::addressof(cls->b); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::b>>; }(),
 },
@@ -94,9 +90,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<int>(),
     .m_field = e__base__c, // 2
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->c);
-    },
+    { return (void *)std::addressof(cls->c); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::c>>; }(),
 },
@@ -107,9 +101,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<long>(),
     .m_field = e__base__d, // 3
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->d);
-    },
+    { return (void *)std::addressof(cls->d); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::d>>; }(),
 },
@@ -120,9 +112,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<unsigned char>(),
     .m_field = e__base__e, // 4
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->e);
-    },
+    { return (void *)std::addressof(cls->e); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::e>>; }(),
 },
@@ -133,9 +123,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<unsigned short>(),
     .m_field = e__base__f, // 5
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->f);
-    },
+    { return (void *)std::addressof(cls->f); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::f>>; }(),
 },
@@ -146,9 +134,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<unsigned int>(),
     .m_field = e__base__g, // 6
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->g);
-    },
+    { return (void *)std::addressof(cls->g); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::g>>; }(),
 },
@@ -159,9 +145,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<unsigned long>(),
     .m_field = e__base__h, // 7
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->h);
-    },
+    { return (void *)std::addressof(cls->h); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::h>>; }(),
 },
@@ -172,9 +156,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<float>(),
     .m_field = e__base__i, // 8
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->i);
-    },
+    { return (void *)std::addressof(cls->i); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::i>>; }(),
 },
@@ -185,9 +167,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<double>(),
     .m_field = e__base__j, // 9
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->j);
-    },
+    { return (void *)std::addressof(cls->j); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::j>>; }(),
 },
@@ -198,9 +178,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<std::string>(),
     .m_field = e__base__k, // 10
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->k);
-    },
+    { return (void *)std::addressof(cls->k); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::k>>; }(),
 },
@@ -211,9 +189,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<char *>(),
     .m_field = e__base__l, // 11
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->l);
-    },
+    { return (void *)std::addressof(cls->l); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::l>>; }(),
 },
@@ -224,9 +200,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<const char *>(),
     .m_field = e__base__m, // 12
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->m);
-    },
+    { return (void *)std::addressof(cls->m); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::m>>; }(),
 },
@@ -237,9 +211,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<std::map<int, int>>(),
     .m_field = e__base__n, // 13
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->n);
-    },
+    { return (void *)std::addressof(cls->n); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::n>>; }(),
 },
@@ -250,9 +222,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<std::vector<int>>(),
     .m_field = e__base__o, // 14
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->o);
-    },
+    { return (void *)std::addressof(cls->o); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::o>>; }(),
 },
@@ -263,9 +233,7 @@ static reflect::meta<base> g_base_meta[] = {
     .m_t_flags = ::reflect::flag_type<const char *>(),
     .m_field = e__base__ooooooooooooooooooooooooooool0, // 15
     .m_getter = [](const base *cls) -> void * 
-    {
-        return (void *)std::addressof(cls->ooooooooooooooooooooooooooool0);
-    },
+    { return (void *)std::addressof(cls->ooooooooooooooooooooooooooool0); },
     .m_setter = []() -> auto
     { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::ooooooooooooooooooooooooooool0>>; }(),
 },

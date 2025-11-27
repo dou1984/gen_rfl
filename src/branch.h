@@ -54,7 +54,6 @@ namespace reflect
 
         std::shared_ptr<analyzer::info_t> first_variant() const;
         bool equil_variant(const std::string &variant) const;
-        std::shared_ptr<analyzer::info_t> get_variant(const std::string &variant) const;
     };
 
     branch_vec branch_builder(uint32_t, analyzer &);

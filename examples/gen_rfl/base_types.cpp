@@ -166,7 +166,7 @@ const std::string &get_type(unsigned short *)
 {
     if (field < cls->size())
     {
-        return ::reflect::Value(&cls->at(field), ::reflect::flag_type<std::map<int, int>>());        
+        return ::reflect::Value(std::addressof(cls->at(field)), ::reflect::flag_type<std::map<int, int>>());        
     }
     return ::reflect::Value(nullptr, ::reflect::e_nullptr);
 }
@@ -174,7 +174,7 @@ const std::string &get_type(unsigned short *)
 {
     if (field < cls->size())
     {
-        return ::reflect::Value(&cls->at(field), ::reflect::flag_type<std::vector<int>>());        
+        return ::reflect::Value(std::addressof(cls->at(field)), ::reflect::flag_type<std::vector<int>>());        
     }
     return ::reflect::Value(nullptr, ::reflect::e_nullptr);
 }
