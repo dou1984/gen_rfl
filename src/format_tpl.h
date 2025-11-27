@@ -33,23 +33,23 @@ namespace reflect
     public:
         format_tpl();
 
-        int to_header(branch_vec &sel, analyzer &ana);
+        int to_header();
 
-        int to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func);
+        int to_meta(branch_info &bra, std::map<std::string, branch_info> &ana_func);
 
-        int to_get_meta(branch_vec &sel, analyzer &ana);
+        int to_get_meta(branch_info &bra);
 
-        int to_func(uint32_t layer, uint32_t index, branch_vec &bra);
+        int to_func(uint32_t layer, uint32_t index, branch_info &bra);
 
-        int to_invoke(const std::string &variant, const branch_vec &bra);
+        int to_invoke(const std::string &variant, branch_info &bra);
 
-        int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch_vec &bra);
+        int to_invoke(uint32_t layer, uint32_t index, const std::string &variant, branch_info &bra);
 
         int to_invoke_field(const branch_info &bra);
 
         int to_invoke_layer(const std::string &variant, const branch_map &bra);
 
-        int to_rfl(analyzer &ana, std::map<std::string, analyzer> &ana_func);
+        int to_rfl(branch_info &ana, std::map<std::string, branch_info> &ana_func);
 
         int to_file(const std::string &header, const std::string &source);
 
@@ -65,10 +65,6 @@ namespace reflect
         auto &get() const { return m_output_source; }
 
         static int init();
-
-    protected:
-        bool is_invoked(const std::string &variant);
-        std::set<std::string> m_invoke_filter;
 
     private:
         std::string m_output_header;

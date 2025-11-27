@@ -113,7 +113,7 @@ namespace reflect
     format_tpl::format_tpl()
     {
     }
-    int format_tpl::to_header(branch_vec &bra, analyzer &ana)
+    int format_tpl::to_header()
     {
 
         ctemplate::TemplateDictionary _header("header");
@@ -131,7 +131,7 @@ namespace reflect
         expand(tpl_key, _header, m_output_header);
         return 0;
     }
-    int format_tpl::to_meta(analyzer &ana, std::map<std::string, analyzer> &ana_func)
+    int format_tpl::to_meta(branch_info &bra, std::map<std::string, branch_info> &bra_func)
     {
 
         ctemplate::TemplateDictionary _meta("meta");
@@ -151,7 +151,7 @@ namespace reflect
             _namespace->SetValue("namespace", conf.m_namespace);
         };
 
-        for (auto &it : ana.get_data())
+        for (auto &it : bra.ana().get_data())
         {
             auto field = it.second;
 
@@ -199,9 +199,9 @@ namespace reflect
                 }
             }
         }
-        for (auto &_func : ana_func)
+        for (auto &_func : bra_func)
         {
-            for (auto &it : _func.second.get_data())
+            for (auto &it : _func.second.ana().get_data())
             {
                 auto field = it.second;
 
@@ -230,7 +230,7 @@ namespace reflect
         return 0;
     }
 
-    int format_tpl::to_get_meta(branch_vec &bra, analyzer &ana)
+    int format_tpl::to_get_meta(branch_info &bra)
     {
 
         ctemplate::TemplateDictionary _get_meta("get_meta");
@@ -238,10 +238,10 @@ namespace reflect
         _get_meta.SetValue("layer", std::to_string(0));
 
         auto _field = 0;
-        if (bra.size() > 1)
+        if (bra.child().size() > 1)
         {
             auto _meta_multi = _get_meta.AddSectionDictionary("meta_bg_1");
-            for (auto &v : bra)
+            for (auto &v : bra.child())
             {
                 auto _labels = _meta_multi->AddSectionDictionary("labels");
                 _labels->SetIntValue("index", v.m_index);
@@ -257,10 +257,10 @@ namespace reflect
                 }
             }
         }
-        else if (bra.size() == 1)
+        else if (bra.child().size() == 1)
         {
             auto _meta_one = _get_meta.AddSectionDictionary("meta_eq_1");
-            auto &v = bra.front();
+            auto &v = bra.child().front();
             _meta_one->SetIntValue("index", v.m_index);
         }
         if (!get_config().m_namespace.empty())
@@ -274,10 +274,10 @@ namespace reflect
         m_output_source.emplace_back(std::move(_output));
         return 0;
     }
-    int format_tpl::to_func(uint32_t layer, uint32_t index, branch_vec &bra)
+    int format_tpl::to_func(uint32_t layer, uint32_t index, branch_info &bra)
     {
 
-        for (auto &_bra : bra)
+        for (auto &_bra : bra.child())
         {
             if (_bra.empty())
             {
@@ -289,7 +289,7 @@ namespace reflect
                 _func.SetIntValue("layer", info.second.m_layer);
                 _func.SetIntValue("index", info.second.m_index);
                 _func.SetValue("class", get_config().m_class);
-                std::set<uint64_t> _value;
+                std::set<uint64_t> unique_value;
                 for (auto &details : info.second.m_variants)
                 {
                     auto _detail = details.second;
@@ -297,13 +297,13 @@ namespace reflect
                     {
                         continue;
                     }
-                    if (_value.find(_detail->m_value) != _value.end())
+                    if (unique_value.find(_detail->m_value) != unique_value.end())
                     {
                         continue;
                     }
-                    _value.insert(_detail->m_value);
+                    unique_value.insert(_detail->m_value);
 
-                    to_func(layer + 1, info.second.m_index, info.second.m_branch_child);
+                    to_func(layer + 1, info.second.m_index, info.second);
 
                     auto block = _func.AddSectionDictionary("block");
                     char buf[64];
@@ -369,10 +369,10 @@ namespace reflect
 
         return 0;
     }
-    int format_tpl::to_invoke(const std::string &variant, const branch_vec &bra)
+    int format_tpl::to_invoke(const std::string &variant, branch_info &bra)
     {
 
-        for (auto &_bra : bra)
+        for (auto &_bra : bra.child())
         {
             if (!_bra.empty())
             {
@@ -382,7 +382,7 @@ namespace reflect
         to_invoke(0, 0, variant, bra);
         return 0;
     }
-    int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &variant, const branch_vec &bra)
+    int format_tpl::to_invoke(uint32_t layer, uint32_t index, const std::string &variant, branch_info &bra)
     {
 
         ctemplate::TemplateDictionary _invoke("invoke");
@@ -391,10 +391,10 @@ namespace reflect
         _invoke.SetIntValue("layer", layer);
         _invoke.SetIntValue("index", index);
 
-        if (bra.size() > 1)
+        if (bra.child().size() > 1)
         {
             auto _invoke_multi = _invoke.AddSectionDictionary("invoke_bg_1");
-            for (auto &_bra : bra)
+            for (auto &_bra : bra.child())
             {
                 auto labels = _invoke_multi->AddSectionDictionary("labels");
                 // labels->SetIntValue("next_layer", _bra.m_layer);
@@ -413,10 +413,10 @@ namespace reflect
                 }
             }
         }
-        else if (bra.size() == 1)
+        else if (bra.child().size() == 1)
         {
             auto _invoke_one = _invoke.AddSectionDictionary("invoke_eq_1");
-            auto &child = bra[0];
+            auto &child = bra.child()[0];
             _invoke_one->SetIntValue("next_layer", child.m_layer);
             _invoke_one->SetIntValue("next_index", child.m_index);
         }
@@ -539,23 +539,23 @@ namespace reflect
         m_output_source.emplace_back(std::move(_output));
         return 0;
     }
-    int format_tpl::to_rfl(analyzer &ana, std::map<std::string, analyzer> &ana_func)
+    int format_tpl::to_rfl(branch_info &bra, std::map<std::string, branch_info> &bra_func)
     {
-        auto bra = branch_builder(0, ana);
+        bra.m_branch_child = branch_builder(0, bra.ana());
 
-        to_header(bra, ana);
+        to_header();
 
-        to_meta(ana, ana_func);
+        to_meta(bra, bra_func);
 
         to_func(0, 0, bra);
 
-        for (auto &_func : ana_func)
+        for (auto &_func : bra_func)
         {
-            auto bra_func = branch_builder(0, _func.second);
-            to_invoke(_func.first, bra_func);
+            _func.second.child() = branch_builder(0, _func.second.ana());
+            to_invoke(_func.first, _func.second);
         }
 
-        to_get_meta(bra, ana);
+        to_get_meta(bra);
 
         return 0;
     }
@@ -642,32 +642,7 @@ namespace reflect
     }
     int format_tpl::to_base_types_source()
     {
-
         return to_base_types("base_types_source", "base_types_source.tpl", "base_types.cpp");
-        // auto &conf = get_config();
-
-        // ctemplate::TemplateDictionary _dict("base_types_source");
-
-        // _dict.SetValue("license", reflect::license());
-        // for (auto &it : conf.base_types)
-        // {
-        //     auto base_types = _dict.AddSectionDictionary("base_types");
-        //     base_types->SetValue("class", it);
-        //     base_types->SetValue("raw_class", remove_duplicate_const(it));
-        // }
-
-        // std::string tpl_key = "base_types_source.tpl";
-        // std::string _output;
-        // expand(tpl_key, _dict, _output);
-
-        // std::string path = conf.tmp_dir + "/base_types.cpp";
-        // write_file(path, _output);
-
-        // return 0;
     }
 
-    bool format_tpl::is_invoked(const std::string &variant)
-    {
-        return m_invoke_filter.find(variant) != m_invoke_filter.end();
-    }
 }

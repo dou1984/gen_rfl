@@ -260,11 +260,11 @@ namespace reflect
             return false;
         }
 
-        analyzer ana;
         auto ana_config = std::make_shared<analyzer::config_t>();
-        ana.init(ana_config);
+        branch_info bra;
+        bra.ana().init(ana_config);
 
-        std::map<std::string, analyzer> ana_func;
+        std::map<std::string, branch_info> bra_func;
         auto ana_config_func = std::make_shared<analyzer::config_t>();
 
         std::string header, source;
@@ -299,7 +299,7 @@ namespace reflect
                     detail->m_raw_type = BaseTypeName;
                     detail->m_flags = __flags(flag_object_type, get_access(Base.getAccessSpecifier()), flag_virtual_);
 
-                    ana.push_back(BaseTypeName, detail);
+                    bra.ana().push_back(BaseTypeName, detail);
                 }
             }
         }
@@ -327,7 +327,7 @@ namespace reflect
                     detail->m_raw_type = BaseTypeName;
                     detail->m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_);
 
-                    ana.push_back(Name, detail);
+                    bra.ana().push_back(Name, detail);
 
                     insert_base_types(BaseTypeName);
                 }
@@ -338,7 +338,7 @@ namespace reflect
                     detail->m_raw_type = TypeName;
                     detail->m_flags = __flags(get_access(FD->getAccess()), flag_const_, flag_volatile_);
 
-                    ana.push_back(Name, detail);
+                    bra.ana().push_back(Name, detail);
 
                     insert_base_types(TypeName);
                 }
@@ -363,7 +363,7 @@ namespace reflect
                     detail->m_raw_type = BaseTypeName;
                     detail->m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static);
 
-                    ana.push_back(Name, detail);
+                    bra.ana().push_back(Name, detail);
 
                     insert_base_types(BaseTypeName);
                 }
@@ -375,7 +375,7 @@ namespace reflect
                     detail->m_raw_type = TypeName;
                     detail->m_flags = __flags(get_access(VD->getAccess()), flag_const_, flag_volatile_, flag_static);
 
-                    ana.push_back(Name, detail);
+                    bra.ana().push_back(Name, detail);
 
                     insert_base_types(TypeName);
                 }
@@ -423,7 +423,7 @@ namespace reflect
                         detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument);
                         detail->m_t_flags = _t_flags;
 
-                        ana_func[MethodName].init(ana_config_func).push_back(_tmp_type, detail);
+                        bra_func[MethodName].ana().init(ana_config_func).push_back(_tmp_type, detail);
                     }
                     {
                         auto _tmp_type = std::string("(") + join(_input, ",") + std::string(")");
@@ -436,11 +436,11 @@ namespace reflect
                         detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument);
                         detail->m_t_flags = _t_flags;
 
-                        ana_func[MethodName].init(ana_config_func).push_back(_tmp_type, detail);
+                        bra_func[MethodName].ana().init(ana_config_func).push_back(_tmp_type, detail);
                     }
                 }
 
-                if (auto it = ana.get_data().find(MethodName); it == ana.get_data().end())
+                if (auto it = bra.ana().get_data().find(MethodName); it == bra.ana().get_data().end())
                 {
                     auto detail = std::make_shared<analyzer::info_t>();
                     detail->m_variant = MethodName;
@@ -448,7 +448,7 @@ namespace reflect
                     detail->m_raw_type = "";
                     detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_function);
 
-                    ana.push_back(MethodName, detail);
+                    bra.ana().push_back(MethodName, detail);
                 }
             }
             // 嵌套类
@@ -463,7 +463,7 @@ namespace reflect
 
         format_tpl fmt;
 
-        fmt.to_rfl(ana, ana_func);
+        fmt.to_rfl(bra, bra_func);
         fmt.to_file(header, source);
 
         ::reflect::get_config().save();

@@ -23,6 +23,7 @@
 #include "reflect.h"
 #include <iostream>
 #include <cassert>
+#include <algorithm>
 
 namespace reflect
 {
@@ -53,6 +54,7 @@ namespace reflect
             __info.m_layer = layer;
             __info.m_index = _branch_vec[index].m_index;
             __info.m_field = info->m_field;
+            assert(__info.m_variants.find(info->m_variant) == __info.m_variants.end());
             __info.m_variants.emplace(info->m_variant, info);
 
             if (it.first.size() > sizeof(uint64_t))
