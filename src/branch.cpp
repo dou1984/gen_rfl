@@ -27,7 +27,7 @@
 
 namespace reflect
 {
-    branch_vec branch_builder(uint32_t layer, analyzer &ana)
+    static branch_vec branch_builder(uint32_t layer, analyzer &ana)
     {
         branch_vec _branch_vec;
         uint64_t perfect_index = ana.calc_perfect_index();
@@ -70,7 +70,7 @@ namespace reflect
             {
                 if (x.second.m_analyzer_child.get_data().size() > 0)
                 {
-                    x.second.m_branch_child = branch_builder(layer + 1, x.second.m_analyzer_child);
+                    x.second.builder(layer + 1);
                 }
             }
         }
@@ -94,5 +94,8 @@ namespace reflect
         }
         return true;
     }
-
+    void branch_info::builder(uint32_t layer)
+    {
+        m_branch_child = branch_builder(layer, m_analyzer_child);
+    }
 }

@@ -62,15 +62,16 @@ TEST(format, rander_file)
 }
 TEST(format, rander_branch)
 {
-    analyzer ana;
-    ana.push_back("hello");
-    ana.push_back("world");
-    ana.push_back("say");
-    ana.push_back("hi");
 
-    branch bra = branch_builder(0, ana);
+    branch_info bra;
+    bra.push_back("hello");
+    bra.push_back("world");
+    bra.push_back("say");
+    bra.push_back("hi");
+
+    bra.builder(0);
 
     format_tpl tpl;
-    tpl.to_header(bra, ana);
+    tpl.to_header();
     tpl.to_file("header.h", "source.cpp");
 }

@@ -25,7 +25,7 @@
 #include <type_traits>
 #include <bitset>
 #include "reflect.h"
-#include "set_var.h"
+#include "set_variant.h"
 
 namespace reflect
 {

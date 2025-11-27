@@ -541,17 +541,15 @@ namespace reflect
     }
     int format_tpl::to_rfl(branch_info &bra, std::map<std::string, branch_info> &bra_func)
     {
-        bra.m_branch_child = branch_builder(0, bra.ana());
+        bra.builder(0);
 
         to_header();
-
         to_meta(bra, bra_func);
-
         to_func(0, 0, bra);
 
         for (auto &_func : bra_func)
         {
-            _func.second.child() = branch_builder(0, _func.second.ana());
+            _func.second.builder(0);
             to_invoke(_func.first, _func.second);
         }
 

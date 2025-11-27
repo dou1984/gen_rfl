@@ -26,14 +26,14 @@
 TEST(branch_map, test_alpha)
 {
 
-    analyzer a;
-    a.push_back("aaaaaaaaaaa");
-    a.push_back("bbbbbbbbbbb");
-    a.push_back("ccccccccccc");
-    a.push_back("ddddddddddd");
-    a.push_back("eeeeeeeeeee");
-    a.push_back("fffffffffff");
-    a.push_back("ggggggggggg");
+    branch_info bra;
+    bra.push_back("aaaaaaaaaaa");
+    bra.push_back("bbbbbbbbbbb");
+    bra.push_back("ccccccccccc");
+    bra.push_back("ddddddddddd");
+    bra.push_back("eeeeeeeeeee");
+    bra.push_back("fffffffffff");
+    bra.push_back("ggggggggggg");
 
-    auto b = branch_builder(0, a);
+    bra.branch_builder(0);
 }

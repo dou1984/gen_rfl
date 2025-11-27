@@ -54,11 +54,10 @@ namespace reflect
 
         std::shared_ptr<analyzer::info_t> first_variant() const;
         bool equil_variant(const std::string &variant) const;
+        void builder(uint32_t layer);
 
         analyzer &ana() { return m_analyzer_child; }
         branch_vec &child() { return m_branch_child; }
     };
-
-    branch_vec branch_builder(uint32_t, analyzer &);
 
 }
