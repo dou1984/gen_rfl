@@ -75,6 +75,8 @@ namespace reflect
         uint64_t as_uint64() { return as_number<uint64_t>(); }
         float as_float() { return as_number<float>(); }
         double as_double() { return as_number<double>(); }
+        template <class T>
+        T *as() { return (T *)m_data; }
 
     private:
         void *m_data = nullptr;

@@ -150,7 +150,9 @@ int invoke_node2()
     int i0 = 10;
     int i1 = 20;
     int r0 = 0;
-    s = invoke_r(&n, "add", r0, i0, i1);
+
+    invoke(get_value(&n, "base").as<base>(), "add", i0, i1);
+
     return 0;
 }
 

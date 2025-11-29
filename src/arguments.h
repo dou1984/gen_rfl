@@ -29,7 +29,7 @@ namespace reflect
     struct Arguments
     {
         uint32_t m_count = 0;
-        std::bitset<ARGUMENTS_SIZE_MAX> m_t_flags;
+        // std::bitset<ARGUMENTS_SIZE_MAX> m_t_flags;
         std::string m_arguments;
 
         template <class T>
@@ -37,7 +37,7 @@ namespace reflect
         {
             if constexpr (!std::is_const<T>::value)
             {
-                m_t_flags.set(i);
+                // m_t_flags.set(i);
             }
         }
     };
