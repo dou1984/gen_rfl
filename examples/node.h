@@ -44,9 +44,24 @@ struct base
     std::map<int, int> n;
     std::vector<int> o;
     const char *ooooooooooooooooooooooooooool0;
+
+    int64_t add(int64_t, int64_t);
 };
 
-struct node : base
+struct config
+{
+    int64_t o0;
+    int64_t o1;
+    int64_t o2;
+    int64_t o3;
+};
+struct func
+{
+    int _init();
+    int _deinit();
+    void _done();
+};
+struct node : base, config, func
 {
     const char *oooooooooooooooooooooooooo0;
     char *oooooooooooooooooooooooooo1;
@@ -85,11 +100,4 @@ struct node : base
     int lllllllllllllllllllllllllll4(const char *, const char *);
     int lllllllllllllllllllllllllll5(const std::string &, const std::string &);
     int lllllllllllllllllllllllllll6(std::string &, std::string &);
-};
-
-struct func
-{
-    int init();
-    int deinit();
-    void done();
 };

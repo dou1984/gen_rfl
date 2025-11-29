@@ -4,6 +4,8 @@
 #include <gen_rfl/reflect.h>
 #include <gen_rfl/branch_string.h>
 #include "base.h"
+#include "config.h"
+#include "func.h"
 #include "node.h"
 #include "../../node.h"
 #include <gen_rfl/setter.h>
@@ -13,7 +15,9 @@
 enum node_meta_enum
 {
     e__node__base,
+    e__node__config,
     e__node__deinit,
+    e__node__func,
     e__node__init,
     e__node__lllllllllllllllllllllllllll0,
     e__node__lllllllllllllllllllllllllll1,
@@ -345,20 +349,42 @@ static reflect::meta<node> g_node_meta[] = {
     { return ::reflect::__setter__<node, ::reflect::__ref_base__<node, base>>; }(),
 },
 {
+    .m_variant = "config",
+    .m_type = "config",
+    .m_flags = 0x821,
+    .m_t_flags = ::reflect::flag_type<config>(),
+    .m_field = e__node__config, // 1
+     .m_getter = [](const node *cls) -> void * 
+    { return (void *)static_cast<const config *>(cls); },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<node, ::reflect::__ref_base__<node, config>>; }(),
+},
+{
     .m_variant = "deinit",
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__deinit, // 28
+    .m_field = e__node__deinit, // 30
     .m_invoke = invoke__node__deinit,
     .m_setter = set_value_invalid,
+},
+{
+    .m_variant = "func",
+    .m_type = "func",
+    .m_flags = 0x821,
+    .m_t_flags = ::reflect::flag_type<func>(),
+    .m_field = e__node__func, // 2
+     .m_getter = [](const node *cls) -> void * 
+    { return (void *)static_cast<const func *>(cls); },
+    .m_setter = []() -> auto
+    { return ::reflect::__setter__<node, ::reflect::__ref_base__<node, func>>; }(),
 },
 {
     .m_variant = "init",
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__init, // 27
+    .m_field = e__node__init, // 29
     .m_invoke = invoke__node__init,
     .m_setter = set_value_invalid,
 },
@@ -367,7 +393,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__lllllllllllllllllllllllllll0, // 29
+    .m_field = e__node__lllllllllllllllllllllllllll0, // 31
     .m_invoke = invoke__node__lllllllllllllllllllllllllll0,
     .m_setter = set_value_invalid,
 },
@@ -376,7 +402,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__lllllllllllllllllllllllllll1, // 30
+    .m_field = e__node__lllllllllllllllllllllllllll1, // 32
     .m_invoke = invoke__node__lllllllllllllllllllllllllll1,
     .m_setter = set_value_invalid,
 },
@@ -385,7 +411,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__lllllllllllllllllllllllllll2, // 31
+    .m_field = e__node__lllllllllllllllllllllllllll2, // 33
     .m_invoke = invoke__node__lllllllllllllllllllllllllll2,
     .m_setter = set_value_invalid,
 },
@@ -394,7 +420,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__lllllllllllllllllllllllllll3, // 32
+    .m_field = e__node__lllllllllllllllllllllllllll3, // 34
     .m_invoke = invoke__node__lllllllllllllllllllllllllll3,
     .m_setter = set_value_invalid,
 },
@@ -403,7 +429,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__lllllllllllllllllllllllllll4, // 33
+    .m_field = e__node__lllllllllllllllllllllllllll4, // 35
     .m_invoke = invoke__node__lllllllllllllllllllllllllll4,
     .m_setter = set_value_invalid,
 },
@@ -412,7 +438,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__lllllllllllllllllllllllllll5, // 34
+    .m_field = e__node__lllllllllllllllllllllllllll5, // 36
     .m_invoke = invoke__node__lllllllllllllllllllllllllll5,
     .m_setter = set_value_invalid,
 },
@@ -421,7 +447,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__node__lllllllllllllllllllllllllll6, // 35
+    .m_field = e__node__lllllllllllllllllllllllllll6, // 37
     .m_invoke = invoke__node__lllllllllllllllllllllllllll6,
     .m_setter = set_value_invalid,
 },
@@ -430,7 +456,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooo19, // 20
+    .m_field = e__node__oooo19, // 22
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooo19); },
     .m_setter = []() -> auto
@@ -441,7 +467,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooo20, // 21
+    .m_field = e__node__oooo20, // 23
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooo20); },
     .m_setter = []() -> auto
@@ -452,7 +478,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooo21, // 22
+    .m_field = e__node__oooooo21, // 24
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooo21); },
     .m_setter = []() -> auto
@@ -463,7 +489,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooo22, // 23
+    .m_field = e__node__oooooo22, // 25
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooo22); },
     .m_setter = []() -> auto
@@ -474,7 +500,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooo23, // 24
+    .m_field = e__node__oooooo23, // 26
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooo23); },
     .m_setter = []() -> auto
@@ -485,7 +511,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "const char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__node__oooooo24, // 25
+    .m_field = e__node__oooooo24, // 27
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooo24); },
     .m_setter = []() -> auto
@@ -496,7 +522,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "const char *",
     .m_flags = 0x901,
     .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__node__oooooo25, // 26
+    .m_field = e__node__oooooo25, // 28
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooo25); },
     .m_setter = []() -> auto
@@ -507,7 +533,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooo10, // 11
+    .m_field = e__node__oooooooo10, // 13
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooo10); },
     .m_setter = []() -> auto
@@ -518,7 +544,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooo11, // 12
+    .m_field = e__node__oooooooo11, // 14
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooo11); },
     .m_setter = []() -> auto
@@ -529,7 +555,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__ooooooooo9, // 10
+    .m_field = e__node__ooooooooo9, // 12
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->ooooooooo9); },
     .m_setter = []() -> auto
@@ -540,7 +566,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooo12, // 13
+    .m_field = e__node__oooooooooooooo12, // 15
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooo12); },
     .m_setter = []() -> auto
@@ -551,7 +577,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooo18, // 19
+    .m_field = e__node__oooooooooooooo18, // 21
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooo18); },
     .m_setter = []() -> auto
@@ -562,7 +588,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooo8, // 9
+    .m_field = e__node__oooooooooooooo8, // 11
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooo8); },
     .m_setter = []() -> auto
@@ -573,7 +599,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__ooooooooooooooo17, // 18
+    .m_field = e__node__ooooooooooooooo17, // 20
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->ooooooooooooooo17); },
     .m_setter = []() -> auto
@@ -584,7 +610,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__ooooooooooooooo7, // 8
+    .m_field = e__node__ooooooooooooooo7, // 10
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->ooooooooooooooo7); },
     .m_setter = []() -> auto
@@ -595,7 +621,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__ooooooooooooooooooooo16, // 17
+    .m_field = e__node__ooooooooooooooooooooo16, // 19
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->ooooooooooooooooooooo16); },
     .m_setter = []() -> auto
@@ -606,7 +632,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__ooooooooooooooooooooooo6, // 7
+    .m_field = e__node__ooooooooooooooooooooooo6, // 9
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->ooooooooooooooooooooooo6); },
     .m_setter = []() -> auto
@@ -617,7 +643,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "const char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__node__oooooooooooooooooooooooooo0, // 1
+    .m_field = e__node__oooooooooooooooooooooooooo0, // 3
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooooooooooooooo0); },
     .m_setter = []() -> auto
@@ -628,7 +654,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooooooooooooooo1, // 2
+    .m_field = e__node__oooooooooooooooooooooooooo1, // 4
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooooooooooooooo1); },
     .m_setter = []() -> auto
@@ -639,7 +665,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooooooooooooooo14, // 15
+    .m_field = e__node__oooooooooooooooooooooooooo14, // 17
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooooooooooooooo14); },
     .m_setter = []() -> auto
@@ -650,7 +676,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooooooooooooooo2, // 3
+    .m_field = e__node__oooooooooooooooooooooooooo2, // 5
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooooooooooooooo2); },
     .m_setter = []() -> auto
@@ -661,7 +687,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooooooooooooooo3, // 4
+    .m_field = e__node__oooooooooooooooooooooooooo3, // 6
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooooooooooooooo3); },
     .m_setter = []() -> auto
@@ -672,7 +698,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooooooooooooooo4, // 5
+    .m_field = e__node__oooooooooooooooooooooooooo4, // 7
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooooooooooooooo4); },
     .m_setter = []() -> auto
@@ -683,7 +709,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__oooooooooooooooooooooooooo5, // 6
+    .m_field = e__node__oooooooooooooooooooooooooo5, // 8
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->oooooooooooooooooooooooooo5); },
     .m_setter = []() -> auto
@@ -694,7 +720,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__ooooooooooooooooooooooooooo13, // 14
+    .m_field = e__node__ooooooooooooooooooooooooooo13, // 16
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->ooooooooooooooooooooooooooo13); },
     .m_setter = []() -> auto
@@ -705,7 +731,7 @@ static reflect::meta<node> g_node_meta[] = {
     .m_type = "char *",
     .m_flags = 0x801,
     .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__node__ooooooooooooooooooooooooooo15, // 16
+    .m_field = e__node__ooooooooooooooooooooooooooo15, // 18
     .m_getter = [](const node *cls) -> void * 
     { return (void *)std::addressof(cls->ooooooooooooooooooooooooooo15); },
     .m_setter = []() -> auto
@@ -717,6 +743,22 @@ reflect::Value __get_value(const node* cls, const std::string& _tag)
     {
         ::reflect::branch_string tag(_tag);
         auto _meta = __details__::get_meta(static_cast<const base *>(cls), tag);
+        if (__contains__(_meta.m_flags, ::reflect::flag_member))
+        {
+            return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
+        }
+    } 
+    {
+        ::reflect::branch_string tag(_tag);
+        auto _meta = __details__::get_meta(static_cast<const config *>(cls), tag);
+        if (__contains__(_meta.m_flags, ::reflect::flag_member))
+        {
+            return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
+        }
+    } 
+    {
+        ::reflect::branch_string tag(_tag);
+        auto _meta = __details__::get_meta(static_cast<const func *>(cls), tag);
         if (__contains__(_meta.m_flags, ::reflect::flag_member))
         {
             return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
@@ -1288,6 +1330,17 @@ reflect::Value __get_value(const node* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
+}inline ::reflect::meta<node> &rfl__0__15(const node *cls, uint64_t value, ::reflect::branch_string &tag)
+{
+    if (0x6769666e6f63 == value) // config
+    {
+        if (!tag) // complete
+        {
+            return g_node_meta[e__node__config];
+        }
+        return g_default_meta;
+    }
+    return g_default_meta;
 }inline ::reflect::meta<node> &rfl__0__16(const node *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x32326f6f6f6f6f6f == value) // oooooo22
@@ -1317,6 +1370,17 @@ reflect::Value __get_value(const node* cls, const std::string& _tag)
         if (!tag) // complete
         {
             return g_node_meta[e__node__oooo20];
+        }
+        return g_default_meta;
+    }
+    return g_default_meta;
+}inline ::reflect::meta<node> &rfl__0__23(const node *cls, uint64_t value, ::reflect::branch_string &tag)
+{
+    if (0x636e7566 == value) // func
+    {
+        if (!tag) // complete
+        {
+            return g_node_meta[e__node__func];
         }
         return g_default_meta;
     }
@@ -2671,12 +2735,16 @@ namespace __details__
         return rfl__0__11(cls, value, tag);
     label__0__13:
         return rfl__0__13(cls, value, tag);
+    label__0__15:
+        return rfl__0__15(cls, value, tag);
     label__0__16:
         return rfl__0__16(cls, value, tag);
     label__0__17:
         return rfl__0__17(cls, value, tag);
     label__0__22:
         return rfl__0__22(cls, value, tag);
+    label__0__23:
+        return rfl__0__23(cls, value, tag);
     label__0__24:
         return rfl__0__24(cls, value, tag);
     label__0__0:
@@ -2686,12 +2754,10 @@ namespace __details__
     label__0__8:
     label__0__12:
     label__0__14:
-    label__0__15:
     label__0__18:
     label__0__19:
     label__0__20:
     label__0__21:
-    label__0__23:
         return g_default_meta;
     }
     ::reflect::meta<node>& get_meta(const node *cls, ::reflect::branch_string &tag, const std::string &args_tag)
@@ -2784,3 +2850,4 @@ const std::string &get_name(const node *cls, uint32_t field)
 {
     return g_node;
 }
+

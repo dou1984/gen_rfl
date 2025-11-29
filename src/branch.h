@@ -47,7 +47,7 @@ namespace reflect
         uint32_t m_index = 0;
         uint32_t m_field = 0;
         std::map<std::string, std::shared_ptr<analyzer::info_t>> m_variants;
-
+        
         // children
         analyzer m_analyzer_child;
         branch_vec m_branch_child;

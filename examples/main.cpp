@@ -107,6 +107,8 @@ int get_node()
             std::cout << get_field_type(pn, i) << " " << get_name(pn, i) << " " << get_field_value(pn, i).to_string() << std::endl;
         }
     }
+
+    std::cout << get_value(&n, "a").to_string() << get_value(&n, "b").to_string() << get_value(&n, "c").to_string() << get_value(&n, "d").to_string() << std::endl;
     return 0;
 }
 int invoke_node()
@@ -145,6 +147,10 @@ int invoke_node2()
     long j = 1;
     auto s = invoke(&n, "init", i, j, ptr);
 
+    int i0 = 10;
+    int i1 = 20;
+    int r0 = 0;
+    s = invoke_r(&n, "add", r0, i0, i1);
     return 0;
 }
 

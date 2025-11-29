@@ -23,5 +23,6 @@
 #include "base_types.h"
 #include "base/common_rfl/common.h"
 #include "node_rfl/base.h"
+#include "node_rfl/config.h"
 #include "node_rfl/func.h"
 #include "node_rfl/node.h"

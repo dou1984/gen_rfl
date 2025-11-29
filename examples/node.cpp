@@ -20,6 +20,10 @@
 //
 #include "node.h"
 
+int64_t base::add(int64_t a, int64_t b)
+{
+    return a + b;
+}
 const char *node::oooooo25 = nullptr;
 int node::init(int, long long, const char *)
 {
@@ -68,14 +72,14 @@ int node::lllllllllllllllllllllllllll6(std::string &lh, std::string &rh)
     rh = "world";
     return 301;
 }
-int func::init()
+int func::_init()
 {
     return 0;
 }
-int func::deinit()
+int func::_deinit()
 {
     return 0;
 }
-void func::done()
+void func::_done()
 {
 }

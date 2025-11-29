@@ -11,18 +11,18 @@
 
 enum func_meta_enum
 {
-    e__func__deinit,
-    e__func__done,
-    e__func__init,
+    e__func___deinit,
+    e__func___done,
+    e__func___init,
     e__func__end,
 };
 enum func_func_enum
 {
-    e__func__deinit__3,
-    e__func__deinit__2,
-    e__func__done__4,
-    e__func__init__1,
-    e__func__init__0,
+    e__func___deinit__3,
+    e__func___deinit__2,
+    e__func___done__4,
+    e__func___init__1,
+    e__func___init__0,
     e__func__func__end,
 };
 static int set_value_invalid(func *cls, uint32_t, ...)
@@ -48,129 +48,129 @@ static reflect::meta<func> g_func = {
     .m_setter = set_value_invalid,
 };
 
-int invoke__func__deinit__3(const func* c, const reflect::Arguments *, ...);
-int invoke__func__deinit__2(const func* c, const reflect::Arguments *, ...);
-int invoke__func__done__4(const func* c, const reflect::Arguments *, ...);
-int invoke__func__init__1(const func* c, const reflect::Arguments *, ...);
-int invoke__func__init__0(const func* c, const reflect::Arguments *, ...);
+int invoke__func___deinit__3(const func* c, const reflect::Arguments *, ...);
+int invoke__func___deinit__2(const func* c, const reflect::Arguments *, ...);
+int invoke__func___done__4(const func* c, const reflect::Arguments *, ...);
+int invoke__func___init__1(const func* c, const reflect::Arguments *, ...);
+int invoke__func___init__0(const func* c, const reflect::Arguments *, ...);
 static reflect::meta<func> g_func_func[] = 
 {
     {
-        .m_variant = "deinit",
+        .m_variant = "_deinit",
         .m_type = "()",
         .m_flags = 0x8801,
         .m_t_flags = 0,
-        .m_field = e__func__deinit__3, // 3
-        .m_func = invoke__func__deinit__3,
+        .m_field = e__func___deinit__3, // 3
+        .m_func = invoke__func___deinit__3,
         .m_setter = set_value_invalid,
     },
     {
-        .m_variant = "deinit",
+        .m_variant = "_deinit",
         .m_type = "int()",
         .m_flags = 0x8801,
         .m_t_flags = 0,
-        .m_field = e__func__deinit__2, // 2
-        .m_func = invoke__func__deinit__2,
+        .m_field = e__func___deinit__2, // 2
+        .m_func = invoke__func___deinit__2,
         .m_setter = set_value_invalid,
     },
     {
-        .m_variant = "done",
+        .m_variant = "_done",
         .m_type = "()",
         .m_flags = 0x8801,
         .m_t_flags = 0,
-        .m_field = e__func__done__4, // 4
-        .m_func = invoke__func__done__4,
+        .m_field = e__func___done__4, // 4
+        .m_func = invoke__func___done__4,
         .m_setter = set_value_invalid,
     },
     {
-        .m_variant = "init",
+        .m_variant = "_init",
         .m_type = "()",
         .m_flags = 0x8801,
         .m_t_flags = 0,
-        .m_field = e__func__init__1, // 1
-        .m_func = invoke__func__init__1,
+        .m_field = e__func___init__1, // 1
+        .m_func = invoke__func___init__1,
         .m_setter = set_value_invalid,
     },
     {
-        .m_variant = "init",
+        .m_variant = "_init",
         .m_type = "int()",
         .m_flags = 0x8801,
         .m_t_flags = 0,
-        .m_field = e__func__init__0, // 0
-        .m_func = invoke__func__init__0,
+        .m_field = e__func___init__0, // 0
+        .m_func = invoke__func___init__0,
         .m_setter = set_value_invalid,
     },
 };
 
-reflect::meta<func>& invoke__func__deinit(const func *c, const std::string &tag);
-reflect::meta<func>& invoke__func__done(const func *c, const std::string &tag);
-reflect::meta<func>& invoke__func__init(const func *c, const std::string &tag);
+reflect::meta<func>& invoke__func___deinit(const func *c, const std::string &tag);
+reflect::meta<func>& invoke__func___done(const func *c, const std::string &tag);
+reflect::meta<func>& invoke__func___init(const func *c, const std::string &tag);
 static reflect::meta<func> g_func_meta[] = {
 {
-    .m_variant = "deinit",
+    .m_variant = "_deinit",
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__func__deinit, // 1
-    .m_invoke = invoke__func__deinit,
+    .m_field = e__func___deinit, // 1
+    .m_invoke = invoke__func___deinit,
     .m_setter = set_value_invalid,
 },
 {
-    .m_variant = "done",
+    .m_variant = "_done",
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__func__done, // 2
-    .m_invoke = invoke__func__done,
+    .m_field = e__func___done, // 2
+    .m_invoke = invoke__func___done,
     .m_setter = set_value_invalid,
 },
 {
-    .m_variant = "init",
+    .m_variant = "_init",
     .m_type = "",
     .m_flags = 0x4801,
     .m_t_flags = 0x0,
-    .m_field = e__func__init, // 0
-    .m_invoke = invoke__func__init,
+    .m_field = e__func___init, // 0
+    .m_invoke = invoke__func___init,
     .m_setter = set_value_invalid,
 },
 };
 reflect::Value __get_value(const func* cls, const std::string& _tag)
 {
     return reflect::Value(nullptr, reflect::e_nullptr);
-}inline ::reflect::meta<func> &rfl__0__3(const func *cls, uint64_t value, ::reflect::branch_string &tag)
+}inline ::reflect::meta<func> &rfl__0__0(const func *cls, uint64_t value, ::reflect::branch_string &tag)
 {
-    if (0x74696e69 == value) // init
+    if (0x74696e6965645f == value) // _deinit
     {
         if (!tag) // complete
         {
-            return g_func_meta[e__func__init];
+            return g_func_meta[e__func___deinit];
         }
         return g_default_meta;
     }
     return g_default_meta;
-}inline ::reflect::meta<func> &rfl__0__4(const func *cls, uint64_t value, ::reflect::branch_string &tag)
+}inline ::reflect::meta<func> &rfl__0__2(const func *cls, uint64_t value, ::reflect::branch_string &tag)
 {
-    if (0x656e6f64 == value) // done
+    if (0x74696e695f == value) // _init
     {
         if (!tag) // complete
         {
-            return g_func_meta[e__func__done];
+            return g_func_meta[e__func___init];
         }
         return g_default_meta;
     }
     return g_default_meta;
 }inline ::reflect::meta<func> &rfl__0__6(const func *cls, uint64_t value, ::reflect::branch_string &tag)
 {
-    if (0x74696e696564 == value) // deinit
+    if (0x656e6f645f == value) // _done
     {
         if (!tag) // complete
         {
-            return g_func_meta[e__func__deinit];
+            return g_func_meta[e__func___done];
         }
         return g_default_meta;
     }
     return g_default_meta;
-}int invoke__func__deinit__3(const func *c, const reflect::Arguments* argu, ...)
+}int invoke__func___deinit__3(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
     if (cls && argu->m_count == 0)
@@ -178,24 +178,24 @@ reflect::Value __get_value(const func* cls, const std::string& _tag)
         va_list __arguments_list;
         va_start(__arguments_list, argu);
         va_end(__arguments_list);
-        cls->deinit();
+        cls->_deinit();
         return 0;
     }
     return -1;
 }
-inline ::reflect::meta<func> &invoke__deinit__0__0(const func *c, uint64_t value, ::reflect::branch_string &tag)
+inline ::reflect::meta<func> &invoke___deinit__0__0(const func *c, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x2928 == value) // ()
     {
         if (!tag)
         {
-            return g_func_func[e__func__deinit__3];
+            return g_func_func[e__func___deinit__3];
         }
         return g_default_meta;
     }
     return g_default_meta;
 }
-int invoke__func__deinit__2(const func *c, const reflect::Arguments* argu, ...)
+int invoke__func___deinit__2(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
     if (cls && argu->m_count == 1)
@@ -204,24 +204,24 @@ int invoke__func__deinit__2(const func *c, const reflect::Arguments* argu, ...)
         va_start(__arguments_list, argu);
         auto& _r = *(va_arg(__arguments_list, int *));
         va_end(__arguments_list);
-        _r = cls->deinit();
+        _r = cls->_deinit();
         return 0;
     }
     return -1;
 }
-inline ::reflect::meta<func> &invoke__deinit__0__1(const func *c, uint64_t value, ::reflect::branch_string &tag)
+inline ::reflect::meta<func> &invoke___deinit__0__1(const func *c, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x2928746e69 == value) // int()
     {
         if (!tag)
         {
-            return g_func_func[e__func__deinit__2];
+            return g_func_func[e__func___deinit__2];
         }
         return g_default_meta;
     }
     return g_default_meta;
 }
-::reflect::meta<func>& invoke__func__deinit(const func *c, const std::string &bra)
+::reflect::meta<func>& invoke__func___deinit(const func *c, const std::string &bra)
 {
     ::reflect::branch_string tag(bra);
     if (tag)
@@ -236,15 +236,15 @@ inline ::reflect::meta<func> &invoke__deinit__0__1(const func *c, uint64_t value
         auto index = _value % count;        
         goto *__meta_label[index];
     label_0:
-        return invoke__deinit__0__0(c, _value, tag);
+        return invoke___deinit__0__0(c, _value, tag);
     label_1:
-        return invoke__deinit__0__1(c, _value, tag);
+        return invoke___deinit__0__1(c, _value, tag);
     label_2:
         return g_default_meta;
     }
     return g_default_meta;
 }
-int invoke__func__done__4(const func *c, const reflect::Arguments* argu, ...)
+int invoke__func___done__4(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
     if (cls && argu->m_count == 0)
@@ -252,34 +252,34 @@ int invoke__func__done__4(const func *c, const reflect::Arguments* argu, ...)
         va_list __arguments_list;
         va_start(__arguments_list, argu);
         va_end(__arguments_list);
-        cls->done();
+        cls->_done();
         return 0;
     }
     return -1;
 }
-inline ::reflect::meta<func> &invoke__done__0__3(const func *c, uint64_t value, ::reflect::branch_string &tag)
+inline ::reflect::meta<func> &invoke___done__0__3(const func *c, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x2928 == value) // ()
     {
         if (!tag)
         {
-            return g_func_func[e__func__done__4];
+            return g_func_func[e__func___done__4];
         }
         return g_default_meta;
     }
     return g_default_meta;
 }
-::reflect::meta<func>& invoke__func__done(const func *c, const std::string &bra)
+::reflect::meta<func>& invoke__func___done(const func *c, const std::string &bra)
 {
     ::reflect::branch_string tag(bra);
     if (tag)
     {
         auto _value = tag();
-        return invoke__done__0__3(c, _value, tag);
+        return invoke___done__0__3(c, _value, tag);
     }
     return g_default_meta;
 }
-int invoke__func__init__1(const func *c, const reflect::Arguments* argu, ...)
+int invoke__func___init__1(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
     if (cls && argu->m_count == 0)
@@ -287,24 +287,24 @@ int invoke__func__init__1(const func *c, const reflect::Arguments* argu, ...)
         va_list __arguments_list;
         va_start(__arguments_list, argu);
         va_end(__arguments_list);
-        cls->init();
+        cls->_init();
         return 0;
     }
     return -1;
 }
-inline ::reflect::meta<func> &invoke__init__0__4(const func *c, uint64_t value, ::reflect::branch_string &tag)
+inline ::reflect::meta<func> &invoke___init__0__4(const func *c, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x2928 == value) // ()
     {
         if (!tag)
         {
-            return g_func_func[e__func__init__1];
+            return g_func_func[e__func___init__1];
         }
         return g_default_meta;
     }
     return g_default_meta;
 }
-int invoke__func__init__0(const func *c, const reflect::Arguments* argu, ...)
+int invoke__func___init__0(const func *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (func *)(c); 
     if (cls && argu->m_count == 1)
@@ -313,24 +313,24 @@ int invoke__func__init__0(const func *c, const reflect::Arguments* argu, ...)
         va_start(__arguments_list, argu);
         auto& _r = *(va_arg(__arguments_list, int *));
         va_end(__arguments_list);
-        _r = cls->init();
+        _r = cls->_init();
         return 0;
     }
     return -1;
 }
-inline ::reflect::meta<func> &invoke__init__0__5(const func *c, uint64_t value, ::reflect::branch_string &tag)
+inline ::reflect::meta<func> &invoke___init__0__5(const func *c, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x2928746e69 == value) // int()
     {
         if (!tag)
         {
-            return g_func_func[e__func__init__0];
+            return g_func_func[e__func___init__0];
         }
         return g_default_meta;
     }
     return g_default_meta;
 }
-::reflect::meta<func>& invoke__func__init(const func *c, const std::string &bra)
+::reflect::meta<func>& invoke__func___init(const func *c, const std::string &bra)
 {
     ::reflect::branch_string tag(bra);
     if (tag)
@@ -345,9 +345,9 @@ inline ::reflect::meta<func> &invoke__init__0__5(const func *c, uint64_t value, 
         auto index = _value % count;        
         goto *__meta_label[index];
     label_4:
-        return invoke__init__0__4(c, _value, tag);
+        return invoke___init__0__4(c, _value, tag);
     label_5:
-        return invoke__init__0__5(c, _value, tag);
+        return invoke___init__0__5(c, _value, tag);
     label_6:
         return g_default_meta;
     }
@@ -374,15 +374,15 @@ namespace __details__
         auto value = tag();
         auto index = value % count;        
         goto *__meta_label[index];
-    label__0__3:
-        return rfl__0__3(cls, value, tag);
-    label__0__4:
-        return rfl__0__4(cls, value, tag);
+    label__0__0:
+        return rfl__0__0(cls, value, tag);
+    label__0__2:
+        return rfl__0__2(cls, value, tag);
     label__0__6:
         return rfl__0__6(cls, value, tag);
-    label__0__0:
     label__0__1:
-    label__0__2:
+    label__0__3:
+    label__0__4:
     label__0__5:
         return g_default_meta;
     }
@@ -476,3 +476,4 @@ const std::string &get_name(const func *cls, uint32_t field)
 {
     return g_func;
 }
+
