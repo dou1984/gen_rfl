@@ -76,7 +76,7 @@ namespace reflect
         float as_float() { return as_number<float>(); }
         double as_double() { return as_number<double>(); }
         template <class T>
-        T *as() { return (T *)m_data; }
+        T *as_() { return (T *)m_data; }
 
     private:
         void *m_data = nullptr;
@@ -109,7 +109,7 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_type_unfundametal,
+                &&label_unfundametal,
             };
             assert(m_flags < e_reflect_end);
             goto *__meta__[m_flags];
@@ -136,7 +136,7 @@ namespace reflect
         label_nullptr:
         label_cstr:
         label_string:
-        label_type_unfundametal:
+        label_unfundametal:
             return 0;
         }
         template <class T>
@@ -156,7 +156,7 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_type_unfundametal,
+                &&label_unfundametal,
             };
             assert(m_flags < e_reflect_end);
             goto *__meta__[m_flags];
@@ -184,7 +184,7 @@ namespace reflect
             return __to<T, const char *>();
         label_string:
             return __to<T, std::string>();
-        label_type_unfundametal:
+        label_unfundametal:
         label_nullptr:
             return T{};
         }

@@ -64,7 +64,7 @@ namespace reflect
                 &&label_double,
                 &&label_cstr,
                 &&label_string,
-                &&label_type_unfundametal,
+                &&label_unfundametal,
             };
             assert(_flag < e_reflect_end);
             goto *__meta__[_flag];
@@ -117,7 +117,7 @@ namespace reflect
             r = __set__(field, _flag, str);
             break;
         }
-        label_type_unfundametal:
+        label_unfundametal:
         {
             std::decay_t<decltype(field)> *t = nullptr;
             auto _type = va_arg(__arguments__, const std::string *);
