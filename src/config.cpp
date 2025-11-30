@@ -28,8 +28,8 @@
 namespace reflect
 {
 
-    static std::set<std::string> all_fundamental = {
-        "bool",    
+    static std::set<std::string> all_fundamentals = {
+        "bool",
         "char",
         "signed char",
         "unsigned char",
@@ -48,8 +48,7 @@ namespace reflect
     };
     auto __init_base_types = []()
     {
-        
-        for (auto &t : all_fundamental)
+        for (auto &t : all_fundamentals)
         {
             insert_base_types(t);
         }
