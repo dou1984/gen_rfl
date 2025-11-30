@@ -78,22 +78,6 @@ namespace reflect
         return _branch_vec;
     }
 
-    std::shared_ptr<analyzer::info_t> branch_info::first_variant() const
-    {
-        assert(equil_variant(m_variants.begin()->second->m_raw_variant));
-        return m_variants.begin()->second;
-    }
-    bool branch_info::equil_variant(const std::string &variant) const
-    {
-        for (auto &_variant : m_variants)
-        {
-            if (_variant.second->m_raw_variant != variant)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
     void branch_info::builder(uint32_t layer)
     {
         m_branch_child = branch_builder(layer, m_analyzer_child);

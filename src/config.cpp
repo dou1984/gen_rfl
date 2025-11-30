@@ -27,6 +27,34 @@
 
 namespace reflect
 {
+
+    static std::set<std::string> all_fundamental = {
+        "bool",    
+        "char",
+        "signed char",
+        "unsigned char",
+        "short",
+        "unsigned short",
+        "int",
+        "unsigned int",
+        "long",
+        "unsigned long",
+        "long long",
+        "unsigned long long",
+        "float",
+        "double",
+        "long double",
+        "std::string",
+    };
+    auto __init_base_types = []()
+    {
+        
+        for (auto &t : all_fundamental)
+        {
+            insert_base_types(t);
+        }
+        return 0;
+    }();
     Conf &get_config()
     {
         static Conf conf;
@@ -155,6 +183,19 @@ namespace reflect
         }
 
         return 0;
+    }
+    void insert_base_types(const std::string &type)
+    {
+        if (type.find("const ") == 0)
+        {
+            get_config().base_types.emplace(type);
+            get_config().base_types.emplace(type.substr(strlen("const ")));
+        }
+        else
+        {
+            get_config().base_types.emplace(type);
+            get_config().base_types.emplace(std::string("const ") + type);
+        }
     }
 
 }

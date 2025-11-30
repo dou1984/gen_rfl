@@ -32,12 +32,18 @@
 #include <unordered_set>
 #include <gen_rfl/value.h>
 
+const std::string &get_type(bool *);
+const std::string &get_type(char *);
 const std::string &get_type(char * *);
+const std::string &get_type(const bool *);
+const std::string &get_type(const char *);
 const std::string &get_type(const char * *);
 const std::string &get_type(const double *);
 const std::string &get_type(const float *);
 const std::string &get_type(const int *);
 const std::string &get_type(const long *);
+const std::string &get_type(const long double *);
+const std::string &get_type(const long long *);
 const std::string &get_type(const short *);
 const std::string &get_type(const signed char *);
 const std::string &get_type(const std::map<int, int> *);
@@ -46,11 +52,14 @@ const std::string &get_type(const std::vector<int> *);
 const std::string &get_type(const unsigned char *);
 const std::string &get_type(const unsigned int *);
 const std::string &get_type(const unsigned long *);
+const std::string &get_type(const unsigned long long *);
 const std::string &get_type(const unsigned short *);
 const std::string &get_type(double *);
 const std::string &get_type(float *);
 const std::string &get_type(int *);
 const std::string &get_type(long *);
+const std::string &get_type(long double *);
+const std::string &get_type(long long *);
 const std::string &get_type(short *);
 const std::string &get_type(signed char *);
 const std::string &get_type(std::map<int, int> *);
@@ -59,6 +68,7 @@ const std::string &get_type(std::vector<int> *);
 const std::string &get_type(unsigned char *);
 const std::string &get_type(unsigned int *);
 const std::string &get_type(unsigned long *);
+const std::string &get_type(unsigned long long *);
 const std::string &get_type(unsigned short *);
 ::reflect::Value get_field_value(std::map<int, int> *cls, uint32_t field);
 ::reflect::Value get_field_value(std::vector<int> *cls, uint32_t field);

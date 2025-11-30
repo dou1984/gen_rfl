@@ -99,7 +99,8 @@ static reflect::meta<common> g_common_meta[] = {
 reflect::Value __get_value(const common* cls, const std::string& _tag)
 {
     return reflect::Value(nullptr, reflect::e_nullptr);
-}inline ::reflect::meta<common> &rfl__0__0(const common *cls, uint64_t value, ::reflect::branch_string &tag)
+}
+inline ::reflect::meta<common> &rfl__0__0(const common *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x333030303030306f == value) // o0000003
     {
@@ -110,7 +111,8 @@ reflect::Value __get_value(const common* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
-}inline ::reflect::meta<common> &rfl__0__2(const common *cls, uint64_t value, ::reflect::branch_string &tag)
+}
+inline ::reflect::meta<common> &rfl__0__2(const common *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x303030303030306f == value) // o0000000
     {
@@ -121,7 +123,8 @@ reflect::Value __get_value(const common* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
-}inline ::reflect::meta<common> &rfl__0__3(const common *cls, uint64_t value, ::reflect::branch_string &tag)
+}
+inline ::reflect::meta<common> &rfl__0__3(const common *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x313030303030306f == value) // o0000001
     {
@@ -132,7 +135,8 @@ reflect::Value __get_value(const common* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
-}inline ::reflect::meta<common> &rfl__0__4(const common *cls, uint64_t value, ::reflect::branch_string &tag)
+}
+inline ::reflect::meta<common> &rfl__0__4(const common *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x323030303030306f == value) // o0000002
     {
@@ -143,7 +147,8 @@ reflect::Value __get_value(const common* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
-}const uint64_t get_fields_count(const common *cls)
+}
+const uint64_t get_fields_count(const common *cls)
 {
     return countof(g_common_meta);
 }
@@ -173,8 +178,8 @@ namespace __details__
     label__0__1:
         return g_default_meta;
     }
-    ::reflect::meta<common>& get_meta(const common *cls, ::reflect::branch_string &tag, const std::string &args_tag)
-    {        
+    ::reflect::meta<common> &get_meta(const common *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag)
+    {
         auto &_meta = __details__::get_meta(cls, tag);
         if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
         {
@@ -185,7 +190,7 @@ namespace __details__
             }
         }
         return g_default_meta;
-    }    
+    }
 }
 ::reflect::Value get_value(const common *cls, const std::string &_tag)
 {

@@ -24,6 +24,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <algorithm>
 #include "reflect.h"
 #include "arguments.h"
 #include "config.h"
@@ -32,6 +33,45 @@
 
 namespace reflect
 {
+    static std::set<std::string_view> all_stl = {
+        "std::vector",
+        "std::list",
+        "std::map",
+        "std::unordered_map",
+        "std::deque",
+        "std::array",
+    };
+   
+    static std::string __join_l(const std::list<std::string> &l)
+    {
+        if (l.size() > 1)
+        {
+            std::ostringstream oss;
+            for (auto &s : l)
+            {
+                oss << "\"" << s << "\", ";
+            }
+            std::string result = oss.str();
+            return result.substr(0, result.size() - 2);
+        }
+        else if (l.size() == 1)
+        {
+            std::ostringstream oss;
+            oss << "\"" << l.front() << "\"";
+            return oss.str();
+        }
+        return "";
+    }
+    static std::string __join_l(const std::string &r, const std::list<std::string> &l)
+    {
+        std::ostringstream oss;
+        oss << "\"" << r << "@\"";
+        if (l.size() > 0)
+        {
+            oss << ", " << __join_l(l);
+        }
+        return oss.str();
+    }
     int to_hex(uint64_t value, char *buf, int size)
     {
         return snprintf(buf, size, "0x%lx", value);
@@ -353,10 +393,7 @@ namespace reflect
                         }
                         auto complete = block->AddSectionDictionary("complete");
                         complete->SetValue("variant", _detail->m_raw_variant);
-                        if (__contains__(_detail->m_flags, flag_argument))
-                        {
-                            complete->SetValue("__field", __field(_detail->m_field));
-                        }
+                        
                     }
                 }
             }
@@ -391,34 +428,41 @@ namespace reflect
         _invoke.SetIntValue("layer", layer);
         _invoke.SetIntValue("index", index);
 
-        if (bra.child().size() > 1)
+        std::map<size_t, std::list<std::shared_ptr<analyzer::info_t>>> unique_value;
+        for (auto &_bra : bra.child())
         {
-            auto _invoke_multi = _invoke.AddSectionDictionary("invoke_bg_1");
-            for (auto &_bra : bra.child())
+            for (auto &info : _bra)
             {
-                auto labels = _invoke_multi->AddSectionDictionary("labels");
-                // labels->SetIntValue("next_layer", _bra.m_layer);
-                labels->SetIntValue("next_index", _bra.m_index);
-                if (_bra.empty())
+                for (auto &it : info.second.m_variants)
                 {
-                    auto labels_eq_0 = _invoke_multi->AddSectionDictionary("labels_eq_0");
-                    labels_eq_0->SetIntValue("next_layer", _bra.m_layer);
-                    labels_eq_0->SetIntValue("next_index", _bra.m_index);
-                }
-                else
-                {
-                    auto labels_bg_0 = _invoke_multi->AddSectionDictionary("labels_bg_0");
-                    labels_bg_0->SetIntValue("next_layer", _bra.m_layer);
-                    labels_bg_0->SetIntValue("next_index", _bra.m_index);
+                    auto _variant = it.second;
+                    if (__contains__(_variant->m_flags, flag_argument))
+                    {
+                        auto arguments_count = _variant->m_input.size();
+                        arguments_count += _variant->m_output.empty() ? 0 : 1;
+                        unique_value[arguments_count].push_back(_variant);
+                    }
                 }
             }
         }
-        else if (bra.child().size() == 1)
+        for (auto &it : unique_value)
         {
-            auto _invoke_one = _invoke.AddSectionDictionary("invoke_eq_1");
-            auto &child = bra.child()[0];
-            _invoke_one->SetIntValue("next_layer", child.m_layer);
-            _invoke_one->SetIntValue("next_index", child.m_index);
+            auto block = _invoke.AddSectionDictionary("block");
+            block->SetIntValue("arguments_count", it.first);
+            for (auto &_variant : it.second)
+            {
+                auto arguments_check = block->AddSectionDictionary("arguments_check");
+                if (_variant->m_output.empty())
+                {
+                    arguments_check->SetValue("arguments", __join_l(_variant->m_input));
+                }
+                else
+                {
+                    arguments_check->SetValue("arguments", __join_l(_variant->m_output, _variant->m_input));
+                }
+                arguments_check->SetValue("variant", _variant->m_raw_variant);
+                arguments_check->SetValue("__field", __field(_variant->m_field));
+            }
         }
         std::string tpl_key = "invoke.tpl";
         std::string _output;
@@ -430,10 +474,8 @@ namespace reflect
 
     int format_tpl::to_invoke_field(const branch_info &bra)
     {
-
         for (auto &_bra : bra.m_variants)
         {
-
             ctemplate::TemplateDictionary _invoke_field("invoke_field");
             _invoke_field.SetValue("class", get_config().m_class);
             _invoke_field.SetValue("variant", _bra.second->m_raw_variant);
@@ -472,71 +514,25 @@ namespace reflect
 
         return 0;
     }
-
     int format_tpl::to_invoke_layer(const std::string &variant, const branch_map &bra)
     {
-
-        ctemplate::TemplateDictionary _invoke("invoke_layer");
-        _invoke.SetValue("class", get_config().m_class);
-        _invoke.SetValue("variant", variant);
-        _invoke.SetIntValue("layer", bra.m_layer);
-        _invoke.SetIntValue("index", bra.m_index);
-
         if (!bra.empty())
         {
             for (auto &_bra : bra)
             {
-                auto block = _invoke.AddSectionDictionary("block");
-                char buf[64];
-                to_hex(_bra.first, buf, sizeof(buf));
-                block->SetValue("value", buf);
-                to_comment(_bra.first, buf, sizeof(buf));
-                block->SetValue("comment", buf);
-
                 if (_bra.second.m_branch_child.empty())
                 {
                     to_invoke_field(_bra.second);
-
-                    auto info = _bra.second.first_variant();
-                    auto complete = block->AddSectionDictionary("complete");
-                    complete->SetValue("variant", info->m_raw_variant);
-
-                    if (__contains__(info->m_flags, flag_argument))
-                    {
-                        complete->SetValue("__field", __field(info->m_field));
-                    }
                 }
                 else
                 {
-
                     for (auto &child : _bra.second.m_branch_child)
                     {
                         to_invoke_layer(variant, child);
                     }
-
-                    if (_bra.second.m_branch_child.size() > 1)
-                    {
-                        auto incomplete_bg_1 = block->AddSectionDictionary("incomplete_bg_1");
-                        for (auto &child : _bra.second.m_branch_child)
-                        {
-                            auto labels = incomplete_bg_1->AddSectionDictionary("labels");
-                            labels->SetIntValue("next_layer", child.m_layer);
-                            labels->SetIntValue("next_index", child.m_index);
-                        }
-                    }
-                    else if (_bra.second.m_branch_child.size() == 1)
-                    {
-                        auto incomplete_eq_1 = block->AddSectionDictionary("incomplete_eq_1");
-                        incomplete_eq_1->SetIntValue("next_layer", _bra.second.m_branch_child[0].m_layer);
-                        incomplete_eq_1->SetIntValue("next_index", _bra.second.m_branch_child[0].m_index);
-                    }
                 }
             }
         }
-        std::string tpl_key = "invoke_layer.tpl";
-        std::string _output;
-        expand(tpl_key, _invoke, _output);
-        m_output_source.emplace_back(std::move(_output));
         return 0;
     }
     int format_tpl::to_rfl(branch_info &bra, std::map<std::string, branch_info> &bra_func)
@@ -588,14 +584,7 @@ namespace reflect
         write_file(path, _output);
         return 0;
     }
-    static std::set<std::string_view> all_stl = {
-        "std::vector",
-        "std::list",
-        "std::map",
-        "std::unordered_map",
-        "std::deque",
-        "std::array",
-    };
+
     int format_tpl::to_base_types(const std::string &name, const std::string &tpl_key, const std::string &file_name)
     {
         auto &conf = get_config();
@@ -642,5 +631,4 @@ namespace reflect
     {
         return to_base_types("base_types_source", "base_types_source.tpl", "base_types.cpp");
     }
-
 }

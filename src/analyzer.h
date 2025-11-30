@@ -82,6 +82,7 @@ namespace reflect
         void __push_back_view(const std::string &variant, const info_t &detail);
 
         std::shared_ptr<config_t> m_config;
+        // std::multimap<std::string, std::shared_ptr<info_t>> m_data;
         std::map<std::string, std::shared_ptr<info_t>> m_data;
     };
 }

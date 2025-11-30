@@ -34,7 +34,7 @@ struct config;
 namespace __details__
 {
     ::reflect::meta<config> &get_meta(const config *cls, ::reflect::branch_string& tag);    
-    ::reflect::meta<config> &get_meta(const config *cls, ::reflect::branch_string& tag, const std::string& func_args);
+    ::reflect::meta<config> &get_meta(const config *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag);
 }
 ::reflect::Value get_value(const config *cls, const char *tag);
 ::reflect::Value get_value(const config *cls, const std::string &tag);

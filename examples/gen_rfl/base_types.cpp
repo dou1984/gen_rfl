@@ -22,9 +22,29 @@
 #include "base_types.h"
 
 
+const std::string &get_type(bool *)
+{
+    static const std::string _ = "bool";
+    return _;
+}
+const std::string &get_type(char *)
+{
+    static const std::string _ = "char";
+    return _;
+}
 const std::string &get_type(char * *)
 {
     static const std::string _ = "char *";
+    return _;
+}
+const std::string &get_type(const bool *)
+{
+    static const std::string _ = "const bool";
+    return _;
+}
+const std::string &get_type(const char *)
+{
+    static const std::string _ = "const char";
     return _;
 }
 const std::string &get_type(const char * *)
@@ -50,6 +70,16 @@ const std::string &get_type(const int *)
 const std::string &get_type(const long *)
 {
     static const std::string _ = "const long";
+    return _;
+}
+const std::string &get_type(const long double *)
+{
+    static const std::string _ = "const long double";
+    return _;
+}
+const std::string &get_type(const long long *)
+{
+    static const std::string _ = "const long long";
     return _;
 }
 const std::string &get_type(const short *)
@@ -92,6 +122,11 @@ const std::string &get_type(const unsigned long *)
     static const std::string _ = "const unsigned long";
     return _;
 }
+const std::string &get_type(const unsigned long long *)
+{
+    static const std::string _ = "const unsigned long long";
+    return _;
+}
 const std::string &get_type(const unsigned short *)
 {
     static const std::string _ = "const unsigned short";
@@ -115,6 +150,16 @@ const std::string &get_type(int *)
 const std::string &get_type(long *)
 {
     static const std::string _ = "long";
+    return _;
+}
+const std::string &get_type(long double *)
+{
+    static const std::string _ = "long double";
+    return _;
+}
+const std::string &get_type(long long *)
+{
+    static const std::string _ = "long long";
     return _;
 }
 const std::string &get_type(short *)
@@ -155,6 +200,11 @@ const std::string &get_type(unsigned int *)
 const std::string &get_type(unsigned long *)
 {
     static const std::string _ = "unsigned long";
+    return _;
+}
+const std::string &get_type(unsigned long long *)
+{
+    static const std::string _ = "unsigned long long";
     return _;
 }
 const std::string &get_type(unsigned short *)

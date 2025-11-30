@@ -59,7 +59,7 @@ static reflect::meta<{{class}}> g_{{class}}_func[] =
     },{{/invoke_fields}}
 };
 {{#invoke_func}}
-reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::string &tag);{{/invoke_func}}
+reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<std::string> &tag);{{/invoke_func}}
 static reflect::meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
 {
     .m_variant = "{{variant}}",{{#not}}{{#is_member}}{{#is_field}}

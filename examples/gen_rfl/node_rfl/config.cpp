@@ -97,7 +97,8 @@ static reflect::meta<config> g_config_meta[] = {
 reflect::Value __get_value(const config* cls, const std::string& _tag)
 {
     return reflect::Value(nullptr, reflect::e_nullptr);
-}inline ::reflect::meta<config> &rfl__0__0(const config *cls, uint64_t value, ::reflect::branch_string &tag)
+}
+inline ::reflect::meta<config> &rfl__0__0(const config *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x316f == value) // o1
     {
@@ -108,7 +109,8 @@ reflect::Value __get_value(const config* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
-}inline ::reflect::meta<config> &rfl__0__1(const config *cls, uint64_t value, ::reflect::branch_string &tag)
+}
+inline ::reflect::meta<config> &rfl__0__1(const config *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x326f == value) // o2
     {
@@ -119,7 +121,8 @@ reflect::Value __get_value(const config* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
-}inline ::reflect::meta<config> &rfl__0__2(const config *cls, uint64_t value, ::reflect::branch_string &tag)
+}
+inline ::reflect::meta<config> &rfl__0__2(const config *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x336f == value) // o3
     {
@@ -130,7 +133,8 @@ reflect::Value __get_value(const config* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
-}inline ::reflect::meta<config> &rfl__0__4(const config *cls, uint64_t value, ::reflect::branch_string &tag)
+}
+inline ::reflect::meta<config> &rfl__0__4(const config *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x306f == value) // o0
     {
@@ -141,7 +145,8 @@ reflect::Value __get_value(const config* cls, const std::string& _tag)
         return g_default_meta;
     }
     return g_default_meta;
-}const uint64_t get_fields_count(const config *cls)
+}
+const uint64_t get_fields_count(const config *cls)
 {
     return countof(g_config_meta);
 }
@@ -171,8 +176,8 @@ namespace __details__
     label__0__3:
         return g_default_meta;
     }
-    ::reflect::meta<config>& get_meta(const config *cls, ::reflect::branch_string &tag, const std::string &args_tag)
-    {        
+    ::reflect::meta<config> &get_meta(const config *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag)
+    {
         auto &_meta = __details__::get_meta(cls, tag);
         if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
         {
@@ -183,7 +188,7 @@ namespace __details__
             }
         }
         return g_default_meta;
-    }    
+    }
 }
 ::reflect::Value get_value(const config *cls, const std::string &_tag)
 {

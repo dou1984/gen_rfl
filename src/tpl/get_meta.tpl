@@ -20,8 +20,8 @@ namespace __details__
         auto value = tag();
         return rfl__{{layer}}__{{index}}(cls, value, tag);{{/meta_eq_1}}
     }
-    ::reflect::meta<{{class}}>& get_meta(const {{class}} *cls, ::reflect::branch_string &tag, const std::string &args_tag)
-    {        
+    ::reflect::meta<{{class}}> &get_meta(const {{class}} *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag)
+    {
         auto &_meta = __details__::get_meta(cls, tag);
         if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
         {
@@ -32,7 +32,7 @@ namespace __details__
             }
         }
         return g_default_meta;
-    }    
+    }
 }
 ::reflect::Value get_value(const {{class}} *cls, const std::string &_tag)
 {

@@ -65,4 +65,5 @@ namespace reflect
 
     int write_default_to_yaml(const std::string &json_file);
 
+    void insert_base_types(const std::string &type);
 }

@@ -94,20 +94,6 @@ namespace reflect
         return {FieldType, UnqualifiedType};
     }
 
-    void insert_base_types(const std::string &type)
-    {
-        if (type.find("const ") == 0)
-        {
-            ::reflect::get_config().base_types.emplace(type);
-            ::reflect::get_config().base_types.emplace(type.substr(strlen("const ")));
-        }
-        else
-        {
-            ::reflect::get_config().base_types.emplace(type);
-            ::reflect::get_config().base_types.emplace(std::string("const ") + type);
-        }
-    }
-
     bool HasConst(const std::string &type)
     {
         constexpr char _const[] = "const ";
@@ -391,18 +377,20 @@ namespace reflect
                 auto flag_virtual_ = Method->isVirtual() ? flag_virtual : flag_member;
 
                 std::list<std::string> _input;
-                auto i = 0;
-                uint32_t _t_flags = 0;
+                // auto i = 0;
+                // uint32_t _t_flags = 0;
                 auto parameters = Method->parameters();
                 for (auto &Param : parameters)
                 {
                     auto [FieldType, UnqualifiedType] = get_type_name(Param);
                     auto _field_type = FieldType.getAsString();
                     _input.push_back(RemoveExtents(_field_type));
-                    if (HasConst(_field_type))
-                    {
-                        _t_flags |= __flag(i++);
-                    }
+                    // if (HasConst(_field_type))
+                    // {
+                    //     _t_flags |= __flag(i++);
+                    // }
+                    // auto _unqualified_type = UnqualifiedType.getAsString();
+                    // insert_base_types(RemoveExtents(_unqualified_type));
                 }
 
                 {
@@ -413,7 +401,7 @@ namespace reflect
                     }
                     else
                     {
-                        auto _tmp_type = _output + std::string("(") + join(_input, ",") + std::string(")");
+                        auto _tmp_type = _output + std::string("@") + join(_input, ",");
                         auto detail = std::make_shared<analyzer::info_t>();
                         detail->m_variant = _tmp_type;
                         detail->m_raw_variant = MethodName;
@@ -421,12 +409,12 @@ namespace reflect
                         detail->m_input = _input;
                         detail->m_output = _output;
                         detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument);
-                        detail->m_t_flags = _t_flags;
+                        // detail->m_t_flags = _t_flags;
 
                         bra_func[MethodName].ana().init(ana_config_func).push_back(_tmp_type, detail);
                     }
                     {
-                        auto _tmp_type = std::string("(") + join(_input, ",") + std::string(")");
+                        auto _tmp_type = std::string("@") + join(_input, ",");
                         auto detail = std::make_shared<analyzer::info_t>();
                         detail->m_variant = _tmp_type;
                         detail->m_raw_variant = MethodName;
@@ -434,7 +422,7 @@ namespace reflect
                         detail->m_input = _input;
                         detail->m_output = "";
                         detail->m_flags = __flags(get_access(Method->getAccess()), flag_const_, flag_virtual_, flag_argument);
-                        detail->m_t_flags = _t_flags;
+                        // detail->m_t_flags = _t_flags;
 
                         bra_func[MethodName].ana().init(ana_config_func).push_back(_tmp_type, detail);
                     }

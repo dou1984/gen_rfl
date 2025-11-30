@@ -22,43 +22,24 @@
 #pragma once
 #include <bitset>
 #include <cstring>
+#include <list>
 #include "reflect.h"
 
 namespace reflect
 {
     struct Arguments
     {
-        uint32_t m_count = 0;
-
-        std::string m_arguments;
-
-        template <class T>
-        void __set(uint32_t i)
-        {
-            if constexpr (!std::is_const<T>::value)
-            {
-            }
-        }
+        std::list<std::string> m_arguments;
     };
     struct BArguments : Arguments
     {
         BArguments()
         {
-            m_count = 0;
-            m_arguments += "(";
-            m_arguments += ")";
         }
         template <class... T>
         BArguments(T &&...t)
         {
-            m_count = 0;
-            m_arguments += "(";
-            if (sizeof...(t) > 0)
-            {
-                (__set<T>(m_count++), ...);
-                m_arguments += ::reflect::__join(get_type(std::addressof(t))...);
-            }
-            m_arguments += ")";
+            (m_arguments.push_back(get_type(std::addressof(t))), ...);
         }
     };
     struct RArguments : Arguments
@@ -66,22 +47,13 @@ namespace reflect
         template <class R, class... T>
         RArguments(R &&r, T &&...t)
         {
-            m_count = 0;
-            m_arguments += get_type(std::addressof(r));
-            m_arguments += "(";
-            (__set<T>(m_count++), ...);
-            m_arguments += ::reflect::__join(get_type(std::addressof(t))...);
-            m_arguments += ")";
-            m_count++;
+            m_arguments.push_back(get_type(std::addressof(r)) + std::string("@"));
+            (m_arguments.push_back(get_type(std::addressof(t))), ...);
         }
         template <class R>
         RArguments(R &&r)
         {
-            m_count = 0;
-            m_arguments += get_type(std::addressof(r));
-            m_arguments += "(";
-            m_arguments += ")";
-            m_count++;
+            m_arguments.push_back(get_type(std::addressof(r)) + std::string("@"));
         }
     };
 }

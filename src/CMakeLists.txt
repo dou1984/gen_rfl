@@ -111,7 +111,6 @@ install(
     tpl/rfl.tpl
     tpl/invoke.tpl
     tpl/invoke_field.tpl
-    tpl/invoke_layer.tpl
     tpl/base_types_source.tpl
     tpl/base_types.tpl
     DESTINATION include/gen_rfl/tpl

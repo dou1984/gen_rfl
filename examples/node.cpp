@@ -72,6 +72,10 @@ int node::lllllllllllllllllllllllllll6(std::string &lh, std::string &rh)
     rh = "world";
     return 301;
 }
+int node::lllllllllllllllllllllllllll6(std::string &)
+{
+    return 302;
+}
 int func::_init()
 {
     return 0;

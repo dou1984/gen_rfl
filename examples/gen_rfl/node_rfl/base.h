@@ -34,7 +34,7 @@ struct base;
 namespace __details__
 {
     ::reflect::meta<base> &get_meta(const base *cls, ::reflect::branch_string& tag);    
-    ::reflect::meta<base> &get_meta(const base *cls, ::reflect::branch_string& tag, const std::string& func_args);
+    ::reflect::meta<base> &get_meta(const base *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag);
 }
 ::reflect::Value get_value(const base *cls, const char *tag);
 ::reflect::Value get_value(const base *cls, const std::string &tag);

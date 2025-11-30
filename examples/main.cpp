@@ -135,6 +135,8 @@ int invoke_node()
     s = invoke_r(&n, "lllllllllllllllllllllllllll6", r, c0, c1);
     assert(r == 301);
 
+    s = invoke_r(&n, "lllllllllllllllllllllllllll6", r, c0);
+    assert(r == 302);
     return 0;
 }
 
@@ -144,7 +146,7 @@ int invoke_node2()
 
     const char *ptr = "hello";
     int i = 1;
-    long j = 1;
+    long long j = 1;
     auto s = invoke(&n, "init", i, j, ptr);
 
     int i0 = 10;

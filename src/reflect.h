@@ -30,6 +30,7 @@
 #include <type_traits>
 #include <utility>
 #include <iostream>
+#include <list>
 
 namespace reflect
 {
@@ -62,16 +63,12 @@ namespace reflect
         }
         return result;
     }
-    template <typename S>
-    std::string __join(S &&s)
+    template <class T>
+    std::string __join(T &&t)
     {
-        return s;
+        return t;
     }
-    template <typename S>
-    std::string __join()
-    {
-        return "";
-    }
+
     enum FLAG_REFLECT
     {
         flag_member,
@@ -121,7 +118,7 @@ namespace reflect
     {
         using meta_getter_t = void *(*)(const T *);
         using meta_setter_t = int (*)(T *, unsigned int, ...);
-        using meta_invoke_t = meta &(*)(const T *, const std::string &);
+        using meta_invoke_t = meta &(*)(const T *, const std::list<std::string> &);
         using meta_func_t = int (*)(const T *, const Arguments *, ...);
         const std::string m_variant;
         const std::string m_type;
@@ -176,5 +173,4 @@ namespace reflect
         }
         return e_unfundamental;
     }
-
 }

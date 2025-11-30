@@ -46,14 +46,13 @@ namespace reflect
         uint32_t m_layer = 0;
         uint32_t m_index = 0;
         uint32_t m_field = 0;
+        // std::multimap<std::string, std::shared_ptr<analyzer::info_t>> m_variants;
         std::map<std::string, std::shared_ptr<analyzer::info_t>> m_variants;
-        
+
         // children
         analyzer m_analyzer_child;
         branch_vec m_branch_child;
 
-        std::shared_ptr<analyzer::info_t> first_variant() const;
-        bool equil_variant(const std::string &variant) const;
         void builder(uint32_t layer);
 
         analyzer &ana() { return m_analyzer_child; }
