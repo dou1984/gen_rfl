@@ -45,8 +45,7 @@ namespace reflect
     {
         uint32_t m_layer = 0;
         uint32_t m_index = 0;
-        uint32_t m_field = 0;
-        // std::multimap<std::string, std::shared_ptr<analyzer::info_t>> m_variants;
+        uint32_t m_field = 0;        
         std::map<std::string, std::shared_ptr<analyzer::info_t>> m_variants;
 
         // children

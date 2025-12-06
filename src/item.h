@@ -19,37 +19,27 @@
 // SOFTWARE.
 //
 
+
 #pragma once
-#include <string>
-#include <map>
+#include <bitset>
+#include <cstring>
+#include <list>
+#include "reflect_def.h"
 
 namespace reflect
 {
-
-    struct SourceInfo
+    struct Item
     {
-        std::string m_file;
-        std::string m_relative_file;
-        std::string m_class;
-        std::string m_raw_class;
-        std::string m_namespace;
-
-        void clear()
+        std::string m_type;
+        uint32_t m_flags;
+        Item(const std::string &type, uint32_t flags)
+            : m_type(type), m_flags(flags)
         {
-            m_file.clear();
-            m_relative_file.clear();
-            m_raw_class.clear();
-            m_class.clear();
-            m_namespace.clear();
+        }
+        bool operator==(const Item &o) const
+        {
+            return (m_flags == o.m_flags) && (m_flags < e_reflect_end) || m_type == o.m_type;
         }
     };
 
-    struct SourceFiles
-    {
-        std::map<std::string, SourceInfo> m_data;
-        void set(SourceInfo &&_info)
-        {
-            m_data.emplace(_info.m_file + "/" + _info.m_class, std::move(_info));
-        }
-    };
 }

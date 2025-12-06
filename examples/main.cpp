@@ -117,8 +117,8 @@ int invoke_node()
     node n;
     std::string method = "init";
     const char *hello = "hello world";
-    auto s = invoke_r(&n, method, ret, 1, hello);
-    s = invoke_r(&n, method, ret, 2, hello);
+    auto s = invoke2(&n, method, ret, 1, hello);
+    s = invoke2(&n, method, ret, 2, hello);
     s = invoke(&n, method, 3, hello);
 
     func f;
@@ -127,15 +127,15 @@ int invoke_node()
     std::string l0 = "l0";
     std::string l1 = "l1";
     int r = 0;
-    s = invoke_r(&n, "lllllllllllllllllllllllllll5", r, l0, l1);
+    s = invoke2(&n, "lllllllllllllllllllllllllll5", r, l0, l1);
     assert(r == 200);
 
     std::string c0;
     std::string c1;
-    s = invoke_r(&n, "lllllllllllllllllllllllllll6", r, c0, c1);
+    s = invoke2(&n, "lllllllllllllllllllllllllll6", r, c0, c1);
     assert(r == 301);
 
-    s = invoke_r(&n, "lllllllllllllllllllllllllll6", r, c0);
+    s = invoke2(&n, "lllllllllllllllllllllllllll6", r, c0);
     assert(r == 302);
     return 0;
 }
@@ -148,12 +148,16 @@ int invoke_node2()
     int i = 1;
     long long j = 1;
     auto s = invoke(&n, "init", i, j, ptr);
+    assert(s == 0);
 
-    int i0 = 10;
-    int i1 = 20;
-    int r0 = 0;
+    long i0 = 10;
+    long i1 = 20;
+    long r0 = 0;
 
-    invoke(get_value(&n, "base").as_<base>(), "add", i0, i1);
+    // invoke2(static_cast<base *>(&n), "add", r0, i0, i1);
+    invoke2(&n, "add", r0, i0, i1);
+
+    assert(r0 == 30);
 
     return 0;
 }

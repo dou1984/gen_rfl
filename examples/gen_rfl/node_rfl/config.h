@@ -34,7 +34,8 @@ struct config;
 namespace __details__
 {
     ::reflect::meta<config> &get_meta(const config *cls, ::reflect::branch_string& tag);    
-    ::reflect::meta<config> &get_meta(const config *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag);
+    ::reflect::meta<config> &get_func(const config *cls, ::reflect::branch_string& tag, const std::list<::reflect::Item>& args_tag);
+    int get_base_func(const config *cls, const std::string& tag, const ::reflect::Arguments *_, ...);
 }
 ::reflect::Value get_value(const config *cls, const char *tag);
 ::reflect::Value get_value(const config *cls, const std::string &tag);
@@ -42,6 +43,8 @@ namespace __details__
 const std::string &get_type(const config *cls, const std::string &tag);
 const std::string &get_type(const config *cls, const char *tag);
 const std::string &get_type(const config *cls);
+const std::string &get_typeid(const config *cls, const std::string &tag);
+const std::string &get_typeid(const config *cls);
 const std::string &get_field_type(const config *cls, uint32_t field);
 uint64_t get_field(const config *cls, const std::string &tag);
 uint64_t get_field(const config *cls, const char *tag);
@@ -58,14 +61,24 @@ int set_value(config *cls, const std::string &_tag, T &&value)
 template <class... R>
 int invoke(config *cls, const std::string &_tag, R &&...args)
 {
-    static reflect::BArguments _(std::forward<R>(args)...);
+    static ::reflect::IArguments _(std::forward<R>(args)...);
     ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag, _.m_arguments).m_func(cls, std::addressof(_), std::addressof(args)...);
+    auto &_invoke = __details__::get_func(cls, tag, _.m_arguments);
+    if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+    {
+        return _invoke.m_func(cls, std::addressof(_), std::addressof(args)...);
+    }
+    return __details__::get_base_func(cls, _tag, std::addressof(_), std::addressof(args)...);
 }
 template <class Ret, class... R>
-int invoke_r(config *cls, const std::string &_tag, Ret&& ret, R &&...args)
+int invoke2(config *cls, const std::string &_tag, Ret&& ret, R &&...args)
 {
-    static reflect::RArguments _(std::forward<Ret>(ret), std::forward<R>(args)...);
+    static ::reflect::OArguments _(std::forward<Ret>(ret), std::forward<R>(args)...);
     ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag, _.m_arguments).m_func(cls, std::addressof(_), std::addressof(ret), std::addressof(args)...);
+    auto &_invoke = __details__::get_func(cls, tag, _.m_arguments);
+    if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+    {
+         return _invoke.m_func(cls, std::addressof(_), std::addressof(ret), std::addressof(args)...);
+    }
+    return __details__::get_base_func(cls, _tag, std::addressof(_), std::addressof(ret), std::addressof(args)...);
 }

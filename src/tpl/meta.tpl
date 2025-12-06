@@ -8,6 +8,7 @@
 #include "{{header}}"
 #include <gen_rfl/setter.h>
 #include <gen_rfl/arguments.h>
+#include <gen_rfl/item.h>
 
 {{#namesp}}
 namespace {{namespace}}
@@ -45,7 +46,8 @@ static reflect::meta<{{class}}> g_{{class}} = {
     .m_setter = set_value_invalid,
 };
 {{#invoke_fields}}
-int invoke__{{class}}__{{variant}}{{__field}}(const {{class}}* c, const reflect::Arguments *, ...);{{/invoke_fields}}
+int invoke__{{class}}__{{variant}}{{__field}}(const {{class}}* c, const reflect::Arguments *, ...);
+int invoke__{{class}}__{{variant}}{{__field}}_v({{class}}* c, const reflect::Arguments *, va_list);{{/invoke_fields}}
 static reflect::meta<{{class}}> g_{{class}}_func[] = 
 {{{#invoke_fields}}
     {
@@ -54,12 +56,12 @@ static reflect::meta<{{class}}> g_{{class}}_func[] =
         .m_flags = {{flags}},
         .m_t_flags = 0,
         .m_field = e__{{class}}__{{variant}}{{__field}}, // {{field}}{{#invoke_field}}
-        .m_func = invoke__{{class}}__{{variant}}{{__field}},{{/invoke_field}}
-        .m_setter = set_value_invalid,
+        .m_func = invoke__{{class}}__{{variant}}{{__field}},
+        .m_func_v = invoke__{{class}}__{{variant}}{{__field}}_v,{{/invoke_field}}        
     },{{/invoke_fields}}
 };
 {{#invoke_func}}
-reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<std::string> &tag);{{/invoke_func}}
+reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<::reflect::Item> &tag);{{/invoke_func}}
 static reflect::meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
 {
     .m_variant = "{{variant}}",{{#not}}{{#is_member}}{{#is_field}}
@@ -112,3 +114,4 @@ reflect::Value __get_value(const {{class}}* cls, const std::string& _tag)
     }{{/is_base}}
     return reflect::Value(nullptr, reflect::e_nullptr);
 }
+

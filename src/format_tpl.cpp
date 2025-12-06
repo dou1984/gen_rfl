@@ -41,7 +41,7 @@ namespace reflect
         "std::deque",
         "std::array",
     };
-   
+
     static std::string __join_l(const std::list<std::string> &l)
     {
         if (l.size() > 1)
@@ -49,7 +49,7 @@ namespace reflect
             std::ostringstream oss;
             for (auto &s : l)
             {
-                oss << "\"" << s << "\", ";
+                oss << "{ \"" << s << "\", ::reflect::flag_type<" << s << ">() }, ";
             }
             std::string result = oss.str();
             return result.substr(0, result.size() - 2);
@@ -57,7 +57,7 @@ namespace reflect
         else if (l.size() == 1)
         {
             std::ostringstream oss;
-            oss << "\"" << l.front() << "\"";
+            oss << "{ \"" << l.front() << "\", ::reflect::flag_type<" << l.front() << ">() }";
             return oss.str();
         }
         return "";
@@ -65,7 +65,7 @@ namespace reflect
     static std::string __join_l(const std::string &r, const std::list<std::string> &l)
     {
         std::ostringstream oss;
-        oss << "\"" << r << "@\"";
+        oss << "{ \"" << r << "@\", ::reflect::flag_type<" << r << ">() }";
         if (l.size() > 0)
         {
             oss << ", " << __join_l(l);
@@ -167,6 +167,7 @@ namespace reflect
             auto _namespace = _header.AddSectionDictionary("namesp");
             _namespace->SetValue("namespace", get_config().m_namespace);
         }
+
         std::string tpl_key = "header.tpl";
         expand(tpl_key, _header, m_output_header);
         return 0;
@@ -308,6 +309,15 @@ namespace reflect
             auto _namespace = _get_meta.AddSectionDictionary("namesp");
             _namespace->SetValue("namespace", get_config().m_namespace);
         }
+        for (auto &it : bra.ana().get_data())
+        {
+            auto field = it.second;
+            if (__contains__(field->m_flags, flag_class, flag_struct))
+            {
+                auto _is_base = _get_meta.AddSectionDictionary("is_base");
+                _is_base->SetValue("variant", field->m_variant);
+            }
+        }
         std::string tpl_key = "get_meta.tpl";
         std::string _output;
         expand(tpl_key, _get_meta, _output);
@@ -393,7 +403,6 @@ namespace reflect
                         }
                         auto complete = block->AddSectionDictionary("complete");
                         complete->SetValue("variant", _detail->m_raw_variant);
-                        
                     }
                 }
             }
@@ -413,9 +422,13 @@ namespace reflect
         {
             if (!_bra.empty())
             {
-                to_invoke_layer(variant, _bra);
+                for (auto &info : _bra)
+                {
+                    to_invoke_field(info.second);
+                }
             }
         }
+
         to_invoke(0, 0, variant, bra);
         return 0;
     }
@@ -428,6 +441,7 @@ namespace reflect
         _invoke.SetIntValue("layer", layer);
         _invoke.SetIntValue("index", index);
 
+        size_t max_arguments_count = 0;
         std::map<size_t, std::list<std::shared_ptr<analyzer::info_t>>> unique_value;
         for (auto &_bra : bra.child())
         {
@@ -441,29 +455,35 @@ namespace reflect
                         auto arguments_count = _variant->m_input.size();
                         arguments_count += _variant->m_output.empty() ? 0 : 1;
                         unique_value[arguments_count].push_back(_variant);
+                        max_arguments_count = std::max(max_arguments_count, arguments_count);
                     }
                 }
             }
         }
-        for (auto &it : unique_value)
+        _invoke.SetIntValue("max_arguments_count", max_arguments_count);
+        for (auto i = 0; i <= max_arguments_count; ++i)
         {
             auto block = _invoke.AddSectionDictionary("block");
-            block->SetIntValue("arguments_count", it.first);
-            for (auto &_variant : it.second)
+            block->SetIntValue("arguments_count", i);
+            if (auto it = unique_value.find(i); it != unique_value.end())
             {
-                auto arguments_check = block->AddSectionDictionary("arguments_check");
-                if (_variant->m_output.empty())
+                for (auto &_variant : it->second)
                 {
-                    arguments_check->SetValue("arguments", __join_l(_variant->m_input));
+                    auto arguments_check = block->AddSectionDictionary("arguments_check");
+                    if (_variant->m_output.empty())
+                    {
+                        arguments_check->SetValue("arguments", __join_l(_variant->m_input));
+                    }
+                    else
+                    {
+                        arguments_check->SetValue("arguments", __join_l(_variant->m_output, _variant->m_input));
+                    }
+                    arguments_check->SetValue("variant", _variant->m_raw_variant);
+                    arguments_check->SetValue("__field", __field(_variant->m_field));
                 }
-                else
-                {
-                    arguments_check->SetValue("arguments", __join_l(_variant->m_output, _variant->m_input));
-                }
-                arguments_check->SetValue("variant", _variant->m_raw_variant);
-                arguments_check->SetValue("__field", __field(_variant->m_field));
             }
         }
+
         std::string tpl_key = "invoke.tpl";
         std::string _output;
         expand(tpl_key, _invoke, _output);

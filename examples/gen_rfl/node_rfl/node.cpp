@@ -10,6 +10,7 @@
 #include "../../node.h"
 #include <gen_rfl/setter.h>
 #include <gen_rfl/arguments.h>
+#include <gen_rfl/item.h>
 
 
 enum node_meta_enum
@@ -106,29 +107,53 @@ static reflect::meta<node> g_node = {
 };
 
 int invoke__node__deinit__7(const node* c, const reflect::Arguments *, ...);
+int invoke__node__deinit__7_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__deinit__6(const node* c, const reflect::Arguments *, ...);
+int invoke__node__deinit__6_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__init__5(const node* c, const reflect::Arguments *, ...);
+int invoke__node__init__5_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__init__3(const node* c, const reflect::Arguments *, ...);
+int invoke__node__init__3_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__init__1(const node* c, const reflect::Arguments *, ...);
+int invoke__node__init__1_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__init__4(const node* c, const reflect::Arguments *, ...);
+int invoke__node__init__4_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__init__2(const node* c, const reflect::Arguments *, ...);
+int invoke__node__init__2_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__init__0(const node* c, const reflect::Arguments *, ...);
+int invoke__node__init__0_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll0__9(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll0__9_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll0__8(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll0__8_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll1__11(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll1__11_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll1__10(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll1__10_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll2__13(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll2__13_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll2__12(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll2__12_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll3__15(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll3__15_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll3__14(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll3__14_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll4__17(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll4__17_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll4__16(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll4__16_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll5__19(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll5__19_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll5__18(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll5__18_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll6__23(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll6__23_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll6__21(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll6__21_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll6__22(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll6__22_v(node* c, const reflect::Arguments *, va_list);
 int invoke__node__lllllllllllllllllllllllllll6__20(const node* c, const reflect::Arguments *, ...);
+int invoke__node__lllllllllllllllllllllllllll6__20_v(node* c, const reflect::Arguments *, va_list);
 static reflect::meta<node> g_node_func[] = 
 {
     {
@@ -138,7 +163,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__deinit__7, // 7
         .m_func = invoke__node__deinit__7,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__deinit__7_v,        
     },
     {
         .m_variant = "deinit",
@@ -147,7 +172,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__deinit__6, // 6
         .m_func = invoke__node__deinit__6,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__deinit__6_v,        
     },
     {
         .m_variant = "init",
@@ -156,7 +181,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__init__5, // 5
         .m_func = invoke__node__init__5,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__init__5_v,        
     },
     {
         .m_variant = "init",
@@ -165,7 +190,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__init__3, // 3
         .m_func = invoke__node__init__3,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__init__3_v,        
     },
     {
         .m_variant = "init",
@@ -174,7 +199,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__init__1, // 1
         .m_func = invoke__node__init__1,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__init__1_v,        
     },
     {
         .m_variant = "init",
@@ -183,7 +208,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__init__4, // 4
         .m_func = invoke__node__init__4,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__init__4_v,        
     },
     {
         .m_variant = "init",
@@ -192,7 +217,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__init__2, // 2
         .m_func = invoke__node__init__2,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__init__2_v,        
     },
     {
         .m_variant = "init",
@@ -201,7 +226,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__init__0, // 0
         .m_func = invoke__node__init__0,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__init__0_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll0",
@@ -210,7 +235,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll0__9, // 9
         .m_func = invoke__node__lllllllllllllllllllllllllll0__9,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll0__9_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll0",
@@ -219,7 +244,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll0__8, // 8
         .m_func = invoke__node__lllllllllllllllllllllllllll0__8,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll0__8_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll1",
@@ -228,7 +253,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll1__11, // 11
         .m_func = invoke__node__lllllllllllllllllllllllllll1__11,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll1__11_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll1",
@@ -237,7 +262,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll1__10, // 10
         .m_func = invoke__node__lllllllllllllllllllllllllll1__10,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll1__10_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll2",
@@ -246,7 +271,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll2__13, // 13
         .m_func = invoke__node__lllllllllllllllllllllllllll2__13,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll2__13_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll2",
@@ -255,7 +280,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll2__12, // 12
         .m_func = invoke__node__lllllllllllllllllllllllllll2__12,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll2__12_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll3",
@@ -264,7 +289,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll3__15, // 15
         .m_func = invoke__node__lllllllllllllllllllllllllll3__15,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll3__15_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll3",
@@ -273,7 +298,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll3__14, // 14
         .m_func = invoke__node__lllllllllllllllllllllllllll3__14,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll3__14_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll4",
@@ -282,7 +307,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll4__17, // 17
         .m_func = invoke__node__lllllllllllllllllllllllllll4__17,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll4__17_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll4",
@@ -291,7 +316,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll4__16, // 16
         .m_func = invoke__node__lllllllllllllllllllllllllll4__16,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll4__16_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll5",
@@ -300,7 +325,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll5__19, // 19
         .m_func = invoke__node__lllllllllllllllllllllllllll5__19,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll5__19_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll5",
@@ -309,7 +334,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll5__18, // 18
         .m_func = invoke__node__lllllllllllllllllllllllllll5__18,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll5__18_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll6",
@@ -318,7 +343,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll6__23, // 23
         .m_func = invoke__node__lllllllllllllllllllllllllll6__23,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll6__23_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll6",
@@ -327,7 +352,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll6__21, // 21
         .m_func = invoke__node__lllllllllllllllllllllllllll6__21,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll6__21_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll6",
@@ -336,7 +361,7 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll6__22, // 22
         .m_func = invoke__node__lllllllllllllllllllllllllll6__22,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll6__22_v,        
     },
     {
         .m_variant = "lllllllllllllllllllllllllll6",
@@ -345,19 +370,19 @@ static reflect::meta<node> g_node_func[] =
         .m_t_flags = 0,
         .m_field = e__node__lllllllllllllllllllllllllll6__20, // 20
         .m_func = invoke__node__lllllllllllllllllllllllllll6__20,
-        .m_setter = set_value_invalid,
+        .m_func_v = invoke__node__lllllllllllllllllllllllllll6__20_v,        
     },
 };
 
-reflect::meta<node>& invoke__node__deinit(const node *c, const std::list<std::string> &tag);
-reflect::meta<node>& invoke__node__init(const node *c, const std::list<std::string> &tag);
-reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::list<std::string> &tag);
-reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::list<std::string> &tag);
-reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::list<std::string> &tag);
-reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::list<std::string> &tag);
-reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::list<std::string> &tag);
-reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::list<std::string> &tag);
-reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll6(const node *c, const std::list<std::string> &tag);
+reflect::meta<node>& invoke__node__deinit(const node *c, const std::list<::reflect::Item> &tag);
+reflect::meta<node>& invoke__node__init(const node *c, const std::list<::reflect::Item> &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::list<::reflect::Item> &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::list<::reflect::Item> &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::list<::reflect::Item> &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::list<::reflect::Item> &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::list<::reflect::Item> &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::list<::reflect::Item> &tag);
+reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll6(const node *c, const std::list<::reflect::Item> &tag);
 static reflect::meta<node> g_node_meta[] = {
 {
     .m_variant = "base",
@@ -788,6 +813,7 @@ reflect::Value __get_value(const node* cls, const std::string& _tag)
     }
     return reflect::Value(nullptr, reflect::e_nullptr);
 }
+
 inline ::reflect::meta<node> &rfl__0__1(const node *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x74696e69 == value) // init
@@ -1464,6 +1490,11 @@ inline ::reflect::meta<node> &rfl__0__24(const node *cls, uint64_t value, ::refl
     }
     return g_default_meta;
 }
+int invoke__node__deinit__7_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    cls->deinit();
+    return 0;
+}
 int invoke__node__deinit__7(const node *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (node *)(c); 
@@ -1471,11 +1502,17 @@ int invoke__node__deinit__7(const node *c, const reflect::Arguments* argu, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        cls->deinit();
+        invoke__node__deinit__7_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__deinit__6_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    _r = cls->deinit();
+    return 0;
 }
 int invoke__node__deinit__6(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1484,38 +1521,50 @@ int invoke__node__deinit__6(const node *c, const reflect::Arguments* argu, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        _r = cls->deinit();
+        invoke__node__deinit__6_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__deinit(const node *c, const std::list<std::string> &bra)
-{
-    if (bra.size() == 0)
+::reflect::meta<node>& invoke__node__deinit(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 1) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+        };
+        goto *__meta_label[l];    
+    label__0:
+    {
+        static std::list<::reflect::Item> l = {  };
+        if (bra == l)
         {
-            static std::list<std::string> l = {  };
-            if (bra == l)
-            {
-                return g_node_func[e__node__deinit__7];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__deinit__7];
+        }        
     }
-    if (bra.size() == 1)
+        return g_default_meta;    
+    label__1:
     {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__deinit__6];
-            }
-        }
+            return g_node_func[e__node__deinit__6];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
+}
+int invoke__node__init__1_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, int *));
+    auto& _a_1 = *(va_arg(__arguments_list, long long *));
+    auto& _a_2 = *(va_arg(__arguments_list, char * *));
+    cls->init(_a_0, _a_1, _a_2);
+    return 0;
 }
 int invoke__node__init__1(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1524,14 +1573,16 @@ int invoke__node__init__1(const node *c, const reflect::Arguments* argu, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, int *));
-        auto& _a_1 = *(va_arg(__arguments_list, long long *));
-        auto& _a_2 = *(va_arg(__arguments_list, char * *));
-        cls->init(_a_0, _a_1, _a_2);
+        invoke__node__init__1_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__init__5_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    cls->init();
+    return 0;
 }
 int invoke__node__init__5(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1540,11 +1591,19 @@ int invoke__node__init__5(const node *c, const reflect::Arguments* argu, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        cls->init();
+        invoke__node__init__5_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__init__3_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, double *));
+    auto& _a_1 = *(va_arg(__arguments_list, double *));
+    auto& _a_2 = *(va_arg(__arguments_list, char * *));
+    cls->init(_a_0, _a_1, _a_2);
+    return 0;
 }
 int invoke__node__init__3(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1553,14 +1612,20 @@ int invoke__node__init__3(const node *c, const reflect::Arguments* argu, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, double *));
-        auto& _a_1 = *(va_arg(__arguments_list, double *));
-        auto& _a_2 = *(va_arg(__arguments_list, char * *));
-        cls->init(_a_0, _a_1, _a_2);
+        invoke__node__init__3_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__init__0_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, int *));
+    auto& _a_1 = *(va_arg(__arguments_list, long long *));
+    auto& _a_2 = *(va_arg(__arguments_list, char * *));
+    _r = cls->init(_a_0, _a_1, _a_2);
+    return 0;
 }
 int invoke__node__init__0(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1569,15 +1634,20 @@ int invoke__node__init__0(const node *c, const reflect::Arguments* argu, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, int *));
-        auto& _a_1 = *(va_arg(__arguments_list, long long *));
-        auto& _a_2 = *(va_arg(__arguments_list, char * *));
-        _r = cls->init(_a_0, _a_1, _a_2);
+        invoke__node__init__0_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__init__2_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, double *));
+    auto& _a_1 = *(va_arg(__arguments_list, double *));
+    auto& _a_2 = *(va_arg(__arguments_list, char * *));
+    _r = cls->init(_a_0, _a_1, _a_2);
+    return 0;
 }
 int invoke__node__init__2(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1586,15 +1656,17 @@ int invoke__node__init__2(const node *c, const reflect::Arguments* argu, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, double *));
-        auto& _a_1 = *(va_arg(__arguments_list, double *));
-        auto& _a_2 = *(va_arg(__arguments_list, char * *));
-        _r = cls->init(_a_0, _a_1, _a_2);
+        invoke__node__init__2_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__init__4_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    _r = cls->init();
+    return 0;
 }
 int invoke__node__init__4(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1603,74 +1675,86 @@ int invoke__node__init__4(const node *c, const reflect::Arguments* argu, ...)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        _r = cls->init();
+        invoke__node__init__4_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__init(const node *c, const std::list<std::string> &bra)
-{
-    if (bra.size() == 0)
+::reflect::meta<node>& invoke__node__init(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 4) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+            &&label__2,
+            &&label__3,
+            &&label__4,
+        };
+        goto *__meta_label[l];    
+    label__0:
+    {
+        static std::list<::reflect::Item> l = {  };
+        if (bra == l)
         {
-            static std::list<std::string> l = {  };
-            if (bra == l)
-            {
-                return g_node_func[e__node__init__5];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__init__5];
+        }        
     }
-    if (bra.size() == 1)
+        return g_default_meta;    
+    label__1:
     {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__init__4];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__init__4];
+        }        
     }
-    if (bra.size() == 3)
+        return g_default_meta;    
+    label__2:
+        return g_default_meta;    
+    label__3:
     {
+        static std::list<::reflect::Item> l = { { "int", ::reflect::flag_type<int>() }, { "long long", ::reflect::flag_type<long long>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int", "long long", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__init__1];
-            }
-        }
-        {
-            static std::list<std::string> l = { "float", "double", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__init__3];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__init__1];
+        }        
     }
-    if (bra.size() == 4)
     {
+        static std::list<::reflect::Item> l = { { "float", ::reflect::flag_type<float>() }, { "double", ::reflect::flag_type<double>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "int", "long long", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__init__0];
-            }
-        }
+            return g_node_func[e__node__init__3];
+        }        
+    }
+        return g_default_meta;    
+    label__4:
+    {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "int", ::reflect::flag_type<int>() }, { "long long", ::reflect::flag_type<long long>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "float", "double", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__init__2];
-            }
-        }
+            return g_node_func[e__node__init__0];
+        }        
+    }
+    {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "float", ::reflect::flag_type<float>() }, { "double", ::reflect::flag_type<double>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
+        {
+            return g_node_func[e__node__init__2];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
+}
+int invoke__node__lllllllllllllllllllllllllll0__9_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    cls->lllllllllllllllllllllllllll0(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll0__9(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1679,13 +1763,19 @@ int invoke__node__lllllllllllllllllllllllllll0__9(const node *c, const reflect::
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        cls->lllllllllllllllllllllllllll0(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll0__9_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__lllllllllllllllllllllllllll0__8_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    _r = cls->lllllllllllllllllllllllllll0(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll0__8(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1694,40 +1784,55 @@ int invoke__node__lllllllllllllllllllllllllll0__8(const node *c, const reflect::
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        _r = cls->lllllllllllllllllllllllllll0(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll0__8_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::list<std::string> &bra)
-{
-    if (bra.size() == 2)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 3) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+            &&label__2,
+            &&label__3,
+        };
+        goto *__meta_label[l];    
+    label__0:
+        return g_default_meta;    
+    label__1:
+        return g_default_meta;    
+    label__2:
+    {
+        static std::list<::reflect::Item> l = { { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll0__9];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__lllllllllllllllllllllllllll0__9];
+        }        
     }
-    if (bra.size() == 3)
+        return g_default_meta;    
+    label__3:
     {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll0__8];
-            }
-        }
+            return g_node_func[e__node__lllllllllllllllllllllllllll0__8];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
+}
+int invoke__node__lllllllllllllllllllllllllll1__11_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    cls->lllllllllllllllllllllllllll1(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll1__11(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1736,13 +1841,19 @@ int invoke__node__lllllllllllllllllllllllllll1__11(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        cls->lllllllllllllllllllllllllll1(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll1__11_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__lllllllllllllllllllllllllll1__10_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    _r = cls->lllllllllllllllllllllllllll1(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll1__10(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1751,40 +1862,55 @@ int invoke__node__lllllllllllllllllllllllllll1__10(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        _r = cls->lllllllllllllllllllllllllll1(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll1__10_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::list<std::string> &bra)
-{
-    if (bra.size() == 2)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 3) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+            &&label__2,
+            &&label__3,
+        };
+        goto *__meta_label[l];    
+    label__0:
+        return g_default_meta;    
+    label__1:
+        return g_default_meta;    
+    label__2:
+    {
+        static std::list<::reflect::Item> l = { { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll1__11];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__lllllllllllllllllllllllllll1__11];
+        }        
     }
-    if (bra.size() == 3)
+        return g_default_meta;    
+    label__3:
     {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll1__10];
-            }
-        }
+            return g_node_func[e__node__lllllllllllllllllllllllllll1__10];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
+}
+int invoke__node__lllllllllllllllllllllllllll2__13_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    cls->lllllllllllllllllllllllllll2(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll2__13(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1793,13 +1919,19 @@ int invoke__node__lllllllllllllllllllllllllll2__13(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        cls->lllllllllllllllllllllllllll2(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll2__13_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__lllllllllllllllllllllllllll2__12_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    _r = cls->lllllllllllllllllllllllllll2(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll2__12(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1808,40 +1940,55 @@ int invoke__node__lllllllllllllllllllllllllll2__12(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        _r = cls->lllllllllllllllllllllllllll2(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll2__12_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::list<std::string> &bra)
-{
-    if (bra.size() == 2)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 3) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+            &&label__2,
+            &&label__3,
+        };
+        goto *__meta_label[l];    
+    label__0:
+        return g_default_meta;    
+    label__1:
+        return g_default_meta;    
+    label__2:
+    {
+        static std::list<::reflect::Item> l = { { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll2__13];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__lllllllllllllllllllllllllll2__13];
+        }        
     }
-    if (bra.size() == 3)
+        return g_default_meta;    
+    label__3:
     {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll2__12];
-            }
-        }
+            return g_node_func[e__node__lllllllllllllllllllllllllll2__12];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
+}
+int invoke__node__lllllllllllllllllllllllllll3__15_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    cls->lllllllllllllllllllllllllll3(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll3__15(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1850,13 +1997,19 @@ int invoke__node__lllllllllllllllllllllllllll3__15(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        cls->lllllllllllllllllllllllllll3(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll3__15_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__lllllllllllllllllllllllllll3__14_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    _r = cls->lllllllllllllllllllllllllll3(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll3__14(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1865,40 +2018,55 @@ int invoke__node__lllllllllllllllllllllllllll3__14(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        _r = cls->lllllllllllllllllllllllllll3(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll3__14_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::list<std::string> &bra)
-{
-    if (bra.size() == 2)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 3) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+            &&label__2,
+            &&label__3,
+        };
+        goto *__meta_label[l];    
+    label__0:
+        return g_default_meta;    
+    label__1:
+        return g_default_meta;    
+    label__2:
+    {
+        static std::list<::reflect::Item> l = { { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll3__15];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__lllllllllllllllllllllllllll3__15];
+        }        
     }
-    if (bra.size() == 3)
+        return g_default_meta;    
+    label__3:
     {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll3__14];
-            }
-        }
+            return g_node_func[e__node__lllllllllllllllllllllllllll3__14];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
+}
+int invoke__node__lllllllllllllllllllllllllll4__17_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    cls->lllllllllllllllllllllllllll4(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll4__17(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1907,13 +2075,19 @@ int invoke__node__lllllllllllllllllllllllllll4__17(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        cls->lllllllllllllllllllllllllll4(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll4__17_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__lllllllllllllllllllllllllll4__16_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, char * *));
+    auto& _a_1 = *(va_arg(__arguments_list, char * *));
+    _r = cls->lllllllllllllllllllllllllll4(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll4__16(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1922,40 +2096,55 @@ int invoke__node__lllllllllllllllllllllllllll4__16(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, char * *));
-        auto& _a_1 = *(va_arg(__arguments_list, char * *));
-        _r = cls->lllllllllllllllllllllllllll4(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll4__16_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::list<std::string> &bra)
-{
-    if (bra.size() == 2)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 3) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+            &&label__2,
+            &&label__3,
+        };
+        goto *__meta_label[l];    
+    label__0:
+        return g_default_meta;    
+    label__1:
+        return g_default_meta;    
+    label__2:
+    {
+        static std::list<::reflect::Item> l = { { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll4__17];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__lllllllllllllllllllllllllll4__17];
+        }        
     }
-    if (bra.size() == 3)
+        return g_default_meta;    
+    label__3:
     {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "char *", ::reflect::flag_type<char *>() }, { "char *", ::reflect::flag_type<char *>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "char *", "char *" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll4__16];
-            }
-        }
+            return g_node_func[e__node__lllllllllllllllllllllllllll4__16];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
+}
+int invoke__node__lllllllllllllllllllllllllll5__19_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+    auto& _a_1 = *(va_arg(__arguments_list, std::string *));
+    cls->lllllllllllllllllllllllllll5(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll5__19(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1964,13 +2153,19 @@ int invoke__node__lllllllllllllllllllllllllll5__19(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
-        auto& _a_1 = *(va_arg(__arguments_list, std::string *));
-        cls->lllllllllllllllllllllllllll5(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll5__19_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__lllllllllllllllllllllllllll5__18_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+    auto& _a_1 = *(va_arg(__arguments_list, std::string *));
+    _r = cls->lllllllllllllllllllllllllll5(_a_0, _a_1);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll5__18(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -1979,55 +2174,54 @@ int invoke__node__lllllllllllllllllllllllllll5__18(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
-        auto& _a_1 = *(va_arg(__arguments_list, std::string *));
-        _r = cls->lllllllllllllllllllllllllll5(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll5__18_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::list<std::string> &bra)
-{
-    if (bra.size() == 2)
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 3) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+            &&label__2,
+            &&label__3,
+        };
+        goto *__meta_label[l];    
+    label__0:
+        return g_default_meta;    
+    label__1:
+        return g_default_meta;    
+    label__2:
+    {
+        static std::list<::reflect::Item> l = { { "std::string", ::reflect::flag_type<std::string>() }, { "std::string", ::reflect::flag_type<std::string>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "std::string", "std::string" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll5__19];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__lllllllllllllllllllllllllll5__19];
+        }        
     }
-    if (bra.size() == 3)
+        return g_default_meta;    
+    label__3:
     {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "std::string", ::reflect::flag_type<std::string>() }, { "std::string", ::reflect::flag_type<std::string>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "std::string", "std::string" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll5__18];
-            }
-        }
+            return g_node_func[e__node__lllllllllllllllllllllllllll5__18];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
 }
-int invoke__node__lllllllllllllllllllllllllll6__21(const node *c, const reflect::Arguments* argu, ...)
+int invoke__node__lllllllllllllllllllllllllll6__23_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
 {
-    auto *cls = (node *)(c); 
-    if (cls && argu->m_arguments.size() == 2)
-    {
-        va_list __arguments_list;
-        va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
-        auto& _a_1 = *(va_arg(__arguments_list, std::string *));
-        cls->lllllllllllllllllllllllllll6(_a_0, _a_1);
-        va_end(__arguments_list);
-        return 0;
-    }
-    return -1;
+    auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+    cls->lllllllllllllllllllllllllll6(_a_0);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll6__23(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -2036,28 +2230,38 @@ int invoke__node__lllllllllllllllllllllllllll6__23(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
-        cls->lllllllllllllllllllllllllll6(_a_0);
+        invoke__node__lllllllllllllllllllllllllll6__23_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-int invoke__node__lllllllllllllllllllllllllll6__20(const node *c, const reflect::Arguments* argu, ...)
+int invoke__node__lllllllllllllllllllllllllll6__21_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+    auto& _a_1 = *(va_arg(__arguments_list, std::string *));
+    cls->lllllllllllllllllllllllllll6(_a_0, _a_1);
+    return 0;
+}
+int invoke__node__lllllllllllllllllllllllllll6__21(const node *c, const reflect::Arguments* argu, ...)
 {
     auto *cls = (node *)(c); 
-    if (cls && argu->m_arguments.size() == 3)
+    if (cls && argu->m_arguments.size() == 2)
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
-        auto& _a_1 = *(va_arg(__arguments_list, std::string *));
-        _r = cls->lllllllllllllllllllllllllll6(_a_0, _a_1);
+        invoke__node__lllllllllllllllllllllllllll6__21_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
+}
+int invoke__node__lllllllllllllllllllllllllll6__22_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
+{
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+    _r = cls->lllllllllllllllllllllllllll6(_a_0);
+    return 0;
 }
 int invoke__node__lllllllllllllllllllllllllll6__22(const node *c, const reflect::Arguments* argu, ...)
 {
@@ -2066,54 +2270,80 @@ int invoke__node__lllllllllllllllllllllllllll6__22(const node *c, const reflect:
     {
         va_list __arguments_list;
         va_start(__arguments_list, argu);
-        auto& _r = *(va_arg(__arguments_list, int *));
-        auto& _a_0 = *(va_arg(__arguments_list, std::string *));
-        _r = cls->lllllllllllllllllllllllllll6(_a_0);
+        invoke__node__lllllllllllllllllllllllllll6__22_v(cls, argu, __arguments_list);
         va_end(__arguments_list);
         return 0;
     }
     return -1;
 }
-::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll6(const node *c, const std::list<std::string> &bra)
+int invoke__node__lllllllllllllllllllllllllll6__20_v(node *cls, const reflect::Arguments* argu, va_list __arguments_list)
 {
-    if (bra.size() == 1)
+    auto& _r = *(va_arg(__arguments_list, int *));
+    auto& _a_0 = *(va_arg(__arguments_list, std::string *));
+    auto& _a_1 = *(va_arg(__arguments_list, std::string *));
+    _r = cls->lllllllllllllllllllllllllll6(_a_0, _a_1);
+    return 0;
+}
+int invoke__node__lllllllllllllllllllllllllll6__20(const node *c, const reflect::Arguments* argu, ...)
+{
+    auto *cls = (node *)(c); 
+    if (cls && argu->m_arguments.size() == 3)
     {
-        {
-            static std::list<std::string> l = { "std::string" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll6__23];
-            }
-        }
-        return g_default_meta;
+        va_list __arguments_list;
+        va_start(__arguments_list, argu);
+        invoke__node__lllllllllllllllllllllllllll6__20_v(cls, argu, __arguments_list);
+        va_end(__arguments_list);
+        return 0;
     }
-    if (bra.size() == 2)
+    return -1;
+}
+::reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll6(const node *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= 3) 
     {
+        constexpr void *__meta_label[] = {
+            &&label__0,
+            &&label__1,
+            &&label__2,
+            &&label__3,
+        };
+        goto *__meta_label[l];    
+    label__0:
+        return g_default_meta;    
+    label__1:
+    {
+        static std::list<::reflect::Item> l = { { "std::string", ::reflect::flag_type<std::string>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "std::string", "std::string" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll6__21];
-            }
-        }
-        {
-            static std::list<std::string> l = { "int@", "std::string" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll6__22];
-            }
-        }
-        return g_default_meta;
+            return g_node_func[e__node__lllllllllllllllllllllllllll6__23];
+        }        
     }
-    if (bra.size() == 3)
+        return g_default_meta;    
+    label__2:
     {
+        static std::list<::reflect::Item> l = { { "std::string", ::reflect::flag_type<std::string>() }, { "std::string", ::reflect::flag_type<std::string>() } };
+        if (bra == l)
         {
-            static std::list<std::string> l = { "int@", "std::string", "std::string" };
-            if (bra == l)
-            {
-                return g_node_func[e__node__lllllllllllllllllllllllllll6__20];
-            }
-        }
+            return g_node_func[e__node__lllllllllllllllllllllllllll6__21];
+        }        
+    }
+    {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "std::string", ::reflect::flag_type<std::string>() } };
+        if (bra == l)
+        {
+            return g_node_func[e__node__lllllllllllllllllllllllllll6__22];
+        }        
+    }
+        return g_default_meta;    
+    label__3:
+    {
+        static std::list<::reflect::Item> l = { { "int@", ::reflect::flag_type<int>() }, { "std::string", ::reflect::flag_type<std::string>() }, { "std::string", ::reflect::flag_type<std::string>() } };
+        if (bra == l)
+        {
+            return g_node_func[e__node__lllllllllllllllllllllllllll6__20];
+        }        
+    }
         return g_default_meta;
     }
     return g_default_meta;
@@ -2124,7 +2354,7 @@ const uint64_t get_fields_count(const node *cls)
 }
 namespace __details__
 {    
-    ::reflect::meta<node>& get_meta(const node *cls, ::reflect::branch_string &tag)
+    ::reflect::meta<node> &get_meta(const node *cls, ::reflect::branch_string &tag)
     {
         constexpr void *__meta_label[] = {
             &&label__0__0,
@@ -2198,18 +2428,57 @@ namespace __details__
     label__0__21:
         return g_default_meta;
     }
-    ::reflect::meta<node> &get_meta(const node *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag)
+  
+    ::reflect::meta<node> &get_func(const node *cls, ::reflect::branch_string& tag, const std::list<::reflect::Item>& args_tag)
     {
         auto &_meta = __details__::get_meta(cls, tag);
         if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
         {
             auto &_invoke = _meta.m_invoke(cls, args_tag);
             if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
-            {
+            {           
                 return _invoke;
             }
         }
         return g_default_meta;
+    }
+    int get_base_func(const node *cls, const std::string& _tag, const ::reflect::Arguments *_, ...)
+    {
+        va_list __arguments_list;
+        va_start(__arguments_list, _);
+        auto r = -1;
+        do
+        {
+            {
+                ::reflect::branch_string tag(_tag);
+                auto &_invoke = __details__::get_func(static_cast<const base *>(cls), tag, _->m_arguments);
+                if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+                {
+                    r = _invoke.m_func_v(const_cast<base *>(static_cast<const base *>(cls)), _, __arguments_list);
+                    break;
+                } 
+            }
+            {
+                ::reflect::branch_string tag(_tag);
+                auto &_invoke = __details__::get_func(static_cast<const config *>(cls), tag, _->m_arguments);
+                if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+                {
+                    r = _invoke.m_func_v(const_cast<config *>(static_cast<const config *>(cls)), _, __arguments_list);
+                    break;
+                } 
+            }
+            {
+                ::reflect::branch_string tag(_tag);
+                auto &_invoke = __details__::get_func(static_cast<const func *>(cls), tag, _->m_arguments);
+                if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+                {
+                    r = _invoke.m_func_v(const_cast<func *>(static_cast<const func *>(cls)), _, __arguments_list);
+                    break;
+                } 
+            }
+        } while (false);
+        va_end(__arguments_list);
+        return r;
     }
 }
 ::reflect::Value get_value(const node *cls, const std::string &_tag)
@@ -2251,6 +2520,16 @@ const std::string &get_type(const node *cls, const char *_tag)
 const std::string &get_type(const node *cls)
 {
     static const std::string _class = "node";
+    return _class;
+}
+const std::string &get_typeid(const node *cls, const std::string &_tag)
+{
+    ::reflect::branch_string tag(_tag);
+    return __details__::get_meta(cls, tag).m_type;
+}
+const std::string &get_typeid(const node *cls)
+{
+    static const std::string _class = typeid("node").name();
     return _class;
 }
 uint64_t get_field(const node *cls, const std::string &_tag)

@@ -7,6 +7,7 @@
 #include "../../node.h"
 #include <gen_rfl/setter.h>
 #include <gen_rfl/arguments.h>
+#include <gen_rfl/item.h>
 
 
 enum config_meta_enum
@@ -98,6 +99,7 @@ reflect::Value __get_value(const config* cls, const std::string& _tag)
 {
     return reflect::Value(nullptr, reflect::e_nullptr);
 }
+
 inline ::reflect::meta<config> &rfl__0__0(const config *cls, uint64_t value, ::reflect::branch_string &tag)
 {
     if (0x316f == value) // o1
@@ -152,7 +154,7 @@ const uint64_t get_fields_count(const config *cls)
 }
 namespace __details__
 {    
-    ::reflect::meta<config>& get_meta(const config *cls, ::reflect::branch_string &tag)
+    ::reflect::meta<config> &get_meta(const config *cls, ::reflect::branch_string &tag)
     {
         constexpr void *__meta_label[] = {
             &&label__0__0,
@@ -176,18 +178,30 @@ namespace __details__
     label__0__3:
         return g_default_meta;
     }
-    ::reflect::meta<config> &get_meta(const config *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag)
+  
+    ::reflect::meta<config> &get_func(const config *cls, ::reflect::branch_string& tag, const std::list<::reflect::Item>& args_tag)
     {
         auto &_meta = __details__::get_meta(cls, tag);
         if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
         {
             auto &_invoke = _meta.m_invoke(cls, args_tag);
             if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
-            {
+            {           
                 return _invoke;
             }
         }
         return g_default_meta;
+    }
+    int get_base_func(const config *cls, const std::string& _tag, const ::reflect::Arguments *_, ...)
+    {
+        va_list __arguments_list;
+        va_start(__arguments_list, _);
+        auto r = -1;
+        do
+        {
+        } while (false);
+        va_end(__arguments_list);
+        return r;
     }
 }
 ::reflect::Value get_value(const config *cls, const std::string &_tag)
@@ -229,6 +243,16 @@ const std::string &get_type(const config *cls, const char *_tag)
 const std::string &get_type(const config *cls)
 {
     static const std::string _class = "config";
+    return _class;
+}
+const std::string &get_typeid(const config *cls, const std::string &_tag)
+{
+    ::reflect::branch_string tag(_tag);
+    return __details__::get_meta(cls, tag).m_type;
+}
+const std::string &get_typeid(const config *cls)
+{
+    static const std::string _class = typeid("config").name();
     return _class;
 }
 uint64_t get_field(const config *cls, const std::string &_tag)

@@ -20,40 +20,38 @@
 //
 
 #pragma once
-#include <bitset>
-#include <cstring>
-#include <list>
+#include "arguments.h"
 #include "reflect.h"
 
 namespace reflect
 {
     struct Arguments
     {
-        std::list<std::string> m_arguments;
+        std::list<Item> m_arguments;
     };
-    struct BArguments : Arguments
+    struct IArguments : Arguments
     {
-        BArguments()
+        IArguments()
         {
         }
         template <class... T>
-        BArguments(T &&...t)
+        IArguments(T &&...t)
         {
-            (m_arguments.push_back(get_type(std::addressof(t))), ...);
+            (m_arguments.emplace_back(get_type(std::addressof(t)), flag_type<T>()), ...);
         }
     };
-    struct RArguments : Arguments
+    struct OArguments : Arguments
     {
         template <class R, class... T>
-        RArguments(R &&r, T &&...t)
+        OArguments(R &&r, T &&...t)
         {
-            m_arguments.push_back(get_type(std::addressof(r)) + std::string("@"));
-            (m_arguments.push_back(get_type(std::addressof(t))), ...);
+            m_arguments.emplace_back(get_type(std::addressof(r)) + std::string("@"), flag_type<R>());
+            (m_arguments.emplace_back(get_type(std::addressof(t)), flag_type<T>()), ...);
         }
         template <class R>
-        RArguments(R &&r)
+        OArguments(R &&r)
         {
-            m_arguments.push_back(get_type(std::addressof(r)) + std::string("@"));
+            m_arguments.emplace_back(get_type(std::addressof(r)) + std::string("@"), flag_type<R>());
         }
     };
 }

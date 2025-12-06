@@ -4,7 +4,7 @@ const uint64_t get_fields_count(const {{class}} *cls)
 }
 namespace __details__
 {    
-    ::reflect::meta<{{class}}>& get_meta(const {{class}} *cls, ::reflect::branch_string &tag)
+    ::reflect::meta<{{class}}> &get_meta(const {{class}} *cls, ::reflect::branch_string &tag)
     {{{#meta_bg_1}}
         constexpr void *__meta_label[] = {{{#labels}}
             &&label__{{layer}}__{{index}},{{/labels}}
@@ -20,18 +20,39 @@ namespace __details__
         auto value = tag();
         return rfl__{{layer}}__{{index}}(cls, value, tag);{{/meta_eq_1}}
     }
-    ::reflect::meta<{{class}}> &get_meta(const {{class}} *cls, ::reflect::branch_string& tag, const std::list<std::string>& args_tag)
+  
+    ::reflect::meta<{{class}}> &get_func(const {{class}} *cls, ::reflect::branch_string& tag, const std::list<::reflect::Item>& args_tag)
     {
         auto &_meta = __details__::get_meta(cls, tag);
         if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
         {
             auto &_invoke = _meta.m_invoke(cls, args_tag);
             if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
-            {
+            {           
                 return _invoke;
             }
         }
         return g_default_meta;
+    }
+    int get_base_func(const {{class}} *cls, const std::string& _tag, const ::reflect::Arguments *_, ...)
+    {
+        va_list __arguments_list;
+        va_start(__arguments_list, _);
+        auto r = -1;
+        do
+        {{{#is_base}}
+            {
+                ::reflect::branch_string tag(_tag);
+                auto &_invoke = __details__::get_func(static_cast<const {{variant}} *>(cls), tag, _->m_arguments);
+                if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
+                {
+                    r = _invoke.m_func_v(const_cast<{{variant}} *>(static_cast<const {{variant}} *>(cls)), _, __arguments_list);
+                    break;
+                } 
+            }{{/is_base}}
+        } while (false);
+        va_end(__arguments_list);
+        return r;
     }
 }
 ::reflect::Value get_value(const {{class}} *cls, const std::string &_tag)
@@ -73,6 +94,16 @@ const std::string &get_type(const {{class}} *cls, const char *_tag)
 const std::string &get_type(const {{class}} *cls)
 {
     static const std::string _class = "{{class}}";
+    return _class;
+}
+const std::string &get_typeid(const {{class}} *cls, const std::string &_tag)
+{
+    ::reflect::branch_string tag(_tag);
+    return __details__::get_meta(cls, tag).m_type;
+}
+const std::string &get_typeid(const {{class}} *cls)
+{
+    static const std::string _class = typeid("{{class}}").name();
     return _class;
 }
 uint64_t get_field(const {{class}} *cls, const std::string &_tag)

@@ -1,15 +1,21 @@
-::reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<std::string> &bra)
-{{{#block}}
-    if (bra.size() == {{arguments_count}})
-    {{{#arguments_check}}
+::reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<::reflect::Item> &bra)
+{   
+    auto l = bra.size();
+    if (l <= {{max_arguments_count}}) 
+    {
+        constexpr void *__meta_label[] = {{{#block}}
+            &&label__{{arguments_count}},{{/block}}
+        };
+        goto *__meta_label[l];{{#block}}    
+    label__{{arguments_count}}:{{#arguments_check}}
+    {
+        static std::list<::reflect::Item> l = { {{arguments}} };
+        if (bra == l)
         {
-            static std::list<std::string> l = { {{arguments}} };
-            if (bra == l)
-            {
-                return g_{{class}}_func[e__{{class}}__{{variant}}{{__field}}];
-            }
-        }{{/arguments_check}}
-        return g_default_meta;
-    }{{/block}}
+            return g_{{class}}_func[e__{{class}}__{{variant}}{{__field}}];
+        }        
+    }{{/arguments_check}}
+        return g_default_meta;{{/block}}
+    }
     return g_default_meta;
 }

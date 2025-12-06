@@ -31,6 +31,8 @@
 #include <utility>
 #include <iostream>
 #include <list>
+#include "reflect_def.h"
+#include "item.h"
 
 namespace reflect
 {
@@ -94,34 +96,19 @@ namespace reflect
         flag_argument,
 
     };
-    enum TYPE_REFLECT
-    {
-        e_nullptr,
-        e_uint8,
-        e_uint16,
-        e_uint32,
-        e_uint64,
-        e_int8,
-        e_int16,
-        e_int32,
-        e_int64,
-        e_float,
-        e_double,
-        e_cstr,
-        e_string,
-        e_unfundamental,
-        e_reflect_end
-    };
+
     struct Arguments;
     template <class T>
     struct meta
     {
         using meta_getter_t = void *(*)(const T *);
         using meta_setter_t = int (*)(T *, unsigned int, ...);
-        using meta_invoke_t = meta &(*)(const T *, const std::list<std::string> &);
+        using meta_invoke_t = meta &(*)(const T *, const std::list<Item> &);
         using meta_func_t = int (*)(const T *, const Arguments *, ...);
+        using meta_func_v = int (*)(T *, const Arguments *, va_list);
         const std::string m_variant;
         const std::string m_type;
+        const std::string m_typeid;
         uint32_t m_flags = 0;
         uint32_t m_t_flags = 0;
         uint64_t m_field = 0;
@@ -131,9 +118,12 @@ namespace reflect
             meta_invoke_t m_invoke;
             meta_getter_t m_getter;
         };
-        meta_setter_t m_setter;
+        union
+        {
+            meta_setter_t m_setter;
+            meta_func_v m_func_v;
+        };
     };
-
     template <class T>
     constexpr uint32_t flag_type()
     {
@@ -173,4 +163,5 @@ namespace reflect
         }
         return e_unfundamental;
     }
+
 }

@@ -20,36 +20,25 @@
 //
 
 #pragma once
-#include <string>
-#include <map>
 
 namespace reflect
 {
-
-    struct SourceInfo
+    enum TYPE_REFLECT
     {
-        std::string m_file;
-        std::string m_relative_file;
-        std::string m_class;
-        std::string m_raw_class;
-        std::string m_namespace;
-
-        void clear()
-        {
-            m_file.clear();
-            m_relative_file.clear();
-            m_raw_class.clear();
-            m_class.clear();
-            m_namespace.clear();
-        }
-    };
-
-    struct SourceFiles
-    {
-        std::map<std::string, SourceInfo> m_data;
-        void set(SourceInfo &&_info)
-        {
-            m_data.emplace(_info.m_file + "/" + _info.m_class, std::move(_info));
-        }
+        e_nullptr,
+        e_uint8,
+        e_uint16,
+        e_uint32,
+        e_uint64,
+        e_int8,
+        e_int16,
+        e_int32,
+        e_int64,
+        e_float,
+        e_double,
+        e_cstr,
+        e_string,
+        e_unfundamental,
+        e_reflect_end
     };
 }
