@@ -33,7 +33,7 @@ namespace reflect
     public:
         format_tpl();
 
-        int to_header();
+        int to_header(branch_info &_bra);
 
         int to_meta(branch_info &bra, std::map<std::string, branch_info> &ana_func);
 

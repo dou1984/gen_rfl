@@ -3,294 +3,300 @@
 #include <iostream>
 #include <gen_rfl/reflect.h>
 #include <gen_rfl/branch_string.h>
-#include "common.h"
 #include "../../../base/common.h"
+#include "common.h"
 #include <gen_rfl/setter.h>
 #include <gen_rfl/arguments.h>
 #include <gen_rfl/item.h>
 
+using namespace fastest;
 
-namespace fastest
+namespace reflect
 {
-enum common_meta_enum
-{
-    e__common__o0000000,
-    e__common__o0000001,
-    e__common__o0000002,
-    e__common__o0000003,
-    e__common__end,
-};
-enum common_func_enum
-{
-    e__common__func__end,
-};
-static int set_value_invalid(common *cls, uint32_t, ...)
-{
-    return 0;
-}
-static reflect::meta<common> g_default_meta = {
-    .m_variant = "",
-    .m_type = "",
-    .m_flags = 0,
-    .m_t_flags = 0,
-    .m_field = UINT32_MAX,
-    .m_getter = [](const common *c) -> void* { return nullptr; },
-    .m_setter = set_value_invalid,
-};
-static reflect::meta<common> g_common = {
-    .m_variant = "common",
-    .m_type = "",
-    .m_flags = 0,
-    .m_t_flags = 0,
-    .m_field = UINT32_MAX,
-    .m_getter = [](const common *c) -> void* { return nullptr; },
-    .m_setter = set_value_invalid,
-};
-
-static reflect::meta<common> g_common_func[] = 
-{
-};
-
-static reflect::meta<common> g_common_meta[] = {
-{
-    .m_variant = "o0000000",
-    .m_type = "const char *",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__common__o0000000, // 0
-    .m_getter = [](const common *cls) -> void * 
-    { return (void *)std::addressof(cls->o0000000); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000000>>; }(),
-},
-{
-    .m_variant = "o0000001",
-    .m_type = "const char *",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__common__o0000001, // 1
-    .m_getter = [](const common *cls) -> void * 
-    { return (void *)std::addressof(cls->o0000001); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000001>>; }(),
-},
-{
-    .m_variant = "o0000002",
-    .m_type = "const char *",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__common__o0000002, // 2
-    .m_getter = [](const common *cls) -> void * 
-    { return (void *)std::addressof(cls->o0000002); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000002>>; }(),
-},
-{
-    .m_variant = "o0000003",
-    .m_type = "const char *",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__common__o0000003, // 3
-    .m_getter = [](const common *cls) -> void * 
-    { return (void *)std::addressof(cls->o0000003); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<common, ::reflect::__ref_member__<common, &common::o0000003>>; }(),
-},
-};
-reflect::Value __get_value(const common* cls, const std::string& _tag)
-{
-    return reflect::Value(nullptr, reflect::e_nullptr);
-}
-
-inline ::reflect::meta<common> &rfl__0__0(const common *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x333030303030306f == value) // o0000003
+    enum common_meta_enum
     {
-        if (!tag) // complete
+        e__common__o0000000,
+        e__common__o0000001,
+        e__common__o0000002,
+        e__common__o0000003,
+        e__common__end,
+    };
+    enum common_func_enum
+    {
+        e__common__func__end,
+    };
+    static int set_value_invalid(common *cls, uint32_t, ...)
+    {
+        return 0;
+    }
+    static reflect::meta<common> g_default_meta = {
+        .m_variant = "",
+        .m_type = "",
+        .m_flags = 0,
+        .m_t_flags = 0,
+        .m_field = UINT32_MAX,
+        .m_getter = [](const common *c) -> void* { return nullptr; },
+        .m_setter = set_value_invalid,
+    };
+    static reflect::meta<common> g_common = {
+        .m_variant = "common",
+        .m_type = "",
+        .m_flags = 0,
+        .m_t_flags = 0,
+        .m_field = UINT32_MAX,
+        .m_getter = [](const common *c) -> void* { return nullptr; },
+        .m_setter = set_value_invalid,
+    };
+    
+    static meta<common> g_common_func[] = 
+    {
+    };
+    
+    static reflect::meta<common> g_common_meta[] = {
+    {
+        .m_variant = "o0000000",
+        .m_type = "const char *",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<const char *>(),
+        .m_field = e__common__o0000000, // 0
+        .m_getter = [](const common *cls) -> void * 
+        { return (void *)std::addressof(cls->o0000000); },
+        .m_setter = []() -> auto
+        { return __setter__<common, __ref_member__<common, &common::o0000000>>; }(),
+    },
+    {
+        .m_variant = "o0000001",
+        .m_type = "const char *",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<const char *>(),
+        .m_field = e__common__o0000001, // 1
+        .m_getter = [](const common *cls) -> void * 
+        { return (void *)std::addressof(cls->o0000001); },
+        .m_setter = []() -> auto
+        { return __setter__<common, __ref_member__<common, &common::o0000001>>; }(),
+    },
+    {
+        .m_variant = "o0000002",
+        .m_type = "const char *",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<const char *>(),
+        .m_field = e__common__o0000002, // 2
+        .m_getter = [](const common *cls) -> void * 
+        { return (void *)std::addressof(cls->o0000002); },
+        .m_setter = []() -> auto
+        { return __setter__<common, __ref_member__<common, &common::o0000002>>; }(),
+    },
+    {
+        .m_variant = "o0000003",
+        .m_type = "const char *",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<const char *>(),
+        .m_field = e__common__o0000003, // 3
+        .m_getter = [](const common *cls) -> void * 
+        { return (void *)std::addressof(cls->o0000003); },
+        .m_setter = []() -> auto
+        { return __setter__<common, __ref_member__<common, &common::o0000003>>; }(),
+    },
+    };
+    reflect::Value __get_value(const common* cls, const std::string& _tag)
+    {
+        return reflect::Value(nullptr, reflect::e_nullptr);
+    }
+
+    inline meta<common> &rfl__0__0(const common *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x333030303030306f == value) // o0000003
         {
-            return g_common_meta[e__common__o0000003];
+            if (!tag) // complete
+            {
+                return g_common_meta[e__common__o0000003];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<common> &rfl__0__2(const common *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x303030303030306f == value) // o0000000
+    inline meta<common> &rfl__0__2(const common *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x303030303030306f == value) // o0000000
         {
-            return g_common_meta[e__common__o0000000];
+            if (!tag) // complete
+            {
+                return g_common_meta[e__common__o0000000];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<common> &rfl__0__3(const common *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x313030303030306f == value) // o0000001
+    inline meta<common> &rfl__0__3(const common *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x313030303030306f == value) // o0000001
         {
-            return g_common_meta[e__common__o0000001];
+            if (!tag) // complete
+            {
+                return g_common_meta[e__common__o0000001];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<common> &rfl__0__4(const common *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x323030303030306f == value) // o0000002
+    inline meta<common> &rfl__0__4(const common *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x323030303030306f == value) // o0000002
         {
-            return g_common_meta[e__common__o0000002];
+            if (!tag) // complete
+            {
+                return g_common_meta[e__common__o0000002];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-const uint64_t get_fields_count(const common *cls)
-{
-    return countof(g_common_meta);
-}
-namespace __details__
-{    
-    ::reflect::meta<common> &get_meta(const common *cls, ::reflect::branch_string &tag)
+    const uint64_t get_fields_count(const common *cls)
     {
-        constexpr void *__meta_label[] = {
-            &&label__0__0,
-            &&label__0__1,
-            &&label__0__2,
-            &&label__0__3,
-            &&label__0__4,
-        };
-        constexpr auto count = countof(__meta_label);
-        auto value = tag();
-        auto index = value % count;        
-        goto *__meta_label[index];
-    label__0__0:
-        return rfl__0__0(cls, value, tag);
-    label__0__2:
-        return rfl__0__2(cls, value, tag);
-    label__0__3:
-        return rfl__0__3(cls, value, tag);
-    label__0__4:
-        return rfl__0__4(cls, value, tag);
-    label__0__1:
-        return g_default_meta;
+        return countof(g_common_meta);
     }
-  
-    ::reflect::meta<common> &get_func(const common *cls, ::reflect::branch_string& tag, const std::list<::reflect::Item>& args_tag)
-    {
-        auto &_meta = __details__::get_meta(cls, tag);
-        if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
+    namespace details
+    {    
+        meta<common> &get_meta(const common *cls, branch_string &tag)
         {
-            auto &_invoke = _meta.m_invoke(cls, args_tag);
-            if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
-            {           
-                return _invoke;
+            constexpr void *__meta_label[] = {
+                &&label__0__0,
+                &&label__0__1,
+                &&label__0__2,
+                &&label__0__3,
+                &&label__0__4,
+            };
+            constexpr auto count = countof(__meta_label);
+            auto value = tag();
+            auto index = value % count;        
+            goto *__meta_label[index];
+        label__0__0:
+            return rfl__0__0(cls, value, tag);
+        label__0__2:
+            return rfl__0__2(cls, value, tag);
+        label__0__3:
+            return rfl__0__3(cls, value, tag);
+        label__0__4:
+            return rfl__0__4(cls, value, tag);
+        label__0__1:
+            return g_default_meta;
+        }
+    
+        meta<common> &get_func(const common *cls, branch_string& tag, const std::list<Item>& args_tag)
+        {
+            auto &_meta = details::get_meta(cls, tag);
+            if (__contains__(_meta.m_flags, flag_function))
+            {
+                auto &_invoke = _meta.m_invoke(cls, args_tag);
+                if (__contains__(_invoke.m_flags, flag_argument))
+                {           
+                    return _invoke;
+                }
+            }
+            return g_default_meta;
+        }
+        int get_base_func(const common *cls, const std::string& _tag, const Arguments *_, ...)
+        {
+            va_list __arguments_list;
+            va_start(__arguments_list, _);
+            auto r = -1;
+            do
+            {
+            } while (false);
+            va_end(__arguments_list);
+            return r;
+        }
+    }
+    Value get_value(const common *cls, const std::string &_tag)
+    {
+        branch_string tag(_tag); 
+        auto& _meta = details::get_meta(cls, tag);
+        if (__contains__(_meta.m_flags, flag_member))
+        {
+            return Value(_meta.m_getter(cls), _meta.m_t_flags);  
+        }      
+        return __get_value(cls, _tag);   
+    }
+    Value get_value(const common *cls, const char *tag)
+    {
+        return get_value(cls, std::string(tag));
+    }
+    Value get_field_value(const common *cls, uint32_t field)
+    {
+        if (field < get_fields_count(cls))
+        {
+            auto& _meta = g_common_meta[field]; 
+            if (_meta.m_t_flags != 0)
+            {
+                return Value(_meta.m_getter(cls), _meta.m_t_flags);
             }
         }
-        return g_default_meta;
+        return reflect::Value(nullptr, reflect::e_nullptr);
     }
-    int get_base_func(const common *cls, const std::string& _tag, const ::reflect::Arguments *_, ...)
+    const std::string &get_type(const common *cls, const std::string &_tag)
     {
-        va_list __arguments_list;
-        va_start(__arguments_list, _);
-        auto r = -1;
-        do
-        {
-        } while (false);
-        va_end(__arguments_list);
-        return r;
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_type;
     }
-}
-::reflect::Value get_value(const common *cls, const std::string &_tag)
-{
-    ::reflect::branch_string tag(_tag); 
-    auto& _meta = __details__::get_meta(cls, tag);
-    if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
+    const std::string &get_type(const common *cls, const char *_tag) 
     {
-        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
-    }      
-    return __get_value(cls, _tag);   
-}
-::reflect::Value get_value(const common *cls, const char *tag)
-{
-    return get_value(cls, std::string(tag));
-}
-::reflect::Value get_field_value(const common *cls, uint32_t field)
-{
-    if (field < get_fields_count(cls))
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_type;    
+    }
+    const std::string &get_type(common *cls)
+    {   
+        static const std::string _class = "common";
+        return _class;
+    }
+    const std::string &get_type(const common *cls)
     {
-        auto& _meta = g_common_meta[field]; 
-        if (_meta.m_t_flags != 0)
+        static const std::string _class = "common";
+        return _class;
+    }
+    const std::string &get_typeid(const common *cls, const std::string &_tag)
+    {
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_type;
+    }
+    const std::string &get_typeid(const common *cls)
+    {
+        static const std::string _class = typeid("common").name();
+        return _class;
+    }
+    uint64_t get_field(const common *cls, const std::string &_tag)
+    {
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_field;  
+    }
+    uint64_t get_field(const common *cls, const char *_tag)
+    {
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_field;  
+    }
+    const std::string &get_field_type(const common *cls, uint32_t field)
+    {
+        if (field < get_fields_count(cls))
         {
-            return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);
+            auto& _meta = g_common_meta[field]; 
+            if (_meta.m_t_flags != 0)
+            {
+                return _meta.m_type;
+            }
         }
+        static std::string _ = "";
+        return _;
     }
-    return reflect::Value(nullptr, reflect::e_nullptr);
-}
-const std::string &get_type(const common *cls, const std::string &_tag)
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_type;
-}
-const std::string &get_type(const common *cls, const char *_tag) 
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_type;    
-}
-const std::string &get_type(const common *cls)
-{
-    static const std::string _class = "common";
-    return _class;
-}
-const std::string &get_typeid(const common *cls, const std::string &_tag)
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_type;
-}
-const std::string &get_typeid(const common *cls)
-{
-    static const std::string _class = typeid("common").name();
-    return _class;
-}
-uint64_t get_field(const common *cls, const std::string &_tag)
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_field;  
-}
-uint64_t get_field(const common *cls, const char *_tag)
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_field;  
-}
-const std::string &get_field_type(const common *cls, uint32_t field)
-{
-    if (field < get_fields_count(cls))
+    const std::string &get_name(const common *cls, uint32_t field)
     {
-        auto& _meta = g_common_meta[field]; 
-        if (_meta.m_t_flags != 0)
+        if (field < get_fields_count(cls))
         {
-            return _meta.m_type;
+            return g_common_meta[field].m_variant;
         }
+        return g_default_meta.m_variant;
     }
-    static std::string _ = "";
-    return _;
-}
-const std::string &get_name(const common *cls, uint32_t field)
-{
-    if (field < get_fields_count(cls))
+    meta<common> &get_meta(const common *cls)
     {
-        return g_common_meta[field].m_variant;
+        return g_common;
     }
-    return g_default_meta.m_variant;
-}
-::reflect::meta<common> &get_meta(const common *cls)
-{
-    return g_common;
 }
 
-}

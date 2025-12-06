@@ -25,8 +25,8 @@
 
 namespace reflect
 {
-    template <class CLS, class O, class T>
-    int set_value(CLS &cls, O &o, T &&value)
+    template <class CLS, class O, class S, class T>
+    int set_value(CLS &cls, const O &o, const S &s, T &&value)
     {
         if (!__contains__(o.m_flags, flag_function, flag_argument))
         {
@@ -45,8 +45,7 @@ namespace reflect
             else
             {
                 auto _ptr = std::addressof(value);
-                auto &_type = get_type(_ptr);
-                return o.m_setter(cls, flag_type<T>(), _type, _ptr);
+                return o.m_setter(cls, flag_type<T>(), s, _ptr);
             }
         }
         return -1;

@@ -3,809 +3,817 @@
 #include <iostream>
 #include <gen_rfl/reflect.h>
 #include <gen_rfl/branch_string.h>
-#include "base.h"
 #include "../../node.h"
+#include "base.h"
 #include <gen_rfl/setter.h>
 #include <gen_rfl/arguments.h>
 #include <gen_rfl/item.h>
 
 
-enum base_meta_enum
+namespace reflect
 {
-    e__base__a,
-    e__base__add,
-    e__base__b,
-    e__base__c,
-    e__base__d,
-    e__base__e,
-    e__base__f,
-    e__base__g,
-    e__base__h,
-    e__base__i,
-    e__base__j,
-    e__base__k,
-    e__base__l,
-    e__base__m,
-    e__base__n,
-    e__base__o,
-    e__base__ooooooooooooooooooooooooooool0,
-    e__base__end,
-};
-enum base_func_enum
-{
-    e__base__add__1,
-    e__base__add__0,
-    e__base__func__end,
-};
-static int set_value_invalid(base *cls, uint32_t, ...)
-{
-    return 0;
-}
-static reflect::meta<base> g_default_meta = {
-    .m_variant = "",
-    .m_type = "",
-    .m_flags = 0,
-    .m_t_flags = 0,
-    .m_field = UINT32_MAX,
-    .m_getter = [](const base *c) -> void* { return nullptr; },
-    .m_setter = set_value_invalid,
-};
-static reflect::meta<base> g_base = {
-    .m_variant = "base",
-    .m_type = "",
-    .m_flags = 0,
-    .m_t_flags = 0,
-    .m_field = UINT32_MAX,
-    .m_getter = [](const base *c) -> void* { return nullptr; },
-    .m_setter = set_value_invalid,
-};
-
-int invoke__base__add__1(const base* c, const reflect::Arguments *, ...);
-int invoke__base__add__1_v(base* c, const reflect::Arguments *, va_list);
-int invoke__base__add__0(const base* c, const reflect::Arguments *, ...);
-int invoke__base__add__0_v(base* c, const reflect::Arguments *, va_list);
-static reflect::meta<base> g_base_func[] = 
-{
+    enum base_meta_enum
     {
-        .m_variant = "add",
-        .m_type = "@int64_t,int64_t",
-        .m_flags = 0x8801,
+        e__base__a,
+        e__base__add,
+        e__base__b,
+        e__base__c,
+        e__base__d,
+        e__base__e,
+        e__base__f,
+        e__base__g,
+        e__base__h,
+        e__base__i,
+        e__base__j,
+        e__base__k,
+        e__base__l,
+        e__base__m,
+        e__base__n,
+        e__base__o,
+        e__base__ooooooooooooooooooooooooooool0,
+        e__base__end,
+    };
+    enum base_func_enum
+    {
+        e__base__add__1,
+        e__base__add__0,
+        e__base__func__end,
+    };
+    static int set_value_invalid(base *cls, uint32_t, ...)
+    {
+        return 0;
+    }
+    static reflect::meta<base> g_default_meta = {
+        .m_variant = "",
+        .m_type = "",
+        .m_flags = 0,
         .m_t_flags = 0,
-        .m_field = e__base__add__1, // 1
-        .m_func = invoke__base__add__1,
-        .m_func_v = invoke__base__add__1_v,        
+        .m_field = UINT32_MAX,
+        .m_getter = [](const base *c) -> void* { return nullptr; },
+        .m_setter = set_value_invalid,
+    };
+    static reflect::meta<base> g_base = {
+        .m_variant = "base",
+        .m_type = "",
+        .m_flags = 0,
+        .m_t_flags = 0,
+        .m_field = UINT32_MAX,
+        .m_getter = [](const base *c) -> void* { return nullptr; },
+        .m_setter = set_value_invalid,
+    };
+    
+    int invoke__base__add__1(const base* c, const Arguments *, ...);
+    int invoke__base__add__1_v(base* c, const Arguments *, va_list);
+    int invoke__base__add__0(const base* c, const Arguments *, ...);
+    int invoke__base__add__0_v(base* c, const Arguments *, va_list);
+    static meta<base> g_base_func[] = 
+    {
+        {
+            .m_variant = "add",
+            .m_type = "@int64_t,int64_t",
+            .m_flags = 0x8801,
+            .m_t_flags = 0,
+            .m_field = e__base__add__1, // 1
+            .m_func = invoke__base__add__1,
+            .m_func_v = invoke__base__add__1_v,        
+        },
+        {
+            .m_variant = "add",
+            .m_type = "int64_t@int64_t,int64_t",
+            .m_flags = 0x8801,
+            .m_t_flags = 0,
+            .m_field = e__base__add__0, // 0
+            .m_func = invoke__base__add__0,
+            .m_func_v = invoke__base__add__0_v,        
+        },
+    };
+    
+    reflect::meta<base>& invoke__base__add(const base *c, const std::list<Item> &tag);
+    static reflect::meta<base> g_base_meta[] = {
+    {
+        .m_variant = "a",
+        .m_type = "signed char",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<signed char>(),
+        .m_field = e__base__a, // 0
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->a); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::a>>; }(),
     },
     {
         .m_variant = "add",
-        .m_type = "int64_t@int64_t,int64_t",
-        .m_flags = 0x8801,
-        .m_t_flags = 0,
-        .m_field = e__base__add__0, // 0
-        .m_func = invoke__base__add__0,
-        .m_func_v = invoke__base__add__0_v,        
+        .m_type = "",
+        .m_flags = 0x4801,
+        .m_t_flags = 0x0,
+        .m_field = e__base__add, // 16
+        .m_invoke = invoke__base__add,
+        .m_setter = set_value_invalid,
     },
-};
+    {
+        .m_variant = "b",
+        .m_type = "short",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<short>(),
+        .m_field = e__base__b, // 1
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->b); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::b>>; }(),
+    },
+    {
+        .m_variant = "c",
+        .m_type = "int",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<int>(),
+        .m_field = e__base__c, // 2
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->c); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::c>>; }(),
+    },
+    {
+        .m_variant = "d",
+        .m_type = "long",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<long>(),
+        .m_field = e__base__d, // 3
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->d); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::d>>; }(),
+    },
+    {
+        .m_variant = "e",
+        .m_type = "unsigned char",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<unsigned char>(),
+        .m_field = e__base__e, // 4
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->e); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::e>>; }(),
+    },
+    {
+        .m_variant = "f",
+        .m_type = "unsigned short",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<unsigned short>(),
+        .m_field = e__base__f, // 5
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->f); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::f>>; }(),
+    },
+    {
+        .m_variant = "g",
+        .m_type = "unsigned int",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<unsigned int>(),
+        .m_field = e__base__g, // 6
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->g); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::g>>; }(),
+    },
+    {
+        .m_variant = "h",
+        .m_type = "unsigned long",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<unsigned long>(),
+        .m_field = e__base__h, // 7
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->h); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::h>>; }(),
+    },
+    {
+        .m_variant = "i",
+        .m_type = "float",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<float>(),
+        .m_field = e__base__i, // 8
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->i); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::i>>; }(),
+    },
+    {
+        .m_variant = "j",
+        .m_type = "double",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<double>(),
+        .m_field = e__base__j, // 9
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->j); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::j>>; }(),
+    },
+    {
+        .m_variant = "k",
+        .m_type = "std::string",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<std::string>(),
+        .m_field = e__base__k, // 10
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->k); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::k>>; }(),
+    },
+    {
+        .m_variant = "l",
+        .m_type = "char *",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<char *>(),
+        .m_field = e__base__l, // 11
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->l); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::l>>; }(),
+    },
+    {
+        .m_variant = "m",
+        .m_type = "const char *",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<const char *>(),
+        .m_field = e__base__m, // 12
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->m); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::m>>; }(),
+    },
+    {
+        .m_variant = "n",
+        .m_type = "std::map<int, int>",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<std::map<int, int>>(),
+        .m_field = e__base__n, // 13
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->n); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::n>>; }(),
+    },
+    {
+        .m_variant = "o",
+        .m_type = "std::vector<int>",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<std::vector<int>>(),
+        .m_field = e__base__o, // 14
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->o); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::o>>; }(),
+    },
+    {
+        .m_variant = "ooooooooooooooooooooooooooool0",
+        .m_type = "const char *",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<const char *>(),
+        .m_field = e__base__ooooooooooooooooooooooooooool0, // 15
+        .m_getter = [](const base *cls) -> void * 
+        { return (void *)std::addressof(cls->ooooooooooooooooooooooooooool0); },
+        .m_setter = []() -> auto
+        { return __setter__<base, __ref_member__<base, &base::ooooooooooooooooooooooooooool0>>; }(),
+    },
+    };
+    reflect::Value __get_value(const base* cls, const std::string& _tag)
+    {
+        return reflect::Value(nullptr, reflect::e_nullptr);
+    }
 
-reflect::meta<base>& invoke__base__add(const base *c, const std::list<::reflect::Item> &tag);
-static reflect::meta<base> g_base_meta[] = {
-{
-    .m_variant = "a",
-    .m_type = "signed char",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<signed char>(),
-    .m_field = e__base__a, // 0
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->a); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::a>>; }(),
-},
-{
-    .m_variant = "add",
-    .m_type = "",
-    .m_flags = 0x4801,
-    .m_t_flags = 0x0,
-    .m_field = e__base__add, // 16
-    .m_invoke = invoke__base__add,
-    .m_setter = set_value_invalid,
-},
-{
-    .m_variant = "b",
-    .m_type = "short",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<short>(),
-    .m_field = e__base__b, // 1
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->b); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::b>>; }(),
-},
-{
-    .m_variant = "c",
-    .m_type = "int",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<int>(),
-    .m_field = e__base__c, // 2
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->c); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::c>>; }(),
-},
-{
-    .m_variant = "d",
-    .m_type = "long",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<long>(),
-    .m_field = e__base__d, // 3
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->d); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::d>>; }(),
-},
-{
-    .m_variant = "e",
-    .m_type = "unsigned char",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<unsigned char>(),
-    .m_field = e__base__e, // 4
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->e); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::e>>; }(),
-},
-{
-    .m_variant = "f",
-    .m_type = "unsigned short",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<unsigned short>(),
-    .m_field = e__base__f, // 5
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->f); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::f>>; }(),
-},
-{
-    .m_variant = "g",
-    .m_type = "unsigned int",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<unsigned int>(),
-    .m_field = e__base__g, // 6
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->g); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::g>>; }(),
-},
-{
-    .m_variant = "h",
-    .m_type = "unsigned long",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<unsigned long>(),
-    .m_field = e__base__h, // 7
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->h); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::h>>; }(),
-},
-{
-    .m_variant = "i",
-    .m_type = "float",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<float>(),
-    .m_field = e__base__i, // 8
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->i); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::i>>; }(),
-},
-{
-    .m_variant = "j",
-    .m_type = "double",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<double>(),
-    .m_field = e__base__j, // 9
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->j); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::j>>; }(),
-},
-{
-    .m_variant = "k",
-    .m_type = "std::string",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<std::string>(),
-    .m_field = e__base__k, // 10
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->k); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::k>>; }(),
-},
-{
-    .m_variant = "l",
-    .m_type = "char *",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<char *>(),
-    .m_field = e__base__l, // 11
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->l); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::l>>; }(),
-},
-{
-    .m_variant = "m",
-    .m_type = "const char *",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__base__m, // 12
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->m); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::m>>; }(),
-},
-{
-    .m_variant = "n",
-    .m_type = "std::map<int, int>",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<std::map<int, int>>(),
-    .m_field = e__base__n, // 13
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->n); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::n>>; }(),
-},
-{
-    .m_variant = "o",
-    .m_type = "std::vector<int>",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<std::vector<int>>(),
-    .m_field = e__base__o, // 14
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->o); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::o>>; }(),
-},
-{
-    .m_variant = "ooooooooooooooooooooooooooool0",
-    .m_type = "const char *",
-    .m_flags = 0x801,
-    .m_t_flags = ::reflect::flag_type<const char *>(),
-    .m_field = e__base__ooooooooooooooooooooooooooool0, // 15
-    .m_getter = [](const base *cls) -> void * 
-    { return (void *)std::addressof(cls->ooooooooooooooooooooooooooool0); },
-    .m_setter = []() -> auto
-    { return ::reflect::__setter__<base, ::reflect::__ref_member__<base, &base::ooooooooooooooooooooooooooool0>>; }(),
-},
-};
-reflect::Value __get_value(const base* cls, const std::string& _tag)
-{
-    return reflect::Value(nullptr, reflect::e_nullptr);
-}
-
-inline ::reflect::meta<base> &rfl__0__0(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x63 == value) // c
+    inline meta<base> &rfl__0__0(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x63 == value) // c
         {
-            return g_base_meta[e__base__c];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__c];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__1(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x64 == value) // d
+    inline meta<base> &rfl__0__1(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x64 == value) // d
         {
-            return g_base_meta[e__base__d];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__d];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__2(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x65 == value) // e
+    inline meta<base> &rfl__0__2(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x65 == value) // e
         {
-            return g_base_meta[e__base__e];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__e];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__3(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x66 == value) // f
+    inline meta<base> &rfl__0__3(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x66 == value) // f
         {
-            return g_base_meta[e__base__f];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__f];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__4(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x67 == value) // g
+    inline meta<base> &rfl__0__4(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x67 == value) // g
         {
-            return g_base_meta[e__base__g];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__g];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__5(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x68 == value) // h
+    inline meta<base> &rfl__0__5(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x68 == value) // h
         {
-            return g_base_meta[e__base__h];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__h];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__6(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x69 == value) // i
+    inline meta<base> &rfl__0__6(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x69 == value) // i
         {
-            return g_base_meta[e__base__i];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__i];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__7(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6a == value) // j
+    inline meta<base> &rfl__0__7(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x6a == value) // j
         {
-            return g_base_meta[e__base__j];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__j];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__8(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6b == value) // k
+    inline meta<base> &rfl__0__8(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x6b == value) // k
         {
-            return g_base_meta[e__base__k];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__k];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__9(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6c == value) // l
+    inline meta<base> &rfl__0__9(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x6c == value) // l
         {
-            return g_base_meta[e__base__l];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__l];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__10(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6d == value) // m
+    inline meta<base> &rfl__0__10(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x6d == value) // m
         {
-            return g_base_meta[e__base__m];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__m];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__11(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6e == value) // n
+    inline meta<base> &rfl__0__11(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x6e == value) // n
         {
-            return g_base_meta[e__base__n];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__n];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__12(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6f == value) // o
+    inline meta<base> &rfl__0__12(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x6f == value) // o
         {
-            return g_base_meta[e__base__o];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__o];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__21(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x646461 == value) // add
+    inline meta<base> &rfl__0__21(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x646461 == value) // add
         {
-            return g_base_meta[e__base__add];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__add];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__3__0(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x306c6f6f6f6f == value) // ooool0
+    inline meta<base> &rfl__3__0(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (!tag) // complete
+        if (0x306c6f6f6f6f == value) // ooool0
         {
-            return g_base_meta[e__base__ooooooooooooooooooooooooooool0];
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__ooooooooooooooooooooooooooool0];
+            }
+            return g_default_meta;
         }
         return g_default_meta;
     }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__2__0(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
+    inline meta<base> &rfl__2__0(const base *cls, uint64_t value, branch_string &tag)
     {
-        if (tag) // incomplete_eq_1
+        if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
         {
-            auto _value = tag();
-            return rfl__3__0(cls, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__1__0(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
-    {
-        if (tag) // incomplete_eq_1
-        {
-            auto _value = tag();
-            return rfl__2__0(cls, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__24(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
-    {
-        if (tag) // incomplete_eq_1
-        {
-            auto _value = tag();
-            return rfl__1__0(cls, _value, tag);
-        }
-    }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__31(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x61 == value) // a
-    {
-        if (!tag) // complete
-        {
-            return g_base_meta[e__base__a];
-        }
-        return g_default_meta;
-    }
-    return g_default_meta;
-}
-inline ::reflect::meta<base> &rfl__0__32(const base *cls, uint64_t value, ::reflect::branch_string &tag)
-{
-    if (0x62 == value) // b
-    {
-        if (!tag) // complete
-        {
-            return g_base_meta[e__base__b];
-        }
-        return g_default_meta;
-    }
-    return g_default_meta;
-}
-int invoke__base__add__0_v(base *cls, const reflect::Arguments* argu, va_list __arguments_list)
-{
-    auto& _r = *(va_arg(__arguments_list, int64_t *));
-    auto& _a_0 = *(va_arg(__arguments_list, int64_t *));
-    auto& _a_1 = *(va_arg(__arguments_list, int64_t *));
-    _r = cls->add(_a_0, _a_1);
-    return 0;
-}
-int invoke__base__add__0(const base *c, const reflect::Arguments* argu, ...)
-{
-    auto *cls = (base *)(c); 
-    if (cls && argu->m_arguments.size() == 3)
-    {
-        va_list __arguments_list;
-        va_start(__arguments_list, argu);
-        invoke__base__add__0_v(cls, argu, __arguments_list);
-        va_end(__arguments_list);
-        return 0;
-    }
-    return -1;
-}
-int invoke__base__add__1_v(base *cls, const reflect::Arguments* argu, va_list __arguments_list)
-{
-    auto& _a_0 = *(va_arg(__arguments_list, int64_t *));
-    auto& _a_1 = *(va_arg(__arguments_list, int64_t *));
-    cls->add(_a_0, _a_1);
-    return 0;
-}
-int invoke__base__add__1(const base *c, const reflect::Arguments* argu, ...)
-{
-    auto *cls = (base *)(c); 
-    if (cls && argu->m_arguments.size() == 2)
-    {
-        va_list __arguments_list;
-        va_start(__arguments_list, argu);
-        invoke__base__add__1_v(cls, argu, __arguments_list);
-        va_end(__arguments_list);
-        return 0;
-    }
-    return -1;
-}
-::reflect::meta<base>& invoke__base__add(const base *c, const std::list<::reflect::Item> &bra)
-{   
-    auto l = bra.size();
-    if (l <= 3) 
-    {
-        constexpr void *__meta_label[] = {
-            &&label__0,
-            &&label__1,
-            &&label__2,
-            &&label__3,
-        };
-        goto *__meta_label[l];    
-    label__0:
-        return g_default_meta;    
-    label__1:
-        return g_default_meta;    
-    label__2:
-    {
-        static std::list<::reflect::Item> l = { { "int64_t", ::reflect::flag_type<int64_t>() }, { "int64_t", ::reflect::flag_type<int64_t>() } };
-        if (bra == l)
-        {
-            return g_base_func[e__base__add__1];
-        }        
-    }
-        return g_default_meta;    
-    label__3:
-    {
-        static std::list<::reflect::Item> l = { { "int64_t@", ::reflect::flag_type<int64_t>() }, { "int64_t", ::reflect::flag_type<int64_t>() }, { "int64_t", ::reflect::flag_type<int64_t>() } };
-        if (bra == l)
-        {
-            return g_base_func[e__base__add__0];
-        }        
-    }
-        return g_default_meta;
-    }
-    return g_default_meta;
-}
-const uint64_t get_fields_count(const base *cls)
-{
-    return countof(g_base_meta);
-}
-namespace __details__
-{    
-    ::reflect::meta<base> &get_meta(const base *cls, ::reflect::branch_string &tag)
-    {
-        constexpr void *__meta_label[] = {
-            &&label__0__0,
-            &&label__0__1,
-            &&label__0__2,
-            &&label__0__3,
-            &&label__0__4,
-            &&label__0__5,
-            &&label__0__6,
-            &&label__0__7,
-            &&label__0__8,
-            &&label__0__9,
-            &&label__0__10,
-            &&label__0__11,
-            &&label__0__12,
-            &&label__0__13,
-            &&label__0__14,
-            &&label__0__15,
-            &&label__0__16,
-            &&label__0__17,
-            &&label__0__18,
-            &&label__0__19,
-            &&label__0__20,
-            &&label__0__21,
-            &&label__0__22,
-            &&label__0__23,
-            &&label__0__24,
-            &&label__0__25,
-            &&label__0__26,
-            &&label__0__27,
-            &&label__0__28,
-            &&label__0__29,
-            &&label__0__30,
-            &&label__0__31,
-            &&label__0__32,
-        };
-        constexpr auto count = countof(__meta_label);
-        auto value = tag();
-        auto index = value % count;        
-        goto *__meta_label[index];
-    label__0__0:
-        return rfl__0__0(cls, value, tag);
-    label__0__1:
-        return rfl__0__1(cls, value, tag);
-    label__0__2:
-        return rfl__0__2(cls, value, tag);
-    label__0__3:
-        return rfl__0__3(cls, value, tag);
-    label__0__4:
-        return rfl__0__4(cls, value, tag);
-    label__0__5:
-        return rfl__0__5(cls, value, tag);
-    label__0__6:
-        return rfl__0__6(cls, value, tag);
-    label__0__7:
-        return rfl__0__7(cls, value, tag);
-    label__0__8:
-        return rfl__0__8(cls, value, tag);
-    label__0__9:
-        return rfl__0__9(cls, value, tag);
-    label__0__10:
-        return rfl__0__10(cls, value, tag);
-    label__0__11:
-        return rfl__0__11(cls, value, tag);
-    label__0__12:
-        return rfl__0__12(cls, value, tag);
-    label__0__21:
-        return rfl__0__21(cls, value, tag);
-    label__0__24:
-        return rfl__0__24(cls, value, tag);
-    label__0__31:
-        return rfl__0__31(cls, value, tag);
-    label__0__32:
-        return rfl__0__32(cls, value, tag);
-    label__0__13:
-    label__0__14:
-    label__0__15:
-    label__0__16:
-    label__0__17:
-    label__0__18:
-    label__0__19:
-    label__0__20:
-    label__0__22:
-    label__0__23:
-    label__0__25:
-    label__0__26:
-    label__0__27:
-    label__0__28:
-    label__0__29:
-    label__0__30:
-        return g_default_meta;
-    }
-  
-    ::reflect::meta<base> &get_func(const base *cls, ::reflect::branch_string& tag, const std::list<::reflect::Item>& args_tag)
-    {
-        auto &_meta = __details__::get_meta(cls, tag);
-        if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_function))
-        {
-            auto &_invoke = _meta.m_invoke(cls, args_tag);
-            if (::reflect::__contains__(_invoke.m_flags, ::reflect::flag_argument))
-            {           
-                return _invoke;
+            if (tag) // incomplete_eq_1
+            {
+                auto _value = tag();
+                return rfl__3__0(cls, _value, tag);
             }
         }
         return g_default_meta;
     }
-    int get_base_func(const base *cls, const std::string& _tag, const ::reflect::Arguments *_, ...)
+    inline meta<base> &rfl__1__0(const base *cls, uint64_t value, branch_string &tag)
     {
-        va_list __arguments_list;
-        va_start(__arguments_list, _);
-        auto r = -1;
-        do
+        if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
         {
-        } while (false);
-        va_end(__arguments_list);
-        return r;
+            if (tag) // incomplete_eq_1
+            {
+                auto _value = tag();
+                return rfl__2__0(cls, _value, tag);
+            }
+        }
+        return g_default_meta;
     }
-}
-::reflect::Value get_value(const base *cls, const std::string &_tag)
-{
-    ::reflect::branch_string tag(_tag); 
-    auto& _meta = __details__::get_meta(cls, tag);
-    if (::reflect::__contains__(_meta.m_flags, ::reflect::flag_member))
+    inline meta<base> &rfl__0__24(const base *cls, uint64_t value, branch_string &tag)
     {
-        return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);  
-    }      
-    return __get_value(cls, _tag);   
-}
-::reflect::Value get_value(const base *cls, const char *tag)
-{
-    return get_value(cls, std::string(tag));
-}
-::reflect::Value get_field_value(const base *cls, uint32_t field)
-{
-    if (field < get_fields_count(cls))
-    {
-        auto& _meta = g_base_meta[field]; 
-        if (_meta.m_t_flags != 0)
+        if (0x6f6f6f6f6f6f6f6f == value) // oooooooo
         {
-            return ::reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);
+            if (tag) // incomplete_eq_1
+            {
+                auto _value = tag();
+                return rfl__1__0(cls, _value, tag);
+            }
+        }
+        return g_default_meta;
+    }
+    inline meta<base> &rfl__0__31(const base *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x61 == value) // a
+        {
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__a];
+            }
+            return g_default_meta;
+        }
+        return g_default_meta;
+    }
+    inline meta<base> &rfl__0__32(const base *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x62 == value) // b
+        {
+            if (!tag) // complete
+            {
+                return g_base_meta[e__base__b];
+            }
+            return g_default_meta;
+        }
+        return g_default_meta;
+    }
+    int invoke__base__add__0_v(base *cls, const Arguments* argu, va_list __arguments_list)
+    {
+        auto& _r = *(va_arg(__arguments_list, int64_t *));
+        auto& _a_0 = *(va_arg(__arguments_list, int64_t *));
+        auto& _a_1 = *(va_arg(__arguments_list, int64_t *));
+        _r = cls->add(_a_0, _a_1);
+        return 0;
+    }
+    int invoke__base__add__0(const base *c, const Arguments* argu, ...)
+    {
+        auto *cls = (base *)(c); 
+        if (cls && argu->m_arguments.size() == 3)
+        {
+            va_list __arguments_list;
+            va_start(__arguments_list, argu);
+            invoke__base__add__0_v(cls, argu, __arguments_list);
+            va_end(__arguments_list);
+            return 0;
+        }
+        return -1;
+    }
+    int invoke__base__add__1_v(base *cls, const Arguments* argu, va_list __arguments_list)
+    {
+        auto& _a_0 = *(va_arg(__arguments_list, int64_t *));
+        auto& _a_1 = *(va_arg(__arguments_list, int64_t *));
+        cls->add(_a_0, _a_1);
+        return 0;
+    }
+    int invoke__base__add__1(const base *c, const Arguments* argu, ...)
+    {
+        auto *cls = (base *)(c); 
+        if (cls && argu->m_arguments.size() == 2)
+        {
+            va_list __arguments_list;
+            va_start(__arguments_list, argu);
+            invoke__base__add__1_v(cls, argu, __arguments_list);
+            va_end(__arguments_list);
+            return 0;
+        }
+        return -1;
+    }
+    meta<base>& invoke__base__add(const base *c, const std::list<Item> &bra)
+    {   
+        auto l = bra.size();
+        if (l <= 3) 
+        {
+            constexpr void *__meta_label[] = {
+                &&label__0,
+                &&label__1,
+                &&label__2,
+                &&label__3,
+            };
+            goto *__meta_label[l];    
+        label__0:
+            return g_default_meta;    
+        label__1:
+            return g_default_meta;    
+        label__2:
+        {
+            static std::list<Item> l = { { "int64_t", ::reflect::flag_type<int64_t>() }, { "int64_t", ::reflect::flag_type<int64_t>() } };
+            if (bra == l)
+            {
+                return g_base_func[e__base__add__1];
+            }        
+        }
+            return g_default_meta;    
+        label__3:
+        {
+            static std::list<Item> l = { { "int64_t@", ::reflect::flag_type<int64_t>() }, { "int64_t", ::reflect::flag_type<int64_t>() }, { "int64_t", ::reflect::flag_type<int64_t>() } };
+            if (bra == l)
+            {
+                return g_base_func[e__base__add__0];
+            }        
+        }
+            return g_default_meta;
+        }
+        return g_default_meta;
+    }
+    const uint64_t get_fields_count(const base *cls)
+    {
+        return countof(g_base_meta);
+    }
+    namespace details
+    {    
+        meta<base> &get_meta(const base *cls, branch_string &tag)
+        {
+            constexpr void *__meta_label[] = {
+                &&label__0__0,
+                &&label__0__1,
+                &&label__0__2,
+                &&label__0__3,
+                &&label__0__4,
+                &&label__0__5,
+                &&label__0__6,
+                &&label__0__7,
+                &&label__0__8,
+                &&label__0__9,
+                &&label__0__10,
+                &&label__0__11,
+                &&label__0__12,
+                &&label__0__13,
+                &&label__0__14,
+                &&label__0__15,
+                &&label__0__16,
+                &&label__0__17,
+                &&label__0__18,
+                &&label__0__19,
+                &&label__0__20,
+                &&label__0__21,
+                &&label__0__22,
+                &&label__0__23,
+                &&label__0__24,
+                &&label__0__25,
+                &&label__0__26,
+                &&label__0__27,
+                &&label__0__28,
+                &&label__0__29,
+                &&label__0__30,
+                &&label__0__31,
+                &&label__0__32,
+            };
+            constexpr auto count = countof(__meta_label);
+            auto value = tag();
+            auto index = value % count;        
+            goto *__meta_label[index];
+        label__0__0:
+            return rfl__0__0(cls, value, tag);
+        label__0__1:
+            return rfl__0__1(cls, value, tag);
+        label__0__2:
+            return rfl__0__2(cls, value, tag);
+        label__0__3:
+            return rfl__0__3(cls, value, tag);
+        label__0__4:
+            return rfl__0__4(cls, value, tag);
+        label__0__5:
+            return rfl__0__5(cls, value, tag);
+        label__0__6:
+            return rfl__0__6(cls, value, tag);
+        label__0__7:
+            return rfl__0__7(cls, value, tag);
+        label__0__8:
+            return rfl__0__8(cls, value, tag);
+        label__0__9:
+            return rfl__0__9(cls, value, tag);
+        label__0__10:
+            return rfl__0__10(cls, value, tag);
+        label__0__11:
+            return rfl__0__11(cls, value, tag);
+        label__0__12:
+            return rfl__0__12(cls, value, tag);
+        label__0__21:
+            return rfl__0__21(cls, value, tag);
+        label__0__24:
+            return rfl__0__24(cls, value, tag);
+        label__0__31:
+            return rfl__0__31(cls, value, tag);
+        label__0__32:
+            return rfl__0__32(cls, value, tag);
+        label__0__13:
+        label__0__14:
+        label__0__15:
+        label__0__16:
+        label__0__17:
+        label__0__18:
+        label__0__19:
+        label__0__20:
+        label__0__22:
+        label__0__23:
+        label__0__25:
+        label__0__26:
+        label__0__27:
+        label__0__28:
+        label__0__29:
+        label__0__30:
+            return g_default_meta;
+        }
+    
+        meta<base> &get_func(const base *cls, branch_string& tag, const std::list<Item>& args_tag)
+        {
+            auto &_meta = details::get_meta(cls, tag);
+            if (__contains__(_meta.m_flags, flag_function))
+            {
+                auto &_invoke = _meta.m_invoke(cls, args_tag);
+                if (__contains__(_invoke.m_flags, flag_argument))
+                {           
+                    return _invoke;
+                }
+            }
+            return g_default_meta;
+        }
+        int get_base_func(const base *cls, const std::string& _tag, const Arguments *_, ...)
+        {
+            va_list __arguments_list;
+            va_start(__arguments_list, _);
+            auto r = -1;
+            do
+            {
+            } while (false);
+            va_end(__arguments_list);
+            return r;
         }
     }
-    return reflect::Value(nullptr, reflect::e_nullptr);
-}
-const std::string &get_type(const base *cls, const std::string &_tag)
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_type;
-}
-const std::string &get_type(const base *cls, const char *_tag) 
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_type;    
-}
-const std::string &get_type(const base *cls)
-{
-    static const std::string _class = "base";
-    return _class;
-}
-const std::string &get_typeid(const base *cls, const std::string &_tag)
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_type;
-}
-const std::string &get_typeid(const base *cls)
-{
-    static const std::string _class = typeid("base").name();
-    return _class;
-}
-uint64_t get_field(const base *cls, const std::string &_tag)
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_field;  
-}
-uint64_t get_field(const base *cls, const char *_tag)
-{
-    ::reflect::branch_string tag(_tag);
-    return __details__::get_meta(cls, tag).m_field;  
-}
-const std::string &get_field_type(const base *cls, uint32_t field)
-{
-    if (field < get_fields_count(cls))
+    Value get_value(const base *cls, const std::string &_tag)
     {
-        auto& _meta = g_base_meta[field]; 
-        if (_meta.m_t_flags != 0)
+        branch_string tag(_tag); 
+        auto& _meta = details::get_meta(cls, tag);
+        if (__contains__(_meta.m_flags, flag_member))
         {
-            return _meta.m_type;
-        }
+            return Value(_meta.m_getter(cls), _meta.m_t_flags);  
+        }      
+        return __get_value(cls, _tag);   
     }
-    static std::string _ = "";
-    return _;
-}
-const std::string &get_name(const base *cls, uint32_t field)
-{
-    if (field < get_fields_count(cls))
+    Value get_value(const base *cls, const char *tag)
     {
-        return g_base_meta[field].m_variant;
+        return get_value(cls, std::string(tag));
     }
-    return g_default_meta.m_variant;
-}
-::reflect::meta<base> &get_meta(const base *cls)
-{
-    return g_base;
+    Value get_field_value(const base *cls, uint32_t field)
+    {
+        if (field < get_fields_count(cls))
+        {
+            auto& _meta = g_base_meta[field]; 
+            if (_meta.m_t_flags != 0)
+            {
+                return Value(_meta.m_getter(cls), _meta.m_t_flags);
+            }
+        }
+        return reflect::Value(nullptr, reflect::e_nullptr);
+    }
+    const std::string &get_type(const base *cls, const std::string &_tag)
+    {
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_type;
+    }
+    const std::string &get_type(const base *cls, const char *_tag) 
+    {
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_type;    
+    }
+    const std::string &get_type(base *cls)
+    {   
+        static const std::string _class = "base";
+        return _class;
+    }
+    const std::string &get_type(const base *cls)
+    {
+        static const std::string _class = "base";
+        return _class;
+    }
+    const std::string &get_typeid(const base *cls, const std::string &_tag)
+    {
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_type;
+    }
+    const std::string &get_typeid(const base *cls)
+    {
+        static const std::string _class = typeid("base").name();
+        return _class;
+    }
+    uint64_t get_field(const base *cls, const std::string &_tag)
+    {
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_field;  
+    }
+    uint64_t get_field(const base *cls, const char *_tag)
+    {
+        branch_string tag(_tag);
+        return details::get_meta(cls, tag).m_field;  
+    }
+    const std::string &get_field_type(const base *cls, uint32_t field)
+    {
+        if (field < get_fields_count(cls))
+        {
+            auto& _meta = g_base_meta[field]; 
+            if (_meta.m_t_flags != 0)
+            {
+                return _meta.m_type;
+            }
+        }
+        static std::string _ = "";
+        return _;
+    }
+    const std::string &get_name(const base *cls, uint32_t field)
+    {
+        if (field < get_fields_count(cls))
+        {
+            return g_base_meta[field].m_variant;
+        }
+        return g_default_meta.m_variant;
+    }
+    meta<base> &get_meta(const base *cls)
+    {
+        return g_base;
+    }
 }
 

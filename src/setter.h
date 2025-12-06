@@ -121,7 +121,7 @@ namespace reflect
         {
             std::decay_t<decltype(field)> *t = nullptr;
             auto _type = va_arg(__arguments__, const std::string *);
-            if (*_type == ::get_type(t))
+            if (*_type == get_type(t))
             {
                 auto _value = va_arg(
                     __arguments__, std::decay_t<decltype(field)> *);

@@ -19,10 +19,12 @@
 // SOFTWARE.
 //
 #include <iostream>
-#include "node.h"
+
 #include "base/common.h"
+#include "node.h"
 #include "gen_rfl/rfl.h"
 
+using namespace reflect;
 int set_base()
 {
     base b = {0};

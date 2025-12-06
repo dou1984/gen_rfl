@@ -153,7 +153,7 @@ namespace reflect
     format_tpl::format_tpl()
     {
     }
-    int format_tpl::to_header()
+    int format_tpl::to_header(branch_info &_bra)
     {
 
         ctemplate::TemplateDictionary _header("header");
@@ -162,10 +162,30 @@ namespace reflect
         _header.SetValue("raw_class", get_config().m_raw_class);
         _header.SetValue("header", GetRelativePath(get_config().m_relative_file, "") + "/base_types.h");
 
+        auto _expand_base = [&](auto dict)
+        {
+            for (auto &it : _bra.ana().get_data())
+            {
+                auto field = it.second;
+                if (__contains__(field->m_flags, flag_struct, flag_class))
+                {
+                    auto is_base = dict->AddSectionDictionary("is_base");
+                    is_base->SetValue("variant", field->m_variant);
+                }
+            }
+        };
+        _expand_base(&_header);
         if (!get_config().m_namespace.empty())
         {
-            auto _namespace = _header.AddSectionDictionary("namesp");
+            auto _namespace = _header.AddSectionDictionary("nmsp");
             _namespace->SetValue("namespace", get_config().m_namespace);
+            _expand_base(_namespace);
+        }
+        else
+        {
+            auto _no_namespace = _header.AddSectionDictionary("no_nmsp");
+            _no_namespace->SetValue("raw_class", get_config().m_raw_class);
+            _expand_base(_no_namespace);
         }
 
         std::string tpl_key = "header.tpl";
@@ -188,7 +208,7 @@ namespace reflect
         _meta.SetValue("class", conf.m_class);
         if (!conf.m_namespace.empty())
         {
-            auto _namespace = _meta.AddSectionDictionary("namesp");
+            auto _namespace = _meta.AddSectionDictionary("nmsp");
             _namespace->SetValue("namespace", conf.m_namespace);
         };
 
@@ -306,7 +326,7 @@ namespace reflect
         }
         if (!get_config().m_namespace.empty())
         {
-            auto _namespace = _get_meta.AddSectionDictionary("namesp");
+            auto _namespace = _get_meta.AddSectionDictionary("nmsp");
             _namespace->SetValue("namespace", get_config().m_namespace);
         }
         for (auto &it : bra.ana().get_data())
@@ -559,7 +579,7 @@ namespace reflect
     {
         bra.builder(0);
 
-        to_header();
+        to_header(bra);
         to_meta(bra, bra_func);
         to_func(0, 0, bra);
 
