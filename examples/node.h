@@ -50,7 +50,10 @@ struct base
 
 struct options
 {
-    bool status = 0;
+    bool status = true;
+    bool is_running = true;
+    bool is_stop = false;
+    bool is_suspend = false;
 };
 struct config : options
 {

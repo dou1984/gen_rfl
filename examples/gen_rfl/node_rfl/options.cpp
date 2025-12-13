@@ -14,6 +14,9 @@ namespace reflect
 {
     enum options_meta_enum
     {
+        e__options__is_running,
+        e__options__is_stop,
+        e__options__is_suspend,
         e__options__status,
         e__options__end,
     };
@@ -50,6 +53,39 @@ namespace reflect
     
     static reflect::meta<options> g_options_meta[] = {
     {
+        .m_variant = "is_running",
+        .m_type = "bool",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<bool>(),
+        .m_field = e__options__is_running, // 1
+        .m_getter = [](const options *cls) -> void * 
+        { return (void *)std::addressof(cls->is_running); },
+        .m_setter = []() -> auto
+        { return __setter__<options, __ref_member__<options, &options::is_running>>; }(),
+    },
+    {
+        .m_variant = "is_stop",
+        .m_type = "bool",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<bool>(),
+        .m_field = e__options__is_stop, // 2
+        .m_getter = [](const options *cls) -> void * 
+        { return (void *)std::addressof(cls->is_stop); },
+        .m_setter = []() -> auto
+        { return __setter__<options, __ref_member__<options, &options::is_stop>>; }(),
+    },
+    {
+        .m_variant = "is_suspend",
+        .m_type = "bool",
+        .m_flags = 0x801,
+        .m_t_flags = ::reflect::flag_type<bool>(),
+        .m_field = e__options__is_suspend, // 3
+        .m_getter = [](const options *cls) -> void * 
+        { return (void *)std::addressof(cls->is_suspend); },
+        .m_setter = []() -> auto
+        { return __setter__<options, __ref_member__<options, &options::is_suspend>>; }(),
+    },
+    {
         .m_variant = "status",
         .m_type = "bool",
         .m_flags = 0x801,
@@ -66,7 +102,31 @@ namespace reflect
         return reflect::Value(nullptr, reflect::e_nullptr);
     }
 
-    inline meta<options> &rfl__0__0(const options *cls, uint64_t value, branch_string &tag)
+    inline meta<options> &rfl__1__0(const options *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x646e == value) // nd
+        {
+            if (!tag) // complete
+            {
+                return g_options_meta[e__options__is_suspend];
+            }
+            return g_default_meta;
+        }
+        return g_default_meta;
+    }
+    inline meta<options> &rfl__0__1(const options *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x65707375735f7369 == value) // is_suspe
+        {
+            if (tag) // incomplete_eq_1
+            {
+                auto _value = tag();
+                return rfl__1__0(cls, _value, tag);
+            }
+        }
+        return g_default_meta;
+    }
+    inline meta<options> &rfl__0__2(const options *cls, uint64_t value, branch_string &tag)
     {
         if (0x737574617473 == value) // status
         {
@@ -78,6 +138,42 @@ namespace reflect
         }
         return g_default_meta;
     }
+    inline meta<options> &rfl__0__8(const options *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x706f74735f7369 == value) // is_stop
+        {
+            if (!tag) // complete
+            {
+                return g_options_meta[e__options__is_stop];
+            }
+            return g_default_meta;
+        }
+        return g_default_meta;
+    }
+    inline meta<options> &rfl__1__1(const options *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x676e == value) // ng
+        {
+            if (!tag) // complete
+            {
+                return g_options_meta[e__options__is_running];
+            }
+            return g_default_meta;
+        }
+        return g_default_meta;
+    }
+    inline meta<options> &rfl__0__10(const options *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x696e6e75725f7369 == value) // is_runni
+        {
+            if (tag) // incomplete_eq_1
+            {
+                auto _value = tag();
+                return rfl__1__1(cls, _value, tag);
+            }
+        }
+        return g_default_meta;
+    }
     const uint64_t get_fields_count(const options *cls)
     {
         return countof(g_options_meta);
@@ -86,8 +182,39 @@ namespace reflect
     {    
         meta<options> &get_meta(const options *cls, branch_string &tag)
         {
+            constexpr void *__meta_label[] = {
+                &&label__0__0,
+                &&label__0__1,
+                &&label__0__2,
+                &&label__0__3,
+                &&label__0__4,
+                &&label__0__5,
+                &&label__0__6,
+                &&label__0__7,
+                &&label__0__8,
+                &&label__0__9,
+                &&label__0__10,
+            };
+            constexpr auto count = countof(__meta_label);
             auto value = tag();
-            return rfl__0__0(cls, value, tag);
+            auto index = value % count;        
+            goto *__meta_label[index];
+        label__0__1:
+            return rfl__0__1(cls, value, tag);
+        label__0__2:
+            return rfl__0__2(cls, value, tag);
+        label__0__8:
+            return rfl__0__8(cls, value, tag);
+        label__0__10:
+            return rfl__0__10(cls, value, tag);
+        label__0__0:
+        label__0__3:
+        label__0__4:
+        label__0__5:
+        label__0__6:
+        label__0__7:
+        label__0__9:
+            return g_default_meta;
         }
     
         meta<options> &get_func(const options *cls, branch_string& tag, const std::list<Item> &argu_item)
