@@ -531,7 +531,7 @@ namespace reflect
 
             if (_bra.second->m_output.size() > 0)
             {
-                auto ret = has_argv->AddSectionDictionary("ret");
+                auto ret = has_argv->AddSectionDictionary("return");
                 ret->SetValue("compatible_output", compatible(_bra.second->m_output));
             }
             int index = 0;

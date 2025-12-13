@@ -172,8 +172,8 @@
                             if (_meta.m_variant == "{{variant}}")
                             {
                                 auto _base = static_cast<const {{variant}} *>(cls);
-                                for_each(_base, [&](auto &, auto &key, auto &value)
-                                {                                
+                                for_each(_base, [&](auto &_variant, auto &key, auto &value)
+                                {
                                     callback(_meta.m_variant, key, value);
                                 });
                                 break;             

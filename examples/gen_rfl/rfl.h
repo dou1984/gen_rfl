@@ -27,6 +27,7 @@
 #include "node_rfl/func.h"
 #include "node_rfl/node.h"
 #include "node_rfl/options.h"
+#include "node_rfl/priv_opts.h"
 
 #include "base/common_rfl/common.hpp"
 #include "node_rfl/base.hpp"
@@ -34,3 +35,4 @@
 #include "node_rfl/func.hpp"
 #include "node_rfl/node.hpp"
 #include "node_rfl/options.hpp"
+#include "node_rfl/priv_opts.hpp"

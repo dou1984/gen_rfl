@@ -47,8 +47,11 @@ struct base
 
     int64_t add(int64_t, int64_t);
 };
-
-struct options
+struct priv_opts
+{
+    int opts = 0;
+};
+struct options : priv_opts
 {
     bool status = true;
     bool is_running = true;

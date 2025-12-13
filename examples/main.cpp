@@ -193,7 +193,7 @@ int for_each_node()
     node n = {0};
 
     for_each(&n, [](auto &base, auto &key, auto &value)
-             { std::cout << base << ":" << key << "->" << value.to_string() << std::endl; });
+             { std::cout << "-->" << base << ":" << key << "->" << value.to_string() << std::endl; });
     return 0;
 }
 int main()

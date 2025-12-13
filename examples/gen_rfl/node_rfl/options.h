@@ -29,9 +29,11 @@
 #include <gen_rfl/branch_string.h>
 #include <gen_rfl/reflect.h>
 #include "../base_types.h"
+#include "priv_opts.h"
 
 namespace reflect
 {
+    using ::priv_opts;
     using ::options;
     namespace details
     {

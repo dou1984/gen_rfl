@@ -2826,27 +2826,27 @@ namespace reflect
                             if (_meta.m_variant == "base")
                             {
                                 auto _base = static_cast<const base *>(cls);
-                                for_each(_base, [&](auto &, auto &key, auto &value)
-                                {                                
-                                    callback(_meta.m_variant, key, value);
+                                for_each(_base, [&](auto &_variant, auto &key, auto &value)
+                                {                                     
+                                    callback(_meta.m_variant, key, value);                                   
                                 });
                                 break;             
                             }
                             if (_meta.m_variant == "config")
                             {
                                 auto _base = static_cast<const config *>(cls);
-                                for_each(_base, [&](auto &, auto &key, auto &value)
-                                {                                
-                                    callback(_meta.m_variant, key, value);
+                                for_each(_base, [&](auto &_variant, auto &key, auto &value)
+                                {                                     
+                                    callback(_meta.m_variant, key, value);                                   
                                 });
                                 break;             
                             }
                             if (_meta.m_variant == "func")
                             {
                                 auto _base = static_cast<const func *>(cls);
-                                for_each(_base, [&](auto &, auto &key, auto &value)
-                                {                                
-                                    callback(_meta.m_variant, key, value);
+                                for_each(_base, [&](auto &_variant, auto &key, auto &value)
+                                {                                     
+                                    callback(_meta.m_variant, key, value);                                   
                                 });
                                 break;             
                             }
