@@ -385,7 +385,8 @@ namespace reflect
                                 for_each(_base, [&](auto &, auto &key, auto &value)
                                 {                                
                                     callback(_meta.m_variant, key, value);
-                                });                           
+                                });
+                                break;             
                             }
                         } while (0);
                     }

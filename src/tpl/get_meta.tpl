@@ -175,7 +175,8 @@
                                 for_each(_base, [&](auto &, auto &key, auto &value)
                                 {                                
                                     callback(_meta.m_variant, key, value);
-                                });                           
+                                });
+                                break;             
                             }{{/is_base}}
                         } while (0);
                     }
