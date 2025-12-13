@@ -22,12 +22,14 @@
 #pragma once
 #include "../base_types.h"
 #include "config.h"
+#include "options.h"
 #include <gen_rfl/arguments.h>
 #include <gen_rfl/set_value.h>
 #include <gen_rfl/invoke.h>
 
 namespace reflect
 {
+    using ::options;
     using ::config;
     
     template <class S, class T>
@@ -44,7 +46,7 @@ namespace reflect
         return __invoke__(cls, _tag, _, std::forward<A>(args)...);
     }
     template <class S, class R, class... A>
-    int invoke2(config *cls, const S &_tag, R&& ret, A &&...args)
+    int invoke_r(config *cls, const S &_tag, R&& ret, A &&...args)
     {
         static OArguments _(std::addressof(ret), std::addressof(args)...);
         return __invoke__(cls, _tag, _, std::forward<R>(ret), std::forward<A>(args)...);

@@ -24,6 +24,7 @@
 #include <string_view>
 #include <typeinfo>
 #include <cassert>
+#include <functional>
 #include <gen_rfl/value.h>
 #include <gen_rfl/branch_string.h>
 #include <gen_rfl/reflect.h>
@@ -41,7 +42,7 @@ namespace reflect
     namespace details
     {
         meta<node> &get_meta(const node *cls, branch_string& tag);    
-        meta<node> &get_func(const node *cls, branch_string& tag, const std::list<Item> &args_tag);
+        meta<node> &get_func(const node *cls, branch_string& tag, const std::list<Item> &argu_item);
         int get_base_func(const node *cls, const std::string_view& tag, const Arguments *_, ...);
     }
     Value get_value(const node *cls, const char *tag);
@@ -61,5 +62,6 @@ namespace reflect
     const uint64_t get_fields_count(const node *cls);
     const std::string &get_name(const node *cls, uint32_t field);
     
+    int for_each(const node *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &);
    
 }

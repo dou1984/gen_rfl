@@ -39,15 +39,15 @@ namespace reflect
         operator bool() const { return m_data != nullptr; }
         void *data() { return m_data; }
 
-        float to_float() { return __to<float>(); }
-        double to_double() { return __to<double>(); }
-        int32_t to_int32() { return __to<int32_t>(); }
-        int64_t to_int64() { return __to<int64_t>(); }
-        uint32_t to_uint32() { return __to<uint32_t>(); }
-        uint64_t to_uint64() { return __to<uint64_t>(); }
-        std::string to_string() { return __to<std::string>(); }
+        float to_float() const { return __to<float>(); }
+        double to_double() const { return __to<double>(); }
+        int32_t to_int32() const { return __to<int32_t>(); }
+        int64_t to_int64() const { return __to<int64_t>(); }
+        uint32_t to_uint32() const { return __to<uint32_t>(); }
+        uint64_t to_uint64() const { return __to<uint64_t>(); }
+        std::string to_string() const { return __to<std::string>(); }
 
-        const std::string &as_string()
+        const std::string &as_string() const
         {
             if (m_flags == e_string)
             {
@@ -84,16 +84,16 @@ namespace reflect
 
     private:
         template <class T>
-        T &__ref() { return *((T *)m_data); }
+        T &__ref() const { return *((T *)m_data); }
         template <class T, class S>
-        T __to()
+        T __to() const
         {
             T t;
             __set__(t, m_flags, __ref<S>());
             return t;
         }
         template <class T>
-        T as_number()
+        T as_number() const
         {
             constexpr void *__meta__[] = {
                 &&label_nullptr,
@@ -140,7 +140,7 @@ namespace reflect
             return 0;
         }
         template <class T>
-        T __to()
+        T __to() const
         {
             constexpr void *__meta__[] = {
                 &&label_nullptr,

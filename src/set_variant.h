@@ -64,7 +64,12 @@ namespace reflect
     {
         if constexpr (std::is_integral<std::decay_t<T>>::value)
         {
-            if (std::cmp_greater(t, std::numeric_limits<S>::max()) || std::cmp_less(t, std::numeric_limits<S>::min()))
+            if constexpr (std::is_same<S, bool>::value)
+            {
+                s = !!t;
+                return 0;
+            }
+            else if (std::cmp_greater(t, std::numeric_limits<S>::max()) || std::cmp_less(t, std::numeric_limits<S>::min()))
             {
                 return -1;
             }
@@ -224,5 +229,5 @@ namespace reflect
     {
         assert(false);
         return 0;
-    }    
+    }
 }

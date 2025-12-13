@@ -53,8 +53,6 @@ namespace reflect
 
         int to_rfl(rfl_config &cfg, branch_info &ana, std::map<std::string, branch_info> &ana_func);
 
-        // int to_file(const std::string &header, const std::string &source);
-
     public:
         int to_rfl();
 

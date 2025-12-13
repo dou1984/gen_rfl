@@ -39,7 +39,10 @@ namespace reflect
 #ifndef countof
 #define countof(X) (sizeof(X) / sizeof(X[0]))
 #endif
-#define ARGUMENTS_SIZE_MAX 32
+#define reflect_friends(CLS)                                                                                              \
+    reflect::meta<CLS> &get_meta(const CLS *cls, reflect::branch_string &tag);                                            \
+    reflect::meta<CLS> &get_func(const CLS *cls, reflect::branch_string &tag, const std::list<reflect::Item> &argu_item); \
+    int get_base_func(const CLS *cls, const std::string_view &tag, const reflect::Arguments *_, ...);
 
     constexpr uint32_t __flag(uint32_t flag) { return 1 << flag; }
     template <typename... F>

@@ -62,7 +62,7 @@ namespace reflect
         },{{/invoke_fields}}
     };
     {{#invoke_func}}
-    reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<Item> &args_tag);{{/invoke_func}}
+    reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<Item> &argu_item);{{/invoke_func}}
     static reflect::meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
     {
         .m_variant = "{{variant}}",{{#not}}{{#is_member}}{{#is_field}}
@@ -107,10 +107,10 @@ namespace reflect
     {{{#is_base}} 
         {
             branch_string tag(_tag);
-            auto &_meta = details::get_meta(static_cast<const {{variant}} *>(cls), tag);
-            if (__contains__(_meta.m_flags, flag_member))
+            auto &_base = details::get_meta(static_cast<const {{variant}} *>(cls), tag);
+            if (__contains__(_base.m_flags, flag_member))
             {
-                return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
+                return reflect::Value(_base.m_getter(cls), _base.m_t_flags);   
             }
         }{{/is_base}}
         return reflect::Value(nullptr, reflect::e_nullptr);

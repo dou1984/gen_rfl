@@ -182,12 +182,12 @@ namespace reflect
             return g_default_meta;
         }
     
-        meta<common> &get_func(const common *cls, branch_string& tag, const std::list<Item> &args_tag)
+        meta<common> &get_func(const common *cls, branch_string& tag, const std::list<Item> &argu_item)
         {
-            auto &_meta = details::get_meta(cls, tag);
+            auto& _meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
             {
-                auto &_invoke = _meta.m_invoke(cls, args_tag);
+                auto &_invoke = _meta.m_invoke(cls, argu_item);
                 if (__contains__(_invoke.m_flags, flag_argument))
                 {           
                     return _invoke;
@@ -307,6 +307,33 @@ namespace reflect
     meta<common> &get_meta(const common *cls)
     {
         return g_common;
+    }
+    int for_each(const common *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &callback)
+    {
+        if (callback)
+        {
+            for (auto i = 0; i < get_fields_count(cls); i++)            
+            {                
+                auto& _meta = g_common_meta[i];
+                if (!__contains__(_meta.m_flags, flag_function))
+                {
+                    if (__contains__(_meta.m_flags, flag_struct, flag_class))
+                    {
+                        do
+                        {
+                        } while (0);
+                    }
+                    else
+                    {
+                        static std::string _ = "";
+                        Value value(_meta.m_getter(cls), _meta.m_t_flags);
+                        callback(_, _meta.m_variant, value);
+                    }
+                }                
+            }
+            return 0;
+        }
+        return -1;
     }
 }
 

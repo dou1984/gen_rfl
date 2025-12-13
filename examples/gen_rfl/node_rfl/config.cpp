@@ -4,6 +4,7 @@
 #include <gen_rfl/reflect.h>
 #include <gen_rfl/branch_string.h>
 #include "../../node.h"
+#include "options.h"
 #include "config.h"
 #include <gen_rfl/setter.h>
 #include <gen_rfl/arguments.h>
@@ -18,6 +19,7 @@ namespace reflect
         e__config__o1,
         e__config__o2,
         e__config__o3,
+        e__config__options,
         e__config__end,
     };
     enum config_func_enum
@@ -57,7 +59,7 @@ namespace reflect
         .m_type = "long",
         .m_flags = 0x801,
         .m_t_flags = ::reflect::flag_type<long>(),
-        .m_field = e__config__o0, // 0
+        .m_field = e__config__o0, // 1
         .m_getter = [](const config *cls) -> void * 
         { return (void *)std::addressof(cls->o0); },
         .m_setter = []() -> auto
@@ -68,7 +70,7 @@ namespace reflect
         .m_type = "long",
         .m_flags = 0x801,
         .m_t_flags = ::reflect::flag_type<long>(),
-        .m_field = e__config__o1, // 1
+        .m_field = e__config__o1, // 2
         .m_getter = [](const config *cls) -> void * 
         { return (void *)std::addressof(cls->o1); },
         .m_setter = []() -> auto
@@ -79,7 +81,7 @@ namespace reflect
         .m_type = "long",
         .m_flags = 0x801,
         .m_t_flags = ::reflect::flag_type<long>(),
-        .m_field = e__config__o2, // 2
+        .m_field = e__config__o2, // 3
         .m_getter = [](const config *cls) -> void * 
         { return (void *)std::addressof(cls->o2); },
         .m_setter = []() -> auto
@@ -90,31 +92,50 @@ namespace reflect
         .m_type = "long",
         .m_flags = 0x801,
         .m_t_flags = ::reflect::flag_type<long>(),
-        .m_field = e__config__o3, // 3
+        .m_field = e__config__o3, // 4
         .m_getter = [](const config *cls) -> void * 
         { return (void *)std::addressof(cls->o3); },
         .m_setter = []() -> auto
         { return __setter__<config, __ref_member__<config, &config::o3>>; }(),
     },
+    {
+        .m_variant = "options",
+        .m_type = "options",
+        .m_flags = 0x821,
+        .m_t_flags = ::reflect::flag_type<options>(),
+        .m_field = e__config__options, // 0
+        .m_getter = [](const config *cls) -> void * 
+        { return (void *)static_cast<const options *>(cls); },
+        .m_setter = []() -> auto
+        { return __setter__<config, __ref_base__<config, options>>; }(),
+    },
     };
     reflect::Value __get_value(const config* cls, const std::string& _tag)
-    {
+    { 
+        {
+            branch_string tag(_tag);
+            auto &_base = details::get_meta(static_cast<const options *>(cls), tag);
+            if (__contains__(_base.m_flags, flag_member))
+            {
+                return reflect::Value(_base.m_getter(cls), _base.m_t_flags);   
+            }
+        }
         return reflect::Value(nullptr, reflect::e_nullptr);
     }
 
     inline meta<config> &rfl__0__0(const config *cls, uint64_t value, branch_string &tag)
     {
-        if (0x316f == value) // o1
+        if (0x736e6f6974706f == value) // options
         {
             if (!tag) // complete
             {
-                return g_config_meta[e__config__o1];
+                return g_config_meta[e__config__options];
             }
             return g_default_meta;
         }
         return g_default_meta;
     }
-    inline meta<config> &rfl__0__1(const config *cls, uint64_t value, branch_string &tag)
+    inline meta<config> &rfl__0__2(const config *cls, uint64_t value, branch_string &tag)
     {
         if (0x326f == value) // o2
         {
@@ -126,25 +147,37 @@ namespace reflect
         }
         return g_default_meta;
     }
-    inline meta<config> &rfl__0__2(const config *cls, uint64_t value, branch_string &tag)
+    inline meta<config> &rfl__0__6(const config *cls, uint64_t value, branch_string &tag)
     {
-        if (0x336f == value) // o3
+        if (0x316f == value) // o1
         {
             if (!tag) // complete
             {
-                return g_config_meta[e__config__o3];
+                return g_config_meta[e__config__o1];
             }
             return g_default_meta;
         }
         return g_default_meta;
     }
-    inline meta<config> &rfl__0__4(const config *cls, uint64_t value, branch_string &tag)
+    inline meta<config> &rfl__0__10(const config *cls, uint64_t value, branch_string &tag)
     {
         if (0x306f == value) // o0
         {
             if (!tag) // complete
             {
                 return g_config_meta[e__config__o0];
+            }
+            return g_default_meta;
+        }
+        return g_default_meta;
+    }
+    inline meta<config> &rfl__0__11(const config *cls, uint64_t value, branch_string &tag)
+    {
+        if (0x336f == value) // o3
+        {
+            if (!tag) // complete
+            {
+                return g_config_meta[e__config__o3];
             }
             return g_default_meta;
         }
@@ -164,6 +197,14 @@ namespace reflect
                 &&label__0__2,
                 &&label__0__3,
                 &&label__0__4,
+                &&label__0__5,
+                &&label__0__6,
+                &&label__0__7,
+                &&label__0__8,
+                &&label__0__9,
+                &&label__0__10,
+                &&label__0__11,
+                &&label__0__12,
             };
             constexpr auto count = countof(__meta_label);
             auto value = tag();
@@ -171,22 +212,31 @@ namespace reflect
             goto *__meta_label[index];
         label__0__0:
             return rfl__0__0(cls, value, tag);
-        label__0__1:
-            return rfl__0__1(cls, value, tag);
         label__0__2:
             return rfl__0__2(cls, value, tag);
-        label__0__4:
-            return rfl__0__4(cls, value, tag);
+        label__0__6:
+            return rfl__0__6(cls, value, tag);
+        label__0__10:
+            return rfl__0__10(cls, value, tag);
+        label__0__11:
+            return rfl__0__11(cls, value, tag);
+        label__0__1:
         label__0__3:
+        label__0__4:
+        label__0__5:
+        label__0__7:
+        label__0__8:
+        label__0__9:
+        label__0__12:
             return g_default_meta;
         }
     
-        meta<config> &get_func(const config *cls, branch_string& tag, const std::list<Item> &args_tag)
+        meta<config> &get_func(const config *cls, branch_string& tag, const std::list<Item> &argu_item)
         {
-            auto &_meta = details::get_meta(cls, tag);
+            auto& _meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
             {
-                auto &_invoke = _meta.m_invoke(cls, args_tag);
+                auto &_invoke = _meta.m_invoke(cls, argu_item);
                 if (__contains__(_invoke.m_flags, flag_argument))
                 {           
                     return _invoke;
@@ -201,6 +251,15 @@ namespace reflect
             auto r = -1;
             do
             {
+                {
+                    branch_string tag(_tag);
+                    auto &_invoke = details::get_func(static_cast<const options *>(cls), tag, _->m_arguments);
+                    if (__contains__(_invoke.m_flags, flag_argument))
+                    {
+                        r = _invoke.m_func_v(const_cast<options *>(static_cast<const options *>(cls)), _, __arguments_list);
+                        break;
+                    } 
+                }
             } while (false);
             va_end(__arguments_list);
             return r;
@@ -306,6 +365,41 @@ namespace reflect
     meta<config> &get_meta(const config *cls)
     {
         return g_config;
+    }
+    int for_each(const config *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &callback)
+    {
+        if (callback)
+        {
+            for (auto i = 0; i < get_fields_count(cls); i++)            
+            {                
+                auto& _meta = g_config_meta[i];
+                if (!__contains__(_meta.m_flags, flag_function))
+                {
+                    if (__contains__(_meta.m_flags, flag_struct, flag_class))
+                    {
+                        do
+                        {
+                            if (_meta.m_variant == "options")
+                            {
+                                auto _base = static_cast<const options *>(cls);
+                                for_each(_base, [&](auto &, auto &key, auto &value)
+                                {                                
+                                    callback(_meta.m_variant, key, value);
+                                });                           
+                            }
+                        } while (0);
+                    }
+                    else
+                    {
+                        static std::string _ = "";
+                        Value value(_meta.m_getter(cls), _meta.m_t_flags);
+                        callback(_, _meta.m_variant, value);
+                    }
+                }                
+            }
+            return 0;
+        }
+        return -1;
     }
 }
 

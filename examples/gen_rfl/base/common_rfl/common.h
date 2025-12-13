@@ -24,6 +24,7 @@
 #include <string_view>
 #include <typeinfo>
 #include <cassert>
+#include <functional>
 #include <gen_rfl/value.h>
 #include <gen_rfl/branch_string.h>
 #include <gen_rfl/reflect.h>
@@ -35,7 +36,7 @@ namespace reflect
     namespace details
     {
         meta<common> &get_meta(const common *cls, branch_string& tag);    
-        meta<common> &get_func(const common *cls, branch_string& tag, const std::list<Item> &args_tag);
+        meta<common> &get_func(const common *cls, branch_string& tag, const std::list<Item> &argu_item);
         int get_base_func(const common *cls, const std::string_view& tag, const Arguments *_, ...);
     }
     Value get_value(const common *cls, const char *tag);
@@ -55,5 +56,6 @@ namespace reflect
     const uint64_t get_fields_count(const common *cls);
     const std::string &get_name(const common *cls, uint32_t field);
     
+    int for_each(const common *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &);
    
 }

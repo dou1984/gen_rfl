@@ -48,7 +48,11 @@ struct base
     int64_t add(int64_t, int64_t);
 };
 
-struct config
+struct options
+{
+    bool status = 0;
+};
+struct config : options
 {
     int64_t o0;
     int64_t o1;

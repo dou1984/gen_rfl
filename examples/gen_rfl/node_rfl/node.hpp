@@ -50,7 +50,7 @@ namespace reflect
         return __invoke__(cls, _tag, _, std::forward<A>(args)...);
     }
     template <class S, class R, class... A>
-    int invoke2(node *cls, const S &_tag, R&& ret, A &&...args)
+    int invoke_r(node *cls, const S &_tag, R&& ret, A &&...args)
     {
         static OArguments _(std::addressof(ret), std::addressof(args)...);
         return __invoke__(cls, _tag, _, std::forward<R>(ret), std::forward<A>(args)...);

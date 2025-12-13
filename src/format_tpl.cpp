@@ -604,15 +604,6 @@ namespace reflect
         return 0;
     }
 
-    // int format_tpl::to_file(const std::string &header, const std::string &source)
-    // {
-
-    //     write_file(header, m_output_header);
-
-    //     write_file(source, m_output_source);
-    //     return 0;
-    // }
-
     int format_tpl::to_rfl()
     {
         auto &conf = get_config();

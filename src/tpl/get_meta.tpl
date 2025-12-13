@@ -21,12 +21,12 @@
             return rfl__{{layer}}__{{index}}(cls, value, tag);{{/meta_eq_1}}
         }
     
-        meta<{{class}}> &get_func(const {{class}} *cls, branch_string& tag, const std::list<Item> &args_tag)
+        meta<{{class}}> &get_func(const {{class}} *cls, branch_string& tag, const std::list<Item> &argu_item)
         {
-            auto &_meta = details::get_meta(cls, tag);
+            auto& _meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
             {
-                auto &_invoke = _meta.m_invoke(cls, args_tag);
+                auto &_invoke = _meta.m_invoke(cls, argu_item);
                 if (__contains__(_invoke.m_flags, flag_argument))
                 {           
                     return _invoke;
@@ -155,6 +155,41 @@
     meta<{{class}}> &get_meta(const {{class}} *cls)
     {
         return g_{{class}};
+    }
+    int for_each(const {{class}} *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &callback)
+    {
+        if (callback)
+        {
+            for (auto i = 0; i < get_fields_count(cls); i++)            
+            {                
+                auto& _meta = g_{{class}}_meta[i];
+                if (!__contains__(_meta.m_flags, flag_function))
+                {
+                    if (__contains__(_meta.m_flags, flag_struct, flag_class))
+                    {
+                        do
+                        {{{#is_base}}
+                            if (_meta.m_variant == "{{variant}}")
+                            {
+                                auto _base = static_cast<const {{variant}} *>(cls);
+                                for_each(_base, [&](auto &, auto &key, auto &value)
+                                {                                
+                                    callback(_meta.m_variant, key, value);
+                                });                           
+                            }{{/is_base}}
+                        } while (0);
+                    }
+                    else
+                    {
+                        static std::string _ = "";
+                        Value value(_meta.m_getter(cls), _meta.m_t_flags);
+                        callback(_, _meta.m_variant, value);
+                    }
+                }                
+            }
+            return 0;
+        }
+        return -1;
     }
 }
 

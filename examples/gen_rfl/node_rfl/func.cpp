@@ -110,9 +110,9 @@ namespace reflect
         },
     };
     
-    reflect::meta<func>& invoke__func___deinit(const func *c, const std::list<Item> &args_tag);
-    reflect::meta<func>& invoke__func___done(const func *c, const std::list<Item> &args_tag);
-    reflect::meta<func>& invoke__func___init(const func *c, const std::list<Item> &args_tag);
+    reflect::meta<func>& invoke__func___deinit(const func *c, const std::list<Item> &argu_item);
+    reflect::meta<func>& invoke__func___done(const func *c, const std::list<Item> &argu_item);
+    reflect::meta<func>& invoke__func___init(const func *c, const std::list<Item> &argu_item);
     static reflect::meta<func> g_func_meta[] = {
     {
         .m_variant = "_deinit",
@@ -392,12 +392,12 @@ namespace reflect
             return g_default_meta;
         }
     
-        meta<func> &get_func(const func *cls, branch_string& tag, const std::list<Item> &args_tag)
+        meta<func> &get_func(const func *cls, branch_string& tag, const std::list<Item> &argu_item)
         {
-            auto &_meta = details::get_meta(cls, tag);
+            auto& _meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
             {
-                auto &_invoke = _meta.m_invoke(cls, args_tag);
+                auto &_invoke = _meta.m_invoke(cls, argu_item);
                 if (__contains__(_invoke.m_flags, flag_argument))
                 {           
                     return _invoke;
@@ -517,6 +517,33 @@ namespace reflect
     meta<func> &get_meta(const func *cls)
     {
         return g_func;
+    }
+    int for_each(const func *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &callback)
+    {
+        if (callback)
+        {
+            for (auto i = 0; i < get_fields_count(cls); i++)            
+            {                
+                auto& _meta = g_func_meta[i];
+                if (!__contains__(_meta.m_flags, flag_function))
+                {
+                    if (__contains__(_meta.m_flags, flag_struct, flag_class))
+                    {
+                        do
+                        {
+                        } while (0);
+                    }
+                    else
+                    {
+                        static std::string _ = "";
+                        Value value(_meta.m_getter(cls), _meta.m_t_flags);
+                        callback(_, _meta.m_variant, value);
+                    }
+                }                
+            }
+            return 0;
+        }
+        return -1;
     }
 }
 

@@ -425,16 +425,16 @@ namespace reflect
         },
     };
     
-    reflect::meta<node>& invoke__node__deinit(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__init(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll6(const node *c, const std::list<Item> &args_tag);
-    reflect::meta<node>& invoke__node__set(const node *c, const std::list<Item> &args_tag);
+    reflect::meta<node>& invoke__node__deinit(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__init(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll0(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll1(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll2(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll3(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll4(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll5(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__lllllllllllllllllllllllllll6(const node *c, const std::list<Item> &argu_item);
+    reflect::meta<node>& invoke__node__set(const node *c, const std::list<Item> &argu_item);
     static reflect::meta<node> g_node_meta[] = {
     {
         .m_variant = "base",
@@ -850,26 +850,26 @@ namespace reflect
     { 
         {
             branch_string tag(_tag);
-            auto &_meta = details::get_meta(static_cast<const base *>(cls), tag);
-            if (__contains__(_meta.m_flags, flag_member))
+            auto &_base = details::get_meta(static_cast<const base *>(cls), tag);
+            if (__contains__(_base.m_flags, flag_member))
             {
-                return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
+                return reflect::Value(_base.m_getter(cls), _base.m_t_flags);   
             }
         } 
         {
             branch_string tag(_tag);
-            auto &_meta = details::get_meta(static_cast<const config *>(cls), tag);
-            if (__contains__(_meta.m_flags, flag_member))
+            auto &_base = details::get_meta(static_cast<const config *>(cls), tag);
+            if (__contains__(_base.m_flags, flag_member))
             {
-                return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
+                return reflect::Value(_base.m_getter(cls), _base.m_t_flags);   
             }
         } 
         {
             branch_string tag(_tag);
-            auto &_meta = details::get_meta(static_cast<const func *>(cls), tag);
-            if (__contains__(_meta.m_flags, flag_member))
+            auto &_base = details::get_meta(static_cast<const func *>(cls), tag);
+            if (__contains__(_base.m_flags, flag_member))
             {
-                return reflect::Value(_meta.m_getter(cls), _meta.m_t_flags);   
+                return reflect::Value(_base.m_getter(cls), _base.m_t_flags);   
             }
         }
         return reflect::Value(nullptr, reflect::e_nullptr);
@@ -2657,12 +2657,12 @@ namespace reflect
             return g_default_meta;
         }
     
-        meta<node> &get_func(const node *cls, branch_string& tag, const std::list<Item> &args_tag)
+        meta<node> &get_func(const node *cls, branch_string& tag, const std::list<Item> &argu_item)
         {
-            auto &_meta = details::get_meta(cls, tag);
+            auto& _meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
             {
-                auto &_invoke = _meta.m_invoke(cls, args_tag);
+                auto &_invoke = _meta.m_invoke(cls, argu_item);
                 if (__contains__(_invoke.m_flags, flag_argument))
                 {           
                     return _invoke;
@@ -2809,6 +2809,57 @@ namespace reflect
     meta<node> &get_meta(const node *cls)
     {
         return g_node;
+    }
+    int for_each(const node *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &callback)
+    {
+        if (callback)
+        {
+            for (auto i = 0; i < get_fields_count(cls); i++)            
+            {                
+                auto& _meta = g_node_meta[i];
+                if (!__contains__(_meta.m_flags, flag_function))
+                {
+                    if (__contains__(_meta.m_flags, flag_struct, flag_class))
+                    {
+                        do
+                        {
+                            if (_meta.m_variant == "base")
+                            {
+                                auto _base = static_cast<const base *>(cls);
+                                for_each(_base, [&](auto &, auto &key, auto &value)
+                                {                                
+                                    callback(_meta.m_variant, key, value);
+                                });                           
+                            }
+                            if (_meta.m_variant == "config")
+                            {
+                                auto _base = static_cast<const config *>(cls);
+                                for_each(_base, [&](auto &, auto &key, auto &value)
+                                {                                
+                                    callback(_meta.m_variant, key, value);
+                                });                           
+                            }
+                            if (_meta.m_variant == "func")
+                            {
+                                auto _base = static_cast<const func *>(cls);
+                                for_each(_base, [&](auto &, auto &key, auto &value)
+                                {                                
+                                    callback(_meta.m_variant, key, value);
+                                });                           
+                            }
+                        } while (0);
+                    }
+                    else
+                    {
+                        static std::string _ = "";
+                        Value value(_meta.m_getter(cls), _meta.m_t_flags);
+                        callback(_, _meta.m_variant, value);
+                    }
+                }                
+            }
+            return 0;
+        }
+        return -1;
     }
 }
 

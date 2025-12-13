@@ -29,35 +29,33 @@
 #include <gen_rfl/branch_string.h>
 #include <gen_rfl/reflect.h>
 #include "../base_types.h"
-#include "options.h"
 
 namespace reflect
 {
     using ::options;
-    using ::config;
     namespace details
     {
-        meta<config> &get_meta(const config *cls, branch_string& tag);    
-        meta<config> &get_func(const config *cls, branch_string& tag, const std::list<Item> &argu_item);
-        int get_base_func(const config *cls, const std::string_view& tag, const Arguments *_, ...);
+        meta<options> &get_meta(const options *cls, branch_string& tag);    
+        meta<options> &get_func(const options *cls, branch_string& tag, const std::list<Item> &argu_item);
+        int get_base_func(const options *cls, const std::string_view& tag, const Arguments *_, ...);
     }
-    Value get_value(const config *cls, const char *tag);
-    Value get_value(const config *cls, const std::string &tag);
-    Value get_field_value(const config *cls, uint32_t field);
-    const std::string &get_type(const config *cls, const std::string &tag);
-    const std::string &get_type(const config *cls, const char *tag);
-    const std::string &get_type(config *cls);
-    const std::string &get_type(const config *cls);
-    const std::string &get_type(config **cls);
-    const std::string &get_type(const config **cls);
-    const std::string &get_typeid(const config *cls, const std::string &tag);
-    const std::string &get_typeid(const config *cls);
-    const std::string &get_field_type(const config *cls, uint32_t field);
-    uint64_t get_field(const config *cls, const std::string &tag);
-    uint64_t get_field(const config *cls, const char *tag);
-    const uint64_t get_fields_count(const config *cls);
-    const std::string &get_name(const config *cls, uint32_t field);
+    Value get_value(const options *cls, const char *tag);
+    Value get_value(const options *cls, const std::string &tag);
+    Value get_field_value(const options *cls, uint32_t field);
+    const std::string &get_type(const options *cls, const std::string &tag);
+    const std::string &get_type(const options *cls, const char *tag);
+    const std::string &get_type(options *cls);
+    const std::string &get_type(const options *cls);
+    const std::string &get_type(options **cls);
+    const std::string &get_type(const options **cls);
+    const std::string &get_typeid(const options *cls, const std::string &tag);
+    const std::string &get_typeid(const options *cls);
+    const std::string &get_field_type(const options *cls, uint32_t field);
+    uint64_t get_field(const options *cls, const std::string &tag);
+    uint64_t get_field(const options *cls, const char *tag);
+    const uint64_t get_fields_count(const options *cls);
+    const std::string &get_name(const options *cls, uint32_t field);
     
-    int for_each(const config *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &);
+    int for_each(const options *cls, const std::function<void(const std::string &, const std::string &, const Value &)> &);
    
 }

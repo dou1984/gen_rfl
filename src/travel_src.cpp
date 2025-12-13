@@ -325,8 +325,8 @@ namespace reflect
                 auto TypeName = FieldType.getAsString();
                 auto Name = FD->getNameAsString();
 
-                auto flag_const_ = FD->getType().isConstQualified() ? flag_const : 0;
-                auto flag_volatile_ = FD->getType().isVolatileQualified() ? flag_volatile : 0;
+                auto flag_const_ = FD->getType().isConstQualified() ? flag_const : flag_member;
+                auto flag_volatile_ = FD->getType().isVolatileQualified() ? flag_volatile : flag_member;
 
                 if (UnqualifiedType->isBuiltinType())
                 {
@@ -361,8 +361,8 @@ namespace reflect
                 std::string TypeName = FieldType.getAsString();
                 std::string Name = VD->getNameAsString();
 
-                auto flag_const_ = VD->getType().isConstQualified() ? flag_const : 0;
-                auto flag_volatile_ = VD->getType().isVolatileQualified() ? flag_volatile : 0;
+                auto flag_const_ = VD->getType().isConstQualified() ? flag_const : flag_member;
+                auto flag_volatile_ = VD->getType().isVolatileQualified() ? flag_volatile : flag_member;
 
                 if (UnqualifiedType->isBuiltinType())
                 {
