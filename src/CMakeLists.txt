@@ -100,6 +100,7 @@ FILES
     setter.h
     value.h
     item.h
+    invoke.h
     arguments.h
     config_src.h 
     DESTINATION include/gen_rfl
@@ -107,6 +108,7 @@ FILES
 install(
     FILES
     tpl/header.tpl
+    tpl/header.hpp.tpl
     tpl/func.tpl
     tpl/meta.tpl
     tpl/get_meta.tpl

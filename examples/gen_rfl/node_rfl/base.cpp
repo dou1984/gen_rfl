@@ -63,9 +63,9 @@ namespace reflect
     };
     
     int invoke__base__add__1(const base* c, const Arguments *, ...);
-    int invoke__base__add__1_v(base* c, const Arguments *, va_list);
+    int invoke__base__add__1_v(base* c, const Arguments *, va_list &);
     int invoke__base__add__0(const base* c, const Arguments *, ...);
-    int invoke__base__add__0_v(base* c, const Arguments *, va_list);
+    int invoke__base__add__0_v(base* c, const Arguments *, va_list &);
     static meta<base> g_base_func[] = 
     {
         {
@@ -88,7 +88,7 @@ namespace reflect
         },
     };
     
-    reflect::meta<base>& invoke__base__add(const base *c, const std::list<Item> &tag);
+    reflect::meta<base>& invoke__base__add(const base *c, const std::list<Item> &args_tag);
     static reflect::meta<base> g_base_meta[] = {
     {
         .m_variant = "a",
@@ -521,7 +521,7 @@ namespace reflect
         }
         return g_default_meta;
     }
-    int invoke__base__add__0_v(base *cls, const Arguments* argu, va_list __arguments_list)
+    int invoke__base__add__0_v(base *cls, const Arguments* argu, va_list& __arguments_list)
     {
         auto& _r = *(va_arg(__arguments_list, int64_t *));
         auto& _a_0 = *(va_arg(__arguments_list, int64_t *));
@@ -542,7 +542,7 @@ namespace reflect
         }
         return -1;
     }
-    int invoke__base__add__1_v(base *cls, const Arguments* argu, va_list __arguments_list)
+    int invoke__base__add__1_v(base *cls, const Arguments* argu, va_list& __arguments_list)
     {
         auto& _a_0 = *(va_arg(__arguments_list, int64_t *));
         auto& _a_1 = *(va_arg(__arguments_list, int64_t *));
@@ -699,7 +699,7 @@ namespace reflect
             return g_default_meta;
         }
     
-        meta<base> &get_func(const base *cls, branch_string& tag, const std::list<Item>& args_tag)
+        meta<base> &get_func(const base *cls, branch_string& tag, const std::list<Item> &args_tag)
         {
             auto &_meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
@@ -712,7 +712,7 @@ namespace reflect
             }
             return g_default_meta;
         }
-        int get_base_func(const base *cls, const std::string& _tag, const Arguments *_, ...)
+        int get_base_func(const base *cls, const std::string_view& _tag, const Arguments *_, ...)
         {
             va_list __arguments_list;
             va_start(__arguments_list, _);
@@ -761,7 +761,7 @@ namespace reflect
         return details::get_meta(cls, tag).m_type;    
     }
     const std::string &get_type(base *cls)
-    {   
+    {
         static const std::string _class = "base";
         return _class;
     }
@@ -770,14 +770,24 @@ namespace reflect
         static const std::string _class = "base";
         return _class;
     }
+    const std::string &get_type(base **cls)
+    {
+        static const std::string _class = "base *";
+        return _class;
+    }
+    const std::string &get_type(const base **cls)
+    {
+        static const std::string _class = "base *";
+        return _class;
+    }
     const std::string &get_typeid(const base *cls, const std::string &_tag)
     {
         branch_string tag(_tag);
-        return details::get_meta(cls, tag).m_type;
+        return details::get_meta(cls, tag).m_typeid;       
     }
     const std::string &get_typeid(const base *cls)
     {
-        static const std::string _class = typeid("base").name();
+        static const std::string _class = typeid(base).name();
         return _class;
     }
     uint64_t get_field(const base *cls, const std::string &_tag)

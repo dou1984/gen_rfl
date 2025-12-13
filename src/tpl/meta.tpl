@@ -48,7 +48,7 @@ namespace reflect
     };
     {{#invoke_fields}}
     int invoke__{{class}}__{{variant}}{{__field}}(const {{class}}* c, const Arguments *, ...);
-    int invoke__{{class}}__{{variant}}{{__field}}_v({{class}}* c, const Arguments *, va_list);{{/invoke_fields}}
+    int invoke__{{class}}__{{variant}}{{__field}}_v({{class}}* c, const Arguments *, va_list &);{{/invoke_fields}}
     static meta<{{class}}> g_{{class}}_func[] = 
     {{{#invoke_fields}}
         {
@@ -62,7 +62,7 @@ namespace reflect
         },{{/invoke_fields}}
     };
     {{#invoke_func}}
-    reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<Item> &tag);{{/invoke_func}}
+    reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<Item> &args_tag);{{/invoke_func}}
     static reflect::meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
     {
         .m_variant = "{{variant}}",{{#not}}{{#is_member}}{{#is_field}}

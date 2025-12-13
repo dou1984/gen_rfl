@@ -105,7 +105,7 @@ namespace reflect
         using meta_setter_t = int (*)(T *, unsigned int, ...);
         using meta_invoke_t = meta &(*)(const T *, const std::list<Item> &);
         using meta_func_t = int (*)(const T *, const Arguments *, ...);
-        using meta_func_v = int (*)(T *, const Arguments *, va_list);
+        using meta_func_v = int (*)(T *, const Arguments *, va_list &);
         const std::string m_variant;
         const std::string m_type;
         const std::string m_typeid;

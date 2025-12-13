@@ -18,20 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#pragma once
 
-#include <string>
+#pragma once
+#include "../../base_types.h"
+#include "common.h"
+#include <gen_rfl/arguments.h>
+#include <gen_rfl/set_value.h>
+#include <gen_rfl/invoke.h>
 
 namespace reflect
 {
-    struct rfl_config
+    using fastest::common;
+    
+    template <class S, class T>
+    int set_value(common *cls, const S &_tag, T &&value)
     {
-        std::string header;
-        std::string header_hpp;
-        std::string source;
-    };
-    int generate_file_name(std::string &header, std::string &source, std::string &_header);
-    bool is_generated(rfl_config &cfg);
-       
-
+        branch_string tag(_tag);
+        auto o = details::get_meta(cls, tag);
+        return __set_value__(cls, o, get_type((std::decay_t<T> *)0), std::forward<T>(value));    
+    }
+    template <class S, class... A>
+    int invoke(common *cls, const S &_tag, A &&...args)
+    {
+        static IArguments _(std::addressof(args)...);
+        return __invoke__(cls, _tag, _, std::forward<A>(args)...);
+    }
+    template <class S, class R, class... A>
+    int invoke2(common *cls, const S &_tag, R&& ret, A &&...args)
+    {
+        static OArguments _(std::addressof(ret), std::addressof(args)...);
+        return __invoke__(cls, _tag, _, std::forward<R>(ret), std::forward<A>(args)...);
+    }
 }

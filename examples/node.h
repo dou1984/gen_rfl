@@ -101,4 +101,7 @@ struct node : base, config, func
     int lllllllllllllllllllllllllll5(const std::string &, const std::string &);
     int lllllllllllllllllllllllllll6(std::string &, std::string &);
     int lllllllllllllllllllllllllll6(std::string &);
+
+    int set(base *);
+    int set(config &);
 };

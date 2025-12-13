@@ -42,8 +42,8 @@ namespace reflect
         std::string libs_dir;
         std::string tpl_dir;
         std::string src_dir;
-        std::string tmp_dir;
-        std::string real_tmp_dir_loc;
+        std::string rfl_dir;
+        std::string real_source_dir;
         std::string cwd;
         std::string cmake_pattern;
         std::string source_pattern;

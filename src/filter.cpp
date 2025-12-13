@@ -30,16 +30,16 @@ namespace reflect
     filter get_filter()
     {
         auto &conf = get_config();
-        std::regex tmp_regex(conf.tmp_dir);
+        std::regex tmp_regex(conf.rfl_dir);
         std::regex base_regex(conf.source_pattern);
         std::regex cmake_regex(conf.cmake_pattern);
         auto tmp_rfl_dir = std::string(".*[^/]+_rfl/") + conf.source_pattern;
         std::regex rfl_dir_regex(tmp_rfl_dir);
         std::regex spec_file("(base_types.cpp|base_types.h|rfl.h)$");
-        auto tmp_dir = conf.tmp_dir;
+        auto rfl_dir = conf.rfl_dir;
         return [=](const std::string &file) -> bool
         {
-            if (!(IsCurDir(tmp_dir)))
+            if (!(IsCurDir(rfl_dir)))
             {
                 if (std::regex_search(file, tmp_regex))
                 {
@@ -70,13 +70,13 @@ namespace reflect
     filter get_rfl_filter()
     {
         auto &conf = get_config();
-        std::regex tmp_regex(conf.tmp_dir);
-        auto tmp_dir = conf.tmp_dir;
+        std::regex tmp_regex(conf.rfl_dir);
+        auto rfl_dir = conf.rfl_dir;
         auto tmp_rfl_dir = std::string(".*[^/]+_rfl/") + conf.source_pattern;
         std::regex rfl_dir_regex(tmp_rfl_dir);
         return [=](const std::string &file) -> bool
         {
-            if (!(IsCurDir(tmp_dir)))
+            if (!(IsCurDir(rfl_dir)))
             {
                 if (std::regex_search(file, tmp_regex))
                 {

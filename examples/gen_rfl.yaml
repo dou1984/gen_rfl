@@ -1,4 +1,4 @@
-tmp_dir: gen_rfl
+rfl_dir: gen_rfl
 src_dir: ./
 libs_dir: libs
 include_dir: include

@@ -56,23 +56,4 @@ namespace reflect
         std::string_view m_data;
     };
 
-    inline bool has_zero_byte_bitmagic(uint64_t value)
-    {
-        constexpr uint64_t magic = 0x0101010101010101ULL;
-        constexpr uint64_t mask = 0x8080808080808080ULL;
-        return ((value - magic) & ~value & mask) != 0;
-    }
-    inline uint64_t peek(const char *data)
-    {
-        uint64_t r = *(uint64_t *)data;
-        if (has_zero_byte_bitmagic(r))
-        {
-            r = 0;
-            for (auto i = 0; i < sizeof(uint64_t) && data[i] != '\0'; i++)
-            {
-                reinterpret_cast<char *>(&r)[i] = data[i];
-            }
-        }
-        return r;
-    }
 }

@@ -25,15 +25,17 @@
 #include <ctemplate/template_string.h>
 #include "branch.h"
 #include "analyzer.h"
+#include "gen_rfl.h"
 
 namespace reflect
 {
     class format_tpl
     {
+
     public:
         format_tpl();
 
-        int to_header(branch_info &_bra);
+        int to_header(const std::string tpl_key, branch_info &_bra);
 
         int to_meta(branch_info &bra, std::map<std::string, branch_info> &ana_func);
 
@@ -49,9 +51,9 @@ namespace reflect
 
         int to_invoke_layer(const std::string &variant, const branch_map &bra);
 
-        int to_rfl(branch_info &ana, std::map<std::string, branch_info> &ana_func);
+        int to_rfl(rfl_config &cfg, branch_info &ana, std::map<std::string, branch_info> &ana_func);
 
-        int to_file(const std::string &header, const std::string &source);
+        // int to_file(const std::string &header, const std::string &source);
 
     public:
         int to_rfl();

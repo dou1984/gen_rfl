@@ -52,15 +52,15 @@ namespace reflect
     };
     
     int invoke__func___deinit__3(const func* c, const Arguments *, ...);
-    int invoke__func___deinit__3_v(func* c, const Arguments *, va_list);
+    int invoke__func___deinit__3_v(func* c, const Arguments *, va_list &);
     int invoke__func___deinit__2(const func* c, const Arguments *, ...);
-    int invoke__func___deinit__2_v(func* c, const Arguments *, va_list);
+    int invoke__func___deinit__2_v(func* c, const Arguments *, va_list &);
     int invoke__func___done__4(const func* c, const Arguments *, ...);
-    int invoke__func___done__4_v(func* c, const Arguments *, va_list);
+    int invoke__func___done__4_v(func* c, const Arguments *, va_list &);
     int invoke__func___init__1(const func* c, const Arguments *, ...);
-    int invoke__func___init__1_v(func* c, const Arguments *, va_list);
+    int invoke__func___init__1_v(func* c, const Arguments *, va_list &);
     int invoke__func___init__0(const func* c, const Arguments *, ...);
-    int invoke__func___init__0_v(func* c, const Arguments *, va_list);
+    int invoke__func___init__0_v(func* c, const Arguments *, va_list &);
     static meta<func> g_func_func[] = 
     {
         {
@@ -110,9 +110,9 @@ namespace reflect
         },
     };
     
-    reflect::meta<func>& invoke__func___deinit(const func *c, const std::list<Item> &tag);
-    reflect::meta<func>& invoke__func___done(const func *c, const std::list<Item> &tag);
-    reflect::meta<func>& invoke__func___init(const func *c, const std::list<Item> &tag);
+    reflect::meta<func>& invoke__func___deinit(const func *c, const std::list<Item> &args_tag);
+    reflect::meta<func>& invoke__func___done(const func *c, const std::list<Item> &args_tag);
+    reflect::meta<func>& invoke__func___init(const func *c, const std::list<Item> &args_tag);
     static reflect::meta<func> g_func_meta[] = {
     {
         .m_variant = "_deinit",
@@ -183,7 +183,7 @@ namespace reflect
         }
         return g_default_meta;
     }
-    int invoke__func___deinit__3_v(func *cls, const Arguments* argu, va_list __arguments_list)
+    int invoke__func___deinit__3_v(func *cls, const Arguments* argu, va_list& __arguments_list)
     {
         cls->_deinit();
         return 0;
@@ -201,7 +201,7 @@ namespace reflect
         }
         return -1;
     }
-    int invoke__func___deinit__2_v(func *cls, const Arguments* argu, va_list __arguments_list)
+    int invoke__func___deinit__2_v(func *cls, const Arguments* argu, va_list& __arguments_list)
     {
         auto& _r = *(va_arg(__arguments_list, int *));
         _r = cls->_deinit();
@@ -251,7 +251,7 @@ namespace reflect
         }
         return g_default_meta;
     }
-    int invoke__func___done__4_v(func *cls, const Arguments* argu, va_list __arguments_list)
+    int invoke__func___done__4_v(func *cls, const Arguments* argu, va_list& __arguments_list)
     {
         cls->_done();
         return 0;
@@ -290,7 +290,7 @@ namespace reflect
         }
         return g_default_meta;
     }
-    int invoke__func___init__1_v(func *cls, const Arguments* argu, va_list __arguments_list)
+    int invoke__func___init__1_v(func *cls, const Arguments* argu, va_list& __arguments_list)
     {
         cls->_init();
         return 0;
@@ -308,7 +308,7 @@ namespace reflect
         }
         return -1;
     }
-    int invoke__func___init__0_v(func *cls, const Arguments* argu, va_list __arguments_list)
+    int invoke__func___init__0_v(func *cls, const Arguments* argu, va_list& __arguments_list)
     {
         auto& _r = *(va_arg(__arguments_list, int *));
         _r = cls->_init();
@@ -392,7 +392,7 @@ namespace reflect
             return g_default_meta;
         }
     
-        meta<func> &get_func(const func *cls, branch_string& tag, const std::list<Item>& args_tag)
+        meta<func> &get_func(const func *cls, branch_string& tag, const std::list<Item> &args_tag)
         {
             auto &_meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
@@ -405,7 +405,7 @@ namespace reflect
             }
             return g_default_meta;
         }
-        int get_base_func(const func *cls, const std::string& _tag, const Arguments *_, ...)
+        int get_base_func(const func *cls, const std::string_view& _tag, const Arguments *_, ...)
         {
             va_list __arguments_list;
             va_start(__arguments_list, _);
@@ -454,7 +454,7 @@ namespace reflect
         return details::get_meta(cls, tag).m_type;    
     }
     const std::string &get_type(func *cls)
-    {   
+    {
         static const std::string _class = "func";
         return _class;
     }
@@ -463,14 +463,24 @@ namespace reflect
         static const std::string _class = "func";
         return _class;
     }
+    const std::string &get_type(func **cls)
+    {
+        static const std::string _class = "func *";
+        return _class;
+    }
+    const std::string &get_type(const func **cls)
+    {
+        static const std::string _class = "func *";
+        return _class;
+    }
     const std::string &get_typeid(const func *cls, const std::string &_tag)
     {
         branch_string tag(_tag);
-        return details::get_meta(cls, tag).m_type;
+        return details::get_meta(cls, tag).m_typeid;       
     }
     const std::string &get_typeid(const func *cls)
     {
-        static const std::string _class = typeid("func").name();
+        static const std::string _class = typeid(func).name();
         return _class;
     }
     uint64_t get_field(const func *cls, const std::string &_tag)

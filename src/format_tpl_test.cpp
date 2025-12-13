@@ -73,5 +73,5 @@ TEST(format, rander_branch)
 
     format_tpl tpl;
     tpl.to_header(bra);
-    tpl.to_file("header.h", "source.cpp");
+    // tpl.to_file("header.h", "source.cpp");
 }

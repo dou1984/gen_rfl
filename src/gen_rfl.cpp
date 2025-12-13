@@ -27,7 +27,7 @@
 
 namespace reflect
 {
-    int generate_file_name(std::string &header, std::string &source, std::string &_header)
+    int generate_file_name(rfl_config &cfg, std::string &__header)
     {
         auto &conf = ::reflect::get_config();
 
@@ -45,43 +45,56 @@ namespace reflect
         std::regex suffix(R"(\.(h|hpp|c|cc|cxx|c++|cpp)$)");
         fname = std::regex_replace(fname, suffix, "_rfl");
 
-        auto path = conf.tmp_dir + "/" + fname;
+        auto path = conf.rfl_dir + "/" + fname;
         MkDir(path);
 
-        header = path + "/" + _class + ".h";
-        source = path + "/" + _class + ".cpp";
-        _header = fname + "/" + _class + ".h";
+        cfg.header = path + "/" + _class + ".h";
+        cfg.header_hpp = path + "/" + _class + ".hpp";
+        cfg.source = path + "/" + _class + ".cpp";
+        __header = fname + "/" + _class + ".h";
 
         return 0;
     }
-    bool is_generated(std::string &header, std::string &source)
+    bool is_generated(rfl_config &cfg)
     {
         std::string __header;
-        auto r = generate_file_name(header, source, __header);
+        auto r = generate_file_name(cfg, __header);
         if (r != 0)
         {
             std::cerr << "generate_file_name error" << std::endl;
             return false;
         }
-
         auto &conf = ::reflect::get_config();
         conf.generated.emplace(__header);
 
-        auto key_file = conf.m_file + ":" + header;
-        auto it = conf.generate_header.find(key_file);
-        if (it == conf.generate_header.end())
+        auto f = [&](auto header)
         {
+            auto key_file = conf.m_file + ":" + header;
+            auto it = conf.generate_header.find(key_file);
+            if (it == conf.generate_header.end())
+            {
+                auto modified_time = GetFileModified(conf.m_file);
+                conf.generate_header.emplace(key_file, modified_time);
+                return false;
+            }
             auto modified_time = GetFileModified(conf.m_file);
-            conf.generate_header.emplace(key_file, modified_time);
-            return false;
-        }
-        auto modified_time = GetFileModified(conf.m_file);
-        if (modified_time > it->second)
+            if (modified_time > it->second)
+            {
+                std::cerr << "file " << conf.m_file << "header " << header << std::endl;
+                conf.generate_header.emplace(key_file, modified_time);
+                return false;
+            }
+            return true;
+        };
+        if (!f(cfg.header))
         {
-            std::cerr << "file " << conf.m_file << "header " << header << std::endl;
-            conf.generate_header.emplace(key_file, modified_time);
             return false;
         }
+        if (!f(cfg.header_hpp))
+        {
+            return false;
+        }
+
         return true;
     }
 }

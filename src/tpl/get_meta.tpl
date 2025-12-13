@@ -21,7 +21,7 @@
             return rfl__{{layer}}__{{index}}(cls, value, tag);{{/meta_eq_1}}
         }
     
-        meta<{{class}}> &get_func(const {{class}} *cls, branch_string& tag, const std::list<Item>& args_tag)
+        meta<{{class}}> &get_func(const {{class}} *cls, branch_string& tag, const std::list<Item> &args_tag)
         {
             auto &_meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
@@ -34,7 +34,7 @@
             }
             return g_default_meta;
         }
-        int get_base_func(const {{class}} *cls, const std::string& _tag, const Arguments *_, ...)
+        int get_base_func(const {{class}} *cls, const std::string_view& _tag, const Arguments *_, ...)
         {
             va_list __arguments_list;
             va_start(__arguments_list, _);
@@ -92,7 +92,7 @@
         return details::get_meta(cls, tag).m_type;    
     }
     const std::string &get_type({{class}} *cls)
-    {   
+    {
         static const std::string _class = "{{class}}";
         return _class;
     }
@@ -101,14 +101,24 @@
         static const std::string _class = "{{class}}";
         return _class;
     }
+    const std::string &get_type({{class}} **cls)
+    {
+        static const std::string _class = "{{class}} *";
+        return _class;
+    }
+    const std::string &get_type(const {{class}} **cls)
+    {
+        static const std::string _class = "{{class}} *";
+        return _class;
+    }
     const std::string &get_typeid(const {{class}} *cls, const std::string &_tag)
     {
         branch_string tag(_tag);
-        return details::get_meta(cls, tag).m_type;
+        return details::get_meta(cls, tag).m_typeid;       
     }
     const std::string &get_typeid(const {{class}} *cls)
     {
-        static const std::string _class = typeid("{{class}}").name();
+        static const std::string _class = typeid({{class}}).name();
         return _class;
     }
     uint64_t get_field(const {{class}} *cls, const std::string &_tag)

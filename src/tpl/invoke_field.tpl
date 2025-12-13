@@ -1,4 +1,4 @@
-    int invoke__{{class}}__{{variant}}{{__field}}_v({{class}} *cls, const Arguments* argu, va_list __arguments_list)
+    int invoke__{{class}}__{{variant}}{{__field}}_v({{class}} *cls, const Arguments* argu, va_list& __arguments_list)
     {{{#has_argv}}{{#ret}}
         auto& _r = *(va_arg(__arguments_list, {{compatible_output}} *));{{/ret}}{{#argv}}
         auto& _a_{{index}} = *(va_arg(__arguments_list, {{compatible_input}} *));{{/argv}}

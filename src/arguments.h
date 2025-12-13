@@ -30,14 +30,11 @@ namespace reflect
         std::list<Item> m_arguments;
     };
     struct IArguments : Arguments
-    {
-        IArguments()
-        {
-        }
+    {  
         template <class... T>
         IArguments(T &&...t)
         {
-            (m_arguments.emplace_back(get_type(std::addressof(t)), flag_type<T>()), ...);
+            (m_arguments.emplace_back(get_type(t), flag_type<std::remove_pointer_t<T>>()), ...);
         }
     };
     struct OArguments : Arguments
@@ -45,13 +42,13 @@ namespace reflect
         template <class R, class... T>
         OArguments(R &&r, T &&...t)
         {
-            m_arguments.emplace_back(get_type(std::addressof(r)) + std::string("@"), flag_type<R>());
-            (m_arguments.emplace_back(get_type(std::addressof(t)), flag_type<T>()), ...);
+            m_arguments.emplace_back(get_type(r) + std::string("@"), flag_type<std::remove_pointer_t<R>>());
+            (m_arguments.emplace_back(get_type(t), flag_type<std::remove_pointer_t<T>>()), ...);
         }
         template <class R>
         OArguments(R &&r)
         {
-            m_arguments.emplace_back(get_type(std::addressof(r)) + std::string("@"), flag_type<R>());
+            m_arguments.emplace_back(get_type(r) + std::string("@"), flag_type<std::remove_pointer_t<R>>());
         }
     };
 }

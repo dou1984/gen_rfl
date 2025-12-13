@@ -87,3 +87,14 @@ int func::_deinit()
 void func::_done()
 {
 }
+
+int node::set(base *b)
+{
+    *(static_cast<base *>(this)) = *b;
+    return 0;
+}
+int node::set(config &cfg)
+{
+    *(static_cast<config *>(this)) = cfg;
+    return 0;
+}

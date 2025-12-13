@@ -99,12 +99,30 @@ namespace reflect
         constexpr char _const[] = "const ";
         return type.compare(0, sizeof(_const) - 1, _const) == 0;
     }
+    bool HasClass(const std::string &type)
+    {
+        constexpr char _class[] = "class ";
+        return type.compare(0, sizeof(_class) - 1, _class) == 0;
+    }
+    bool HasStruct(const std::string &type)
+    {
+        constexpr char _struct[] = "struct ";
+        return type.compare(0, sizeof(_struct) - 1, _struct) == 0;
+    }
     std::string RemoveExtents(const std::string &type)
     {
         std::string_view view = type;
         if (HasConst(type))
         {
-            view = view.substr(6);
+            view = view.substr(sizeof("const"));
+        }
+        if (HasClass(type))
+        {
+            view = view.substr(sizeof("class"));
+        }
+        if (HasStruct(type))
+        {
+            view = view.substr(sizeof("struct"));
         }
         constexpr char _ampersand[] = "&";
         auto l = view.size();
@@ -201,19 +219,25 @@ namespace reflect
             return true;
         }
 
-        // 只处理成员函数（非全局函数）
         if (llvm::dyn_cast<CXXMethodDecl>(FD))
         {
             return true;
         }
 
-#ifdef LLVM_OUT
-        llvm::outs() << "Function: " << FD->getNameAsString() << "\n";
-        if (FD->hasBody())
+        SourceLocation Loc = FD->getLocation();
+        auto FileName = SM->getFilename(Loc).str();
+        auto filter = reflect::get_rfl_filter();
+        if (filter(FileName))
         {
-            llvm::outs() << "  - Has a body (definition)\n";
+            return true;
         }
-#endif
+
+        // llvm::outs() << "Function: " << FD->getNameAsString() << "\n";
+        // if (FD->hasBody())
+        // {
+        //     llvm::outs() << "  - Has a body (definition)\n";
+        // }
+
         return true;
     }
 
@@ -253,8 +277,8 @@ namespace reflect
         std::map<std::string, branch_info> bra_func;
         auto ana_config_func = std::make_shared<analyzer::config_t>();
 
-        std::string header, source;
-        if (is_generated(header, source))
+        rfl_config cfg;
+        if (is_generated(cfg))
         {
             std::cout << "skip " << FileName << ":" << ::reflect::get_config().m_raw_class << " is generated." << std::endl;
             return true;
@@ -266,7 +290,7 @@ namespace reflect
         }
         if (D->hasDefinition())
         {
-            if (D->getNumBases() > 0)
+            if (D->getNumBases() > 0) // 基类
             {
                 for (const auto &Base : D->bases())
                 {
@@ -377,20 +401,13 @@ namespace reflect
                 auto flag_virtual_ = Method->isVirtual() ? flag_virtual : flag_member;
 
                 std::list<std::string> _input;
-                // auto i = 0;
-                // uint32_t _t_flags = 0;
                 auto parameters = Method->parameters();
                 for (auto &Param : parameters)
                 {
                     auto [FieldType, UnqualifiedType] = get_type_name(Param);
                     auto _field_type = FieldType.getAsString();
                     _input.push_back(RemoveExtents(_field_type));
-                    // if (HasConst(_field_type))
-                    // {
-                    //     _t_flags |= __flag(i++);
-                    // }
-                    // auto _unqualified_type = UnqualifiedType.getAsString();
-                    // insert_base_types(RemoveExtents(_unqualified_type));
+                    // std::cout << "FieldType:" << FieldType.getAsString() << "->UnqualifiedType:" << UnqualifiedType.getAsString() << std::endl;
                 }
 
                 {
@@ -450,9 +467,7 @@ namespace reflect
         }
 
         format_tpl fmt;
-
-        fmt.to_rfl(bra, bra_func);
-        fmt.to_file(header, source);
+        fmt.to_rfl(cfg, bra, bra_func);
 
         ::reflect::get_config().save();
         return true;

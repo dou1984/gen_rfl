@@ -182,7 +182,7 @@ namespace reflect
             return g_default_meta;
         }
     
-        meta<common> &get_func(const common *cls, branch_string& tag, const std::list<Item>& args_tag)
+        meta<common> &get_func(const common *cls, branch_string& tag, const std::list<Item> &args_tag)
         {
             auto &_meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
@@ -195,7 +195,7 @@ namespace reflect
             }
             return g_default_meta;
         }
-        int get_base_func(const common *cls, const std::string& _tag, const Arguments *_, ...)
+        int get_base_func(const common *cls, const std::string_view& _tag, const Arguments *_, ...)
         {
             va_list __arguments_list;
             va_start(__arguments_list, _);
@@ -244,7 +244,7 @@ namespace reflect
         return details::get_meta(cls, tag).m_type;    
     }
     const std::string &get_type(common *cls)
-    {   
+    {
         static const std::string _class = "common";
         return _class;
     }
@@ -253,14 +253,24 @@ namespace reflect
         static const std::string _class = "common";
         return _class;
     }
+    const std::string &get_type(common **cls)
+    {
+        static const std::string _class = "common *";
+        return _class;
+    }
+    const std::string &get_type(const common **cls)
+    {
+        static const std::string _class = "common *";
+        return _class;
+    }
     const std::string &get_typeid(const common *cls, const std::string &_tag)
     {
         branch_string tag(_tag);
-        return details::get_meta(cls, tag).m_type;
+        return details::get_meta(cls, tag).m_typeid;       
     }
     const std::string &get_typeid(const common *cls)
     {
-        static const std::string _class = typeid("common").name();
+        static const std::string _class = typeid(common).name();
         return _class;
     }
     uint64_t get_field(const common *cls, const std::string &_tag)

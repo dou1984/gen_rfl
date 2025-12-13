@@ -26,7 +26,7 @@
 namespace reflect
 {
     template <class CLS, class O, class S, class T>
-    int set_value(CLS &cls, const O &o, const S &s, T &&value)
+    int __set_value__(CLS &cls, const O &o, const S &s, T &&value)
     {
         if (!__contains__(o.m_flags, flag_function, flag_argument))
         {

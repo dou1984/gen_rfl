@@ -142,7 +142,9 @@ namespace reflect
 
     int expand(const std::string &tpl_key, const ctemplate::TemplateDictionary &dict, std::string &output)
     {
-        if (!ctemplate::ExpandTemplate(tpl_key, ctemplate::DO_NOT_STRIP, &dict, &output))
+        auto &conf = get_config();
+        auto real_file_name = conf.tpl_dir + tpl_key;
+        if (!ctemplate::ExpandTemplate(real_file_name, ctemplate::DO_NOT_STRIP, &dict, &output))
         {
             std::cerr << "Failed to expand template: " << tpl_key << std::endl;
             return -1;
@@ -153,7 +155,7 @@ namespace reflect
     format_tpl::format_tpl()
     {
     }
-    int format_tpl::to_header(branch_info &_bra)
+    int format_tpl::to_header(const std::string tpl_key, branch_info &_bra)
     {
 
         ctemplate::TemplateDictionary _header("header");
@@ -188,7 +190,6 @@ namespace reflect
             _expand_base(_no_namespace);
         }
 
-        std::string tpl_key = "header.tpl";
         expand(tpl_key, _header, m_output_header);
         return 0;
     }
@@ -198,10 +199,10 @@ namespace reflect
         ctemplate::TemplateDictionary _meta("meta");
         auto &conf = get_config();
 
-        auto upper_dir = IsCurDir(conf.tmp_dir) ? "/" : "/../";
-        auto header_name = GetRelativePath(conf.m_file, conf.real_tmp_dir_loc) + upper_dir + conf.m_relative_file;
+        auto upper_dir = IsCurDir(conf.rfl_dir) ? "/" : "/../";
+        auto header_name = GetRelativePath(conf.m_file, conf.real_source_dir) + upper_dir + conf.m_relative_file;
         std::cout << "file: " << conf.m_file << std::endl;
-        std::cout << "real_tmp_dir: " << conf.real_tmp_dir_loc << std::endl;
+        std::cout << "real_src_dir: " << conf.real_source_dir << std::endl;
         std::cout << "header_name: " << header_name << std::endl;
         _meta.SetValue("license", reflect::license());
         _meta.SetValue("header", header_name);
@@ -575,11 +576,18 @@ namespace reflect
         }
         return 0;
     }
-    int format_tpl::to_rfl(branch_info &bra, std::map<std::string, branch_info> &bra_func)
+    int format_tpl::to_rfl(rfl_config &cfg, branch_info &bra, std::map<std::string, branch_info> &bra_func)
     {
         bra.builder(0);
 
-        to_header(bra);
+        to_header("header.tpl", bra);
+        write_file(cfg.header, m_output_header);
+        m_output_header.clear();
+
+        to_header("header.hpp.tpl", bra);
+        write_file(cfg.header_hpp, m_output_header);
+        m_output_header.clear();
+
         to_meta(bra, bra_func);
         to_func(0, 0, bra);
 
@@ -591,17 +599,19 @@ namespace reflect
 
         to_get_meta(bra);
 
+        write_file(cfg.source, m_output_source);
+        m_output_source.clear();
         return 0;
     }
 
-    int format_tpl::to_file(const std::string &header, const std::string &source)
-    {
+    // int format_tpl::to_file(const std::string &header, const std::string &source)
+    // {
 
-        write_file(header, m_output_header);
+    //     write_file(header, m_output_header);
 
-        write_file(source, m_output_source);
-        return 0;
-    }
+    //     write_file(source, m_output_source);
+    //     return 0;
+    // }
 
     int format_tpl::to_rfl()
     {
@@ -620,7 +630,7 @@ namespace reflect
         std::string _output;
         expand(tpl_key, _dict, _output);
 
-        std::string path = conf.tmp_dir + "/rfl.h";
+        std::string path = conf.rfl_dir + "/rfl.h";
         write_file(path, _output);
         return 0;
     }
@@ -658,7 +668,7 @@ namespace reflect
         std::string _output;
         expand(tpl_key, _dict, _output);
 
-        std::string path = conf.tmp_dir + "/" + file_name;
+        std::string path = conf.rfl_dir + "/" + file_name;
         write_file(path, _output);
 
         return 0;

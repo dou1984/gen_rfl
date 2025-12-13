@@ -38,7 +38,7 @@ namespace reflect
         }
         bool operator==(const Item &o) const
         {
-            return (m_flags == o.m_flags) && (m_flags < e_reflect_end) || m_type == o.m_type;
+            return (m_flags == o.m_flags) && (m_flags < e_unfundamental) || m_type == o.m_type;
         }
     };
 

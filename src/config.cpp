@@ -68,10 +68,10 @@ namespace reflect
 
             auto &conf = get_config();
 
-            if (root["tmp_dir"])
-                conf.tmp_dir = root["tmp_dir"].as<std::string>();
+            if (root["rfl_dir"])
+                conf.rfl_dir = root["rfl_dir"].as<std::string>();
             else
-                conf.tmp_dir = "gen_rfl"; // 默认值（可选）
+                conf.rfl_dir = "gen_rfl"; // 默认值（可选）
 
             if (root["src_dir"])
                 conf.src_dir = root["src_dir"].as<std::string>();
@@ -133,7 +133,7 @@ namespace reflect
     int write_default_to_yaml(const std::string &output_file)
     {
         YAML::Node root;
-        root["tmp_dir"] = "gen_rfl";
+        root["rfl_dir"] = "gen_rfl";
         root["src_dir"] = "./";
         root["libs_dir"] = "libs";
         root["include_dir"] = "include";

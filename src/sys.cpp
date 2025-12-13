@@ -21,6 +21,7 @@
 
 #include "sys.h"
 #include <string>
+#include <string_view>
 #include <cstring>
 #include <sys/stat.h>
 #include <sys/types.h>

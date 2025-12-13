@@ -111,6 +111,30 @@ int get_node()
     }
 
     std::cout << get_value(&n, "a").to_string() << get_value(&n, "b").to_string() << get_value(&n, "c").to_string() << get_value(&n, "d").to_string() << std::endl;
+
+    b.a = 10;
+    b.b = 11;
+    b.c = 12;
+    b.d = 13;
+
+    auto s = invoke(&n, "set", b);
+    assert(s == -1);
+
+    invoke(&n, "set", &b);
+    assert(n.a == 10);
+    assert(n.b == 11);
+    assert(n.c == 12);
+    assert(n.d == 13);
+    config cfg;
+    cfg.o0 = 10;
+    cfg.o1 = 20;
+    cfg.o2 = 30;
+    cfg.o3 = 40;
+    invoke(&n, "set", cfg);
+    assert(n.o0 == 10);
+    assert(n.o1 == 20);
+    assert(n.o2 == 30);
+    assert(n.o3 == 40);
     return 0;
 }
 int invoke_node()

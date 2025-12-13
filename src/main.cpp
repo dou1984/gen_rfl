@@ -46,27 +46,27 @@ void set_config()
     {
         conf.cwd += '/';
     }
-    if (!IsCurDir(conf.tmp_dir))
+    if (!IsCurDir(conf.rfl_dir))
     {
-        MkDir(conf.tmp_dir);
+        MkDir(conf.rfl_dir);
 
-        char real_tmp_dir[PATH_MAX];
-        auto tmp_dir = conf.tmp_dir + (conf.tmp_dir.back() == '/' ? ".." : "/..");
-        realpath(tmp_dir.c_str(), real_tmp_dir);
-        conf.real_tmp_dir_loc = real_tmp_dir;
-        conf.real_tmp_dir_loc += "/";
-        std::cout << "real_tmp_dir:" << conf.real_tmp_dir_loc << std::endl;
+        char real_src_dir[PATH_MAX];
+        auto rfl_dir = conf.rfl_dir + (conf.rfl_dir.back() == '/' ? ".." : "/..");
+        realpath(rfl_dir.c_str(), real_src_dir);
+        conf.real_source_dir = real_src_dir;
+        conf.real_source_dir += "/";
+        std::cout << "real_src_dir:" << conf.real_source_dir << std::endl;
     }
     else
     {
-        char real_tmp_dir[PATH_MAX];
-        if (conf.tmp_dir == "")
+        char real_src_dir[PATH_MAX];
+        if (conf.rfl_dir == "")
         {
-            conf.tmp_dir = ".";
+            conf.rfl_dir = ".";
         }
-        realpath(conf.tmp_dir.c_str(), real_tmp_dir);
-        conf.real_tmp_dir_loc = real_tmp_dir;
-        std::cout << "real_tmp_dir:" << conf.real_tmp_dir_loc << std::endl;
+        realpath(conf.rfl_dir.c_str(), real_src_dir);
+        conf.real_source_dir = real_src_dir;
+        std::cout << "real_src_dir:" << conf.real_source_dir << std::endl;
     }
 }
 int main(int argc, char *argv[])

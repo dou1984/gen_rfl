@@ -181,7 +181,7 @@ namespace reflect
             return g_default_meta;
         }
     
-        meta<config> &get_func(const config *cls, branch_string& tag, const std::list<Item>& args_tag)
+        meta<config> &get_func(const config *cls, branch_string& tag, const std::list<Item> &args_tag)
         {
             auto &_meta = details::get_meta(cls, tag);
             if (__contains__(_meta.m_flags, flag_function))
@@ -194,7 +194,7 @@ namespace reflect
             }
             return g_default_meta;
         }
-        int get_base_func(const config *cls, const std::string& _tag, const Arguments *_, ...)
+        int get_base_func(const config *cls, const std::string_view& _tag, const Arguments *_, ...)
         {
             va_list __arguments_list;
             va_start(__arguments_list, _);
@@ -243,7 +243,7 @@ namespace reflect
         return details::get_meta(cls, tag).m_type;    
     }
     const std::string &get_type(config *cls)
-    {   
+    {
         static const std::string _class = "config";
         return _class;
     }
@@ -252,14 +252,24 @@ namespace reflect
         static const std::string _class = "config";
         return _class;
     }
+    const std::string &get_type(config **cls)
+    {
+        static const std::string _class = "config *";
+        return _class;
+    }
+    const std::string &get_type(const config **cls)
+    {
+        static const std::string _class = "config *";
+        return _class;
+    }
     const std::string &get_typeid(const config *cls, const std::string &_tag)
     {
         branch_string tag(_tag);
-        return details::get_meta(cls, tag).m_type;
+        return details::get_meta(cls, tag).m_typeid;       
     }
     const std::string &get_typeid(const config *cls)
     {
-        static const std::string _class = typeid("config").name();
+        static const std::string _class = typeid(config).name();
         return _class;
     }
     uint64_t get_field(const config *cls, const std::string &_tag)
