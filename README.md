@@ -33,7 +33,7 @@ static meta<base> g_base_meta[] = {
 };
 ```
 
-3. Direct jump, no function call overhead， O(1) time complexity for field lookup.
+3. Direct jump, no function call overhead， o(1) time complexity for field lookup.
 ``` cpp
 constexpr void *__meta_label[] = { &&label_0_0, &&label_0_1, ... };
 auto value = tag();

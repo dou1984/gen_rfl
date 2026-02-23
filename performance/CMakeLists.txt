@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(exe_node)
+project(performance_test)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -14,15 +14,13 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-file(GLOB ALL_CPP_FILES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/**/*.cpp" "${CMAKE_SOURCE_DIR}/*.cpp" "${CMAKE_SOURCE_DIR}/gen_rfl/**/*.cpp"  "${CMAKE_SOURCE_DIR}/gen_rfl/**/**/*.cpp")
-list(FILTER ALL_CPP_FILES EXCLUDE REGEX "build/*.cpp$")
-
 add_executable(${PROJECT_NAME}
-    ${ALL_CPP_FILES}
+    performance_test.cpp
+    node.cpp
+    gen_rfl/base_types.cpp
+    gen_rfl/node_rfl/node.cpp
 )
 
 link_directories(${GEN_RFL_DIR})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${GEN_RFL_DIR})
-
-

@@ -431,8 +431,8 @@ namespace reflect
                             {
                                 auto _base = static_cast<const priv_opts *>(cls);
                                 for_each(_base, [&](auto &_variant, auto &key, auto &value)
-                                {                                     
-                                    callback(_meta.m_variant, key, value);                                   
+                                {
+                                    callback(_meta.m_variant, key, value);
                                 });
                                 break;             
                             }

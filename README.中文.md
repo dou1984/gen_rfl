@@ -34,7 +34,7 @@ static meta<base> g_base_meta[] = {
 };
 ```
 
-3. 智能的跳转表分发系统，无函数调用开销，O(1)时间复杂度的字段查找。
+3. 智能的跳转表分发系统，无函数调用开销，o(1)时间复杂度的字段查找。
 ``` cpp
 constexpr void *__meta_label[] = { &&label_0_0, &&label_0_1, ... };
 auto value = tag();

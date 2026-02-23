@@ -40,11 +40,13 @@ auto &conf = ::reflect::get_config();
 void set_config()
 {
     char cwd[PATH_MAX];
-    getcwd(cwd, sizeof(cwd));
-    conf.cwd = cwd;
-    if (conf.cwd.back() != '/')
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
     {
-        conf.cwd += '/';
+        conf.cwd = cwd;
+        if (conf.cwd.back() != '/')
+        {
+            conf.cwd += '/';
+        }
     }
     if (!IsCurDir(conf.rfl_dir))
     {
@@ -52,10 +54,12 @@ void set_config()
 
         char real_src_dir[PATH_MAX];
         auto rfl_dir = conf.rfl_dir + (conf.rfl_dir.back() == '/' ? ".." : "/..");
-        realpath(rfl_dir.c_str(), real_src_dir);
-        conf.real_source_dir = real_src_dir;
-        conf.real_source_dir += "/";
-        std::cout << "real_src_dir:" << conf.real_source_dir << std::endl;
+        if (realpath(rfl_dir.c_str(), real_src_dir) != NULL)
+        {
+            conf.real_source_dir = real_src_dir;
+            conf.real_source_dir += "/";
+            std::cout << "real_src_dir:" << conf.real_source_dir << std::endl;
+        }
     }
     else
     {
@@ -64,9 +68,11 @@ void set_config()
         {
             conf.rfl_dir = ".";
         }
-        realpath(conf.rfl_dir.c_str(), real_src_dir);
-        conf.real_source_dir = real_src_dir;
-        std::cout << "real_src_dir:" << conf.real_source_dir << std::endl;
+        if (realpath(conf.rfl_dir.c_str(), real_src_dir) != NULL)
+        {
+            conf.real_source_dir = real_src_dir;
+            std::cout << "real_src_dir:" << conf.real_source_dir << std::endl;
+        }
     }
 }
 int main(int argc, char *argv[])
