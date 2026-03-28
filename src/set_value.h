@@ -45,7 +45,7 @@ namespace reflect
             else
             {
                 auto _ptr = std::addressof(value);
-                return o.m_setter(cls, flag_type<T>(), s, _ptr);
+                return o.m_setter(cls, flag_type<T>(), _ptr);
             }
         }
         return -1;

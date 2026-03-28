@@ -40,6 +40,16 @@ namespace reflect
         {
             fname = fname.substr(conf.cwd.size());
         }
+        // Remove src_dir from the relative path to avoid duplication
+        if (!conf.src_dir.empty() && conf.src_dir != "./" && fname.find(conf.src_dir) == 0)
+        {
+            fname = fname.substr(conf.src_dir.size());
+            // Remove leading slash if present
+            if (!fname.empty() && fname[0] == '/')
+            {
+                fname = fname.substr(1);
+            }
+        }
         conf.m_relative_file = fname;
 
         std::regex suffix(R"(\.(h|hpp|c|cc|cxx|c++|cpp)$)");

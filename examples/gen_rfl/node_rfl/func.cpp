@@ -118,7 +118,7 @@ namespace reflect
         .m_variant = "_deinit",
         .m_type = "",
         .m_flags = 0x4801,
-        .m_t_flags = 0x0,
+        .m_t_flags = 0,
         .m_field = e__func___deinit, // 1
         .m_invoke = invoke__func___deinit,
         .m_setter = set_value_invalid,
@@ -127,7 +127,7 @@ namespace reflect
         .m_variant = "_done",
         .m_type = "",
         .m_flags = 0x4801,
-        .m_t_flags = 0x0,
+        .m_t_flags = 0,
         .m_field = e__func___done, // 2
         .m_invoke = invoke__func___done,
         .m_setter = set_value_invalid,
@@ -136,7 +136,7 @@ namespace reflect
         .m_variant = "_init",
         .m_type = "",
         .m_flags = 0x4801,
-        .m_t_flags = 0x0,
+        .m_t_flags = 0,
         .m_field = e__func___init, // 0
         .m_invoke = invoke__func___init,
         .m_setter = set_value_invalid,

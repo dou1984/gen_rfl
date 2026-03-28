@@ -35,9 +35,9 @@ namespace reflect
     public:
         format_tpl();
 
-        int to_header(const std::string tpl_key, branch_info &_bra);
+        int to_header(const std::string tpl_key, branch_info &_bra, const std::string &generated_file_path);
 
-        int to_meta(branch_info &bra, std::map<std::string, branch_info> &ana_func);
+        int to_meta(branch_info &bra, std::map<std::string, branch_info> &ana_func, const std::string &source_path);
 
         int to_get_meta(branch_info &bra);
 

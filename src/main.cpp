@@ -32,10 +32,11 @@
 #include "travel_src.h"
 
 using namespace gflags;
+using namespace reflect;
 
 DEFINE_string(config, "gen_rfl.yaml", "config file");
 
-auto &conf = ::reflect::get_config();
+auto &conf = get_config();
 
 void set_config()
 {
@@ -83,19 +84,22 @@ int main(int argc, char *argv[])
     auto config_json = FLAGS_config;
     if (!IsExist(config_json))
     {
-        ::reflect::write_default_to_yaml(config_json);
+        write_default_to_yaml(config_json);
     }
-    ::reflect::read_config_from_yaml(config_json);
+    read_config_from_yaml(config_json);
 
     set_config();
 
-    auto filter = reflect::get_filter();
+    auto filter = get_filter();
     std::vector<std::string> sources;
+    std::cout << "Traversing directory: " << conf.src_dir << std::endl;
     TraverseDir(conf.src_dir,
                 [&](const std::string &path)
                 {
+                    std::cout << "Checking file: " << path << std::endl;
                     if (filter(path))
                     {
+                        std::cout << "Filtering out: " << path << std::endl;
                         return;
                     }
 
@@ -103,14 +107,27 @@ int main(int argc, char *argv[])
                     sources.push_back(path);
                 });
 
-    // 运行 ClangTool
-    clang::tooling::FixedCompilationDatabase Compilations("./", conf.llvm_args);
+    // 使用 tree-sitter 解析源码
+    for (const auto &source : sources)
+    {
+        std::cout << "Processing with tree-sitter: " << source << std::endl;
+        travel_src(source);
+    }
+    
+    // 处理命令行参数中指定的文件
+    for (int i = 1; i < argc; i++) {
+        std::string file = argv[i];
+        if (file != "--config") {
+            // 跳过 --config 选项及其值
+            if (i > 1 && argv[i-1] == std::string("--config")) {
+                continue;
+            }
+            std::cout << "Processing command line file: " << file << std::endl;
+            travel_src(file);
+        }
+    }
 
-    clang::tooling::ClangTool Tool(Compilations, sources);
-
-    Tool.run(clang::tooling::newFrontendActionFactory<::reflect::GetRflFrontendAction>().get());
-
-    ::reflect::format_tpl fmt;
+    format_tpl fmt;
 
     fmt.to_rfl();
     fmt.to_base_types();

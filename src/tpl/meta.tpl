@@ -55,7 +55,7 @@ namespace reflect
             .m_variant = "{{variant}}",
             .m_type = "{{type}}",
             .m_flags = {{flags}},
-            .m_t_flags = 0,
+            .m_t_flags = {{t_flags}},
             .m_field = e__{{class}}__{{variant}}{{__field}}, // {{field}}{{#invoke_field}}
             .m_func = invoke__{{class}}__{{variant}}{{__field}},
             .m_func_v = invoke__{{class}}__{{variant}}{{__field}}_v,{{/invoke_field}}        
@@ -65,42 +65,28 @@ namespace reflect
     reflect::meta<{{class}}>& invoke__{{class}}__{{variant}}(const {{class}} *c, const std::list<Item> &argu_item);{{/invoke_func}}
     static reflect::meta<{{class}}> g_{{class}}_meta[] = {{{#fields}}
     {
-        .m_variant = "{{variant}}",{{#not}}{{#is_member}}{{#is_field}}
-        .m_type = []() -> auto
-        {
-            if constexpr (reflect::fundamental<{{type}}>) 
-            {          
-                return typeid({{type}}).name();         
-            }                                         
-            return "{{type}}";
-        }(),{{/is_field}}{{#is_static}}
-        .m_type = []() -> auto
-        {
-            if constexpr (reflect::fundamental<{{type}}>) 
-            {          
-                return typeid({{type}}).name();         
-            }                                         
-            return "{{type}}";
-        }(),{{/is_static}}{{#is_derived}}
-        .m_type = "{{type}}",{{/is_derived}}{{/is_member}}{{/not}}
+        .m_variant = "{{variant}}",
         .m_type = "{{type}}",
         .m_flags = {{flags}},
         .m_t_flags = {{t_flags}},
         .m_field = e__{{class}}__{{variant}}, // {{field}}{{#is_invoke}}
         .m_invoke = invoke__{{class}}__{{variant}},
-        .m_setter = set_value_invalid,{{/is_invoke}}{{#is_member}}{{#is_field}}
+        .m_setter = set_value_invalid,{{/is_invoke}}{{#is_member}}{{#is_static}}
         .m_getter = [](const {{class}} *cls) -> void * 
-        { return (void *)std::addressof(cls->{{variant}}); },{{/is_field}}{{#is_static}}
+        { return (void *)&{{class}}::{{variant}}; },
+        .m_setter = []() -> auto
+        { return __setter__<{{class}}, __ref_static__<{{class}}, &{{class}}::{{variant}}>>; }(),
+        {{/is_static}}{{^is_static}}{{#is_field}}
         .m_getter = [](const {{class}} *cls) -> void * 
-        { return (void *)std::addressof(cls->{{variant}}); },{{/is_static}}{{#is_derived}}
+        { return (void *)std::addressof(cls->{{variant}}); },
+        .m_setter = []() -> auto
+        { return __setter__<{{class}}, __ref_member__<{{class}}, &{{class}}::{{variant}}>>; }(),
+        {{/is_field}}{{/is_static}}{{#is_derived}}
         .m_getter = [](const {{class}} *cls) -> void * 
-        { return (void *)static_cast<const {{variant}} *>(cls); },{{/is_derived}}{{#is_field}}
+        { return (void *)static_cast<const {{variant}} *>(cls); },
         .m_setter = []() -> auto
-        { return __setter__<{{class}}, __ref_member__<{{class}}, &{{class}}::{{variant}}>>; }(),{{/is_field}}{{#is_static}}
-        .m_setter = []() -> auto
-        { return __setter__<{{class}}, __ref_static__<{{class}}, &{{class}}::{{variant}}>>; }(),{{/is_static}}{{#is_derived}}
-        .m_setter = []() -> auto
-        { return __setter__<{{class}}, __ref_base__<{{class}}, {{variant}}>>; }(),{{/is_derived}}{{/is_member}}
+        { return __setter__<{{class}}, __ref_base__<{{class}}, {{variant}}>>; }(),
+        {{/is_derived}}{{/is_member}}
     },{{/fields}}
     };
     reflect::Value __get_value(const {{class}}* cls, const std::string& _tag)

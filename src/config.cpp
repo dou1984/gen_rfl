@@ -28,6 +28,27 @@
 namespace reflect
 {
 
+    // 确保typedef_map在__init_base_types之前初始化
+    struct TypedefMapInit
+    {
+        std::map<std::string, std::string> map;
+        TypedefMapInit()
+        {
+            map = {
+                {"int8_t", "signed char"},
+                {"uint8_t", "unsigned char"},
+                {"int16_t", "short"},
+                {"uint16_t", "unsigned short"},
+                {"int32_t", "int"},
+                {"uint32_t", "unsigned int"},
+                {"int64_t", "long long"},
+                {"uint64_t", "unsigned long long"},
+            };
+        }
+    };
+    static TypedefMapInit typedef_map_init;
+    static std::map<std::string, std::string> &typedef_map = typedef_map_init.map;
+
     static std::set<std::string> all_fundamentals = {
         "bool",
         "char",
@@ -109,18 +130,6 @@ namespace reflect
             else
                 conf.cmake_pattern = "^.*/CMakeFiles/.+/CMake.+$";
 
-            conf.llvm_args.clear();
-            if (root["llvm_args"])
-            {
-                const YAML::Node &llvm_args = root["llvm_args"];
-                if (llvm_args.IsSequence())
-                {
-                    for (size_t i = 0; i < llvm_args.size(); ++i)
-                    {
-                        conf.llvm_args.push_back(llvm_args[i].as<std::string>());
-                    }
-                }
-            }
             return 0;
         }
         catch (...)
@@ -141,24 +150,6 @@ namespace reflect
         root["source_pattern"] = "\\.(cpp|c++|cc|cxx|h|hpp|hxx)$";
         root["cmake_pattern"] = "^.*/CMakeFiles/.+/CMake.+$";
 
-        YAML::Node llvm_args;
-        llvm_args.push_back("--std=c++20");
-#ifdef ALPINE
-        // llvm_args.push_back("-stdlib=libstdc++");
-        llvm_args.push_back("-I/usr/include/c++/14.2.0");
-        llvm_args.push_back("-I/usr/include/c++/14.2.0/x86_64-alpine-linux-musl");
-
-#else
-        llvm_args.push_back("-I/usr/include");
-        llvm_args.push_back("-I/usr/include/c++/12");
-        llvm_args.push_back("-I/usr/include/x86_64-linux-gnu/c++/12");
-        llvm_args.push_back("-I/usr/lib/llvm-15/include");
-#endif
-        llvm_args.push_back("-fparse-all-comments");
-        llvm_args.push_back("-D__clang__");
-
-        root["llvm_args"] = llvm_args;
-
         try
         {
             std::ofstream fout(output_file);
@@ -166,34 +157,82 @@ namespace reflect
             {
                 fout << root;
                 fout.close();
-                std::cout << "YAML 文件已成功写入: " << output_file << std::endl;
+                std::cout << "YAML 文件已成功写入：" << output_file << std::endl;
                 return 0;
             }
             else
             {
-                std::cerr << "无法打开文件进行写入: " << output_file << std::endl;
+                std::cerr << "无法打开文件进行写入：" << output_file << std::endl;
                 return 1;
             }
         }
         catch (...)
         {
-
             return 1;
         }
 
         return 0;
     }
+    bool is_typedef_type(const std::string &type)
+    {
+        // 检查是否是const类型
+        std::string type_without_const = type;
+        if (type_without_const.find("const ") == 0)
+        {
+            type_without_const = type_without_const.substr(strlen("const "));
+        }
+
+        // 检查是否是typedef类型
+        return typedef_map.find(type_without_const) != typedef_map.end();
+    }
+
+    std::string get_original_type(const std::string &type)
+    {
+        // 检查是否是const类型
+        bool is_const = false;
+        std::string type_without_const = type;
+        if (type_without_const.find("const ") == 0)
+        {
+            is_const = true;
+            type_without_const = type_without_const.substr(strlen("const "));
+        }
+
+        // 检查是否是typedef类型
+        auto it = typedef_map.find(type_without_const);
+        if (it != typedef_map.end())
+        {
+            return is_const ? "const " + it->second : it->second;
+        }
+
+        return type;
+    }
+
     void insert_base_types(const std::string &type)
     {
-        if (type.find("const ") == 0)
+        // 如果是typedef类型，直接返回，不添加到base_types集合中
+        if (is_typedef_type(type))
         {
-            get_config().base_types.emplace(type);
-            get_config().base_types.emplace(type.substr(strlen("const ")));
+            return;
+        }
+
+        // 转换为原始类型
+        std::string original_type = get_original_type(type);
+
+        // 检查是否已经添加了对应的原始类型
+        if (get_config().base_types.find(original_type) != get_config().base_types.end())
+        {
+            return;
+        }
+
+        if (original_type.find("const ") == 0)
+        {
+            get_config().base_types.emplace(original_type);
+            get_config().base_types.emplace(original_type.substr(strlen("const ")));
         }
         else
         {
-            get_config().base_types.emplace(type);
-            get_config().base_types.emplace(std::string("const ") + type);
+            get_config().base_types.emplace(original_type);
+            get_config().base_types.emplace(std::string("const ") + original_type);
         }
     }
 

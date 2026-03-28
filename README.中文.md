@@ -79,8 +79,6 @@ void *get_value(const base *cls, const std::string &_tag, const char *expected_t
 | ---------------- | -------- |
 | libctemplate-dev | 2.4-1    |
 | libctemplate3    | 2.4-1    |
-| llvm-15-dev      | 1:15.0.7 |
-| llvm-15          | 1:15.0.7 |
 
 # 构建与安装
 

@@ -26,14 +26,21 @@
 TEST(branch_map, test_alpha)
 {
 
-    branch_info bra;
-    bra.push_back("aaaaaaaaaaa");
-    bra.push_back("bbbbbbbbbbb");
-    bra.push_back("ccccccccccc");
-    bra.push_back("ddddddddddd");
-    bra.push_back("eeeeeeeeeee");
-    bra.push_back("fffffffffff");
-    bra.push_back("ggggggggggg");
+    reflect::branch_info bra;
+    auto info1 = std::make_shared<reflect::analyzer::info_t>();
+    auto info2 = std::make_shared<reflect::analyzer::info_t>();
+    auto info3 = std::make_shared<reflect::analyzer::info_t>();
+    auto info4 = std::make_shared<reflect::analyzer::info_t>();
+    auto info5 = std::make_shared<reflect::analyzer::info_t>();
+    auto info6 = std::make_shared<reflect::analyzer::info_t>();
+    auto info7 = std::make_shared<reflect::analyzer::info_t>();
+    bra.ana().push_back("aaaaaaaaaaa", info1);
+    bra.ana().push_back("bbbbbbbbbbb", info2);
+    bra.ana().push_back("ccccccccccc", info3);
+    bra.ana().push_back("ddddddddddd", info4);
+    bra.ana().push_back("eeeeeeeeeee", info5);
+    bra.ana().push_back("fffffffffff", info6);
+    bra.ana().push_back("ggggggggggg", info7);
 
-    bra.branch_builder(0);
+    bra.builder(0);
 }

@@ -24,20 +24,26 @@
 
 TEST(analyzer, push_back)
 {
-    analyzer a;
-    a.push_back("hellooooooo");
-    a.push_back("worldddddddd");
-    a.push_back("select");
-    a.push_back("where");
-    a.push_back("and");
-    a.push_back("or");
+    reflect::analyzer a;
+    auto info1 = std::make_shared<reflect::analyzer::info_t>();
+    auto info2 = std::make_shared<reflect::analyzer::info_t>();
+    auto info3 = std::make_shared<reflect::analyzer::info_t>();
+    auto info4 = std::make_shared<reflect::analyzer::info_t>();
+    auto info5 = std::make_shared<reflect::analyzer::info_t>();
+    auto info6 = std::make_shared<reflect::analyzer::info_t>();
+    a.push_back("hellooooooo", info1);
+    a.push_back("worldddddddd", info2);
+    a.push_back("select", info3);
+    a.push_back("where", info4);
+    a.push_back("and", info5);
+    a.push_back("or", info6);
 
     auto t = a.calc_perfect_index();
 
-    EXPECT_EQ(t, 9);
+    EXPECT_EQ(t, 13);
     auto x = a.get_data();
     auto it = x.find("hellooooooo");
-    EXPECT_EQ(it->second.m_value, 8029759184975979880u);
+    EXPECT_EQ(it->second->m_value, 8029759184975979880u);
     it = x.find("worldddddddd");
-    EXPECT_EQ(it->second.m_value, 7234017283942805367u);
+    EXPECT_EQ(it->second->m_value, 7234017283942805367u);
 }

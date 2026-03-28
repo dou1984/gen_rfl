@@ -48,8 +48,6 @@ namespace reflect
         std::string cmake_pattern;
         std::string source_pattern;
 
-        std::vector<std::string> llvm_args;
-
         SourceFiles source_code;
 
         void save()

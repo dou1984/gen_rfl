@@ -70,7 +70,7 @@ namespace reflect
     {
         {
             .m_variant = "add",
-            .m_type = "@int64_t,int64_t",
+            .m_type = "@long,long",
             .m_flags = 0x8801,
             .m_t_flags = 0,
             .m_field = e__base__add__1, // 1
@@ -79,7 +79,7 @@ namespace reflect
         },
         {
             .m_variant = "add",
-            .m_type = "int64_t@int64_t,int64_t",
+            .m_type = "long@long,long",
             .m_flags = 0x8801,
             .m_t_flags = 0,
             .m_field = e__base__add__0, // 0
@@ -105,7 +105,7 @@ namespace reflect
         .m_variant = "add",
         .m_type = "",
         .m_flags = 0x4801,
-        .m_t_flags = 0x0,
+        .m_t_flags = 0,
         .m_field = e__base__add, // 16
         .m_invoke = invoke__base__add,
         .m_setter = set_value_invalid,
