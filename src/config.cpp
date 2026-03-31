@@ -209,7 +209,7 @@ namespace reflect
 
     void insert_base_types(const std::string &type)
     {
-        // 如果是typedef类型，直接返回，不添加到base_types集合中
+        // 如果是 typedef 类型，直接返回，不添加到 base_types 集合中
         if (is_typedef_type(type))
         {
             return;
@@ -224,16 +224,8 @@ namespace reflect
             return;
         }
 
-        if (original_type.find("const ") == 0)
-        {
-            get_config().base_types.emplace(original_type);
-            get_config().base_types.emplace(original_type.substr(strlen("const ")));
-        }
-        else
-        {
-            get_config().base_types.emplace(original_type);
-            get_config().base_types.emplace(std::string("const ") + original_type);
-        }
+        // 将类型作为一个完整类型添加，不拆分 const 和指针
+        get_config().base_types.emplace(original_type);
     }
 
 }
