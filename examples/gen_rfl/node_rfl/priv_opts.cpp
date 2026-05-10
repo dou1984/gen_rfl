@@ -59,6 +59,7 @@ namespace reflect
         { return (void *)std::addressof(cls->opts); },
         .m_setter = []() -> auto
         { return __setter__<priv_opts, __ref_member__<priv_opts, &priv_opts::opts>>; }(),
+        
     },
     };
     reflect::Value __get_value(const priv_opts* cls, const std::string& _tag)

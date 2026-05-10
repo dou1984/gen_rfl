@@ -34,6 +34,9 @@
 #include "reflect_def.h"
 #include "item.h"
 
+// 前向声明config类型
+struct config;
+
 namespace reflect
 {
 #ifndef countof
@@ -165,6 +168,62 @@ namespace reflect
             return e_cstr;
         }
         return e_unfundamental;
+    }
+
+    // 通用的get_type函数模板，用于处理任何类型
+    template <class T>
+    inline const std::string &get_type(T)
+    {
+        static std::string type_name = typeid(T).name();
+        return type_name;
+    }
+
+    // 通用的get_type函数模板，用于处理任何类型的引用
+    template <class T>
+    inline const std::string &get_type(T &)
+    {
+        static std::string type_name = typeid(T).name();
+        return type_name;
+    }
+
+    // 通用的get_type函数模板，用于处理任何类型的const引用
+    template <class T>
+    inline const std::string &get_type(const T &)
+    {
+        static std::string type_name = typeid(T).name();
+        return type_name;
+    }
+
+    // 通用的get_type函数模板，用于处理任何类型的指针
+    template <class T>
+    inline const std::string &get_type(T *cls)
+    {
+        static std::string type_name = typeid(T).name();
+        return type_name;
+    }
+
+    // 通用的get_type函数模板，用于处理任何类型的const指针
+    template <class T>
+    inline const std::string &get_type(const T *cls)
+    {
+        static std::string type_name = typeid(T).name();
+        return type_name;
+    }
+
+    // 通用的get_type函数模板，用于处理任何类型的指针的指针
+    template <class T>
+    inline const std::string &get_type(T **cls)
+    {
+        static std::string type_name = typeid(T).name();
+        return type_name;
+    }
+
+    // 通用的get_type函数模板，用于处理任何类型的const指针的指针
+    template <class T>
+    inline const std::string &get_type(const T **cls)
+    {
+        static std::string type_name = typeid(T).name();
+        return type_name;
     }
 
 }

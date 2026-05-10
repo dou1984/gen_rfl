@@ -38,6 +38,7 @@ namespace reflect
 {
     analyzer::analyzer()
     {
+        m_config = std::make_shared<config_t>();
     }
 
     analyzer &analyzer::init(const std::shared_ptr<config_t> &_config)

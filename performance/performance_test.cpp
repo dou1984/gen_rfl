@@ -23,6 +23,7 @@
 #include <chrono>
 
 #include "node.h"
+#include "gen_rfl/node_rfl/node.hpp"
 #include "gen_rfl/rfl.h"
 
 using namespace reflect;
@@ -32,10 +33,10 @@ int performance_test()
 {
     std::cout << "\n=== Performance Test ===" << std::endl;
 
+    int iterations = 100;
     // Test set_value performance
     {
         node b = {0};
-        const int iterations = 1000000;
         const char *test_str = "test";
 
         auto start = high_resolution_clock::now();
@@ -44,14 +45,14 @@ int performance_test()
             set_value(&b, "oooo19", test_str);
         }
         auto end = high_resolution_clock::now();
-        auto duration = duration_cast<milliseconds>(end - start).count();
-        std::cout << "set_value performance: " << iterations << " iterations in " << duration << "ms" << std::endl;
+        auto duration = duration_cast<microseconds>(end - start).count();
+        auto avg = static_cast<double>(duration) / iterations;
+        std::cout << "set_value performance: " << iterations << " iterations in " << duration << "us, avg " << avg << "us/iter" << std::endl;
     }
 
     // Test get_value performance
     {
         node b = {0};
-        const int iterations = 1000000;
 
         auto start = high_resolution_clock::now();
         for (int i = 0; i < iterations; ++i)
@@ -59,14 +60,14 @@ int performance_test()
             auto value = get_value(&b, "oooo19");
         }
         auto end = high_resolution_clock::now();
-        auto duration = duration_cast<milliseconds>(end - start).count();
-        std::cout << "get_value performance: " << iterations << " iterations in " << duration << "ms" << std::endl;
+        auto duration = duration_cast<microseconds>(end - start).count();
+        auto avg = static_cast<double>(duration) / iterations;
+        std::cout << "get_value performance: " << iterations << " iterations in " << duration << "us, avg " << avg << "us/iter" << std::endl;
     }
 
     // Test invoke performance
     {
         node n;
-        const int iterations = 1000000;
 
         auto start = high_resolution_clock::now();
         for (int i = 0; i < iterations; ++i)
@@ -74,14 +75,14 @@ int performance_test()
             invoke(&n, "init");
         }
         auto end = high_resolution_clock::now();
-        auto duration = duration_cast<milliseconds>(end - start).count();
-        std::cout << "invoke performance: " << iterations << " iterations in " << duration << "ms" << std::endl;
+        auto duration = duration_cast<microseconds>(end - start).count();
+        auto avg = static_cast<double>(duration) / iterations;
+        std::cout << "invoke performance: " << iterations << " iterations in " << duration << "us, avg " << avg << "us/iter" << std::endl;
     }
 
     // Test for_each performance
     {
         node n = {0};
-        const int iterations = 100000;
 
         auto start = high_resolution_clock::now();
         for (int i = 0; i < iterations; ++i)
@@ -92,8 +93,9 @@ int performance_test()
                      });
         }
         auto end = high_resolution_clock::now();
-        auto duration = duration_cast<milliseconds>(end - start).count();
-        std::cout << "for_each performance: " << iterations << " iterations in " << duration << "ms" << std::endl;
+        auto duration = duration_cast<nanoseconds>(end - start).count();
+        auto avg = static_cast<double>(duration) / iterations;
+        std::cout << "for_each performance: " << iterations << " iterations in " << duration << "ns, avg " << avg << "ns/iter" << std::endl;
     }
 
     return 0;

@@ -14,15 +14,27 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-file(GLOB ALL_CPP_FILES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/**/*.cpp" "${CMAKE_SOURCE_DIR}/*.cpp" "${CMAKE_SOURCE_DIR}/gen_rfl/**/*.cpp"  "${CMAKE_SOURCE_DIR}/gen_rfl/**/**/*.cpp")
-list(FILTER ALL_CPP_FILES EXCLUDE REGEX "build/*.cpp$")
+set(EXAMPLE_SOURCES
+    main.cpp
+    node.cpp
+)
+
+set(GEN_RFL_GENERATED_SOURCES
+    gen_rfl/base_types.cpp
+    gen_rfl/base/common_rfl/common.cpp
+    gen_rfl/node_rfl/node.cpp
+    gen_rfl/node_rfl/func.cpp
+    gen_rfl/node_rfl/config.cpp
+    gen_rfl/node_rfl/options.cpp
+    gen_rfl/node_rfl/priv_opts.cpp
+    gen_rfl/node_rfl/base.cpp
+)
 
 add_executable(${PROJECT_NAME}
-    ${ALL_CPP_FILES}
+    ${EXAMPLE_SOURCES}    
+    ${GEN_RFL_GENERATED_SOURCES}
 )
 
 link_directories(${GEN_RFL_DIR})
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${GEN_RFL_DIR})
-
-
+target_include_directories(${PROJECT_NAME} PRIVATE ${GEN_RFL_DIR} ${CMAKE_SOURCE_DIR})
+target_link_libraries(${PROJECT_NAME} PRIVATE )

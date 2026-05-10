@@ -23,4 +23,4 @@ add_executable(${PROJECT_NAME}
 
 link_directories(${GEN_RFL_DIR})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${GEN_RFL_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${GEN_RFL_DIR} ${CMAKE_SOURCE_DIR})

@@ -19,6 +19,7 @@
 // SOFTWARE.
 //
 
+#include <string>
 #include "base_types.h"
 
 namespace reflect
@@ -34,9 +35,9 @@ namespace reflect
         static const std::string _ = "char";
         return _;
     }
-    const std::string &get_type(char * *)
+    const std::string &get_type(char* *)
     {
-        static const std::string _ = "char *";
+        static const std::string _ = "char*";
         return _;
     }
     const std::string &get_type(const bool *)
@@ -49,9 +50,9 @@ namespace reflect
         static const std::string _ = "const char";
         return _;
     }
-    const std::string &get_type(const char * *)
+    const std::string &get_type(const char* *)
     {
-        static const std::string _ = "const char *";
+        static const std::string _ = "const char*";
         return _;
     }
     const std::string &get_type(const double *)
@@ -94,19 +95,9 @@ namespace reflect
         static const std::string _ = "const signed char";
         return _;
     }
-    const std::string &get_type(const std::map<int, int> *)
-    {
-        static const std::string _ = "const std::map<int, int>";
-        return _;
-    }
     const std::string &get_type(const std::string *)
     {
         static const std::string _ = "const std::string";
-        return _;
-    }
-    const std::string &get_type(const std::vector<int> *)
-    {
-        static const std::string _ = "const std::vector<int>";
         return _;
     }
     const std::string &get_type(const unsigned char *)
@@ -174,19 +165,9 @@ namespace reflect
         static const std::string _ = "signed char";
         return _;
     }
-    const std::string &get_type(std::map<int, int> *)
-    {
-        static const std::string _ = "std::map<int, int>";
-        return _;
-    }
     const std::string &get_type(std::string *)
     {
         static const std::string _ = "std::string";
-        return _;
-    }
-    const std::string &get_type(std::vector<int> *)
-    {
-        static const std::string _ = "std::vector<int>";
         return _;
     }
     const std::string &get_type(unsigned char *)
@@ -213,21 +194,5 @@ namespace reflect
     {
         static const std::string _ = "unsigned short";
         return _;
-    }
-    ::reflect::Value get_field_value(std::map<int, int> *cls, uint32_t field)
-    {
-        if (field < cls->size())
-        {
-            return ::reflect::Value(std::addressof(cls->at(field)), ::reflect::flag_type<std::map<int, int>>());        
-        }
-        return ::reflect::Value(nullptr, ::reflect::e_nullptr);
-    }
-    ::reflect::Value get_field_value(std::vector<int> *cls, uint32_t field)
-    {
-        if (field < cls->size())
-        {
-            return ::reflect::Value(std::addressof(cls->at(field)), ::reflect::flag_type<std::vector<int>>());        
-        }
-        return ::reflect::Value(nullptr, ::reflect::e_nullptr);
     }
 }

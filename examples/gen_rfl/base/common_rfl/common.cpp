@@ -63,6 +63,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o0000000); },
         .m_setter = []() -> auto
         { return __setter__<common, __ref_member__<common, &common::o0000000>>; }(),
+        
     },
     {
         .m_variant = "o0000001",
@@ -74,6 +75,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o0000001); },
         .m_setter = []() -> auto
         { return __setter__<common, __ref_member__<common, &common::o0000001>>; }(),
+        
     },
     {
         .m_variant = "o0000002",
@@ -85,6 +87,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o0000002); },
         .m_setter = []() -> auto
         { return __setter__<common, __ref_member__<common, &common::o0000002>>; }(),
+        
     },
     {
         .m_variant = "o0000003",
@@ -96,6 +99,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o0000003); },
         .m_setter = []() -> auto
         { return __setter__<common, __ref_member__<common, &common::o0000003>>; }(),
+        
     },
     };
     reflect::Value __get_value(const common* cls, const std::string& _tag)

@@ -70,18 +70,18 @@ namespace reflect
     {
         {
             .m_variant = "add",
-            .m_type = "@int64_t,int64_t",
+            .m_type = "@long,long",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__base__add__1, // 1
             .m_func = invoke__base__add__1,
             .m_func_v = invoke__base__add__1_v,        
         },
         {
             .m_variant = "add",
-            .m_type = "int64_t@int64_t,int64_t",
+            .m_type = "long@long,long",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<long>(),
             .m_field = e__base__add__0, // 0
             .m_func = invoke__base__add__0,
             .m_func_v = invoke__base__add__0_v,        
@@ -100,12 +100,13 @@ namespace reflect
         { return (void *)std::addressof(cls->a); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::a>>; }(),
+        
     },
     {
         .m_variant = "add",
         .m_type = "",
         .m_flags = 0x4801,
-        .m_t_flags = 0x0,
+        .m_t_flags = 0,
         .m_field = e__base__add, // 16
         .m_invoke = invoke__base__add,
         .m_setter = set_value_invalid,
@@ -120,6 +121,7 @@ namespace reflect
         { return (void *)std::addressof(cls->b); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::b>>; }(),
+        
     },
     {
         .m_variant = "c",
@@ -131,6 +133,7 @@ namespace reflect
         { return (void *)std::addressof(cls->c); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::c>>; }(),
+        
     },
     {
         .m_variant = "d",
@@ -142,6 +145,7 @@ namespace reflect
         { return (void *)std::addressof(cls->d); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::d>>; }(),
+        
     },
     {
         .m_variant = "e",
@@ -153,6 +157,7 @@ namespace reflect
         { return (void *)std::addressof(cls->e); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::e>>; }(),
+        
     },
     {
         .m_variant = "f",
@@ -164,6 +169,7 @@ namespace reflect
         { return (void *)std::addressof(cls->f); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::f>>; }(),
+        
     },
     {
         .m_variant = "g",
@@ -175,6 +181,7 @@ namespace reflect
         { return (void *)std::addressof(cls->g); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::g>>; }(),
+        
     },
     {
         .m_variant = "h",
@@ -186,6 +193,7 @@ namespace reflect
         { return (void *)std::addressof(cls->h); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::h>>; }(),
+        
     },
     {
         .m_variant = "i",
@@ -197,6 +205,7 @@ namespace reflect
         { return (void *)std::addressof(cls->i); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::i>>; }(),
+        
     },
     {
         .m_variant = "j",
@@ -208,6 +217,7 @@ namespace reflect
         { return (void *)std::addressof(cls->j); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::j>>; }(),
+        
     },
     {
         .m_variant = "k",
@@ -219,6 +229,7 @@ namespace reflect
         { return (void *)std::addressof(cls->k); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::k>>; }(),
+        
     },
     {
         .m_variant = "l",
@@ -230,6 +241,7 @@ namespace reflect
         { return (void *)std::addressof(cls->l); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::l>>; }(),
+        
     },
     {
         .m_variant = "m",
@@ -241,6 +253,7 @@ namespace reflect
         { return (void *)std::addressof(cls->m); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::m>>; }(),
+        
     },
     {
         .m_variant = "n",
@@ -252,6 +265,7 @@ namespace reflect
         { return (void *)std::addressof(cls->n); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::n>>; }(),
+        
     },
     {
         .m_variant = "o",
@@ -263,6 +277,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::o>>; }(),
+        
     },
     {
         .m_variant = "ooooooooooooooooooooooooooool0",
@@ -274,6 +289,7 @@ namespace reflect
         { return (void *)std::addressof(cls->ooooooooooooooooooooooooooool0); },
         .m_setter = []() -> auto
         { return __setter__<base, __ref_member__<base, &base::ooooooooooooooooooooooooooool0>>; }(),
+        
     },
     };
     reflect::Value __get_value(const base* cls, const std::string& _tag)

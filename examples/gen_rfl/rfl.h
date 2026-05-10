@@ -18,7 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-
 #pragma once
 #include "base_types.h"
 #include "base/common_rfl/common.h"
@@ -28,7 +27,6 @@
 #include "node_rfl/node.h"
 #include "node_rfl/options.h"
 #include "node_rfl/priv_opts.h"
-
 #include "base/common_rfl/common.hpp"
 #include "node_rfl/base.hpp"
 #include "node_rfl/config.hpp"

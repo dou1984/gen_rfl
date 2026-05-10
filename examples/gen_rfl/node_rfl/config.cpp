@@ -64,6 +64,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o0); },
         .m_setter = []() -> auto
         { return __setter__<config, __ref_member__<config, &config::o0>>; }(),
+        
     },
     {
         .m_variant = "o1",
@@ -75,6 +76,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o1); },
         .m_setter = []() -> auto
         { return __setter__<config, __ref_member__<config, &config::o1>>; }(),
+        
     },
     {
         .m_variant = "o2",
@@ -86,6 +88,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o2); },
         .m_setter = []() -> auto
         { return __setter__<config, __ref_member__<config, &config::o2>>; }(),
+        
     },
     {
         .m_variant = "o3",
@@ -97,6 +100,7 @@ namespace reflect
         { return (void *)std::addressof(cls->o3); },
         .m_setter = []() -> auto
         { return __setter__<config, __ref_member__<config, &config::o3>>; }(),
+        
     },
     {
         .m_variant = "options",
@@ -108,6 +112,7 @@ namespace reflect
         { return (void *)static_cast<const options *>(cls); },
         .m_setter = []() -> auto
         { return __setter__<config, __ref_base__<config, options>>; }(),
+        
     },
     };
     reflect::Value __get_value(const config* cls, const std::string& _tag)

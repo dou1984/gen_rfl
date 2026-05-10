@@ -196,85 +196,80 @@ size_t findCommonPrefixLength(std::string_view basePath, std::string_view target
 
 std::string GetRelativePath(const std::string &baseFile, const std::string &targetPath)
 {
-    std::string_view _base_file = baseFile;
-    std::string_view _target_path = targetPath;
-    if (!_base_file.empty() && _base_file.back() == '/')
-    {
-        _base_file.remove_suffix(1);
-    }
-    if (!_target_path.empty() && _target_path.back() == '/')
-    {
-        _target_path.remove_suffix(1);
+    std::string base_dir = baseFile;
+    size_t pos = base_dir.find_last_of('/');
+    if (pos != std::string::npos) {
+        base_dir = base_dir.substr(0, pos);
     }
 
-    if (_base_file.empty())
-    {
-        return std::string(_target_path);
-    }
-
-    size_t commonComponents = findCommonPrefixLength(_base_file, _target_path);
-
-    size_t upLevels = 0;
-    size_t pos = 0;
-    std::string_view remainingBase = _base_file.front() == '/' ? _base_file.substr(1) : _base_file;
-
-    for (size_t i = 0; i < commonComponents; i++)
-    {
-        size_t pos = remainingBase.find('/');
-        if (pos == std::string_view::npos)
-        {
-            remainingBase = "";
-            break;
+    std::string relative_path;
+    std::string current_dir = base_dir;
+    std::string target_file = targetPath;
+    
+    // 确保路径使用正斜杠
+    std::replace(current_dir.begin(), current_dir.end(), '\\', '/');
+    std::replace(target_file.begin(), target_file.end(), '\\', '/');
+    
+    // 移除路径中的 ./ 前缀和中间的 /./
+    auto remove_dot_slashes = [](std::string &path) {
+        std::string result;
+        std::stringstream ss(path);
+        std::string component;
+        while (std::getline(ss, component, '/')) {
+            if (component == ".") {
+                continue;
+            }
+            if (!result.empty()) {
+                result += "/";
+            }
+            result += component;
         }
-        else
-        {
-            remainingBase = remainingBase.substr(pos + 1);
+        return result;
+    };
+    
+    current_dir = remove_dot_slashes(current_dir);
+    target_file = remove_dot_slashes(target_file);
+    
+    // 分割路径为组件
+    std::vector<std::string> base_components;
+    std::vector<std::string> target_components;
+    
+    std::stringstream base_ss(current_dir);
+    std::string component;
+    while (std::getline(base_ss, component, '/')) {
+        if (!component.empty()) {
+            base_components.push_back(component);
         }
     }
-
-    forEachPathComponent(remainingBase, [&upLevels](std::string_view)
-                         { upLevels++; });
-
-    std::string relativePath;
-    for (size_t i = 0; i < upLevels; i++)
-    {
-        if (!relativePath.empty())
-        {
-            relativePath += '/';
+    
+    std::stringstream target_ss(target_file);
+    while (std::getline(target_ss, component, '/')) {
+        if (!component.empty()) {
+            target_components.push_back(component);
         }
-        relativePath += "..";
     }
-
-    std::string_view _remaining_target = _target_path;
-    pos = _target_path.front() == '/' ? 1 : 0;
-
-    for (size_t i = 0; i < commonComponents; i++)
-    {
-        pos = _remaining_target.find('/', pos);
-        if (pos == std::string_view::npos)
-        {
-            pos = _remaining_target.length();
-            break;
+    
+    // 找到公共前缀
+    size_t common_prefix = 0;
+    while (common_prefix < base_components.size() && common_prefix < target_components.size() && 
+           base_components[common_prefix] == target_components[common_prefix]) {
+        common_prefix++;
+    }
+    
+    // 向上一级目录的次数
+    for (size_t i = common_prefix; i < base_components.size(); i++) {
+        relative_path += "../";
+    }
+    
+    // 添加目标路径的剩余部分
+    for (size_t i = common_prefix; i < target_components.size(); i++) {
+        if (!relative_path.empty() && relative_path.back() != '/') {
+            relative_path += "/";
         }
-        pos = pos + 1;
+        relative_path += target_components[i];
     }
-
-    _remaining_target = _target_path.substr(pos);
-    if (!_remaining_target.empty())
-    {
-        if (!relativePath.empty())
-        {
-            relativePath += '/';
-        }
-        relativePath += _remaining_target;
-    }
-
-    if (relativePath.empty())
-    {
-        return ".";
-    }
-
-    return relativePath;
+    
+    return relative_path;
 }
 
 bool IsCurDir(const std::string &path)

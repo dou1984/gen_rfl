@@ -30,7 +30,7 @@ namespace reflect
         std::string header_hpp;
         std::string source;
     };
-    int generate_file_name(std::string &header, std::string &source, std::string &_header);
+    int generate_file_name(rfl_config &cfg, std::string &__header);
     bool is_generated(rfl_config &cfg);
        
 

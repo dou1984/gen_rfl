@@ -63,15 +63,19 @@ TEST(format, rander_file)
 TEST(format, rander_branch)
 {
 
-    branch_info bra;
-    bra.push_back("hello");
-    bra.push_back("world");
-    bra.push_back("say");
-    bra.push_back("hi");
+    reflect::branch_info bra;
+    auto info1 = std::make_shared<reflect::analyzer::info_t>();
+    auto info2 = std::make_shared<reflect::analyzer::info_t>();
+    auto info3 = std::make_shared<reflect::analyzer::info_t>();
+    auto info4 = std::make_shared<reflect::analyzer::info_t>();
+    bra.ana().push_back("hello", info1);
+    bra.ana().push_back("world", info2);
+    bra.ana().push_back("say", info3);
+    bra.ana().push_back("hi", info4);
 
     bra.builder(0);
 
-    format_tpl tpl;
-    tpl.to_header(bra);
+    reflect::format_tpl tpl;
+    tpl.to_header("header.tpl", bra, "test.h");
     // tpl.to_file("header.h", "source.cpp");
 }

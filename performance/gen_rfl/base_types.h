@@ -36,10 +36,10 @@ namespace reflect
 {
     const std::string &get_type(bool *);
     const std::string &get_type(char *);
-    const std::string &get_type(char * *);
+    const std::string &get_type(char* *);
     const std::string &get_type(const bool *);
     const std::string &get_type(const char *);
-    const std::string &get_type(const char * *);
+    const std::string &get_type(const char* *);
     const std::string &get_type(const double *);
     const std::string &get_type(const float *);
     const std::string &get_type(const int *);

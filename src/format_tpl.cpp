@@ -25,6 +25,7 @@
 #include <fstream>
 #include <cstring>
 #include <algorithm>
+#include <dirent.h>
 #include "reflect.h"
 #include "arguments.h"
 #include "config.h"
@@ -40,6 +41,16 @@ namespace reflect
         "std::unordered_map",
         "std::deque",
         "std::array",
+        "std::queue",
+        "std::stack",
+        "std::priority_queue",
+        "std::set",
+        "std::unordered_set",
+        "std::multiset",
+        "std::unorderedimap",
+        "std::multimap",
+        "std::unordered_multimap",
+
     };
 
     static std::string __join_l(const std::list<std::string> &l)
@@ -105,6 +116,54 @@ namespace reflect
     {
         return (type.find("const const") == 0) ? type.substr(6) : type;
     }
+
+    std::string normalize_type(const std::string &type)
+    {
+        std::string normalized = type;
+        // 移除指针类型中的空格，例如将 "char *" 转换为 "char*"
+        size_t pos = 0;
+        while ((pos = normalized.find(" *", pos)) != std::string::npos)
+        {
+            normalized.replace(pos, 2, "*");
+            pos += 1;
+        }
+        // 移除引用类型中的空格，例如将 "config &" 转换为 "config&"
+        pos = 0;
+        while ((pos = normalized.find(" &", pos)) != std::string::npos)
+        {
+            normalized.replace(pos, 2, "&");
+            pos += 1;
+        }
+        // 处理多重指针，例如将 "char* *" 转换为 "char**"
+        pos = 0;
+        while ((pos = normalized.find("* *", pos)) != std::string::npos)
+        {
+            normalized.replace(pos, 3, "**");
+            pos += 2;
+        }
+        return normalized;
+    }
+
+    std::string map_to_original_type(const std::string &type)
+    {
+        if (type == "int8_t")
+            return "signed char";
+        if (type == "int16_t")
+            return "short";
+        if (type == "int32_t")
+            return "int";
+        if (type == "int64_t")
+            return "long";
+        if (type == "uint8_t")
+            return "unsigned char";
+        if (type == "uint16_t")
+            return "unsigned short";
+        if (type == "uint32_t")
+            return "unsigned int";
+        if (type == "uint64_t")
+            return "unsigned long";
+        return type;
+    }
     int format_tpl::init()
     {
         auto &conf = get_config();
@@ -155,21 +214,26 @@ namespace reflect
     format_tpl::format_tpl()
     {
     }
-    int format_tpl::to_header(const std::string tpl_key, branch_info &_bra)
+    int format_tpl::to_header(const std::string tpl_key, branch_info &_bra, const std::string &generated_file_path)
     {
 
         ctemplate::TemplateDictionary _header("header");
         _header.SetValue("license", reflect::license());
         _header.SetValue("class", get_config().m_class);
         _header.SetValue("raw_class", get_config().m_raw_class);
-        _header.SetValue("header", GetRelativePath(get_config().m_relative_file, "") + "/base_types.h");
+        std::string base_types_file = "base_types.h";
+        // 计算从生成文件到 base_types.h 的相对路径
+        // base_types.h 在 rfl_dir 目录中
+        std::string base_types_path = get_config().rfl_dir + "/" + base_types_file;
+        std::string rel_path = GetRelativePath(generated_file_path, base_types_path);
+        _header.SetValue("header", rel_path);
 
         auto _expand_base = [&](auto dict)
         {
             for (auto &it : _bra.ana().get_data())
             {
                 auto field = it.second;
-                if (__contains__(field->m_flags, flag_struct, flag_class))
+                if (__contains__(field->m_flags, reflect::flag_struct) || __contains__(field->m_flags, reflect::flag_class))
                 {
                     auto is_base = dict->AddSectionDictionary("is_base");
                     is_base->SetValue("variant", field->m_variant);
@@ -193,17 +257,15 @@ namespace reflect
         expand(tpl_key, _header, m_output_header);
         return 0;
     }
-    int format_tpl::to_meta(branch_info &bra, std::map<std::string, branch_info> &bra_func)
+    int format_tpl::to_meta(branch_info &bra, std::map<std::string, branch_info> &bra_func, const std::string &source_path)
     {
 
         ctemplate::TemplateDictionary _meta("meta");
         auto &conf = get_config();
 
-        auto upper_dir = IsCurDir(conf.rfl_dir) ? "/" : "/../";
-        auto header_name = GetRelativePath(conf.m_file, conf.real_source_dir) + upper_dir + conf.m_relative_file;
-        std::cout << "file: " << conf.m_file << std::endl;
-        std::cout << "real_src_dir: " << conf.real_source_dir << std::endl;
-        std::cout << "header_name: " << header_name << std::endl;
+        // 计算从生成文件到原始头文件的相对路径
+        std::string header_name = GetRelativePath(source_path, conf.m_file);
+        std::cout << "DEBUG: GetRelativePath(" << source_path << ", " << conf.m_file << ") = " << header_name << std::endl;
         _meta.SetValue("license", reflect::license());
         _meta.SetValue("header", header_name);
         _meta.SetValue("class", conf.m_class);
@@ -213,29 +275,44 @@ namespace reflect
             _namespace->SetValue("namespace", conf.m_namespace);
         };
 
+        if (header_name.size() >= 2 && header_name.substr(header_name.size() - 2) == ".h")
+        {
+            conf.referenced_headers.insert(header_name);
+            conf.referenced_headers_absolute.insert(conf.m_file);
+        }
+
         for (auto &it : bra.ana().get_data())
         {
             auto field = it.second;
 
             auto dict = _meta.AddSectionDictionary("fields");
             dict->SetValue("variant", field->m_variant);
-            dict->SetValue("type", field->m_raw_type);
+
+            if (__contains__(field->m_flags, reflect::flag_function))
+            {
+                dict->SetValue("type", "");
+            }
+            else
+            {
+                dict->SetValue("type", map_to_original_type(field->m_raw_type));
+            }
             char buf[64];
             to_hex(field->m_flags, buf, sizeof(buf));
             dict->SetValue("flags", buf);
 
-            if (!__contains__(field->m_flags, flag_function, flag_argument))
+            std::cout << "Field " << field->m_variant << " m_flags: " << std::hex << field->m_flags << std::endl;
+
+            if (__contains__(field->m_flags, reflect::flag_function))
             {
-                dict->SetValue("t_flags", std::string("::reflect::flag_type<") + field->m_raw_type + std::string(">()"));
+                dict->SetValue("t_flags", "0");
             }
             else
             {
-                to_hex(field->m_t_flags, buf, sizeof(buf));
-                dict->SetValue("t_flags", buf);
+                dict->SetValue("t_flags", std::string("::reflect::flag_type<") + map_to_original_type(field->m_raw_type) + std::string(">()"));
             }
             dict->SetIntValue("field", field->m_field);
 
-            if (__contains__(field->m_flags, flag_function))
+            if (__contains__(field->m_flags, reflect::flag_function))
             {
                 dict->AddSectionDictionary("is_invoke");
                 auto invoke_func = _meta.AddSectionDictionary("invoke_func");
@@ -244,15 +321,16 @@ namespace reflect
             else
             {
                 auto is_member = dict->AddSectionDictionary("is_member");
-                if (__contains__(field->m_flags, flag_struct, flag_class))
+                if (__contains__(field->m_flags, reflect::flag_struct) || __contains__(field->m_flags, reflect::flag_class))
                 {
                     is_member->AddSectionDictionary("is_derived");
 
                     auto is_base = _meta.AddSectionDictionary("is_base");
                     is_base->SetValue("variant", field->m_variant);
                 }
-                else if (__contains__(field->m_flags, flag_static))
+                else if ((field->m_flags & reflect::__flag(reflect::flag_static)) != 0)
                 {
+                    std::cout << "Field " << field->m_variant << " is static" << std::endl;
                     is_member->AddSectionDictionary("is_static");
                 }
                 else
@@ -261,22 +339,49 @@ namespace reflect
                 }
             }
         }
+        std::cout << "DEBUG: bra_func size = " << bra_func.size() << std::endl;
         for (auto &_func : bra_func)
         {
+            std::cout << "DEBUG: _func.first = " << _func.first << ", _func.second.ana().get_data().size() = " << _func.second.ana().get_data().size() << std::endl;
             for (auto &it : _func.second.ana().get_data())
             {
                 auto field = it.second;
 
                 auto dict = _meta.AddSectionDictionary("invoke_fields");
                 dict->SetValue("variant", field->m_raw_variant);
-                dict->SetValue("type", field->m_raw_type);
+
+                std::string type_str;
+                if (!field->m_output.empty() && map_to_original_type(field->m_output) != "void")
+                {
+                    type_str = map_to_original_type(field->m_output);
+                }
+
+                type_str += "@";
+                if (!field->m_input.empty())
+                {
+                    bool first = true;
+                    for (const auto &input : field->m_input)
+                    {
+                        if (!first)
+                        {
+                            type_str += ",";
+                        }
+                        type_str += map_to_original_type(input);
+                        first = false;
+                    }
+                }
+                dict->SetValue("type", type_str);
 
                 char buf[64];
                 to_hex(field->m_flags, buf, sizeof(buf));
                 dict->SetValue("flags", buf);
                 dict->SetIntValue("field", field->m_field);
                 dict->SetValue("__field", __field(field->m_field));
-                if (__contains__(field->m_flags, flag_argument))
+
+                std::string output_type = field->m_output.empty() ? "void" : map_to_original_type(field->m_output);
+                std::string t_flags_value = std::string("::reflect::flag_type<") + output_type + std::string(">()");
+                dict->SetValue("t_flags", t_flags_value);
+                if (__contains__(field->m_flags, reflect::flag_argument))
                 {
                     auto invoke_field = dict->AddSectionDictionary("invoke_field");
                     invoke_field->SetValue("variant", field->m_raw_variant);
@@ -578,17 +683,21 @@ namespace reflect
     }
     int format_tpl::to_rfl(rfl_config &cfg, branch_info &bra, std::map<std::string, branch_info> &bra_func)
     {
+        if (init() != 0)
+        {
+            return -1;
+        }
         bra.builder(0);
 
-        to_header("header.tpl", bra);
+        to_header("header.tpl", bra, cfg.header);
         write_file(cfg.header, m_output_header);
         m_output_header.clear();
 
-        to_header("header.hpp.tpl", bra);
+        to_header("header.hpp.tpl", bra, cfg.header_hpp);
         write_file(cfg.header_hpp, m_output_header);
         m_output_header.clear();
 
-        to_meta(bra, bra_func);
+        to_meta(bra, bra_func, cfg.source);
         to_func(0, 0, bra);
 
         for (auto &_func : bra_func)
@@ -611,15 +720,44 @@ namespace reflect
         ctemplate::TemplateDictionary _dict("rfl");
 
         _dict.SetValue("license", reflect::license());
-        for (auto &it : conf.generated)
+
+        // 使用 generated 集合获取所有生成的头文件
+        for (const auto &generated_header : conf.generated)
         {
-            auto header = _dict.AddSectionDictionary("indices");
-            header->SetValue("header", it);
+            // 跳过 rfl.h 和 rfl.hpp 文件，避免循环包含
+            size_t last_slash = generated_header.find_last_of("/\\");
+            std::string header_name = (last_slash != std::string::npos) ? generated_header.substr(last_slash + 1) : generated_header;
+            if (header_name == "rfl.h" || header_name == "rfl.hpp")
+                continue;
+
+            // 处理 .h 文件
+            if (generated_header.size() >= 2 && generated_header.substr(generated_header.size() - 2) == ".h")
+            {
+                // 添加 .h 文件引用（模板会自动在 .h 后面加 pp 得到 .hpp）
+                auto header_dict = _dict.AddSectionDictionary("indices");
+                header_dict->SetValue("header", generated_header);
+            }
         }
 
         std::string tpl_key = "rfl.tpl";
         std::string _output;
         expand(tpl_key, _dict, _output);
+
+        // 移除可能存在的空行
+        size_t pos = 0;
+        size_t loop_count = 0;
+        const size_t max_loop_count = 1000;
+        while ((pos = _output.find("\n\n", pos)) != std::string::npos && loop_count < max_loop_count)
+        {
+            _output.erase(pos, 1); // 移除一个换行符
+            loop_count++;
+        }
+
+        // 确保文件以换行符结束
+        if (!_output.empty() && _output.back() != '\n')
+        {
+            _output += '\n';
+        }
 
         std::string path = conf.rfl_dir + "/rfl.h";
         write_file(path, _output);
@@ -632,12 +770,35 @@ namespace reflect
         ctemplate::TemplateDictionary _dict(name);
 
         _dict.SetValue("license", reflect::license());
+
+        // 调试输出：打印 base_types 集合的内容
+        std::cout << "DEBUG: base_types size = " << conf.base_types.size() << std::endl;
+        for (const auto &t : conf.base_types)
+        {
+            std::cout << "DEBUG: base_types: " << t << std::endl;
+        }
+
+        // 使用集合来跟踪已经添加的类型，避免重复
+        std::set<std::string> added_types;
+
         for (auto &it : conf.base_types)
         {
-            auto base_types = _dict.AddSectionDictionary("base_types");
-            base_types->SetValue("class", it);
-            base_types->SetValue("raw_class", remove_duplicate_const(it));
+            // 标准化类型表示
+            std::string normalized_type = normalize_type(it);
+            std::string normalized_raw_class = normalize_type(remove_duplicate_const(it));
+
+            // 检查是否已经添加过这个类型
+            if (added_types.find(normalized_type) == added_types.end())
+            {
+                auto base_types = _dict.AddSectionDictionary("base_types");
+                base_types->SetValue("class", normalized_type);
+                base_types->SetValue("raw_class", normalized_raw_class);
+                added_types.insert(normalized_type);
+            }
         }
+
+        // 重置添加的类型集合，用于处理 STL 类型
+        added_types.clear();
 
         for (auto &it : conf.base_types)
         {
@@ -647,13 +808,26 @@ namespace reflect
                 continue;
             }
             std::string_view key = it.substr(0, pos);
+            std::cout << "DEBUG: Checking STL type: " << it << ", key: " << key << std::endl;
             if (all_stl.find(key) == all_stl.end())
             {
+                std::cout << "DEBUG: Key not found in all_stl: " << key << std::endl;
                 continue;
             }
-            auto base_types = _dict.AddSectionDictionary("base_stl");
-            base_types->SetValue("class", it);
-            base_types->SetValue("raw_class", remove_duplicate_const(it));
+
+            // 标准化类型表示
+            std::string normalized_type = normalize_type(it);
+            std::string normalized_raw_class = normalize_type(remove_duplicate_const(it));
+
+            // 检查是否已经添加过这个类型
+            if (added_types.find(normalized_type) == added_types.end())
+            {
+                std::cout << "DEBUG: Adding STL type: " << normalized_type << std::endl;
+                auto base_types = _dict.AddSectionDictionary("base_stl");
+                base_types->SetValue("class", normalized_type);
+                base_types->SetValue("raw_class", normalized_raw_class);
+                added_types.insert(normalized_type);
+            }
         }
 
         std::string _output;

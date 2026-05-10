@@ -62,7 +62,7 @@ int set_base()
     set_value(&b, "e", "100");
     assert(b.e == 100);
 
-    set_value(&b, "o", std::vector<int>{0, 1, 2, 3});
+    set_value(&b, "o", std::vector<int>{0, 1, 2, 3});    
     return 0;
 }
 
@@ -181,7 +181,6 @@ int invoke_node2()
     long r0 = 0;
 
     invoke_r(&n, "add", r0, i0, i1);
-
     assert(r0 == 30);
 
     return 0;
@@ -189,9 +188,7 @@ int invoke_node2()
 
 int for_each_node()
 {
-
     node n = {0};
-
     for_each(&n, [](auto &base, auto &key, auto &value)
              { std::cout << "-->" << base << ":" << key << "->" << value.to_string() << std::endl; });
     return 0;
