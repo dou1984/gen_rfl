@@ -67,7 +67,7 @@ namespace reflect
             .m_variant = "_deinit",
             .m_type = "@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__func___deinit__3, // 3
             .m_func = invoke__func___deinit__3,
             .m_func_v = invoke__func___deinit__3_v,        
@@ -76,7 +76,7 @@ namespace reflect
             .m_variant = "_deinit",
             .m_type = "int@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__func___deinit__2, // 2
             .m_func = invoke__func___deinit__2,
             .m_func_v = invoke__func___deinit__2_v,        
@@ -85,7 +85,7 @@ namespace reflect
             .m_variant = "_done",
             .m_type = "@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__func___done__4, // 4
             .m_func = invoke__func___done__4,
             .m_func_v = invoke__func___done__4_v,        
@@ -94,7 +94,7 @@ namespace reflect
             .m_variant = "_init",
             .m_type = "@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__func___init__1, // 1
             .m_func = invoke__func___init__1,
             .m_func_v = invoke__func___init__1_v,        
@@ -103,7 +103,7 @@ namespace reflect
             .m_variant = "_init",
             .m_type = "int@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__func___init__0, // 0
             .m_func = invoke__func___init__0,
             .m_func_v = invoke__func___init__0_v,        

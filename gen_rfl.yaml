@@ -2,6 +2,6 @@ rfl_dir: gen_rfl
 src_dir: ./
 libs_dir: libs
 include_dir: include
-tpl_dir: /usr/local/include/gen_rfl/tpl/
+tpl_dir: /home/dou1984/github/genreflect/src/tpl/
 source_pattern: \.(cpp|c++|cc|cxx|h|hpp|hxx)$
 cmake_pattern: ^.*/CMakeFiles/.+/CMake.+$

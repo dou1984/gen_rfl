@@ -23,6 +23,7 @@
 #include <chrono>
 
 #include "node.h"
+#include "gen_rfl/node_rfl/node.hpp"
 #include "gen_rfl/rfl.h"
 
 using namespace reflect;

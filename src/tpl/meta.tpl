@@ -76,12 +76,12 @@ namespace reflect
         { return (void *)&{{class}}::{{variant}}; },
         .m_setter = []() -> auto
         { return __setter__<{{class}}, __ref_static__<{{class}}, &{{class}}::{{variant}}>>; }(),
-        {{/is_static}}{{^is_static}}{{#is_field}}
+        {{/is_static}}{{#is_field}}
         .m_getter = [](const {{class}} *cls) -> void * 
         { return (void *)std::addressof(cls->{{variant}}); },
         .m_setter = []() -> auto
         { return __setter__<{{class}}, __ref_member__<{{class}}, &{{class}}::{{variant}}>>; }(),
-        {{/is_field}}{{/is_static}}{{#is_derived}}
+        {{/is_field}}{{#is_derived}}
         .m_getter = [](const {{class}} *cls) -> void * 
         { return (void *)static_cast<const {{variant}} *>(cls); },
         .m_setter = []() -> auto

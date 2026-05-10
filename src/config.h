@@ -34,7 +34,16 @@ namespace reflect
         std::map<std::string, std::chrono::system_clock::time_point> generate_header;
         std::set<std::string> generated;
         std::set<std::string> base_types;
+        std::set<std::string> referenced_headers;
+        // 保存原始头文件的绝对路径，用于在to_rfl()中计算正确的相对路径
+        std::set<std::string> referenced_headers_absolute;
     };
+    
+    // 保存referenced_headers到文件
+    void save_referenced_headers();
+    
+    // 从文件加载referenced_headers
+    void load_referenced_headers();
 
     struct Conf : Data, SourceInfo
     {

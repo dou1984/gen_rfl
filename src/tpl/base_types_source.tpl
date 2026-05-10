@@ -1,4 +1,5 @@
 {{license}}
+#include <string>
 #include "base_types.h"
 
 namespace reflect
@@ -9,6 +10,11 @@ namespace reflect
         static const std::string _ = "{{raw_class}}";
         return _;
     }{{/base_types}}{{#base_stl}}
+    const std::string &get_type({{class}} *)
+    {
+        static const std::string _ = "{{raw_class}}";
+        return _;
+    }
     ::reflect::Value get_field_value({{class}} *cls, uint32_t field)
     {
         if (field < cls->size())

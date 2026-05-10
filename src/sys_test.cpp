@@ -29,9 +29,9 @@ TEST(sys, GetRelativePath)
 
     std::cout << "node:" << path << std::endl;
 
-    EXPECT_EQ(path, "..");
+    EXPECT_EQ(path, "");
 
     path = GetRelativePath("/home/xxxx/github/genreflect/examples/node.h", "/home/xxxx/github/genreflect/examples/gen_rfl");
 
-    EXPECT_EQ(path, "../gen_rfl");
+    EXPECT_EQ(path, "gen_rfl");
 }

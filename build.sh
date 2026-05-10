@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# 检查是否有 noroot 选项
-noroot=true
+# 检查是否有 notroot 选项
+notroot=true
 for arg in "$@"
 do
-    if [ "$arg" == "noroot" ]; then
-        noroot=true
+    if [ "$arg" == "notroot" ]; then
+        notroot=true
     fi
 done
 
@@ -24,8 +24,8 @@ if [ $? -ne 0 ]; then
 fi
 echo "Build completed."
 echo "Running install..."
-# 如果没有指定 noroot 选项，则执行 sudo make install
-if [ "$noroot" == "false" ]; then
+# 如果没有指定 notroot 选项，则执行 sudo make install
+if [ "$notroot" == "false" ]; then
     sudo make install
     if [ $? -ne 0 ]; then
         echo "Install failed"
@@ -34,15 +34,41 @@ if [ "$noroot" == "false" ]; then
 fi
 
 echo "Running gen_rfl..."
-cd ../examples
-../bin/gen_rfl
-if [ $? -ne 0 ]; then
-    echo "gen_rfl failed"
-    exit 1
-fi
+function gen {
+    FILE=$1
+    ../bin/gen_rfl --file $FILE
+    if [ $? -ne 0 ]; then
+        echo "gen_rfl $FILE failed"
+        exit 1
+    fi
+}
+popd
+pushd examples
+
+# 执行前清除缓存头文件
+echo "Clearing cache header files before execution..."
+rm -f gen_rfl/referenced_headers.txt
+
+gen node.h
+gen node.cpp
+gen base/common.h
+
+# 执行后清除缓存头文件
+echo "Clearing cache header files after execution..."
+rm -f gen_rfl/referenced_headers.txt
 
 echo "Running build..."
-cd build
-cmake ..
-make -j$(nproc)
+mkdir -p build
+cd build && cmake .. -DCMAKE_BUILD_TYPE=MinSizeRel && make -j$(nproc)
 popd
+
+pushd performance
+rm -f gen_rfl/referenced_headers.txt
+gen node.h
+gen node.cpp
+rm -f gen_rfl/referenced_headers.txt
+
+mkdir -p build
+cd build && cmake .. -DCMAKE_BUILD_TYPE=MinSizeRel && make -j$(nproc)
+popd
+

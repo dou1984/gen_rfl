@@ -31,7 +31,8 @@
 *.out
 *.app
 
-bin/*
-build/*
-.vscode/*
-useful/*
+bin/
+build/
+.vscode/
+useful/
+.trae/

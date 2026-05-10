@@ -19,6 +19,7 @@
 // SOFTWARE.
 //
 
+#include <string>
 #include "base_types.h"
 
 namespace reflect
@@ -34,6 +35,11 @@ namespace reflect
         static const std::string _ = "char";
         return _;
     }
+    const std::string &get_type(char* *)
+    {
+        static const std::string _ = "char*";
+        return _;
+    }
     const std::string &get_type(const bool *)
     {
         static const std::string _ = "const bool";
@@ -42,6 +48,11 @@ namespace reflect
     const std::string &get_type(const char *)
     {
         static const std::string _ = "const char";
+        return _;
+    }
+    const std::string &get_type(const char* *)
+    {
+        static const std::string _ = "const char*";
         return _;
     }
     const std::string &get_type(const double *)

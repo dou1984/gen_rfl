@@ -64,6 +64,7 @@ namespace reflect
         { return (void *)std::addressof(cls->is_running); },
         .m_setter = []() -> auto
         { return __setter__<options, __ref_member__<options, &options::is_running>>; }(),
+        
     },
     {
         .m_variant = "is_stop",
@@ -75,6 +76,7 @@ namespace reflect
         { return (void *)std::addressof(cls->is_stop); },
         .m_setter = []() -> auto
         { return __setter__<options, __ref_member__<options, &options::is_stop>>; }(),
+        
     },
     {
         .m_variant = "is_suspend",
@@ -86,6 +88,7 @@ namespace reflect
         { return (void *)std::addressof(cls->is_suspend); },
         .m_setter = []() -> auto
         { return __setter__<options, __ref_member__<options, &options::is_suspend>>; }(),
+        
     },
     {
         .m_variant = "priv_opts",
@@ -97,6 +100,7 @@ namespace reflect
         { return (void *)static_cast<const priv_opts *>(cls); },
         .m_setter = []() -> auto
         { return __setter__<options, __ref_base__<options, priv_opts>>; }(),
+        
     },
     {
         .m_variant = "status",
@@ -108,6 +112,7 @@ namespace reflect
         { return (void *)std::addressof(cls->status); },
         .m_setter = []() -> auto
         { return __setter__<options, __ref_member__<options, &options::status>>; }(),
+        
     },
     };
     reflect::Value __get_value(const options* cls, const std::string& _tag)

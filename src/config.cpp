@@ -73,6 +73,14 @@ namespace reflect
         {
             insert_base_types(t);
         }
+        
+        // 添加指针类型
+        std::vector<std::string> pointer_types = {"char*", "const char*"};
+        for (auto &t : pointer_types)
+        {
+            insert_base_types(t);
+        }
+        
         return 0;
     }();
     Conf &get_config()
@@ -224,8 +232,90 @@ namespace reflect
             return;
         }
 
-        // 将类型作为一个完整类型添加，不拆分 const 和指针
-        get_config().base_types.emplace(original_type);
+        // 恢复原始的拆分逻辑：同时添加 const 和非 const 版本
+        if (original_type.find("const ") == 0)
+        {
+            get_config().base_types.emplace(original_type);
+            get_config().base_types.emplace(original_type.substr(strlen("const ")));
+        }
+        else
+        {
+            get_config().base_types.emplace(original_type);
+            get_config().base_types.emplace(std::string("const ") + original_type);
+        }
+    }
+
+    // 保存referenced_headers到文件
+    void save_referenced_headers()
+    {
+        auto &conf = get_config();
+        std::string file_path = conf.rfl_dir + "/referenced_headers.txt";
+        std::ofstream fout(file_path);
+        if (fout)
+        {
+            // 保存 generated 集合
+            for (const auto &gen : conf.generated)
+            {
+                fout << "GEN:" << gen << std::endl;
+            }
+            // 保存相对路径
+            for (const auto &header : conf.referenced_headers)
+            {
+                fout << "REL:" << header << std::endl;
+            }
+            // 保存绝对路径
+            for (const auto &header : conf.referenced_headers_absolute)
+            {
+                fout << "ABS:" << header << std::endl;
+            }
+            fout.close();
+        }
+    }
+
+    // 从文件加载referenced_headers
+    void load_referenced_headers()
+    {
+        auto &conf = get_config();
+        std::string file_path = conf.rfl_dir + "/referenced_headers.txt";
+        std::ifstream fin(file_path);
+        if (fin)
+        {
+            std::string line;
+            while (std::getline(fin, line))
+            {
+                if (!line.empty())
+                {
+                    if (line.substr(0, 4) == "GEN:")
+                    {
+                        conf.generated.insert(line.substr(4));
+                    }
+                    else if (line.substr(0, 4) == "REL:")
+                    {
+                        conf.referenced_headers.insert(line.substr(4));
+                    }
+                    else if (line.substr(0, 4) == "ABS:")
+                    {
+                        conf.referenced_headers_absolute.insert(line.substr(4));
+                    }
+                    else
+                    {
+                        // 兼容旧格式：只保存头文件的名称
+                        size_t last_slash_pos = line.find_last_of("/");
+                        std::string header_name_only;
+                        if (last_slash_pos != std::string::npos)
+                        {
+                            header_name_only = line.substr(last_slash_pos + 1);
+                        }
+                        else
+                        {
+                            header_name_only = line;
+                        }
+                        conf.referenced_headers.insert(header_name_only);
+                    }
+                }
+            }
+            fin.close();
+        }
     }
 
 }

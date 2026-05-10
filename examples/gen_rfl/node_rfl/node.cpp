@@ -175,7 +175,7 @@ namespace reflect
             .m_variant = "deinit",
             .m_type = "@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__deinit__7, // 7
             .m_func = invoke__node__deinit__7,
             .m_func_v = invoke__node__deinit__7_v,        
@@ -184,7 +184,7 @@ namespace reflect
             .m_variant = "deinit",
             .m_type = "int@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__deinit__6, // 6
             .m_func = invoke__node__deinit__6,
             .m_func_v = invoke__node__deinit__6_v,        
@@ -193,7 +193,7 @@ namespace reflect
             .m_variant = "init",
             .m_type = "@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__init__5, // 5
             .m_func = invoke__node__init__5,
             .m_func_v = invoke__node__init__5_v,        
@@ -202,7 +202,7 @@ namespace reflect
             .m_variant = "init",
             .m_type = "@float,double,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__init__3, // 3
             .m_func = invoke__node__init__3,
             .m_func_v = invoke__node__init__3_v,        
@@ -211,7 +211,7 @@ namespace reflect
             .m_variant = "init",
             .m_type = "@int,long long,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__init__1, // 1
             .m_func = invoke__node__init__1,
             .m_func_v = invoke__node__init__1_v,        
@@ -220,7 +220,7 @@ namespace reflect
             .m_variant = "init",
             .m_type = "int@",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__init__4, // 4
             .m_func = invoke__node__init__4,
             .m_func_v = invoke__node__init__4_v,        
@@ -229,7 +229,7 @@ namespace reflect
             .m_variant = "init",
             .m_type = "int@float,double,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__init__2, // 2
             .m_func = invoke__node__init__2,
             .m_func_v = invoke__node__init__2_v,        
@@ -238,7 +238,7 @@ namespace reflect
             .m_variant = "init",
             .m_type = "int@int,long long,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__init__0, // 0
             .m_func = invoke__node__init__0,
             .m_func_v = invoke__node__init__0_v,        
@@ -247,7 +247,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll0",
             .m_type = "@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__lllllllllllllllllllllllllll0__9, // 9
             .m_func = invoke__node__lllllllllllllllllllllllllll0__9,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll0__9_v,        
@@ -256,7 +256,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll0",
             .m_type = "int@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__lllllllllllllllllllllllllll0__8, // 8
             .m_func = invoke__node__lllllllllllllllllllllllllll0__8,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll0__8_v,        
@@ -265,7 +265,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll1",
             .m_type = "@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__lllllllllllllllllllllllllll1__11, // 11
             .m_func = invoke__node__lllllllllllllllllllllllllll1__11,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll1__11_v,        
@@ -274,7 +274,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll1",
             .m_type = "int@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__lllllllllllllllllllllllllll1__10, // 10
             .m_func = invoke__node__lllllllllllllllllllllllllll1__10,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll1__10_v,        
@@ -283,7 +283,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll2",
             .m_type = "@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__lllllllllllllllllllllllllll2__13, // 13
             .m_func = invoke__node__lllllllllllllllllllllllllll2__13,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll2__13_v,        
@@ -292,7 +292,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll2",
             .m_type = "int@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__lllllllllllllllllllllllllll2__12, // 12
             .m_func = invoke__node__lllllllllllllllllllllllllll2__12,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll2__12_v,        
@@ -301,7 +301,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll3",
             .m_type = "@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__lllllllllllllllllllllllllll3__15, // 15
             .m_func = invoke__node__lllllllllllllllllllllllllll3__15,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll3__15_v,        
@@ -310,7 +310,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll3",
             .m_type = "int@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__lllllllllllllllllllllllllll3__14, // 14
             .m_func = invoke__node__lllllllllllllllllllllllllll3__14,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll3__14_v,        
@@ -319,7 +319,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll4",
             .m_type = "@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__lllllllllllllllllllllllllll4__17, // 17
             .m_func = invoke__node__lllllllllllllllllllllllllll4__17,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll4__17_v,        
@@ -328,7 +328,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll4",
             .m_type = "int@const char *,const char *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__lllllllllllllllllllllllllll4__16, // 16
             .m_func = invoke__node__lllllllllllllllllllllllllll4__16,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll4__16_v,        
@@ -337,7 +337,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll5",
             .m_type = "@const std::string &,const std::string &",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__lllllllllllllllllllllllllll5__19, // 19
             .m_func = invoke__node__lllllllllllllllllllllllllll5__19,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll5__19_v,        
@@ -346,7 +346,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll5",
             .m_type = "int@const std::string &,const std::string &",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__lllllllllllllllllllllllllll5__18, // 18
             .m_func = invoke__node__lllllllllllllllllllllllllll5__18,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll5__18_v,        
@@ -355,7 +355,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll6",
             .m_type = "@std::string &",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__lllllllllllllllllllllllllll6__23, // 23
             .m_func = invoke__node__lllllllllllllllllllllllllll6__23,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll6__23_v,        
@@ -364,7 +364,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll6",
             .m_type = "@std::string &,std::string &",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__lllllllllllllllllllllllllll6__21, // 21
             .m_func = invoke__node__lllllllllllllllllllllllllll6__21,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll6__21_v,        
@@ -373,7 +373,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll6",
             .m_type = "int@std::string &",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__lllllllllllllllllllllllllll6__22, // 22
             .m_func = invoke__node__lllllllllllllllllllllllllll6__22,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll6__22_v,        
@@ -382,7 +382,7 @@ namespace reflect
             .m_variant = "lllllllllllllllllllllllllll6",
             .m_type = "int@std::string &,std::string &",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__lllllllllllllllllllllllllll6__20, // 20
             .m_func = invoke__node__lllllllllllllllllllllllllll6__20,
             .m_func_v = invoke__node__lllllllllllllllllllllllllll6__20_v,        
@@ -391,7 +391,7 @@ namespace reflect
             .m_variant = "set",
             .m_type = "@base *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__set__25, // 25
             .m_func = invoke__node__set__25,
             .m_func_v = invoke__node__set__25_v,        
@@ -400,7 +400,7 @@ namespace reflect
             .m_variant = "set",
             .m_type = "@config &",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<void>(),
             .m_field = e__node__set__27, // 27
             .m_func = invoke__node__set__27,
             .m_func_v = invoke__node__set__27_v,        
@@ -409,7 +409,7 @@ namespace reflect
             .m_variant = "set",
             .m_type = "int@base *",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__set__24, // 24
             .m_func = invoke__node__set__24,
             .m_func_v = invoke__node__set__24_v,        
@@ -418,7 +418,7 @@ namespace reflect
             .m_variant = "set",
             .m_type = "int@config &",
             .m_flags = 0x8801,
-            .m_t_flags = 0,
+            .m_t_flags = ::reflect::flag_type<int>(),
             .m_field = e__node__set__26, // 26
             .m_func = invoke__node__set__26,
             .m_func_v = invoke__node__set__26_v,        
@@ -446,6 +446,7 @@ namespace reflect
         { return (void *)static_cast<const base *>(cls); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_base__<node, base>>; }(),
+        
     },
     {
         .m_variant = "config",
@@ -457,6 +458,7 @@ namespace reflect
         { return (void *)static_cast<const config *>(cls); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_base__<node, config>>; }(),
+        
     },
     {
         .m_variant = "deinit",
@@ -477,6 +479,7 @@ namespace reflect
         { return (void *)static_cast<const func *>(cls); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_base__<node, func>>; }(),
+        
     },
     {
         .m_variant = "init",
@@ -560,6 +563,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooo19); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooo19>>; }(),
+        
     },
     {
         .m_variant = "oooo20",
@@ -571,6 +575,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooo20); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooo20>>; }(),
+        
     },
     {
         .m_variant = "oooooo21",
@@ -582,6 +587,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooo21); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooo21>>; }(),
+        
     },
     {
         .m_variant = "oooooo22",
@@ -593,6 +599,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooo22); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooo22>>; }(),
+        
     },
     {
         .m_variant = "oooooo23",
@@ -604,6 +611,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooo23); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooo23>>; }(),
+        
     },
     {
         .m_variant = "oooooo24",
@@ -615,6 +623,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooo24); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooo24>>; }(),
+        
     },
     {
         .m_variant = "oooooo25",
@@ -623,9 +632,10 @@ namespace reflect
         .m_t_flags = ::reflect::flag_type<const char *>(),
         .m_field = e__node__oooooo25, // 28
         .m_getter = [](const node *cls) -> void * 
-        { return (void *)std::addressof(cls->oooooo25); },
+        { return (void *)&node::oooooo25; },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_static__<node, &node::oooooo25>>; }(),
+        
     },
     {
         .m_variant = "oooooooo10",
@@ -637,6 +647,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooo10); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooo10>>; }(),
+        
     },
     {
         .m_variant = "oooooooo11",
@@ -648,6 +659,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooo11); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooo11>>; }(),
+        
     },
     {
         .m_variant = "ooooooooo9",
@@ -659,6 +671,7 @@ namespace reflect
         { return (void *)std::addressof(cls->ooooooooo9); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::ooooooooo9>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooo12",
@@ -670,6 +683,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooo12); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooo12>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooo18",
@@ -681,6 +695,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooo18); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooo18>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooo8",
@@ -692,6 +707,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooo8); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooo8>>; }(),
+        
     },
     {
         .m_variant = "ooooooooooooooo17",
@@ -703,6 +719,7 @@ namespace reflect
         { return (void *)std::addressof(cls->ooooooooooooooo17); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::ooooooooooooooo17>>; }(),
+        
     },
     {
         .m_variant = "ooooooooooooooo7",
@@ -714,6 +731,7 @@ namespace reflect
         { return (void *)std::addressof(cls->ooooooooooooooo7); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::ooooooooooooooo7>>; }(),
+        
     },
     {
         .m_variant = "ooooooooooooooooooooo16",
@@ -725,6 +743,7 @@ namespace reflect
         { return (void *)std::addressof(cls->ooooooooooooooooooooo16); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::ooooooooooooooooooooo16>>; }(),
+        
     },
     {
         .m_variant = "ooooooooooooooooooooooo6",
@@ -736,6 +755,7 @@ namespace reflect
         { return (void *)std::addressof(cls->ooooooooooooooooooooooo6); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::ooooooooooooooooooooooo6>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooooooooooooooo0",
@@ -747,6 +767,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooooooooooooooo0); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo0>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooooooooooooooo1",
@@ -758,6 +779,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooooooooooooooo1); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo1>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooooooooooooooo14",
@@ -769,6 +791,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooooooooooooooo14); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo14>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooooooooooooooo2",
@@ -780,6 +803,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooooooooooooooo2); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo2>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooooooooooooooo3",
@@ -791,6 +815,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooooooooooooooo3); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo3>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooooooooooooooo4",
@@ -802,6 +827,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooooooooooooooo4); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo4>>; }(),
+        
     },
     {
         .m_variant = "oooooooooooooooooooooooooo5",
@@ -813,6 +839,7 @@ namespace reflect
         { return (void *)std::addressof(cls->oooooooooooooooooooooooooo5); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::oooooooooooooooooooooooooo5>>; }(),
+        
     },
     {
         .m_variant = "ooooooooooooooooooooooooooo13",
@@ -824,6 +851,7 @@ namespace reflect
         { return (void *)std::addressof(cls->ooooooooooooooooooooooooooo13); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::ooooooooooooooooooooooooooo13>>; }(),
+        
     },
     {
         .m_variant = "ooooooooooooooooooooooooooo15",
@@ -835,6 +863,7 @@ namespace reflect
         { return (void *)std::addressof(cls->ooooooooooooooooooooooooooo15); },
         .m_setter = []() -> auto
         { return __setter__<node, __ref_member__<node, &node::ooooooooooooooooooooooooooo15>>; }(),
+        
     },
     {
         .m_variant = "set",

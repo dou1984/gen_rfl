@@ -925,13 +925,25 @@ namespace reflect
                                                             param_type.erase(0, param_type.find_first_not_of(" \t"));
                                                             param_type.erase(param_type.find_last_not_of(" \t") + 1);
 
+                                                            // 处理多级指针
                                                             if (star_pos != std::string::npos)
                                                             {
-                                                                param_type += " *";
+                                                                // 计算指针的数量
+                                                                int star_count = 0;
+                                                                for (char c : param_name)
+                                                                {
+                                                                    if (c == '*')
+                                                                        star_count++;
+                                                                }
+                                                                // 添加所有的指针符号
+                                                                for (int i = 0; i < star_count; i++)
+                                                                {
+                                                                    param_type += "*";
+                                                                }
                                                             }
                                                             else if (amp_pos != std::string::npos)
                                                             {
-                                                                param_type += " &";
+                                                                param_type += "&";
                                                             }
 
                                                             method.parameters.push_back(param_type);
@@ -1385,6 +1397,18 @@ namespace reflect
                 access_flag = reflect::flag_member;
             
             std::cout << "Method: " << method.name << ", Access: " << method.access << ", Access Flag: " << access_flag << std::endl;
+
+            // 添加返回类型到 base_types 集合中
+            if (!method.return_type.empty() && method.return_type != "void")
+            {
+                reflect::insert_base_types(method.return_type);
+            }
+
+            // 添加参数类型到 base_types 集合中
+            for (const auto &param : method.parameters)
+            {
+                reflect::insert_base_types(param);
+            }
 
             std::string method_sig = "@" + reflect::join(method.parameters, ",");
             std::string method_sig_with_return = method.return_type + method_sig;

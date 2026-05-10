@@ -25,6 +25,7 @@
 #include <fstream>
 #include <cstring>
 #include <algorithm>
+#include <dirent.h>
 #include "reflect.h"
 #include "arguments.h"
 #include "config.h"
@@ -49,8 +50,7 @@ namespace reflect
         "std::unorderedimap",
         "std::multimap",
         "std::unordered_multimap",
-        
-        
+
     };
 
     static std::string __join_l(const std::list<std::string> &l)
@@ -116,16 +116,52 @@ namespace reflect
     {
         return (type.find("const const") == 0) ? type.substr(6) : type;
     }
+
+    std::string normalize_type(const std::string &type)
+    {
+        std::string normalized = type;
+        // 移除指针类型中的空格，例如将 "char *" 转换为 "char*"
+        size_t pos = 0;
+        while ((pos = normalized.find(" *", pos)) != std::string::npos)
+        {
+            normalized.replace(pos, 2, "*");
+            pos += 1;
+        }
+        // 移除引用类型中的空格，例如将 "config &" 转换为 "config&"
+        pos = 0;
+        while ((pos = normalized.find(" &", pos)) != std::string::npos)
+        {
+            normalized.replace(pos, 2, "&");
+            pos += 1;
+        }
+        // 处理多重指针，例如将 "char* *" 转换为 "char**"
+        pos = 0;
+        while ((pos = normalized.find("* *", pos)) != std::string::npos)
+        {
+            normalized.replace(pos, 3, "**");
+            pos += 2;
+        }
+        return normalized;
+    }
+
     std::string map_to_original_type(const std::string &type)
     {
-        if (type == "int8_t") return "signed char";
-        if (type == "int16_t") return "short";
-        if (type == "int32_t") return "int";
-        if (type == "int64_t") return "long";
-        if (type == "uint8_t") return "unsigned char";
-        if (type == "uint16_t") return "unsigned short";
-        if (type == "uint32_t") return "unsigned int";
-        if (type == "uint64_t") return "unsigned long";
+        if (type == "int8_t")
+            return "signed char";
+        if (type == "int16_t")
+            return "short";
+        if (type == "int32_t")
+            return "int";
+        if (type == "int64_t")
+            return "long";
+        if (type == "uint8_t")
+            return "unsigned char";
+        if (type == "uint16_t")
+            return "unsigned short";
+        if (type == "uint32_t")
+            return "unsigned int";
+        if (type == "uint64_t")
+            return "unsigned long";
         return type;
     }
     int format_tpl::init()
@@ -239,13 +275,19 @@ namespace reflect
             _namespace->SetValue("namespace", conf.m_namespace);
         };
 
+        if (header_name.size() >= 2 && header_name.substr(header_name.size() - 2) == ".h")
+        {
+            conf.referenced_headers.insert(header_name);
+            conf.referenced_headers_absolute.insert(conf.m_file);
+        }
+
         for (auto &it : bra.ana().get_data())
         {
             auto field = it.second;
 
             auto dict = _meta.AddSectionDictionary("fields");
             dict->SetValue("variant", field->m_variant);
-            // 对于函数，m_type 应该为空
+
             if (__contains__(field->m_flags, reflect::flag_function))
             {
                 dict->SetValue("type", "");
@@ -260,7 +302,6 @@ namespace reflect
 
             std::cout << "Field " << field->m_variant << " m_flags: " << std::hex << field->m_flags << std::endl;
 
-            // 对于函数，t_flags 应该为 0，因为函数在 g_base_meta 中没有 m_getter
             if (__contains__(field->m_flags, reflect::flag_function))
             {
                 dict->SetValue("t_flags", "0");
@@ -308,14 +349,13 @@ namespace reflect
 
                 auto dict = _meta.AddSectionDictionary("invoke_fields");
                 dict->SetValue("variant", field->m_raw_variant);
-                // m_type 格式：return@arg0, arg1...
-                // 如果返回值是 void，设置为空
+
                 std::string type_str;
                 if (!field->m_output.empty() && map_to_original_type(field->m_output) != "void")
                 {
                     type_str = map_to_original_type(field->m_output);
                 }
-                // 无论有没有参数，都需要"@"符号
+
                 type_str += "@";
                 if (!field->m_input.empty())
                 {
@@ -332,12 +372,12 @@ namespace reflect
                 }
                 dict->SetValue("type", type_str);
 
-                char buf[64];                
+                char buf[64];
                 to_hex(field->m_flags, buf, sizeof(buf));
                 dict->SetValue("flags", buf);
                 dict->SetIntValue("field", field->m_field);
                 dict->SetValue("__field", __field(field->m_field));
-                // Always set t_flags based on the output type
+
                 std::string output_type = field->m_output.empty() ? "void" : map_to_original_type(field->m_output);
                 std::string t_flags_value = std::string("::reflect::flag_type<") + output_type + std::string(">()");
                 dict->SetValue("t_flags", t_flags_value);
@@ -680,15 +720,44 @@ namespace reflect
         ctemplate::TemplateDictionary _dict("rfl");
 
         _dict.SetValue("license", reflect::license());
-        for (auto &it : conf.generated)
+
+        // 使用 generated 集合获取所有生成的头文件
+        for (const auto &generated_header : conf.generated)
         {
-            auto header = _dict.AddSectionDictionary("indices");
-            header->SetValue("header", it);
+            // 跳过 rfl.h 和 rfl.hpp 文件，避免循环包含
+            size_t last_slash = generated_header.find_last_of("/\\");
+            std::string header_name = (last_slash != std::string::npos) ? generated_header.substr(last_slash + 1) : generated_header;
+            if (header_name == "rfl.h" || header_name == "rfl.hpp")
+                continue;
+
+            // 处理 .h 文件
+            if (generated_header.size() >= 2 && generated_header.substr(generated_header.size() - 2) == ".h")
+            {
+                // 添加 .h 文件引用（模板会自动在 .h 后面加 pp 得到 .hpp）
+                auto header_dict = _dict.AddSectionDictionary("indices");
+                header_dict->SetValue("header", generated_header);
+            }
         }
 
         std::string tpl_key = "rfl.tpl";
         std::string _output;
         expand(tpl_key, _dict, _output);
+
+        // 移除可能存在的空行
+        size_t pos = 0;
+        size_t loop_count = 0;
+        const size_t max_loop_count = 1000;
+        while ((pos = _output.find("\n\n", pos)) != std::string::npos && loop_count < max_loop_count)
+        {
+            _output.erase(pos, 1); // 移除一个换行符
+            loop_count++;
+        }
+
+        // 确保文件以换行符结束
+        if (!_output.empty() && _output.back() != '\n')
+        {
+            _output += '\n';
+        }
 
         std::string path = conf.rfl_dir + "/rfl.h";
         write_file(path, _output);
@@ -701,12 +770,35 @@ namespace reflect
         ctemplate::TemplateDictionary _dict(name);
 
         _dict.SetValue("license", reflect::license());
+
+        // 调试输出：打印 base_types 集合的内容
+        std::cout << "DEBUG: base_types size = " << conf.base_types.size() << std::endl;
+        for (const auto &t : conf.base_types)
+        {
+            std::cout << "DEBUG: base_types: " << t << std::endl;
+        }
+
+        // 使用集合来跟踪已经添加的类型，避免重复
+        std::set<std::string> added_types;
+
         for (auto &it : conf.base_types)
         {
-            auto base_types = _dict.AddSectionDictionary("base_types");
-            base_types->SetValue("class", it);
-            base_types->SetValue("raw_class", remove_duplicate_const(it));
+            // 标准化类型表示
+            std::string normalized_type = normalize_type(it);
+            std::string normalized_raw_class = normalize_type(remove_duplicate_const(it));
+
+            // 检查是否已经添加过这个类型
+            if (added_types.find(normalized_type) == added_types.end())
+            {
+                auto base_types = _dict.AddSectionDictionary("base_types");
+                base_types->SetValue("class", normalized_type);
+                base_types->SetValue("raw_class", normalized_raw_class);
+                added_types.insert(normalized_type);
+            }
         }
+
+        // 重置添加的类型集合，用于处理 STL 类型
+        added_types.clear();
 
         for (auto &it : conf.base_types)
         {
@@ -716,13 +808,26 @@ namespace reflect
                 continue;
             }
             std::string_view key = it.substr(0, pos);
+            std::cout << "DEBUG: Checking STL type: " << it << ", key: " << key << std::endl;
             if (all_stl.find(key) == all_stl.end())
             {
+                std::cout << "DEBUG: Key not found in all_stl: " << key << std::endl;
                 continue;
             }
-            auto base_types = _dict.AddSectionDictionary("base_stl");
-            base_types->SetValue("class", it);
-            base_types->SetValue("raw_class", remove_duplicate_const(it));
+
+            // 标准化类型表示
+            std::string normalized_type = normalize_type(it);
+            std::string normalized_raw_class = normalize_type(remove_duplicate_const(it));
+
+            // 检查是否已经添加过这个类型
+            if (added_types.find(normalized_type) == added_types.end())
+            {
+                std::cout << "DEBUG: Adding STL type: " << normalized_type << std::endl;
+                auto base_types = _dict.AddSectionDictionary("base_stl");
+                base_types->SetValue("class", normalized_type);
+                base_types->SetValue("raw_class", normalized_raw_class);
+                added_types.insert(normalized_type);
+            }
         }
 
         std::string _output;
